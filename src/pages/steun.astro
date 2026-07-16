@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+
+const manieren = [
+  { titel: 'Doneer je tijd', tekst: 'Help eenmalig of structureel mee als vrijwilliger — bij repetities, events of achter de schermen.' },
+  { titel: 'Financiële steun', tekst: 'Word maandelijkse donateur en help ons culturele projecten duurzaam mogelijk te maken.' },
+  { titel: 'Vergroot ons bereik', tekst: 'Volg en deel ons op social media en help zo de Javaanse cultuur te verspreiden.' },
+  { titel: 'Fondsenwerving & events', tekst: 'Zet je talenten in bij het organiseren van evenementen, fondsenwerving en marketing.' },
+];
+---
+<Base title="Steun ons — Stichting Gema Rasa">
+  <section class="pagehead">
+    <div class="wrap">
+      <span class="eyebrow">Steun ons</span>
+      <h1>Help mee de Javaanse cultuur te verspreiden</h1>
+      <p>Meer dan 139 mensen steunen ons al. Er zijn verschillende manieren om bij te dragen —
+        groot of klein, iedere bijdrage telt.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="team-grid">
+        {manieren.map((m) => (
+          <div class="member" style="padding:26px">
+            <div class="naam" style="font-size:19px">{m.titel}</div>
+            <div class="rol" style="font-size:14px;color:#4a4a4a;margin-top:8px;line-height:1.5">{m.tekst}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="cta-inner">
+      <h2>Doe met ons mee</h2>
+      <p>Neem contact op en laat weten hoe jij wilt bijdragen. We denken graag met je mee.</p>
+      <a class="btn" href="/contact">Neem contact op</a>
+    </div>
+  </section>
+</Base>

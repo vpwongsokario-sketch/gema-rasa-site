@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import { catName, filters, videos } from '../data/programmas.js';
+import { getProgrammas } from '../lib/sanity.ts';
+const programmas = await getProgrammas();
+---
+<Base title="Wat we voor je kunnen doen — Culturele Menukaart | Stichting Gema Rasa">
+  <section class="pagehead">
+    <div class="wrap">
+      <span class="eyebrow">Culturele Menukaart</span>
+      <h1>Wat we voor je kunnen doen</h1>
+      <p>Van een korte ceremoniële opening tot een compleet dagprogramma. Wij zetten niet alleen
+        een programma neer, maar een ervaring die mensen raakt, verbindt en bijblijft.</p>
+    </div>
+  </section>
+
+  <!-- MENUKAART -->
+  <section class="block" id="menukaart">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Kies jouw beleving</span>
+        <h2>Optredens, workshops &amp; verhalen</h2>
+        <p>Filter op wat past bij jouw event en doelgroep — theaters, musea, festivals, educatie,
+          bedrijven of community events.</p>
+      </div>
+      <div class="filters" id="filters">
+        {filters.map((f, i) => (
+          <button class={`chip${i === 0 ? ' active' : ''}`} data-f={f.f} set:html={f.label} />
+        ))}
+      </div>
+      <div class="grid" id="grid">
+        {programmas.map((i) => (
+          <article class="card" data-cat={i.cat}>
+            {i.badge && <span class="badge">{i.label}</span>}
+            <span class="cat">{catName[i.cat]}</span>
+            <h3>{i.name}</h3>
+            <p class="desc">{i.desc}</p>
+            <span class="perfect">✦ {i.perfect}</span>
+            <div class="foot"><span class="dur">⏱ {i.dur}</span><span class="price">{i.price}</span></div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section class="block video-sec" id="video">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Bekijk &amp; beluister</span>
+        <h2>Zie de beleving in beweging</h2>
+        <p>Korte fragmenten maken de menukaart tastbaar — hoor de gamelan en zie de dans vóór je boekt.</p>
+      </div>
+      <div class="vgrid">
+        {videos.map((v) => (
+          <div class="vcard" data-yt={v.yt}>
+            <div class="poster" style={`background-image:url('${v.poster}')`}></div>
+            <div class="play"></div>
+            <div class="vlabel"><small>{v.kicker}</small><h4>{v.title}</h4></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta-inner">
+      <h2>Twijfel je wat het beste past?</h2>
+      <p>Wij denken graag mee en stellen een programma samen dat perfect aansluit op jouw
+        doelgroep en doelstelling.</p>
+      <a class="btn" href="/contact">Vraag maatwerk aan</a>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('.chip');
+  const cards = document.querySelectorAll<HTMLElement>('#grid .card');
+  chips.forEach((c) => c.addEventListener('click', () => {
+    chips.forEach((x) => x.classList.remove('active'));
+    c.classList.add('active');
+    const f = c.dataset.f;
+    cards.forEach((card) => {
+      card.style.display = f === 'all' || card.dataset.cat === f ? '' : 'none';
+    });
+  }));
+
+  document.querySelectorAll<HTMLElement>('.vcard[data-yt]').forEach((card) => {
+    card.addEventListener('click', () => {
+      if (card.classList.contains('playing')) return;
+      const id = card.dataset.yt;
+      const ifr = document.createElement('iframe');
+      ifr.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0&modestbranding=1';
+      ifr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      ifr.allowFullscreen = true;
+      ifr.loading = 'lazy';
+      card.appendChild(ifr);
+      card.classList.add('playing');
+    });
+  });
+</script>

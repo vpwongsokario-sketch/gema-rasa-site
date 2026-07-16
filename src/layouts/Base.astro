@@ -1,0 +1,81 @@
+---
+import '../styles/global.css';
+import { contact } from '../data/content.js';
+const { title = 'Stichting Gema Rasa — Bruggen bouwen met Javaanse podiumkunsten', description = 'De betoverende klanken van het gamelanorkest en de sierlijke bewegingen van de Javaanse dans, voor een fascinerende culturele beleving.' } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/png" href="/assets/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav>
+        <a class="brand" href="/#top">
+          <img class="logo-img" src="/assets/logo.png" alt="Stichting Gema Rasa" />
+        </a>
+        <div class="navlinks">
+          <a href="/de-stichting">De Stichting</a>
+          <a href="/leden">De Leden</a>
+          <a href="/de-gamelan-groep">De Gamelangroep</a>
+          <a href="/de-vrienden-van">De Vrienden van</a>
+          <a href="/contact">Contact</a>
+        </div>
+        <div class="nav-right">
+          <span class="lang"><b>NL</b> · EN · ID</span>
+          <a class="btn gold" href="/steun">Steun</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <slot />
+
+  <footer>
+    <div class="wrap">
+      <div class="fgrid">
+        <div>
+          <span class="name" style="color:#fff;font-weight:700;font-size:18px">Stichting Gema Rasa</span>
+          <p style="margin-top:14px">Een culturele organisatie die zich inzet voor de promotie van
+            Javaanse muziek en dans. Met passie en toewijding brengen wij de rijke tradities van Java
+            naar een breed publiek.</p>
+          <form class="newsletter" onsubmit="return false">
+            <label>Schrijf je in voor onze nieuwsbrief</label>
+            <div class="nl-row">
+              <input type="email" placeholder="jouw@e-mail.nl" aria-label="E-mailadres" />
+              <button class="btn gold" type="submit">Inschrijven</button>
+            </div>
+          </form>
+        </div>
+        <div>
+          <h4>Handige links</h4>
+          <a href="/">Home</a>
+          <a href="/de-stichting">De Stichting</a>
+          <a href="/leden">De Leden</a>
+          <a href="/de-gamelan-groep">De Gamelangroep</a>
+          <a href="/de-vrienden-van">De Vrienden van</a>
+        </div>
+        <div>
+          <h4>Onze contactgegevens</h4>
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          <a href={`tel:${contact.telefoon.replace(/[^+0-9]/g, '')}`}>{contact.telefoon}</a>
+          <p>{contact.adres}</p>
+          <p style="margin-top:10px;font-size:12.5px">KVK: {contact.kvk}<br>BTW: {contact.btw}</p>
+        </div>
+      </div>
+      <div class="fbar">
+        <span>© Stichting Gema Rasa. All Rights Reserved 2026.</span>
+        <span>Bruggen bouwen met Javaanse podiumkunsten</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

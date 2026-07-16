@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import { getLeden } from '../lib/sanity.ts';
+const { bestuur, leden } = await getLeden();
+---
+<Base title="De Leden — Stichting Gema Rasa">
+  <section class="pagehead">
+    <div class="wrap">
+      <span class="eyebrow">De Leden</span>
+      <h1>We zijn meer dan een Javaanse stichting</h1>
+      <p>Bij SGR geloven we in de kracht van culturele verbinding en het doorgeven van ons rijke
+        Javaanse erfgoed — over generaties en gemeenschappen heen.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Het bestuur</span>
+        <h2>Wie leiden de stichting</h2>
+      </div>
+      <div class="team-grid">
+        {bestuur.map((m) => (
+          <div class="member board">
+            <div class="naam">{m.naam}</div>
+            <div class="rol">{m.rol}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Gamelangroep Jiwa Manunggal</span>
+        <h2>De musici &amp; vrijwilligers</h2>
+        <p>Samen vormen zij het geheel dat groter is dan de som der delen.</p>
+      </div>
+      <div class="team-grid">
+        {leden.map((m) => (
+          <div class="member">
+            <div class="naam">{m.naam}</div>
+            <div class="rol">{m.rol}</div>
+          </div>
+        ))}
+        <div class="member" style="border-style:dashed;display:flex;flex-direction:column;justify-content:center">
+          <div class="naam">Jij?</div>
+          <div class="rol">Vrijwilliger — doe mee</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Veelgestelde vragen</span>
+        <h2>Meedoen met Jiwa Manunggal</h2>
+      </div>
+      <div class="prose">
+        <h3>Hoe word ik lid van Stichting Gema Rasa?</h3>
+        <p>Neem contact op via de <a href="/contact" style="color:var(--secondary)">contactpagina</a>
+          of mail naar <a href="mailto:info@stichtinggemarasa.com" style="color:var(--secondary)">info@stichtinggemarasa.com</a>.</p>
+        <h3>Wanneer oefent de gamelangroep Jiwa Manunggal?</h3>
+        <p>De repetities vinden plaats op vrijdagavond (19:30–21:30) of zondagmiddag (14:00–16:00),
+          met ruimte voor flexibiliteit. Neem contact op voor de actuele data.</p>
+      </div>
+    </div>
+  </section>
+</Base>

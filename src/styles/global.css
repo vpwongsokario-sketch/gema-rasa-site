@@ -1,0 +1,306 @@
+:root{
+  --primary-dark:#09351f;   /* diep bosgroen */
+  --secondary:#13663d;      /* smaragdgroen */
+  --primary:#efc83e;        /* goudgeel accent */
+  --orange:#fc8e44;         /* warm oranje accent */
+  --cream:#f4f3e8;          /* warm crème achtergrond */
+  --ink:#1a1a31;            /* tekst */
+  --gray:#5e5e5e;
+  --line:rgba(9,53,31,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Bricolage Grotesque',system-ui,sans-serif;
+  color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:'Bricolage Grotesque',sans-serif;line-height:1.04;letter-spacing:-.01em}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.mono{font-family:'Poppins',sans-serif}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:50;background:rgba(244,243,232,.9);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:78px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .logo-img{height:60px;width:auto;display:block}
+.brand .name{font-weight:700;font-size:18px;color:var(--primary-dark);letter-spacing:-.01em}
+.brand .name small{display:block;font-family:'Poppins';font-weight:400;font-size:10.5px;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--secondary)}
+.navlinks{display:flex;gap:26px;font-family:'Poppins';font-size:14px;font-weight:500}
+.navlinks a{color:var(--primary-dark);opacity:.85;transition:opacity .2s}
+.navlinks a:hover{opacity:1;color:var(--secondary)}
+.nav-right{display:flex;align-items:center;gap:18px}
+.lang{font-family:'Poppins';font-size:12.5px;font-weight:500;color:var(--gray);letter-spacing:.04em}
+.lang b{color:var(--primary-dark)}
+.btn{display:inline-block;font-family:'Poppins';background:var(--primary-dark);color:var(--cream);
+  padding:12px 24px;border-radius:8px;font-weight:600;font-size:14px;border:1.5px solid var(--primary-dark);
+  cursor:pointer;transition:transform .15s,box-shadow .2s,background .2s}
+.btn:hover{background:var(--secondary);border-color:var(--secondary);transform:translateY(-1px);
+  box-shadow:0 8px 22px rgba(9,53,31,.22)}
+.btn.gold{background:var(--primary);border-color:var(--primary);color:var(--primary-dark)}
+.btn.gold:hover{background:#f2d35c;border-color:#f2d35c}
+.btn.ghost{background:transparent;color:var(--primary-dark)}
+.btn.ghost:hover{background:rgba(9,53,31,.06);box-shadow:none}
+@media(max-width:960px){.navlinks,.lang{display:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;color:var(--cream);background:var(--primary-dark)}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;
+  background-image:linear-gradient(105deg,rgba(9,53,31,.96) 38%,rgba(9,53,31,.72) 62%,rgba(19,102,61,.4)),var(--hero-img,url('/assets/perf-wayang.jpg'));
+  background-size:cover;background-position:center right}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;opacity:.4;
+  background:radial-gradient(circle at 14px 14px,rgba(239,200,62,.16) 2px,transparent 2.5px);
+  background-size:28px 28px}
+.hero-inner{position:relative;z-index:2;padding:104px 0 116px;max-width:780px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Poppins';font-size:12px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--primary);margin-bottom:22px;font-weight:500}
+.eyebrow::before{content:"";width:32px;height:2px;background:var(--primary)}
+.hero h1{font-size:clamp(40px,6.2vw,74px);font-weight:700;color:#fff;margin-bottom:6px}
+.hero h1 em{font-style:normal;color:var(--primary)}
+.hero p.lead{font-size:clamp(17px,2vw,20px);max-width:580px;color:rgba(244,243,232,.92);
+  margin:20px 0 32px;font-weight:300;font-family:'Poppins'}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.tags{margin-top:40px;display:flex;flex-wrap:wrap;gap:10px;font-family:'Poppins'}
+.tags span{font-size:12.5px;padding:7px 15px;border:1px solid rgba(239,200,62,.4);border-radius:8px;
+  color:var(--primary);letter-spacing:.02em}
+
+/* ---------- strip ---------- */
+.strip{background:var(--primary);color:var(--primary-dark)}
+.strip .wrap{display:flex;gap:38px;justify-content:center;flex-wrap:wrap;text-align:center;
+  font-family:'Poppins';font-size:13.5px;font-weight:500;padding:18px 0}
+.strip b{font-weight:700}
+
+/* ---------- sections ---------- */
+section.block{padding:88px 0}
+.section-head{max-width:640px;margin-bottom:42px}
+.section-head .kicker{font-family:'Poppins';color:var(--orange);font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;font-size:12.5px}
+.section-head h2{font-size:clamp(32px,4.4vw,50px);font-weight:700;margin:10px 0 12px;color:var(--primary-dark)}
+.section-head p{color:var(--gray);font-size:16.5px;font-family:'Poppins';font-weight:300}
+
+/* filter bar */
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:34px;font-family:'Poppins'}
+.chip{border:1.5px solid var(--line);background:#fff;color:var(--primary-dark);padding:9px 18px;
+  border-radius:8px;font-size:13.5px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .18s}
+.chip:hover{border-color:var(--secondary)}
+.chip.active{background:var(--primary-dark);color:var(--cream);border-color:var(--primary-dark)}
+
+/* card grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:22px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;display:flex;
+  flex-direction:column;position:relative;overflow:hidden;transition:transform .2s,box-shadow .25s,border-color .2s}
+.card::before{content:"";position:absolute;top:0;left:0;width:100%;height:5px;
+  background:linear-gradient(90deg,var(--primary),var(--orange),var(--secondary))}
+.card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(9,53,31,.12);border-color:rgba(19,102,61,.4)}
+.card .cat{font-family:'Poppins';font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--orange);font-weight:600}
+.card h3{font-size:24px;font-weight:700;margin:7px 0 10px;color:var(--primary-dark)}
+.card p.desc{font-size:14.5px;color:#4a4a4a;flex:1;font-family:'Poppins';font-weight:300}
+.card .perfect{display:block;margin-top:16px;font-family:'Poppins';font-size:12.5px;color:var(--secondary);font-weight:500}
+.card .foot{display:flex;align-items:center;justify-content:space-between;margin-top:16px;
+  padding-top:16px;border-top:1px dashed var(--line)}
+.card .dur{font-family:'Poppins';font-size:12.5px;color:var(--gray)}
+.card .price{font-weight:700;font-size:22px;color:var(--secondary)}
+.badge{position:absolute;top:16px;right:0;background:var(--primary);color:var(--primary-dark);
+  font-family:'Poppins';font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:5px 13px;border-radius:8px 0 0 8px}
+
+/* ---------- video sectie ---------- */
+.video-sec{background:var(--primary-dark);color:var(--cream);position:relative;overflow:hidden}
+.video-sec::before{content:"";position:absolute;inset:0;opacity:.4;
+  background:radial-gradient(circle at 14px 14px,rgba(239,200,62,.14) 2px,transparent 2.5px);background-size:28px 28px}
+.video-sec .wrap{position:relative;z-index:2}
+.video-sec .section-head h2{color:#fff}
+.video-sec .section-head p{color:rgba(244,243,232,.8)}
+.video-sec .kicker{color:var(--primary)}
+.vgrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:18px}
+.vgrid .vcard:first-child{grid-row:span 2}
+.vcard{position:relative;border-radius:14px;overflow:hidden;cursor:pointer;
+  background:linear-gradient(160deg,var(--secondary),var(--primary-dark));min-height:150px;
+  border:1px solid rgba(239,200,62,.22);transition:transform .2s}
+.vcard:first-child{min-height:318px}
+.vcard:hover{transform:translateY(-3px)}
+.vcard .poster{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
+.vcard::after{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(9,53,31,.15),rgba(9,53,31,.82))}
+.vcard.playing::after{display:none}
+.vcard.playing .play,.vcard.playing .vlabel{display:none}
+.vcard iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:5}
+.vcard .play,.vcard .vlabel{z-index:2}
+.vcard .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:62px;height:62px;border-radius:50%;background:rgba(239,200,62,.92);display:grid;place-items:center;
+  box-shadow:0 6px 22px rgba(0,0,0,.3);transition:transform .2s}
+.vcard:hover .play{transform:translate(-50%,-50%) scale(1.08)}
+.vcard .play::after{content:"";border-left:18px solid var(--primary-dark);border-top:11px solid transparent;
+  border-bottom:11px solid transparent;margin-left:5px}
+.vcard .vlabel{position:absolute;left:16px;bottom:14px;right:16px}
+.vcard .vlabel small{font-family:'Poppins';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--primary)}
+.vcard .vlabel h4{font-size:18px;font-weight:600;color:#fff;line-height:1.15}
+.vcard:first-child .vlabel h4{font-size:24px}
+.video-note{margin-top:24px;font-family:'Poppins';font-size:13px;color:rgba(244,243,232,.65);text-align:center}
+@media(max-width:780px){.vgrid{grid-template-columns:1fr 1fr}.vgrid .vcard:first-child{grid-row:auto;grid-column:span 2}.vcard:first-child{min-height:200px}}
+
+/* expo feature */
+.feature{background:#fff;border-radius:22px;overflow:hidden;display:grid;grid-template-columns:1.05fr 1fr;
+  border:1px solid var(--line);box-shadow:0 18px 50px rgba(9,53,31,.08)}
+.feature .img{position:relative;min-height:360px;background-image:url('/assets/perf-expo.jpg');
+  background-size:cover;background-position:center}
+.feature .img::before{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(9,53,31,.25),rgba(9,53,31,.85))}
+.feature .img .label{position:absolute;z-index:2;bottom:28px;left:28px;color:var(--cream)}
+.feature .img .label small{font-family:'Poppins';letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--primary)}
+.feature .img .label h3{font-size:30px;font-weight:700;color:#fff;max-width:320px;line-height:1.04;margin-top:6px}
+.feature .body{padding:44px}
+.feature .body h2{font-size:34px;font-weight:700;color:var(--primary-dark);margin-bottom:14px}
+.feature .body p{color:#4a4a4a;font-size:15px;margin-bottom:16px;font-family:'Poppins';font-weight:300}
+.priceline{display:flex;gap:26px;flex-wrap:wrap;margin:18px 0 26px;font-family:'Poppins'}
+.priceline div{font-size:13px;color:var(--gray)}
+.priceline strong{display:block;font-family:'Bricolage Grotesque';font-size:21px;color:var(--secondary);font-weight:700}
+@media(max-width:780px){.feature{grid-template-columns:1fr}}
+
+/* values */
+.values{background:#fff;border:1px solid var(--line);border-radius:22px;padding:48px;display:grid;
+  grid-template-columns:repeat(4,1fr);gap:30px;text-align:center}
+.values .v .n{font-size:32px;color:var(--secondary);font-weight:700}
+.values .v p{font-family:'Poppins';font-size:13px;color:var(--gray);margin-top:6px}
+@media(max-width:780px){.values{grid-template-columns:repeat(2,1fr);padding:34px}}
+
+/* cta */
+.cta{position:relative;overflow:hidden;color:var(--primary-dark);text-align:center;border-radius:24px;
+  margin:0 28px;background:var(--primary)}
+.cta-inner{position:relative;z-index:2;padding:72px 24px}
+.cta h2{font-size:clamp(30px,4vw,48px);font-weight:700;margin-bottom:12px}
+.cta p{max-width:540px;margin:0 auto 28px;font-family:'Poppins';font-weight:300;color:rgba(9,53,31,.85)}
+
+/* footer */
+footer{background:var(--primary-dark);color:var(--cream);padding:64px 0 30px;margin-top:90px}
+.fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:42px;margin-bottom:42px}
+footer h4{font-family:'Poppins';font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--primary);margin-bottom:16px}
+footer a,footer p{font-family:'Poppins';color:rgba(244,243,232,.78);font-size:14px;display:block;
+  margin-bottom:9px;font-weight:300}
+footer a:hover{color:var(--primary)}
+.fbar{border-top:1px solid rgba(244,243,232,.16);padding-top:22px;display:flex;justify-content:space-between;
+  font-family:'Poppins';font-size:12.5px;color:rgba(244,243,232,.6);flex-wrap:wrap;gap:10px}
+@media(max-width:780px){.fgrid{grid-template-columns:1fr 1fr}}
+
+/* ---------- productie-feature (donker, uitgelicht) ---------- */
+.prod{background:var(--primary-dark);color:var(--cream);position:relative;overflow:hidden}
+.prod::before{content:"";position:absolute;inset:0;opacity:.4;
+  background:radial-gradient(circle at 14px 14px,rgba(239,200,62,.14) 2px,transparent 2.5px);background-size:28px 28px}
+.prod .wrap{position:relative;z-index:2}
+.prod .inner{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.prod .art{position:relative;border-radius:20px;overflow:hidden;min-height:400px;
+  background-size:cover;background-position:center;border:1px solid rgba(239,200,62,.25)}
+.prod .art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,53,31,.1),rgba(9,53,31,.55))}
+.prod .date-badge{position:absolute;z-index:2;top:20px;left:20px;background:var(--primary);color:var(--primary-dark);
+  font-family:'Poppins';font-weight:700;font-size:12.5px;letter-spacing:.04em;padding:8px 16px;border-radius:10px}
+.prod h2{font-size:clamp(30px,4vw,46px);font-weight:700;color:#fff;margin-bottom:14px}
+.prod .quote{border-left:3px solid var(--primary);padding-left:18px;margin:22px 0;font-style:italic;
+  color:rgba(244,243,232,.9);font-family:'Poppins';font-weight:300;font-size:15px}
+.prod p{color:rgba(244,243,232,.86);font-family:'Poppins';font-weight:300;font-size:15.5px;margin-bottom:16px}
+@media(max-width:820px){.prod .inner{grid-template-columns:1fr}.prod .art{min-height:280px}}
+
+/* ---------- merch band ---------- */
+.merch{display:grid;grid-template-columns:1fr 1fr;gap:0;background:#fff;border:1px solid var(--line);
+  border-radius:22px;overflow:hidden;box-shadow:0 18px 50px rgba(9,53,31,.08)}
+.merch .img{min-height:320px;background-size:cover;background-position:center}
+.merch .body{padding:48px}
+.merch .body .kicker{font-family:'Poppins';color:var(--orange);font-weight:600;letter-spacing:.13em;text-transform:uppercase;font-size:12.5px}
+.merch .body h2{font-size:clamp(28px,3.4vw,40px);font-weight:700;color:var(--primary-dark);margin:10px 0 14px}
+.merch .body p{color:#4a4a4a;font-family:'Poppins';font-weight:300;font-size:15px;margin-bottom:14px}
+@media(max-width:820px){.merch{grid-template-columns:1fr}}
+
+/* ---------- gema/rasa duo ---------- */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:8px}
+.duo .word{background:#fff;border:1px solid var(--line);border-radius:16px;padding:30px}
+.duo .word h3{font-size:26px;color:var(--secondary);font-weight:700;margin-bottom:8px}
+.duo .word p{font-family:'Poppins';font-weight:300;color:#4a4a4a;font-size:15px}
+@media(max-width:640px){.duo{grid-template-columns:1fr}}
+
+/* ---------- nieuwskaarten ---------- */
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
+.news{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;
+  flex-direction:column;transition:transform .2s,box-shadow .25s}
+.news:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(9,53,31,.12)}
+.news .thumb{height:190px;background-size:cover;background-position:center}
+.news .np{padding:24px;display:flex;flex-direction:column;flex:1}
+.news .cat{font-family:'Poppins';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);font-weight:600}
+.news h3{font-size:20px;font-weight:700;color:var(--primary-dark);margin:8px 0 10px;line-height:1.15}
+.news p{font-family:'Poppins';font-weight:300;font-size:14px;color:#4a4a4a;flex:1}
+.news .more{margin-top:16px;font-family:'Poppins';font-weight:600;font-size:13.5px;color:var(--secondary)}
+
+/* ---------- agenda-lijst ---------- */
+.agenda{display:flex;flex-direction:column;gap:2px}
+.agenda .row{display:grid;grid-template-columns:130px 1fr auto;gap:24px;align-items:center;
+  padding:20px 4px;border-bottom:1px solid var(--line)}
+.agenda .row .d{font-family:'Poppins';font-weight:600;font-size:13.5px;color:var(--orange)}
+.agenda .row .t{font-weight:700;font-size:18px;color:var(--primary-dark)}
+.agenda .row .loc{font-family:'Poppins';font-weight:300;font-size:13.5px;color:var(--gray);text-align:right}
+@media(max-width:640px){.agenda .row{grid-template-columns:1fr;gap:4px}.agenda .row .loc{text-align:left}}
+
+/* nav: STEUN knop en taalswitch */
+.steun{font-family:'Poppins';font-size:13px;font-weight:600;color:var(--primary-dark);letter-spacing:.06em}
+
+/* nieuwsbrief in footer */
+.newsletter{margin-top:20px}
+.newsletter label{display:block;font-family:'Poppins';font-size:12.5px;letter-spacing:.06em;
+  color:var(--primary);margin-bottom:10px;font-weight:500}
+.nl-row{display:flex;gap:8px;flex-wrap:wrap}
+.nl-row input{flex:1;min-width:180px;font-family:'Poppins';font-size:14px;padding:11px 14px;border-radius:8px;
+  border:1px solid rgba(244,243,232,.28);background:rgba(244,243,232,.06);color:var(--cream)}
+.nl-row input::placeholder{color:rgba(244,243,232,.5)}
+.nl-row .btn{padding:11px 20px}
+
+/* ---------- subpagina's ---------- */
+.pagehead{background:var(--primary-dark);color:var(--cream);position:relative;overflow:hidden}
+.pagehead::after{content:"";position:absolute;inset:0;opacity:.4;
+  background:radial-gradient(circle at 14px 14px,rgba(239,200,62,.14) 2px,transparent 2.5px);background-size:28px 28px}
+.pagehead .wrap{position:relative;z-index:2;padding:72px 0 64px;max-width:760px}
+.pagehead .eyebrow{margin-bottom:16px}
+.pagehead h1{font-size:clamp(34px,5vw,58px);font-weight:700;color:#fff}
+.pagehead p{font-family:'Poppins';font-weight:300;font-size:17px;color:rgba(244,243,232,.9);margin-top:16px}
+
+.prose{max-width:760px;font-family:'Poppins';font-weight:300;color:#3d3d3d;font-size:16px}
+.prose h2{font-family:'Bricolage Grotesque';font-weight:700;color:var(--primary-dark);font-size:clamp(24px,3vw,34px);margin:34px 0 12px}
+.prose h3{font-family:'Bricolage Grotesque';font-weight:700;color:var(--secondary);font-size:21px;margin:24px 0 8px}
+.prose p{margin-bottom:16px}
+.prose .lead{font-size:18.5px;color:var(--gray)}
+
+/* team / leden */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:8px}
+.member{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;position:relative;overflow:hidden}
+.member::before{content:"";position:absolute;top:0;left:0;width:5px;height:100%;
+  background:linear-gradient(180deg,var(--primary),var(--orange))}
+.member .naam{font-weight:700;font-size:17px;color:var(--primary-dark)}
+.member .rol{font-family:'Poppins';font-weight:400;font-size:13px;color:var(--secondary);margin-top:4px}
+.member.board{background:var(--primary-dark);color:#fff}
+.member.board::before{background:var(--primary)}
+.member.board .naam{color:#fff}
+.member.board .rol{color:var(--primary)}
+
+/* info-kaarten (contact-locaties) */
+.info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:8px}
+.info-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px}
+.info-card h3{font-size:19px;color:var(--primary-dark);font-weight:700;margin-bottom:10px}
+.info-card p,.info-card a{font-family:'Poppins';font-weight:300;font-size:14.5px;color:#4a4a4a;display:block;margin-bottom:6px}
+.info-card a:hover{color:var(--secondary)}
+
+/* contactformulier */
+.cform{display:grid;gap:14px;max-width:560px}
+.cform label{font-family:'Poppins';font-weight:500;font-size:13.5px;color:var(--primary-dark);display:block;margin-bottom:6px}
+.cform input,.cform textarea{width:100%;font-family:'Poppins';font-size:15px;padding:12px 14px;border-radius:8px;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink)}
+.cform input:focus,.cform textarea:focus{outline:none;border-color:var(--secondary)}
+.cform textarea{min-height:130px;resize:vertical}
+
+/* twee-koloms layout voor contact */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+@media(max-width:820px){.split{grid-template-columns:1fr}}
+
+/* CTA-band naar menukaart (crème variant met rand) */
+.cta.soft{background:#fff;border:1px solid var(--line);color:var(--primary-dark)}
+.cta.soft p{color:var(--gray)}
+

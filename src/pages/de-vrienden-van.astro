@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import { getVrienden } from '../lib/sanity.ts';
+const vrienden = await getVrienden();
+---
+<Base title="De Vrienden van — Stichting Gema Rasa">
+  <section class="pagehead">
+    <div class="wrap">
+      <span class="eyebrow">De Vrienden van</span>
+      <h1>Ontmoet onze inspirerende partners</h1>
+      <p>Organisaties en individuen die met ons samenwerken en ons inspireren — een divers netwerk
+        van culturele groepen, instellingen en toegewijde mensen.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="team-grid">
+        {vrienden.map((v) => (
+          <div class="member">
+            <div class="rol" style="color:var(--orange);text-transform:uppercase;letter-spacing:.08em;font-size:11px;font-weight:600">{v.type}</div>
+            <div class="naam" style="margin-top:4px">{v.naam}</div>
+            <div class="rol">{v.omschrijving}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="cta-inner">
+      <h2>Word ook een Vriend van Gema Rasa</h2>
+      <p>Samenwerken, sponsoren of ons steunen? We komen graag met je in gesprek.</p>
+      <a class="btn" href="/contact">Neem contact op</a>
+    </div>
+  </section>
+</Base>

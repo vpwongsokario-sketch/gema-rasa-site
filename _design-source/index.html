@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stichting Gema Rasa — Culturele Menukaart</title>
+<link rel="icon" type="image/png" href="assets/icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --primary-dark:#09351f;   /* diep bosgroen */
+  --secondary:#13663d;      /* smaragdgroen */
+  --primary:#efc83e;        /* goudgeel accent */
+  --orange:#fc8e44;         /* warm oranje accent */
+  --cream:#f4f3e8;          /* warm crème achtergrond */
+  --ink:#1a1a31;            /* tekst */
+  --gray:#5e5e5e;
+  --line:rgba(9,53,31,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Bricolage Grotesque',system-ui,sans-serif;
+  color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:'Bricolage Grotesque',sans-serif;line-height:1.04;letter-spacing:-.01em}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.mono{font-family:'Poppins',sans-serif}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:50;background:rgba(244,243,232,.9);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:78px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .logo-img{height:60px;width:auto;display:block}
+.brand .name{font-weight:700;font-size:18px;color:var(--primary-dark);letter-spacing:-.01em}
+.brand .name small{display:block;font-family:'Poppins';font-weight:400;font-size:10.5px;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--secondary)}
+.navlinks{display:flex;gap:26px;font-family:'Poppins';font-size:14px;font-weight:500}
+.navlinks a{color:var(--primary-dark);opacity:.85;transition:opacity .2s}
+.navlinks a:hover{opacity:1;color:var(--secondary)}
+.nav-right{display:flex;align-items:center;gap:18px}
+.lang{font-family:'Poppins';font-size:12.5px;font-weight:500;color:var(--gray);letter-spacing:.04em}
+.lang b{color:var(--primary-dark)}
+.btn{display:inline-block;font-family:'Poppins';background:var(--primary-dark);color:var(--cream);
+  padding:12px 24px;border-radius:8px;font-weight:600;font-size:14px;border:1.5px solid var(--primary-dark);
+  cursor:pointer;transition:transform .15s,box-shadow .2s,background .2s}
+.btn:hover{background:var(--secondary);border-color:var(--secondary);transform:translateY(-1px);
+  box-shadow:0 8px 22px rgba(9,53,31,.22)}
+.btn.gold{background:var(--primary);border-color:var(--primary);color:var(--primary-dark)}
+.btn.gold:hover{background:#f2d35c;border-color:#f2d35c}
+.btn.ghost{background:transparent;color:var(--primary-dark)}
+.btn.ghost:hover{background:rgba(9,53,31,.06);box-shadow:none}
+@media(max-width:960px){.navlinks,.lang{display:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;color:var(--cream);background:var(--primary-dark)}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;
+  background-image:linear-gradient(105deg,rgba(9,53,31,.96) 38%,rgba(9,53,31,.72) 62%,rgba(19,102,61,.4)),url('assets/perf-wayang.jpg');
+  background-size:cover;background-position:center right}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;opacity:.4;
+  background:radial-gradient(circle at 14px 14px,rgba(239,200,62,.16) 2px,transparent 2.5px);
+  background-size:28px 28px}
+.hero-inner{position:relative;z-index:2;padding:104px 0 116px;max-width:780px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Poppins';font-size:12px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--primary);margin-bottom:22px;font-weight:500}
+.eyebrow::before{content:"";width:32px;height:2px;background:var(--primary)}
+.hero h1{font-size:clamp(40px,6.2vw,74px);font-weight:700;color:#fff;margin-bottom:6px}
+.hero h1 em{font-style:normal;color:var(--primary)}
+.hero p.lead{font-size:clamp(17px,2vw,20px);max-width:580px;color:rgba(244,243,232,.92);
+  margin:20px 0 32px;font-weight:300;font-family:'Poppins'}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.tags{margin-top:40px;display:flex;flex-wrap:wrap;gap:10px;font-family:'Poppins'}
+.tags span{font-size:12.5px;padding:7px 15px;border:1px solid rgba(239,200,62,.4);border-radius:8px;
+  color:var(--primary);letter-spacing:.02em}
+
+/* ---------- strip ---------- */
+.strip{background:var(--primary);color:var(--primary-dark)}
+.strip .wrap{display:flex;gap:38px;justify-content:center;flex-wrap:wrap;text-align:center;
+  font-family:'Poppins';font-size:13.5px;font-weight:500;padding:18px 0}
+.strip b{font-weight:700}
+
+/* ---------- sections ---------- */
+section.block{padding:88px 0}
+.section-head{max-width:640px;margin-bottom:42px}
+.section-head .kicker{font-family:'Poppins';color:var(--orange);font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;font-size:12.5px}
+.section-head h2{font-size:clamp(32px,4.4vw,50px);font-weight:700;margin:10px 0 12px;color:var(--primary-dark)}
+.section-head p{color:var(--gray);font-size:16.5px;font-family:'Poppins';font-weight:300}
+
+/* filter bar */
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:34px;font-family:'Poppins'}
+.chip{border:1.5px solid var(--line);background:#fff;color:var(--primary-dark);padding:9px 18px;
+  border-radius:8px;font-size:13.5px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .18s}
+.chip:hover{border-color:var(--secondary)}
+.chip.active{background:var(--primary-dark);color:var(--cream);border-color:var(--primary-dark)}
+
+/* card grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:22px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;display:flex;
+  flex-direction:column;position:relative;overflow:hidden;transition:transform .2s,box-shadow .25s,border-color .2s}
+.card::before{content:"";position:absolute;top:0;left:0;width:100%;height:5px;
+  background:linear-gradient(90deg,var(--primary),var(--orange),var(--secondary))}
+.card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(9,53,31,.12);border-color:rgba(19,102,61,.4)}
+.card .cat{font-family:'Poppins';font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--orange);font-weight:600}
+.card h3{font-size:24px;font-weight:700;margin:7px 0 10px;color:var(--primary-dark)}
+.card p.desc{font-size:14.5px;color:#4a4a4a;flex:1;font-family:'Poppins';font-weight:300}
+.card .perfect{display:block;margin-top:16px;font-family:'Poppins';font-size:12.5px;color:var(--secondary);font-weight:500}
+.card .foot{display:flex;align-items:center;justify-content:space-between;margin-top:16px;
+  padding-top:16px;border-top:1px dashed var(--line)}
+.card .dur{font-family:'Poppins';font-size:12.5px;color:var(--gray)}
+.card .price{font-weight:700;font-size:22px;color:var(--secondary)}
+.badge{position:absolute;top:16px;right:0;background:var(--primary);color:var(--primary-dark);
+  font-family:'Poppins';font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:5px 13px;border-radius:8px 0 0 8px}
+
+/* ---------- video sectie ---------- */
+.video-sec{background:var(--primary-dark);color:var(--cream);position:relative;overflow:hidden}
+.video-sec::before{content:"";position:absolute;inset:0;opacity:.4;
+  background:radial-gradient(circle at 14px 14px,rgba(239,200,62,.14) 2px,transparent 2.5px);background-size:28px 28px}
+.video-sec .wrap{position:relative;z-index:2}
+.video-sec .section-head h2{color:#fff}
+.video-sec .section-head p{color:rgba(244,243,232,.8)}
+.video-sec .kicker{color:var(--primary)}
+.vgrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:18px}
+.vgrid .vcard:first-child{grid-row:span 2}
+.vcard{position:relative;border-radius:14px;overflow:hidden;cursor:pointer;
+  background:linear-gradient(160deg,var(--secondary),var(--primary-dark));min-height:150px;
+  border:1px solid rgba(239,200,62,.22);transition:transform .2s}
+.vcard:first-child{min-height:318px}
+.vcard:hover{transform:translateY(-3px)}
+.vcard .poster{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
+.vcard::after{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(9,53,31,.15),rgba(9,53,31,.82))}
+.vcard.playing::after{display:none}
+.vcard.playing .play,.vcard.playing .vlabel{display:none}
+.vcard iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:5}
+.vcard .play,.vcard .vlabel{z-index:2}
+.vcard .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:62px;height:62px;border-radius:50%;background:rgba(239,200,62,.92);display:grid;place-items:center;
+  box-shadow:0 6px 22px rgba(0,0,0,.3);transition:transform .2s}
+.vcard:hover .play{transform:translate(-50%,-50%) scale(1.08)}
+.vcard .play::after{content:"";border-left:18px solid var(--primary-dark);border-top:11px solid transparent;
+  border-bottom:11px solid transparent;margin-left:5px}
+.vcard .vlabel{position:absolute;left:16px;bottom:14px;right:16px}
+.vcard .vlabel small{font-family:'Poppins';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--primary)}
+.vcard .vlabel h4{font-size:18px;font-weight:600;color:#fff;line-height:1.15}
+.vcard:first-child .vlabel h4{font-size:24px}
+.video-note{margin-top:24px;font-family:'Poppins';font-size:13px;color:rgba(244,243,232,.65);text-align:center}
+@media(max-width:780px){.vgrid{grid-template-columns:1fr 1fr}.vgrid .vcard:first-child{grid-row:auto;grid-column:span 2}.vcard:first-child{min-height:200px}}
+
+/* expo feature */
+.feature{background:#fff;border-radius:22px;overflow:hidden;display:grid;grid-template-columns:1.05fr 1fr;
+  border:1px solid var(--line);box-shadow:0 18px 50px rgba(9,53,31,.08)}
+.feature .img{position:relative;min-height:360px;background-image:url('assets/perf-expo.jpg');
+  background-size:cover;background-position:center}
+.feature .img::before{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(9,53,31,.25),rgba(9,53,31,.85))}
+.feature .img .label{position:absolute;z-index:2;bottom:28px;left:28px;color:var(--cream)}
+.feature .img .label small{font-family:'Poppins';letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--primary)}
+.feature .img .label h3{font-size:30px;font-weight:700;color:#fff;max-width:320px;line-height:1.04;margin-top:6px}
+.feature .body{padding:44px}
+.feature .body h2{font-size:34px;font-weight:700;color:var(--primary-dark);margin-bottom:14px}
+.feature .body p{color:#4a4a4a;font-size:15px;margin-bottom:16px;font-family:'Poppins';font-weight:300}
+.priceline{display:flex;gap:26px;flex-wrap:wrap;margin:18px 0 26px;font-family:'Poppins'}
+.priceline div{font-size:13px;color:var(--gray)}
+.priceline strong{display:block;font-family:'Bricolage Grotesque';font-size:21px;color:var(--secondary);font-weight:700}
+@media(max-width:780px){.feature{grid-template-columns:1fr}}
+
+/* values */
+.values{background:#fff;border:1px solid var(--line);border-radius:22px;padding:48px;display:grid;
+  grid-template-columns:repeat(4,1fr);gap:30px;text-align:center}
+.values .v .n{font-size:32px;color:var(--secondary);font-weight:700}
+.values .v p{font-family:'Poppins';font-size:13px;color:var(--gray);margin-top:6px}
+@media(max-width:780px){.values{grid-template-columns:repeat(2,1fr);padding:34px}}
+
+/* cta */
+.cta{position:relative;overflow:hidden;color:var(--primary-dark);text-align:center;border-radius:24px;
+  margin:0 28px;background:var(--primary)}
+.cta-inner{position:relative;z-index:2;padding:72px 24px}
+.cta h2{font-size:clamp(30px,4vw,48px);font-weight:700;margin-bottom:12px}
+.cta p{max-width:540px;margin:0 auto 28px;font-family:'Poppins';font-weight:300;color:rgba(9,53,31,.85)}
+
+/* footer */
+footer{background:var(--primary-dark);color:var(--cream);padding:64px 0 30px;margin-top:90px}
+.fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:42px;margin-bottom:42px}
+footer h4{font-family:'Poppins';font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--primary);margin-bottom:16px}
+footer a,footer p{font-family:'Poppins';color:rgba(244,243,232,.78);font-size:14px;display:block;
+  margin-bottom:9px;font-weight:300}
+footer a:hover{color:var(--primary)}
+.fbar{border-top:1px solid rgba(244,243,232,.16);padding-top:22px;display:flex;justify-content:space-between;
+  font-family:'Poppins';font-size:12.5px;color:rgba(244,243,232,.6);flex-wrap:wrap;gap:10px}
+@media(max-width:780px){.fgrid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#top">
+        <img class="logo-img" src="assets/logo.png" alt="Stichting Gema Rasa" />
+      </a>
+      <div class="navlinks">
+        <a href="#menukaart">Menukaart</a>
+        <a href="#video">Video</a>
+        <a href="#expositie">Expositie</a>
+        <a href="#over">De Stichting</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-right">
+        <span class="lang"><b>NL</b> · EN · ID</span>
+        <a class="btn gold" href="#contact">Boek een programma</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-inner">
+      <span class="eyebrow">Culturele Menukaart</span>
+      <h1>Breng jouw evenement tot leven met <em>verhaal, muziek en beleving</em>.</h1>
+      <p class="lead">Wij zetten niet alleen een programma neer, maar een ervaring die mensen
+        raakt, verbindt en bijblijft — ook lang na afloop.</p>
+      <div class="hero-cta">
+        <a class="btn gold" href="#menukaart">Bekijk de menukaart</a>
+        <a class="btn ghost" style="color:var(--cream);border-color:rgba(239,200,62,.5)" href="#video">Bekijk &amp; beluister</a>
+      </div>
+      <div class="tags">
+        <span>Theaters</span><span>Musea</span><span>Festivals</span>
+        <span>Educatie</span><span>Bedrijven</span><span>Community events</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="wrap">
+    <span><b>Live gamelan</b> &amp; traditionele muziek</span>
+    <span><b>Verhalen</b> over Java · Suriname · Nederland</span>
+    <span><b>Workshops</b> waarin je zelf meedoet</span>
+    <span><b>Maatwerk</b> voor elke doelgroep</span>
+  </div>
+</div>
+
+<!-- MENUKAART -->
+<section class="block" id="menukaart">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">De Menukaart</span>
+      <h2>Kies jouw beleving</h2>
+      <p>Van een korte ceremoniële opening tot een compleet dagprogramma. Filter op wat past
+        bij jouw event en doelgroep.</p>
+    </div>
+    <div class="filters" id="filters">
+      <button class="chip active" data-f="all">Alles</button>
+      <button class="chip" data-f="populair">Meest geboekt</button>
+      <button class="chip" data-f="verhalen">Verhalen &amp; keynotes</button>
+      <button class="chip" data-f="optredens">Optredens</button>
+      <button class="chip" data-f="workshops">Workshops &amp; educatie</button>
+      <button class="chip" data-f="extra">Extra beleving</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section class="block video-sec" id="video">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Bekijk &amp; beluister</span>
+      <h2>Zie de beleving in beweging</h2>
+      <p>Een programmaboeker wil gamelan horen en wayang zien vóór de boeking. Korte
+        YouTube-fragmenten op elke programmapagina maken de menukaart tastbaar.</p>
+    </div>
+    <div class="vgrid">
+      <div class="vcard" data-yt="w0D9IK2gNYU">
+        <div class="poster" style="background-image:url('assets/perf-wayang.jpg')"></div>
+        <div class="play"></div>
+        <div class="vlabel"><small>Sfeerreel · klik om te spelen</small><h4>Gema Rasa — een ervaring die bijblijft</h4></div></div>
+      <div class="vcard" data-yt="w0D9IK2gNYU">
+        <div class="poster" style="background-image:url('assets/perf-gamelan.jpg')"></div>
+        <div class="play"></div>
+        <div class="vlabel"><small>Optreden</small><h4>Gamelan</h4></div></div>
+      <div class="vcard" data-yt="w0D9IK2gNYU">
+        <div class="poster" style="background-image:url('assets/perf2.jpg')"></div>
+        <div class="play"></div>
+        <div class="vlabel"><small>Optreden</small><h4>Kuda Lumping</h4></div></div>
+      <div class="vcard" data-yt="w0D9IK2gNYU">
+        <div class="poster" style="background-image:url('assets/perf3.jpg')"></div>
+        <div class="play"></div>
+        <div class="vlabel"><small>Schaduwspel</small><h4>Wayang Kulit</h4></div></div>
+      <div class="vcard" data-yt="w0D9IK2gNYU">
+        <div class="poster" style="background-image:url('assets/perf4.jpg')"></div>
+        <div class="play"></div>
+        <div class="vlabel"><small>Workshop</small><h4>Gamelan zelf spelen</h4></div></div>
+    </div>
+    <p class="video-note">Klik op een tegel → de YouTube-video laadt pas dán (lazy-load), netjes
+      in de huisstijl ingekaderd zonder externe randen of suggesties achteraf.</p>
+  </div>
+</section>
+
+<!-- EXPOSITIE -->
+<section class="block" id="expositie" style="padding-top:0">
+  <div class="wrap">
+    <div class="feature">
+      <div class="img">
+        <div class="label"><small>Reizende expositie</small><h3>Van Java naar Suriname naar Nederland</h3></div>
+      </div>
+      <div class="body">
+        <h2>Een reis door migratie, identiteit en erfgoed</h2>
+        <p>Een visuele en inhoudelijke expositie die bezoekers meeneemt in de reis van de
+          Javaanse gemeenschap. Aan de hand van beelden, verhalen en thema's ontstaat een
+          laagdrempelige maar betekenisvolle ervaring — informatief én persoonlijk.</p>
+        <p style="font-size:13px">Inclusief: visuele panelen · verhaallijn · advies over opstelling
+          en routing. Uit te breiden met lezing, workshop of optreden.</p>
+        <div class="priceline">
+          <div>Dag / weekend<strong>€500 – €900</strong></div>
+          <div>Week<strong>€1200 – €2000</strong></div>
+          <div>Langere periode<strong>op aanvraag</strong></div>
+        </div>
+        <a class="btn" href="#contact">Plan de expositie</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAARDEN -->
+<section class="block" id="over" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Javaanse levenshouding</span>
+      <h2>De waarden achter ons werk</h2>
+      <p>Onze programma's zijn geworteld in principes die we vertalen naar werk, team en
+        dagelijks leven.</p>
+    </div>
+    <div class="values">
+      <div class="v"><div class="n">rasa</div><p>gevoel</p></div>
+      <div class="v"><div class="n">rukun</div><p>harmonie</p></div>
+      <div class="v"><div class="n">sabar</div><p>geduld</p></div>
+      <div class="v"><div class="n">narima</div><p>acceptatie</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-inner">
+    <h2>Twijfel je wat het beste past?</h2>
+    <p>Wij denken graag mee en stellen een programma samen dat perfect aansluit op jouw
+      doelgroep en doelstelling.</p>
+    <a class="btn" href="#contact">Vraag maatwerk aan</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="brand" href="#top" style="margin-bottom:16px">
+          <span class="mark"><span>GR</span></span>
+          <span class="name" style="color:#fff">Stichting Gema Rasa<small style="color:var(--primary)">Echo van het gevoel</small></span>
+        </a>
+        <p>Met Gema Rasa kies je niet alleen voor een activiteit, maar voor een ervaring die
+          mensen raakt, verbindt en bijblijft.</p>
+      </div>
+      <div>
+        <h4>Programma</h4>
+        <a href="#menukaart">Meest geboekt</a>
+        <a href="#menukaart">Verhalen &amp; keynotes</a>
+        <a href="#menukaart">Optredens</a>
+        <a href="#video">Video</a>
+        <a href="#expositie">Reizende expositie</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="mailto:info@stichtinggemarasa.com">info@stichtinggemarasa.com</a>
+        <a href="https://www.stichtinggemarasa.com">www.stichtinggemarasa.com</a>
+        <p style="margin-top:14px;font-size:12px">Prijzen excl. btw en reiskosten.<br>
+          Incl. instrumenten en materialen.</p>
+      </div>
+    </div>
+    <div class="fbar">
+      <span>© 2026 Stichting Gema Rasa</span>
+      <span>Theaters · Musea · Festivals · Educatie · Bedrijven · Community</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const items = [
+  {cat:'populair',name:'Ceremoniële Opening + Gamelan',label:'Meest geboekt',badge:true,
+   desc:'Muziek, ritueel en symboliek komen samen. Met live gamelan en traditionele gebaren wordt jouw evenement rustig maar krachtig geopend.',
+   perfect:'festivals · conferenties · openingen',dur:'± 15–25 min',price:'vanaf €800'},
+  {cat:'populair',name:'Lezing + Workshop',label:'Meest geboekt',
+   desc:'Eerst een inspirerend verhaal, gevolgd door een interactieve workshop waarin deelnemers zelf aan de slag gaan.',
+   perfect:'musea · scholen · community events',dur:'± 1,5 uur',price:'vanaf €850'},
+  {cat:'populair',name:'Complete Beleving',label:'Aanrader',badge:true,
+   desc:'Een volledig programma waarin optreden, verhaal en interactie samenkomen. Voor wie het publiek echt wil meenemen in de cultuur.',
+   perfect:'dagprogramma’s · festivals · culturele events',dur:'± 2–2,5 uur',price:'€1100 – €1430'},
+  {cat:'verhalen',name:'De Overtocht',desc:'Een indringend verhaal over de reis van Java naar Suriname en Nederland, en hoe deze geschiedenis nog doorwerkt in identiteit en familie.',
+   perfect:'herdenkingen · educatie',dur:'30–45 min',price:'€440'},
+  {cat:'verhalen',name:'De Stille Kracht van de Javaan',desc:'Over de kracht van bescheidenheid en harmonie — en de keerzijde: jezelf soms onzichtbaar maken of aanpassen aan anderen.',
+   perfect:'diversiteit &amp; inclusie · organisaties',dur:'30–45 min',price:'€440'},
+  {cat:'verhalen',name:'Van Stilte naar Stem',desc:'Hoe de nieuwe generatie haar stem vindt en zich opnieuw verbindt met haar culturele roots via kunst en expressie.',
+   perfect:'jongeren · community events',dur:'30–45 min',price:'€440'},
+  {cat:'verhalen',name:'Rituelen &amp; Erfenis',desc:'Een verdiepende lezing over doorgegeven rituelen zoals sadjen, waarbij fysieke objecten het verhaal tastbaar maken.',
+   perfect:'kleine settings · verdieping',dur:'45 min',price:'€495'},
+  {cat:'verhalen',name:'Gamelan Keynote',desc:'Gamelan wordt niet alleen gespeeld maar uitgelegd als systeem van samenwerking, luisteren en balans binnen een groep.',
+   perfect:'bedrijven · teams · leiderschap',dur:'45 min',price:'€550'},
+  {cat:'verhalen',name:'Javaanse Levenshouding Keynote',desc:'Over rasa, rukun, sabar en narima — en hoe deze principes toepasbaar zijn in werk en dagelijks leven.',
+   perfect:'persoonlijke ontwikkeling · welzijn',dur:'45 min',price:'€550'},
+  {cat:'optredens',name:'Jongeren Gamelan',desc:'Jonge muzikanten voeren traditionele gamelanmuziek uit met een frisse, eigentijdse energie.',
+   perfect:'festivals · openingen · brede doelgroepen',dur:'20 min',price:'€660'},
+  {cat:'optredens',name:'Gamelan × Hiphop × Kendang',desc:'Traditionele gamelan ontmoet hiphopdans en percussie — oud en nieuw samen op het podium.',
+   perfect:'jong publiek · festivals',dur:'30 min',price:'€660'},
+  {cat:'optredens',name:'Kuda Lumping (paardendans)',desc:'Een visueel sterk optreden met traditionele paardfiguren en ritmische muziek dat direct de aandacht trekt.',
+   perfect:'buitenevents · culturele dagen',dur:'20 min',price:'€660'},
+  {cat:'optredens',name:'Wayang Kulit (schaduwspel)',desc:'Verhalen uitgebeeld met leren poppen en schaduwen, begeleid door live muziek. Betoverend en leerzaam.',
+   perfect:'educatie · culturele programmering',dur:'30 min',price:'€935'},
+  {cat:'optredens',name:'Wayang Wong (dansdrama)',desc:'Klassieke Javaanse dansvoorstelling waarin mythische verhalen worden uitgebeeld in traditionele kostuums.',
+   perfect:'theaters · grotere podia',dur:'20–30 min',price:'€935'},
+  {cat:'optredens',name:'Ceremoniële Openingsact',desc:'Korte maar krachtige opening met muziek, beweging en symboliek die direct een bijzondere sfeer neerzet.',
+   perfect:'officiële openingen · ceremonies',dur:'10–15 min',price:'€440'},
+  {cat:'workshops',name:'Gamelan Workshop',desc:'Deelnemers spelen zelf gamelan en ervaren hoe muziek ontstaat door samenwerking. Verbindend en laagdrempelig.',
+   perfect:'groepen · scholen · teams',dur:'45 min',price:'€650'},
+  {cat:'workshops',name:'Dansworkshop',desc:'Kennismaking met de basis van Javaanse dans en beweging. Bewustwording van lichaam en expressie.',
+   perfect:'kleine groepen · families',dur:'30–45 min',price:'€650'},
+  {cat:'workshops',name:'Storytelling / Lezing',desc:'Toegankelijke presentatie over Javaanse geschiedenis, cultuur en migratie, aangepast aan het publiek.',
+   perfect:'educatie · musea',dur:'30 min',price:'€500'},
+  {cat:'workshops',name:'Kinderprogramma — Spelen met Klanken',desc:'Kinderen maken spelenderwijs kennis met muziek, ritme en beweging. Plezier en ontdekking.',
+   perfect:'families · kinderprogramma’s',dur:'30 min',price:'€450'},
+  {cat:'workshops',name:'Janur Kuning Workshop',desc:'Maak traditionele decoraties van palmblad en leer over de betekenis ervan. Rustgevend, met tastbaar resultaat.',
+   perfect:'creatieve sessies · festivals',dur:'45–60 min',price:'€650'},
+  {cat:'workshops',name:'Wayang Workshop — Maak je eigen schaduwpop',desc:'Deelnemers maken hun eigen wayangpop van karton en brengen die tot leven achter een lichtbron.',
+   perfect:'scholen · musea · families',dur:'± 60–90 min',price:'€750'},
+  {cat:'workshops',name:'Compleet Educatief Dagdeel',label:'Compleet',badge:true,desc:'Optreden, verhaal en interactieve workshop in één zorgvuldig opgebouwd programma. Deelnemers ervaren cultuur actief.',
+   perfect:'scholen · musea · culturele instellingen',dur:'± 2–2,5 uur',price:'€1300 – €1650'},
+  {cat:'extra',name:'Culturele Installatie',desc:'Een presentatie met instrumenten, objecten en visuele elementen die bezoekers zelfstandig kunnen ervaren.',
+   perfect:'doorlopende programma’s · tentoonstellingen',dur:'doorlopend',price:'vanaf €330'},
+];
+const catName={populair:'Meest geboekt',verhalen:'Verhaal &amp; keynote',optredens:'Optreden',workshops:'Workshop &amp; educatie',extra:'Extra beleving'};
+const grid=document.getElementById('grid');
+function render(f){
+  grid.innerHTML=items.filter(i=>f==='all'||i.cat===f).map(i=>`
+    <article class="card">
+      ${i.badge?`<span class="badge">${i.label}</span>`:''}
+      <span class="cat">${catName[i.cat]}</span>
+      <h3>${i.name}</h3>
+      <p class="desc">${i.desc}</p>
+      <span class="perfect">✦ ${i.perfect}</span>
+      <div class="foot"><span class="dur">⏱ ${i.dur}</span><span class="price">${i.price}</span></div>
+    </article>`).join('');
+}
+render('all');
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+  c.classList.add('active');render(c.dataset.f);
+}));
+
+// --- lazy-load YouTube: iframe wordt pas aangemaakt bij klik ---
+document.querySelectorAll('.vcard[data-yt]').forEach(card=>{
+  card.addEventListener('click',()=>{
+    if(card.classList.contains('playing'))return;
+    const id=card.dataset.yt;
+    const ifr=document.createElement('iframe');
+    ifr.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&modestbranding=1';
+    ifr.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    ifr.allowFullscreen=true;
+    ifr.loading='lazy';
+    card.appendChild(ifr);
+    card.classList.add('playing');
+  });
+});
+</script>
+</body>
+</html>
