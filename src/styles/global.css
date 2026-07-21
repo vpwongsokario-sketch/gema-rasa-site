@@ -281,6 +281,58 @@ footer a:hover{color:var(--primary)}
 .member.board .naam{color:#fff}
 .member.board .rol{color:var(--primary)}
 
+/* ============ ANIMATIES ============
+   Alles zit achter .anim op <html>, die alleen wordt gezet als de bezoeker
+   géén 'verminderde beweging' heeft ingesteld. Toegankelijk én zonder flikkering. */
+
+/* elementen die bij het scrollen invliegen */
+.anim :is(.section-head,.card,.news,.member,.agenda .row,.feature,.merch,
+          .duo .word,.values .v,.info-card,.vcard,.prod .inner>*,.cta-inner>*){
+  transition:opacity .75s cubic-bezier(.22,.61,.36,1),transform .75s cubic-bezier(.22,.61,.36,1);
+  transition-delay:var(--d,0ms)}
+.anim :is(.section-head,.card,.news,.member,.agenda .row,.feature,.merch,
+          .duo .word,.values .v,.info-card,.vcard,.prod .inner>*,.cta-inner>*):not(.is-visible){
+  opacity:0;transform:translateY(26px)}
+
+/* hero & paginakop: gefaseerde entree bij laden */
+@keyframes riseIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+.anim :is(.hero-inner,.pagehead .wrap)>*{animation:riseIn .9s cubic-bezier(.22,.61,.36,1) backwards}
+.anim :is(.hero-inner,.pagehead .wrap)>*:nth-child(1){animation-delay:.10s}
+.anim :is(.hero-inner,.pagehead .wrap)>*:nth-child(2){animation-delay:.20s}
+.anim :is(.hero-inner,.pagehead .wrap)>*:nth-child(3){animation-delay:.30s}
+.anim :is(.hero-inner,.pagehead .wrap)>*:nth-child(4){animation-delay:.40s}
+.anim :is(.hero-inner,.pagehead .wrap)>*:nth-child(5){animation-delay:.50s}
+
+/* zachte zoom op de hero-achtergrond */
+@keyframes slowZoom{from{transform:scale(1)}to{transform:scale(1.07)}}
+.anim .hero::before{animation:slowZoom 18s ease-out forwards}
+
+/* header krijgt schaduw zodra je scrollt */
+header{transition:box-shadow .3s ease,background .3s ease}
+header.scrolled{box-shadow:0 6px 26px rgba(9,53,31,.13)}
+
+/* beeld-zoom bij hover */
+.news .thumb,.merch .img,.feature .img,.prod .art{transition:transform .7s cubic-bezier(.22,.61,.36,1)}
+.news:hover .thumb,.merch:hover .img,.feature:hover .img{transform:scale(1.05)}
+
+/* agenda-rijen reageren op hover */
+.agenda .row{transition:background .25s ease,padding-left .25s ease}
+.agenda .row:hover{background:rgba(255,255,255,.6);padding-left:14px}
+
+/* ledenkaart: avatar tilt subtiel mee */
+.member{transition:transform .25s ease,box-shadow .3s ease,border-color .2s ease}
+.member:hover{transform:translateY(-4px);box-shadow:0 16px 38px rgba(9,53,31,.13)}
+.avatar,.avatar-fallback{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.member:hover :is(.avatar,.avatar-fallback){transform:scale(1.07) rotate(-2deg)}
+
+/* knoppen: iets levendiger */
+.btn{transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease,background .2s ease,border-color .2s ease}
+.btn:active{transform:translateY(0) scale(.98)}
+
+/* gouden streepje in het bovenkopje groeit uit */
+@keyframes drawLine{from{width:0}to{width:32px}}
+.anim .eyebrow::before{animation:drawLine .8s cubic-bezier(.22,.61,.36,1) .25s backwards}
+
 /* foto / avatar in ledenkaart */
 .avatar,.avatar-fallback{width:66px;height:66px;border-radius:50%;margin-bottom:14px;display:block;flex:none}
 .avatar{object-fit:cover;border:2px solid var(--primary)}

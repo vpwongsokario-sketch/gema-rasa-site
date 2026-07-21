@@ -14,6 +14,13 @@ const { title = 'Stichting Gema Rasa — Bruggen bouwen met Javaanse podiumkunst
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script is:inline>
+    // Zet animaties aan vóór de eerste weergave (voorkomt flikkering).
+    // Respecteert de systeeminstelling 'verminderde beweging'.
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('anim');
+    }
+  </script>
 </head>
 <body>
   <header>
@@ -77,5 +84,61 @@ const { title = 'Stichting Gema Rasa — Bruggen bouwen met Javaanse podiumkunst
       </div>
     </div>
   </footer>
+
+  <script>
+    // Elementen die bij het scrollen in beeld komen, gefaseerd tonen
+    const SEL = '.section-head,.card,.news,.member,.agenda .row,.feature,.merch,' +
+                '.duo .word,.values .v,.info-card,.vcard,.prod .inner>*,.cta-inner>*';
+
+    if (document.documentElement.classList.contains('anim')) {
+      let resterend = Array.from(document.querySelectorAll<HTMLElement>(SEL));
+
+      // Vertraging per element binnen dezelfde groep (trapsgewijs effect)
+      const teller = new Map<Element | null, number>();
+      resterend.forEach((el) => {
+        const ouder = el.parentElement;
+        const i = teller.get(ouder) ?? 0;
+        teller.set(ouder, i + 1);
+        el.style.setProperty('--d', `${Math.min(i, 8) * 70}ms`);
+      });
+
+      // Toon alles dat in beeld is óf er al voorbij gescrold is.
+      // Bewust op scrollpositie i.p.v. een waarnemer: bij snel scrollen of
+      // springen naar een anker mag nooit iets onzichtbaar achterblijven.
+      const toon = () => {
+        const grens = window.innerHeight * 0.92;
+        resterend = resterend.filter((el) => {
+          if (el.getBoundingClientRect().top < grens) {
+            el.classList.add('is-visible');
+            return false;
+          }
+          return true;
+        });
+        if (!resterend.length) {
+          window.removeEventListener('scroll', bijScrollAnim);
+          window.removeEventListener('resize', bijScrollAnim);
+        }
+      };
+
+      let gepland = false;
+      const bijScrollAnim = () => {
+        if (gepland) return;
+        gepland = true;
+        requestAnimationFrame(() => { gepland = false; toon(); });
+      };
+
+      window.addEventListener('scroll', bijScrollAnim, { passive: true });
+      window.addEventListener('resize', bijScrollAnim, { passive: true });
+      requestAnimationFrame(toon);
+      // Vangnet: als er iets misgaat, na 3s alles gewoon tonen
+      setTimeout(() => resterend.forEach((el) => el.classList.add('is-visible')), 3000);
+    }
+
+    // Schaduw onder de header zodra er gescrold wordt
+    const kop = document.querySelector('header');
+    const bijScroll = () => kop?.classList.toggle('scrolled', window.scrollY > 8);
+    bijScroll();
+    window.addEventListener('scroll', bijScroll, { passive: true });
+  </script>
 </body>
 </html>
