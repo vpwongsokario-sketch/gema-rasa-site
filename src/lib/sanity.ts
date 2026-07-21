@@ -110,6 +110,23 @@ export async function getVrienden() {
   }));
 }
 
+/* ---------- Fotostrook ---------- */
+export async function getGalerij() {
+  const docs = await safe<any[]>('*[_type == "galerijfoto"] | order(volgorde asc){ afbeelding, bijschrift }');
+  if (!docs || docs.length === 0) {
+    // Terugval op de bestaande sfeerfoto's zolang er nog niets is geüpload
+    return [
+      { url: '/assets/perf-wayang.jpg', bijschrift: 'Wayang Kulit' },
+      { url: '/assets/perf-gamelan.jpg', bijschrift: 'Gamelan' },
+      { url: '/assets/perf2.jpg', bijschrift: 'Kuda Lumping' },
+      { url: '/assets/perf-expo.jpg', bijschrift: 'Expositie' },
+      { url: '/assets/perf3.jpg', bijschrift: 'Javaanse dans' },
+      { url: '/assets/perf4.jpg', bijschrift: 'Workshop' },
+    ];
+  }
+  return docs.map((d) => ({ url: img(d.afbeelding, ''), bijschrift: d.bijschrift ?? '' }));
+}
+
 /* ---------- Menukaart ---------- */
 export async function getProgrammas() {
   const docs = await safe<any[]>('*[_type == "programma"] | order(volgorde asc){ naam, categorie, desc, perfect, dur, price, badge, label }');

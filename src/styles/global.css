@@ -281,6 +281,35 @@ footer a:hover{color:var(--primary)}
 .member.board .naam{color:#fff}
 .member.board .rol{color:var(--primary)}
 
+/* ---------- bewegende fotostrook ---------- */
+.strook{padding:76px 0 84px;background:var(--primary-dark);position:relative;overflow:hidden}
+.strook::before{content:"";position:absolute;inset:0;opacity:.4;
+  background:radial-gradient(circle at 14px 14px,rgba(239,200,62,.14) 2px,transparent 2.5px);background-size:28px 28px}
+.strook .kop{position:relative;z-index:2;text-align:center;margin-bottom:38px}
+.strook .kop .kicker{font-family:'Poppins';color:var(--primary);font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;font-size:12.5px}
+.strook .kop h2{font-size:clamp(28px,3.6vw,42px);font-weight:700;color:#fff;margin-top:10px}
+
+.marquee{position:relative;z-index:2;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee-track{display:flex;gap:20px;width:max-content;will-change:transform}
+.anim .marquee-track{animation:schuifLinks 64s linear infinite}
+.anim .marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes schuifLinks{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 10px))}}
+
+.marquee figure{position:relative;flex:none;width:330px;aspect-ratio:4/3;border-radius:16px;overflow:hidden;
+  border:1px solid rgba(239,200,62,.25);margin:0}
+.marquee img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.22,.61,.36,1)}
+.marquee figure:hover img{transform:scale(1.07)}
+.marquee figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 16px 14px;
+  background:linear-gradient(180deg,transparent,rgba(9,53,31,.88));color:var(--cream);
+  font-family:'Poppins';font-size:13.5px;font-weight:500;opacity:0;transition:opacity .3s ease}
+.marquee figure:hover figcaption{opacity:1}
+/* zonder animatie: gewoon zelf horizontaal scrollen */
+html:not(.anim) .marquee{overflow-x:auto}
+@media(max-width:640px){.marquee figure{width:250px}}
+
 /* ============ ANIMATIES ============
    Alles zit achter .anim op <html>, die alleen wordt gezet als de bezoeker
    géén 'verminderde beweging' heeft ingesteld. Toegankelijk én zonder flikkering. */

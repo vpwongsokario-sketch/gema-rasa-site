@@ -1,10 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
-import { getHomepage, getNieuws, getAgenda } from '../lib/sanity.ts';
+import { getHomepage, getNieuws, getAgenda, getGalerij } from '../lib/sanity.ts';
 
 const { hero, productie } = await getHomepage();
 const nieuws = await getNieuws();
 const agenda = await getAgenda();
+const galerij = await getGalerij();
 
 // Titel met accent-woord in goud (uit CMS)
 const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.titelAccent)
@@ -100,6 +101,26 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
       </div>
     </div>
   </section>
+
+  <!-- BEWEGENDE FOTOSTROOK (via CMS) -->
+  {galerij.length > 0 && (
+    <section class="strook" id="fotos">
+      <div class="kop">
+        <span class="kicker">Impressie</span>
+        <h2>Gema Rasa in beeld</h2>
+      </div>
+      <div class="marquee">
+        <div class="marquee-track">
+          {[...galerij, ...galerij].map((f, i) => (
+            <figure>
+              <img src={f.url} alt={f.bijschrift || 'Stichting Gema Rasa'} loading="lazy" aria-hidden={i >= galerij.length ? 'true' : undefined} />
+              {f.bijschrift && <figcaption>{f.bijschrift}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- NIEUWS -->
   <section class="block" id="nieuws" style="padding-top:0">

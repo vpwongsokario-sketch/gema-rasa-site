@@ -150,4 +150,18 @@ const product = defineType({
   preview: { select: { title: 'naam', subtitle: 'prijs', media: 'afbeelding' } },
 });
 
-export const schemaTypes = [homepage, nieuws, evenement, lid, vriend, programma, product];
+/* ---------- Galerijfoto (bewegende fotostrook) ---------- */
+const galerijfoto = defineType({
+  name: 'galerijfoto',
+  title: 'Fotostrook',
+  type: 'document',
+  fields: [
+    defineField({ name: 'afbeelding', title: 'Foto', type: 'image', options: { hotspot: true }, validation: (r) => r.required() }),
+    defineField({ name: 'bijschrift', title: 'Bijschrift (optioneel)', type: 'string', description: 'Verschijnt over de foto bij het zweven met de muis.' }),
+    defineField({ name: 'volgorde', title: 'Volgorde', type: 'number', initialValue: 50 }),
+  ],
+  orderings: [{ title: 'Volgorde', name: 'volgorde', by: [{ field: 'volgorde', direction: 'asc' }] }],
+  preview: { select: { title: 'bijschrift', media: 'afbeelding' }, prepare: ({ title, media }) => ({ title: title || 'Foto', media }) },
+});
+
+export const schemaTypes = [homepage, nieuws, evenement, lid, vriend, programma, product, galerijfoto];

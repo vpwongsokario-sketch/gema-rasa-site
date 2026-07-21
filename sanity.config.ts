@@ -27,6 +27,7 @@ export default defineConfig({
             S.divider(),
             // De overige collecties
             S.documentTypeListItem('nieuws').title('Nieuws'),
+            S.documentTypeListItem('galerijfoto').title('Fotostrook'),
             S.documentTypeListItem('evenement').title('Agenda'),
             S.documentTypeListItem('lid').title('Leden'),
             S.documentTypeListItem('vriend').title('Vrienden van'),
