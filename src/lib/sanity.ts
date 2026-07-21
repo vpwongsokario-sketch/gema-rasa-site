@@ -79,16 +79,17 @@ export async function getAgenda() {
 
 /* ---------- Leden ---------- */
 export async function getLeden() {
-  const docs = await safe<any[]>('*[_type == "lid"] | order(volgorde asc){ naam, rol, groep }');
+  const docs = await safe<any[]>('*[_type == "lid"] | order(volgorde asc){ naam, rol, groep, foto }');
   if (!docs || docs.length === 0) {
     const musici = ['Vrijwilliger', 'Marketing & Communicatie'];
+    const leeg = (m: any) => ({ ...m, foto: '' });
     return {
-      bestuur: local.bestuur,
-      leden: local.leden,
-      gamelan: local.leden.filter((m) => !musici.includes(m.rol)),
+      bestuur: local.bestuur.map(leeg),
+      leden: local.leden.map(leeg),
+      gamelan: local.leden.filter((m) => !musici.includes(m.rol)).map(leeg),
     };
   }
-  const map = (d: any) => ({ naam: d.naam, rol: d.rol });
+  const map = (d: any) => ({ naam: d.naam, rol: d.rol, foto: img(d.foto, '') });
   return {
     bestuur: docs.filter((d) => d.groep === 'bestuur').map(map),
     leden: docs.filter((d) => d.groep !== 'bestuur').map(map),
@@ -98,9 +99,15 @@ export async function getLeden() {
 
 /* ---------- Vrienden ---------- */
 export async function getVrienden() {
-  const docs = await safe<any[]>('*[_type == "vriend"]{ naam, type, omschrijving }');
-  if (!docs || docs.length === 0) return local.vrienden;
-  return docs.map((d) => ({ naam: d.naam, type: d.type ?? 'Partner', omschrijving: d.omschrijving ?? '' }));
+  const docs = await safe<any[]>('*[_type == "vriend"]{ naam, type, omschrijving, logo, website }');
+  if (!docs || docs.length === 0) return local.vrienden.map((v) => ({ ...v, logo: '', website: '' }));
+  return docs.map((d) => ({
+    naam: d.naam,
+    type: d.type ?? 'Partner',
+    omschrijving: d.omschrijving ?? '',
+    logo: img(d.logo, ''),
+    website: d.website ?? '',
+  }));
 }
 
 /* ---------- Menukaart ---------- */

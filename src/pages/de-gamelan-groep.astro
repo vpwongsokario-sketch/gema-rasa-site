@@ -2,6 +2,9 @@
 import Base from '../layouts/Base.astro';
 import { getLeden } from '../lib/sanity.ts';
 const { gamelan } = await getLeden();
+
+const initialen = (naam = '') =>
+  naam.split(/[\s-]+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
 ---
 <Base title="De Gamelangroep Jiwa Manunggal — Stichting Gema Rasa">
   <section class="pagehead">
@@ -39,6 +42,9 @@ const { gamelan } = await getLeden();
       <div class="team-grid">
         {gamelan.map((m) => (
           <div class="member">
+            {m.foto
+              ? <img class="avatar" src={m.foto} alt={m.naam} loading="lazy" />
+              : <div class="avatar-fallback" aria-hidden="true">{initialen(m.naam)}</div>}
             <div class="naam">{m.naam}</div>
             <div class="rol">{m.rol}</div>
           </div>

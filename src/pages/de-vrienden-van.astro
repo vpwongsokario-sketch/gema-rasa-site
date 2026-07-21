@@ -16,13 +16,19 @@ const vrienden = await getVrienden();
   <section class="block">
     <div class="wrap">
       <div class="team-grid">
-        {vrienden.map((v) => (
-          <div class="member">
-            <div class="rol" style="color:var(--orange);text-transform:uppercase;letter-spacing:.08em;font-size:11px;font-weight:600">{v.type}</div>
-            <div class="naam" style="margin-top:4px">{v.naam}</div>
-            <div class="rol">{v.omschrijving}</div>
-          </div>
-        ))}
+        {vrienden.map((v) => {
+          const Kaart = v.website ? 'a' : 'div';
+          return (
+            <Kaart class="member" href={v.website || undefined} target={v.website ? '_blank' : undefined} rel={v.website ? 'noopener' : undefined}>
+              {v.logo
+                ? <div class="logo-wrap"><img src={v.logo} alt={v.naam} loading="lazy" /></div>
+                : <div class="logo-fallback" aria-hidden="true">{v.naam.slice(0, 2).toUpperCase()}</div>}
+              <div class="rol" style="color:var(--orange);text-transform:uppercase;letter-spacing:.08em;font-size:11px;font-weight:600">{v.type}</div>
+              <div class="naam" style="margin-top:4px">{v.naam}</div>
+              <div class="rol">{v.omschrijving}</div>
+            </Kaart>
+          );
+        })}
       </div>
     </div>
   </section>
