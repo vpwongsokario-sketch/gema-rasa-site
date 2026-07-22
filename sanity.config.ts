@@ -4,7 +4,10 @@ import { visionTool } from '@sanity/vision';
 import { schemaTypes } from './sanity/schemaTypes';
 
 // Singletons (documenten waar er maar één van bestaat) — hier: de homepage
-const singletons = [{ type: 'homepage', title: 'Homepage', id: 'homepage' }];
+const singletons = [
+  { type: 'homepage', title: 'Homepage', id: 'homepage' },
+  { type: 'doneren', title: '💛 Doneren', id: 'doneren' },
+];
 
 export default defineConfig({
   name: 'gema-rasa',

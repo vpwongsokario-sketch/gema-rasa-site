@@ -4,6 +4,8 @@ export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
+import { getDoneren } from '../../lib/sanity.ts';
+const doneren = await getDoneren();
 
 const manieren = [
   { titel: t(taal, "sn.m1t"), tekst: t(taal, "sn.m1b") },
@@ -21,8 +23,77 @@ const manieren = [
     foto="/assets/perf-wayang.jpg"
   />
 
-  <section class="block">
+  <!-- DONEREN (via CMS) -->
+  {(!doneren || doneren.actief) && (
+    <section class="block doneer-sectie">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="kicker">{t(taal, "dn.kicker")}</span>
+          <h2>{doneren?.titel || t(taal, "dn.titel")}</h2>
+          <p>{doneren?.tekst || t(taal, "dn.tekst")}</p>
+        </div>
+
+        {doneren?.bestemming && <p class="doneer-bestemming">{doneren.bestemming}</p>}
+
+        {(doneren?.bedragen?.length || doneren?.vrijBedragUrl || doneren?.maandelijksUrl || doneren?.iban) ? (
+          <div class="doneer-grid">
+            {/* Eenmalig */}
+            {(doneren.bedragen.length > 0 || doneren.vrijBedragUrl) && (
+              <div class="doneer-kaart">
+                <h3>{t(taal, "dn.eenmalig")}</h3>
+                <div class="bedragen">
+                  {doneren.bedragen.map((b) => (
+                    <a class="bedrag" href={b.url} target="_blank" rel="noopener">
+                      <span class="bedrag-euro">€{b.bedrag}</span>
+                      {b.toelichting && <span class="bedrag-uitleg">{b.toelichting}</span>}
+                    </a>
+                  ))}
+                  {doneren.vrijBedragUrl && (
+                    <a class="bedrag vrij" href={doneren.vrijBedragUrl} target="_blank" rel="noopener">
+                      <span class="bedrag-euro">{t(taal, "dn.eigenBedrag")}</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Maandelijks */}
+            {doneren.maandelijksUrl && (
+              <div class="doneer-kaart uitgelicht">
+                <h3>{t(taal, "dn.maandelijks")}</h3>
+                <p>{doneren.maandelijksTekst || t(taal, "dn.maandelijksTekst")}</p>
+                <a class="btn gold" href={doneren.maandelijksUrl} target="_blank" rel="noopener">
+                  {t(taal, "dn.maandelijksKnop")}
+                </a>
+              </div>
+            )}
+
+            {/* Overschrijving */}
+            {doneren.iban && (
+              <div class="doneer-kaart">
+                <h3>{t(taal, "dn.bank")}</h3>
+                <p>{doneren.bankTekst || t(taal, "dn.bankTekst")}</p>
+                <div class="iban-rij">
+                  <code id="ibanWaarde">{doneren.iban}</code>
+                  <button class="btn ghost iban-knop" id="ibanKnop"
+                          data-kopieer={t(taal, "dn.kopieer")} data-gekopieerd={t(taal, "dn.gekopieerd")}>
+                    {t(taal, "dn.kopieer")}
+                  </button>
+                </div>
+                <span class="iban-tnv">{t(taal, "dn.tnv")} {doneren.tenaamstelling}</span>
+              </div>
+            )}
+          </div>
+        ) : (
+          <p class="ens-leeg">{t(taal, "dn.nogNiet")}</p>
+        )}
+      </div>
+    </section>
+  )}
+
+  <section class="block" style="padding-top:0">
     <div class="wrap">
+      <div class="section-head"><span class="kicker">{t(taal, "dn.anders")}</span></div>
       <div class="team-grid">
         {manieren.map((m) => (
           <div class="member" style="padding:26px">
@@ -82,3 +153,15 @@ const manieren = [
     </div>
   </section>
 </Base>
+
+<script>
+  const knop = document.getElementById('ibanKnop') as HTMLButtonElement | null;
+  knop?.addEventListener('click', async () => {
+    const waarde = document.getElementById('ibanWaarde')?.textContent?.trim() || '';
+    try {
+      await navigator.clipboard.writeText(waarde.replace(/\s+/g, ''));
+      knop.textContent = knop.dataset.gekopieerd || 'OK';
+      setTimeout(() => { knop.textContent = knop.dataset.kopieer || ''; }, 2200);
+    } catch { /* kopiëren geweigerd — gebruiker kan het handmatig selecteren */ }
+  });
+</script>

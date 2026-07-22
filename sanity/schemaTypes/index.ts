@@ -343,6 +343,52 @@ const album = defineType({
   preview: { select: { title: 'titel', subtitle: 'datum', media: 'cover' } },
 });
 
+/* ---------- Doneren (singleton) ---------- */
+const doneren = defineType({
+  name: 'doneren',
+  title: 'Doneren',
+  type: 'document',
+  description: 'De donatiemogelijkheden op de Steun-pagina.',
+  groups: [
+    { name: 'algemeen', title: 'Algemeen', default: true },
+    { name: 'bedragen', title: 'Bedragen' },
+    { name: 'bank', title: 'Overschrijving' },
+  ],
+  fields: [
+    defineField({ name: 'actief', title: 'Donatieblok tonen', type: 'boolean', initialValue: true, group: 'algemeen' }),
+    defineField({ name: 'titel', title: 'Titel', type: 'string', group: 'algemeen' }),
+    defineField({ name: 'tekst', title: 'Introtekst', type: 'text', rows: 3, group: 'algemeen' }),
+    defineField({ name: 'bestemming', title: 'Waar gaat het geld naartoe?', type: 'text', rows: 3, group: 'algemeen',
+      description: 'Kort en concreet, bijv. "Van €25 kopen we nieuwe snaren" — mensen geven meer als ze weten waarvoor.' }),
+
+    defineField({
+      name: 'bedragen', title: 'Eenmalige bedragen', type: 'array', group: 'bedragen',
+      description: 'Elk bedrag krijgt een eigen knop. Maak in Stripe per bedrag een betaallink aan, of gebruik één link waarbij de donateur zelf het bedrag kiest.',
+      of: [{
+        type: 'object',
+        fields: [
+          { name: 'bedrag', title: 'Bedrag (€)', type: 'number', validation: (r: any) => r.required() },
+          { name: 'url', title: 'Stripe-betaallink', type: 'url', validation: (r: any) => r.required() },
+          { name: 'toelichting', title: 'Wat levert dit op? (optioneel)', type: 'string' },
+        ],
+        preview: { select: { title: 'bedrag', subtitle: 'toelichting' },
+          prepare: ({ title, subtitle }: any) => ({ title: `€ ${title}`, subtitle }) },
+      }],
+    }),
+    defineField({ name: 'vrijBedragUrl', title: 'Link voor een eigen bedrag', type: 'url', group: 'bedragen',
+      description: 'Stripe-link waarbij de donateur zelf een bedrag invult.' }),
+
+    defineField({ name: 'maandelijksUrl', title: 'Link voor maandelijkse donatie', type: 'url', group: 'bedragen',
+      description: 'In Stripe aan te maken als terugkerende betaling (abonnement).' }),
+    defineField({ name: 'maandelijksTekst', title: 'Tekst bij maandelijkse donatie', type: 'text', rows: 3, group: 'bedragen' }),
+
+    defineField({ name: 'iban', title: 'IBAN', type: 'string', group: 'bank' }),
+    defineField({ name: 'tenaamstelling', title: 'Ten name van', type: 'string', initialValue: 'Stichting Gema Rasa', group: 'bank' }),
+    defineField({ name: 'bankTekst', title: 'Tekst bij overschrijving', type: 'text', rows: 2, group: 'bank' }),
+  ],
+  preview: { prepare: () => ({ title: 'Doneren' }) },
+});
+
 /* ---------- Binnengekomen berichten (contactformulier) ---------- */
 const bericht = defineType({
   name: 'bericht',
@@ -402,6 +448,6 @@ const aanmelding = defineType({
 });
 
 export const schemaTypes = [
-  homepage, paginakop, nieuws, evenement, lid, vriend, programma, product, galerijfoto, magazine, album,
+  homepage, doneren, paginakop, nieuws, evenement, lid, vriend, programma, product, galerijfoto, magazine, album,
   bericht, aanmelding,
 ];

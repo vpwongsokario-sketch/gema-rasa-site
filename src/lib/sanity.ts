@@ -240,6 +240,27 @@ export async function getAlbums(taal: string = 'nl') {
   });
 }
 
+/* ---------- Doneren ---------- */
+export async function getDoneren() {
+  const doc = await safe<any>('*[_type == "doneren"][0]');
+  if (!doc) return null;
+  return {
+    actief: doc.actief ?? true,
+    titel: doc.titel ?? '',
+    tekst: doc.tekst ?? '',
+    bestemming: doc.bestemming ?? '',
+    bedragen: (Array.isArray(doc.bedragen) ? doc.bedragen : [])
+      .filter((b: any) => b?.bedrag && b?.url)
+      .map((b: any) => ({ bedrag: b.bedrag, url: b.url, toelichting: b.toelichting ?? '' })),
+    vrijBedragUrl: doc.vrijBedragUrl ?? '',
+    maandelijksUrl: doc.maandelijksUrl ?? '',
+    maandelijksTekst: doc.maandelijksTekst ?? '',
+    iban: doc.iban ?? '',
+    tenaamstelling: doc.tenaamstelling ?? 'Stichting Gema Rasa',
+    bankTekst: doc.bankTekst ?? '',
+  };
+}
+
 /* ---------- Vrienden ---------- */
 export async function getVrienden() {
   const docs = await safe<any[]>('*[_type == "vriend"]{ naam, type, omschrijving, logo, website }');
