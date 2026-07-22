@@ -1,21 +1,32 @@
 ---
 /**
  * Paginakop met hero-beeld, warme overlay, batikmotief en parallax.
- * Gebruik: <PageHero eyebrow="De Leden" titel="..." tekst="..." foto="/assets/perf-gamelan.jpg" />
+ *
+ * Het beeld (en eventueel de titel/tekst) is te wijzigen in het CMS onder
+ * "Paginakoppen". Staat daar niets, dan gelden de waarden die hier worden
+ * meegegeven — de pagina ziet er dus altijd goed uit.
  */
+import { getPaginakop } from '../lib/sanity.ts';
+
 const {
+  sleutel,
   eyebrow,
   titel,
   tekst,
   foto = '/assets/perf-wayang.jpg',
   positie = 'center',
 } = Astro.props;
+
+const cms = sleutel ? await getPaginakop(sleutel) : null;
+const toonFoto = cms?.foto || foto;
+const toonTitel = cms?.titel || titel;
+const toonTekst = cms?.tekst || tekst;
 ---
-<section class="pagehead" data-parallax style={`--hero-img:url('${foto}');--hero-pos:${positie}`}>
+<section class="pagehead" data-parallax style={`--hero-img:url('${toonFoto}');--hero-pos:${positie}`}>
   <div class="wrap">
     {eyebrow && <span class="eyebrow">{eyebrow}</span>}
-    <h1>{titel}</h1>
-    {tekst && <p>{tekst}</p>}
+    <h1>{toonTitel}</h1>
+    {toonTekst && <p>{toonTekst}</p>}
     <slot />
   </div>
 </section>

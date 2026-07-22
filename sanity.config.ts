@@ -24,6 +24,7 @@ export default defineConfig({
                 .id(s.id)
                 .child(S.document().schemaType(s.type).documentId(s.id)),
             ),
+            S.documentTypeListItem('paginakop').title('Paginakoppen (hero-beelden)'),
             S.divider(),
             // De overige collecties
             S.documentTypeListItem('nieuws').title('Nieuws'),

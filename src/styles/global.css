@@ -146,7 +146,7 @@ section.block{padding:88px 0}
 .feature{background:#fff;border-radius:22px;overflow:hidden;display:grid;grid-template-columns:1.05fr 1fr;
   border:1px solid var(--line);box-shadow:0 18px 50px rgba(9,53,31,.08)}
 .feature .img{position:relative;min-height:360px;background-image:url('/assets/perf-expo.jpg');
-  background-size:cover;background-position:center}
+  background-size:cover;background-position:center var(--bgy,50%)}
 .feature .img::before{content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(9,53,31,.25),rgba(9,53,31,.85))}
 .feature .img .label{position:absolute;z-index:2;bottom:28px;left:28px;color:var(--cream)}
@@ -193,7 +193,7 @@ footer a:hover{color:var(--primary)}
 .prod .wrap{position:relative;z-index:2}
 .prod .inner{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
 .prod .art{position:relative;border-radius:20px;overflow:hidden;min-height:400px;
-  background-size:cover;background-position:center;border:1px solid rgba(239,200,62,.25)}
+  background-size:cover;background-position:center var(--bgy,50%);border:1px solid rgba(239,200,62,.25)}
 .prod .art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,53,31,.1),rgba(9,53,31,.55))}
 .prod .date-badge{position:absolute;z-index:2;top:20px;left:20px;background:var(--primary);color:var(--primary-dark);
   font-family:'Poppins';font-weight:700;font-size:12.5px;letter-spacing:.04em;padding:8px 16px;border-radius:10px}
@@ -206,7 +206,7 @@ footer a:hover{color:var(--primary)}
 /* ---------- merch band ---------- */
 .merch{display:grid;grid-template-columns:1fr 1fr;gap:0;background:#fff;border:1px solid var(--line);
   border-radius:22px;overflow:hidden;box-shadow:0 18px 50px rgba(9,53,31,.08)}
-.merch .img{min-height:320px;background-size:cover;background-position:center}
+.merch .img{min-height:320px;background-size:cover;background-position:center var(--bgy,50%)}
 .merch .body{padding:48px}
 .merch .body .kicker{font-family:'Poppins';color:var(--orange);font-weight:600;letter-spacing:.13em;text-transform:uppercase;font-size:12.5px}
 .merch .body h2{font-size:clamp(28px,3.4vw,40px);font-weight:700;color:var(--primary-dark);margin:10px 0 14px}
@@ -225,7 +225,7 @@ footer a:hover{color:var(--primary)}
 .news{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;
   flex-direction:column;transition:transform .2s,box-shadow .25s}
 .news:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(9,53,31,.12)}
-.news .thumb{height:190px;background-size:cover;background-position:center}
+.news .thumb{height:190px;background-size:cover;background-position:center var(--bgy,50%)}
 .news .np{padding:24px;display:flex;flex-direction:column;flex:1}
 .news .cat{font-family:'Poppins';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);font-weight:600}
 .news h3{font-size:20px;font-weight:700;color:var(--primary-dark);margin:8px 0 10px;line-height:1.15}
@@ -382,7 +382,33 @@ html:not(.anim) .marquee{overflow-x:auto}
 .anim :is(.hero-inner,.pagehead .wrap)>*:nth-child(4){animation-delay:.40s}
 .anim :is(.hero-inner,.pagehead .wrap)>*:nth-child(5){animation-delay:.50s}
 
-/* (de trage zoom is vervangen door parallax — zie de --par variabele) */
+/* ---------- parallax via scroll-gestuurde CSS ----------
+   Werkt zonder JavaScript en loopt exact mee met de scrollpositie.
+   Browsers die dit niet kennen (oudere Firefox/Safari) tonen gewoon een stilstaand
+   beeld — de site blijft dus altijd goed. */
+/* De variabelen registreren, anders kan de browser er niet vloeiend tussen rekenen. */
+@property --par{syntax:'<length>';inherits:true;initial-value:0px}
+@property --bgy{syntax:'<percentage>';inherits:true;initial-value:50%}
+
+@supports (animation-timeline: view()) {
+  /* De animatie staat op de SECTIE, niet op het beeld zelf. Belangrijk: .hero en
+     .pagehead hebben overflow:hidden en zijn daarmee zelf een scroll-container —
+     een tijdlijn op het beeld binnenin zou daardoor nooit vorderen. */
+  .anim :is(.hero,.pagehead){
+    animation:parDrift linear both;
+    animation-timeline:view();
+    animation-range:cover 0% cover 100%;
+  }
+  @keyframes parDrift{from{--par:-110px}to{--par:110px}}
+
+  /* Foto's binnen kaarten en blokken bewegen mee binnen hun eigen kader */
+  .anim :is(.news,.merch,.feature,.prod){
+    animation:bgDrift linear both;
+    animation-timeline:view();
+    animation-range:cover 0% cover 100%;
+  }
+  @keyframes bgDrift{from{--bgy:30%}to{--bgy:70%}}
+}
 
 /* header krijgt schaduw zodra je scrollt */
 header{transition:box-shadow .3s ease,background .3s ease}

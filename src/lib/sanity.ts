@@ -57,6 +57,20 @@ export async function getHomepage() {
   };
 }
 
+/* ---------- Paginakop (hero-beeld per pagina) ---------- */
+export async function getPaginakop(sleutel: string) {
+  const doc = await safe<any>(
+    '*[_type == "paginakop" && pagina == $sleutel][0]{ afbeelding, titel, tekst }',
+    { sleutel },
+  );
+  if (!doc) return null;
+  return {
+    foto: img(doc.afbeelding, ''),
+    titel: doc.titel ?? '',
+    tekst: doc.tekst ?? '',
+  };
+}
+
 /* ---------- Nieuws ---------- */
 export async function getNieuws() {
   const docs = await safe<any[]>('*[_type == "nieuws"] | order(datum desc){ "slug": slug.current, categorie, titel, intro, afbeelding }');

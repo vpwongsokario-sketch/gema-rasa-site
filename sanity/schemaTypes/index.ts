@@ -164,6 +164,36 @@ const galerijfoto = defineType({
   preview: { select: { title: 'bijschrift', media: 'afbeelding' }, prepare: ({ title, media }) => ({ title: title || 'Foto', media }) },
 });
 
+/* ---------- Paginakoppen (hero-beeld per pagina) ---------- */
+const paginakop = defineType({
+  name: 'paginakop',
+  title: 'Paginakoppen',
+  type: 'document',
+  description: 'Het grote beeld bovenaan elke pagina.',
+  fields: [
+    defineField({
+      name: 'pagina', title: 'Welke pagina', type: 'string', validation: (r) => r.required(),
+      options: { list: [
+        { title: 'De Stichting', value: 'de-stichting' },
+        { title: 'De Leden', value: 'leden' },
+        { title: 'De Gamelangroep', value: 'de-gamelan-groep' },
+        { title: 'De Vrienden van', value: 'de-vrienden-van' },
+        { title: 'Contact', value: 'contact' },
+        { title: 'Steun ons', value: 'steun' },
+        { title: 'Shop', value: 'shop' },
+        { title: 'Menukaart', value: 'menukaart' },
+      ] },
+    }),
+    defineField({ name: 'afbeelding', title: 'Achtergrondfoto', type: 'image', options: { hotspot: true },
+      description: 'Liggend beeld werkt het best. Sleep het bolletje naar het belangrijkste deel van de foto.' }),
+    defineField({ name: 'titel', title: 'Titel (optioneel)', type: 'string',
+      description: 'Laat leeg om de standaardtitel van de pagina te houden.' }),
+    defineField({ name: 'tekst', title: 'Introtekst (optioneel)', type: 'text', rows: 3,
+      description: 'Laat leeg om de standaardtekst te houden.' }),
+  ],
+  preview: { select: { title: 'pagina', media: 'afbeelding' } },
+});
+
 /* ---------- Binnengekomen berichten (contactformulier) ---------- */
 const bericht = defineType({
   name: 'bericht',
@@ -223,5 +253,6 @@ const aanmelding = defineType({
 });
 
 export const schemaTypes = [
-  homepage, nieuws, evenement, lid, vriend, programma, product, galerijfoto, bericht, aanmelding,
+  homepage, paginakop, nieuws, evenement, lid, vriend, programma, product, galerijfoto,
+  bericht, aanmelding,
 ];
