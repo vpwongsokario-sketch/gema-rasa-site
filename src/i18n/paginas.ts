@@ -4,6 +4,20 @@
  */
 
 export const paginaNL: Record<string, string> = {
+  'mg.eyebrow': 'Ons magazine',
+  'mg.titel': 'Suwara Jawa',
+  'mg.intro': 'De stem van Java — ons eigen magazine over Javaanse cultuur, verhalen en de mensen erachter.',
+  'mg.overKop': 'Over Suwara Jawa',
+  'mg.overTekst': '"Suwara Jawa" betekent "de stem van Java". In dit magazine bundelen we verhalen, interviews en achtergronden over de Javaanse cultuur in Nederland — geschreven door en voor onze gemeenschap. Zo geven we de traditie niet alleen op het podium door, maar ook op papier.',
+  'mg.editiesKop': 'De edities',
+  'mg.lezen': 'Online lezen',
+  'mg.pdf': 'Bekijk als PDF',
+  'mg.geenEdities': 'De eerste editie verschijnt binnenkort op deze pagina.',
+  'mg.delenKop': 'Deel het magazine',
+  'mg.delenTekst': 'Ken je iemand die dit interessant vindt? Stuur de pagina door.',
+  'mg.deelKnop': 'Deel deze pagina',
+  'mg.gekopieerd': 'Link gekopieerd!',
+  'nav.magazine': 'Magazine',
   // ---- De Dansgroep ----
   'dg.eyebrow': 'De Dansgroep',
   'dg.titel': 'Beksa Laras Ati',
@@ -185,6 +199,20 @@ export const paginaNL: Record<string, string> = {
 };
 
 export const paginaEN: Record<string, string> = {
+  'mg.eyebrow': 'Our magazine',
+  'mg.titel': 'Suwara Jawa',
+  'mg.intro': 'The voice of Java — our own magazine about Javanese culture, stories and the people behind them.',
+  'mg.overKop': 'About Suwara Jawa',
+  'mg.overTekst': '"Suwara Jawa" means "the voice of Java". In this magazine we gather stories, interviews and background pieces about Javanese culture in the Netherlands — written by and for our community. This way we pass on the tradition not only on stage, but also on paper.',
+  'mg.editiesKop': 'The editions',
+  'mg.lezen': 'Read online',
+  'mg.pdf': 'View as PDF',
+  'mg.geenEdities': 'The first edition will appear on this page soon.',
+  'mg.delenKop': 'Share the magazine',
+  'mg.delenTekst': 'Know someone who would enjoy this? Pass the page along.',
+  'mg.deelKnop': 'Share this page',
+  'mg.gekopieerd': 'Link copied!',
+  'nav.magazine': 'Magazine',
   'dg.eyebrow': 'The Dance Group',
   'dg.titel': 'Beksa Laras Ati',
   'dg.intro': 'Dance performed with harmony and love, arising from the depths of the heart.',
@@ -356,6 +384,20 @@ export const paginaEN: Record<string, string> = {
 };
 
 export const paginaID: Record<string, string> = {
+  'mg.eyebrow': 'Majalah kami',
+  'mg.titel': 'Suwara Jawa',
+  'mg.intro': 'Suara Jawa — majalah kami tentang budaya Jawa, kisah-kisah dan orang-orang di baliknya.',
+  'mg.overKop': 'Tentang Suwara Jawa',
+  'mg.overTekst': '"Suwara Jawa" berarti "suara Jawa". Dalam majalah ini kami menghimpun kisah, wawancara dan latar belakang tentang budaya Jawa di Belanda — ditulis oleh dan untuk komunitas kami. Dengan begitu tradisi kami wariskan tidak hanya di panggung, tetapi juga di atas kertas.',
+  'mg.editiesKop': 'Edisi',
+  'mg.lezen': 'Baca daring',
+  'mg.pdf': 'Lihat sebagai PDF',
+  'mg.geenEdities': 'Edisi pertama akan segera tampil di halaman ini.',
+  'mg.delenKop': 'Bagikan majalah',
+  'mg.delenTekst': 'Kenal seseorang yang mungkin tertarik? Teruskan halaman ini.',
+  'mg.deelKnop': 'Bagikan halaman ini',
+  'mg.gekopieerd': 'Tautan disalin!',
+  'nav.magazine': 'Majalah',
   'dg.eyebrow': 'Grup Tari',
   'dg.titel': 'Beksa Laras Ati',
   'dg.intro': 'Tarian yang dibawakan dengan keselarasan dan cinta, lahir dari lubuk hati terdalam.',

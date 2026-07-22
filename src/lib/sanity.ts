@@ -174,6 +174,25 @@ export async function getLeden(taal: string = 'nl') {
   };
 }
 
+/* ---------- Magazine Suwara Jawa ---------- */
+export async function getMagazines(taal: string = 'nl') {
+  const docs = await safe<any[]>(
+    '*[_type == "magazine"] | order(nummer desc){ titel, nummer, datum, cover, omschrijving, leesUrl, "pdfUrl": pdf.asset->url }',
+  );
+  if (!docs) return [];
+  return docs.map((d) => ({
+    titel: d.titel ?? '',
+    nummer: d.nummer ?? null,
+    datum: d.datum ?? '',
+    datumLabel: d.datum ? datumLabel(d.datum, taal) : '',
+    cover: img(d.cover, ''),
+    omschrijving: d.omschrijving ?? '',
+    // Voorkeur voor de online-leeslink; anders de geüploade PDF
+    link: d.leesUrl || d.pdfUrl || '',
+    isPdf: !d.leesUrl && !!d.pdfUrl,
+  }));
+}
+
 /* ---------- Vrienden ---------- */
 export async function getVrienden() {
   const docs = await safe<any[]>('*[_type == "vriend"]{ naam, type, omschrijving, logo, website }');

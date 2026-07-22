@@ -506,6 +506,21 @@ header.scrolled{box-shadow:0 6px 26px rgba(9,53,31,.13)}
 .woord h3{font-size:21px;font-weight:700;color:var(--secondary);margin-bottom:10px;position:relative}
 .woord p{font-family:'Poppins';font-weight:300;font-size:14.5px;color:#4a4a4a;position:relative}
 
+/* ---------- magazine-edities ---------- */
+.edities{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:26px}
+.editie{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  display:flex;flex-direction:column;transition:transform .25s ease,box-shadow .3s ease}
+.editie:hover{transform:translateY(-4px);box-shadow:0 20px 46px rgba(9,53,31,.13)}
+.editie-cover{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}
+.editie-cover.leeg{display:grid;place-items:center;background:linear-gradient(150deg,var(--secondary),var(--primary-dark));
+  color:var(--primary);font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;text-align:center;padding:20px}
+.editie-body{padding:26px;display:flex;flex-direction:column;flex:1;gap:8px}
+.editie-body h3{font-size:21px;font-weight:700;color:var(--primary-dark)}
+.editie-datum{font-family:'Poppins';font-size:12px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--orange)}
+.editie-body p{font-family:'Poppins';font-weight:300;font-size:14.5px;color:#4a4a4a;flex:1}
+.editie-body .btn{align-self:flex-start;margin-top:8px}
+
 /* info-kaarten (contact-locaties) */
 .info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:8px}
 .info-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px}

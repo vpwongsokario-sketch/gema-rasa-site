@@ -257,6 +257,7 @@ const paginakop = defineType({
         { title: 'Shop', value: 'shop' },
         { title: 'Menukaart', value: 'menukaart' },
         { title: 'Nieuws (overzicht)', value: 'nieuws' },
+        { title: 'Magazine Suwara Jawa', value: 'suwara-jawa' },
       ] },
     }),
     defineField({ name: 'afbeelding', title: 'Achtergrondfoto', type: 'image', options: { hotspot: true },
@@ -267,6 +268,28 @@ const paginakop = defineType({
       description: 'Laat leeg om de standaardtekst te houden.' }),
   ],
   preview: { select: { title: 'pagina', media: 'afbeelding' } },
+});
+
+/* ---------- Magazine Suwara Jawa ---------- */
+const magazine = defineType({
+  name: 'magazine',
+  title: 'Magazine',
+  type: 'document',
+  description: 'Edities van Suwara Jawa.',
+  fields: [
+    defineField({ name: 'titel', title: 'Titel van de editie', type: 'string', validation: (r) => r.required(),
+      description: 'Bijv. "Editie 1 — Voorjaar 2026"' }),
+    defineField({ name: 'nummer', title: 'Editienummer', type: 'number', description: 'Wordt gebruikt voor de volgorde.' }),
+    defineField({ name: 'datum', title: 'Verschijningsdatum', type: 'date' }),
+    defineField({ name: 'cover', title: 'Cover', type: 'image', options: { hotspot: true } }),
+    defineField({ name: 'omschrijving', title: 'Waar gaat deze editie over?', type: 'text', rows: 4 }),
+    defineField({ name: 'leesUrl', title: 'Online lezen (link)', type: 'url',
+      description: 'Link naar de online versie. Laat leeg als je hieronder een PDF uploadt.' }),
+    defineField({ name: 'pdf', title: 'PDF (optioneel)', type: 'file',
+      description: 'Upload de editie als PDF; bezoekers kunnen die openen of downloaden.' }),
+  ],
+  orderings: [{ title: 'Nieuwste eerst', name: 'nieuw', by: [{ field: 'nummer', direction: 'desc' }] }],
+  preview: { select: { title: 'titel', subtitle: 'datum', media: 'cover' } },
 });
 
 /* ---------- Binnengekomen berichten (contactformulier) ---------- */
@@ -328,6 +351,6 @@ const aanmelding = defineType({
 });
 
 export const schemaTypes = [
-  homepage, paginakop, nieuws, evenement, lid, vriend, programma, product, galerijfoto,
+  homepage, paginakop, nieuws, evenement, lid, vriend, programma, product, galerijfoto, magazine,
   bericht, aanmelding,
 ];

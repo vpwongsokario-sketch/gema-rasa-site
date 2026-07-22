@@ -1,0 +1,94 @@
+---
+import { taalPaden, t, pad } from '../../i18n/index.ts';
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { getMagazines } from '../../lib/sanity.ts';
+
+const edities = await getMagazines(taal);
+---
+<Base taal={taal} title={`${t(taal, "mg.titel")} — Stichting Gema Rasa`}>
+  <PageHero
+    sleutel="suwara-jawa"
+    eyebrow={t(taal, "mg.eyebrow")}
+    titel={t(taal, "mg.titel")}
+    tekst={t(taal, "mg.intro")}
+    foto="/assets/perf-expo.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      <div class="prose">
+        <h2>{t(taal, "mg.overKop")}</h2>
+        <p class="lead">{t(taal, "mg.overTekst")}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDITIES -->
+  <section class="block batik" style="padding-top:0">
+    <div class="wrap">
+      <div class="ornament" style="margin-bottom:46px"><span></span></div>
+      <div class="section-head">
+        <span class="kicker">{t(taal, "mg.eyebrow")}</span>
+        <h2>{t(taal, "mg.editiesKop")}</h2>
+      </div>
+
+      {edities.length > 0 ? (
+        <div class="edities">
+          {edities.map((e) => (
+            <article class="editie">
+              {e.cover
+                ? <img class="editie-cover" src={e.cover} alt={e.titel} loading="lazy" />
+                : <div class="editie-cover leeg" aria-hidden="true">Suwara Jawa</div>}
+              <div class="editie-body">
+                <h3>{e.titel}</h3>
+                {e.datumLabel && <span class="editie-datum">{e.datumLabel}</span>}
+                {e.omschrijving && <p>{e.omschrijving}</p>}
+                {e.link && (
+                  <a class="btn gold" href={e.link} target="_blank" rel="noopener">
+                    {e.isPdf ? t(taal, "mg.pdf") : t(taal, "mg.lezen")}
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="ens-leeg">{t(taal, "mg.geenEdities")}</p>
+      )}
+    </div>
+  </section>
+
+  <!-- DELEN -->
+  <section class="cta soft" style="margin-bottom:24px">
+    <div class="cta-inner">
+      <h2>{t(taal, "mg.delenKop")}</h2>
+      <p>{t(taal, "mg.delenTekst")}</p>
+      <button class="btn gold" id="deelKnop" data-gekopieerd={t(taal, "mg.gekopieerd")}>
+        {t(taal, "mg.deelKnop")}
+      </button>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Delen via het systeemmenu van het toestel; anders de link kopiëren
+  const knop = document.getElementById('deelKnop') as HTMLButtonElement | null;
+  knop?.addEventListener('click', async () => {
+    const gegevens = { title: document.title, url: window.location.href };
+    try {
+      if (navigator.share) {
+        await navigator.share(gegevens);
+        return;
+      }
+      await navigator.clipboard.writeText(window.location.href);
+      const oud = knop.textContent;
+      knop.textContent = knop.dataset.gekopieerd || 'OK';
+      setTimeout(() => { knop.textContent = oud; }, 2200);
+    } catch {
+      /* gebruiker heeft geannuleerd — niets doen */
+    }
+  });
+</script>
