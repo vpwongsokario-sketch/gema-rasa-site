@@ -28,7 +28,9 @@ header nav{display:flex;align-items:center;justify-content:space-between;height:
 .brand .name{font-weight:700;font-size:18px;color:var(--primary-dark);letter-spacing:-.01em}
 .brand .name small{display:block;font-family:'Poppins';font-weight:400;font-size:10.5px;
   letter-spacing:.13em;text-transform:uppercase;color:var(--secondary)}
-.navlinks{display:flex;gap:26px;font-family:'Poppins';font-size:14px;font-weight:500}
+.navlinks{display:flex;align-items:center;gap:26px;font-family:'Poppins';font-size:14px;font-weight:500}
+/* knop en link krijgen exact dezelfde doos, anders staan ze niet op één lijn */
+.navlinks > a,.nav-knop{display:inline-flex;align-items:center;padding:8px 0;line-height:1.2}
 .navlinks a{color:var(--primary-dark);opacity:.85;transition:opacity .2s}
 .navlinks a:hover{opacity:1;color:var(--secondary)}
 .nav-right{display:flex;align-items:center;gap:18px}
@@ -243,7 +245,15 @@ footer a,footer p{font-family:'Poppins';color:rgba(244,243,232,.78);font-size:14
 footer a:hover{color:var(--primary)}
 .fbar{border-top:1px solid rgba(244,243,232,.16);padding-top:22px;display:flex;justify-content:space-between;
   font-family:'Poppins';font-size:12.5px;color:rgba(244,243,232,.6);flex-wrap:wrap;gap:10px}
-@media(max-width:780px){.fgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:860px){.fgrid{grid-template-columns:1fr 1fr;gap:34px}}
+@media(max-width:620px){
+  footer{padding:52px 0 26px;margin-top:64px}
+  .fgrid{grid-template-columns:1fr;gap:32px;margin-bottom:34px}
+  .fbar{flex-direction:column;align-items:flex-start;gap:8px;text-align:left}
+  .nl-row{flex-direction:column;align-items:stretch}
+  .nl-row input{min-width:0;width:100%}
+  .nl-row .btn{width:100%;text-align:center}
+}
 
 /* ---------- productie-feature (donker, uitgelicht) ---------- */
 .prod{background:var(--primary-dark);color:var(--cream);position:relative;overflow:hidden}
