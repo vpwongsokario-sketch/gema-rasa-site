@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getNieuwsArtikelen } from '../../lib/sanity.ts';
+import { toHTML } from '@portabletext/to-html';
+
+export async function getStaticPaths() {
+  const artikelen = await getNieuwsArtikelen();
+  return artikelen
+    .filter((a) => a.slug)
+    .map((artikel) => ({ params: { slug: artikel.slug }, props: { artikel } }));
+}
+
+const { artikel } = Astro.props;
+
+// De volledige tekst uit het CMS omzetten naar HTML (leeg = alleen de samenvatting)
+const tekst = artikel.body ? toHTML(artikel.body, { components: {} }) : '';
+---
+<Base title={`${artikel.titel} — Stichting Gema Rasa`} description={artikel.intro}>
+  <section class="pagehead artikel-kop" style={`--hero-img:url('${artikel.afbeelding}')`}>
+    <div class="wrap">
+      <span class="eyebrow">{artikel.categorie}</span>
+      <h1>{artikel.titel}</h1>
+      {artikel.datumLabel && <p class="datum">{artikel.datumLabel}</p>}
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <article class="prose">
+        <p class="lead">{artikel.intro}</p>
+        {tekst && <div set:html={tekst} />}
+        {!tekst && (
+          <p style="font-size:14px;color:var(--gray)">
+            De volledige tekst van dit bericht wordt nog toegevoegd in het CMS.
+          </p>
+        )}
+        <p style="margin-top:38px">
+          <a class="btn" href="/nieuws">← Alle berichten</a>
+        </p>
+      </article>
+    </div>
+  </section>
+</Base>

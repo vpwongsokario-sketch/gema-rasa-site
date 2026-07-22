@@ -196,6 +196,7 @@ const paginakop = defineType({
         { title: 'Steun ons', value: 'steun' },
         { title: 'Shop', value: 'shop' },
         { title: 'Menukaart', value: 'menukaart' },
+        { title: 'Nieuws (overzicht)', value: 'nieuws' },
       ] },
     }),
     defineField({ name: 'afbeelding', title: 'Achtergrondfoto', type: 'image', options: { hotspot: true },

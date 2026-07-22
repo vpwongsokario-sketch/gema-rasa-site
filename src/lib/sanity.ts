@@ -84,6 +84,27 @@ export async function getNieuws() {
   }));
 }
 
+/* ---------- Nieuws: volledige artikelen (voor de detailpagina's) ---------- */
+export async function getNieuwsArtikelen() {
+  const docs = await safe<any[]>(
+    '*[_type == "nieuws" && defined(slug.current)] | order(datum desc){ "slug": slug.current, categorie, titel, intro, datum, afbeelding, body }',
+  );
+  if (!docs || docs.length === 0) {
+    // Terugval: de artikelen die we lokaal kennen (nog zonder volledige tekst)
+    return local.nieuws.map((n) => ({ ...n, datum: '', body: null }));
+  }
+  return docs.map((d) => ({
+    slug: d.slug,
+    categorie: d.categorie ?? 'Nieuws',
+    titel: d.titel ?? '',
+    intro: d.intro ?? '',
+    datum: d.datum ?? '',
+    datumLabel: d.datum ? datumLabel(d.datum) : '',
+    afbeelding: img(d.afbeelding, '/assets/perf-gamelan.jpg'),
+    body: d.body ?? null,
+  }));
+}
+
 /* ---------- Agenda ---------- */
 export async function getAgenda() {
   const docs = await safe<any[]>('*[_type == "evenement"] | order(datum desc){ titel, locatie, datum }');

@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { getNieuwsArtikelen } from '../../lib/sanity.ts';
+
+const artikelen = await getNieuwsArtikelen();
+---
+<Base title="Nieuws — Stichting Gema Rasa">
+  <PageHero
+    sleutel="nieuws"
+    eyebrow="Foto's, Video's &amp; Nieuws"
+    titel="Nieuws van Gema Rasa"
+    tekst="Bekijk onze optredens, evenementen en projecten."
+    foto="/assets/perf3.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      <div class="news-grid">
+        {artikelen.map((n) => (
+          <a class="news" href={`/nieuws/${n.slug}`}>
+            <div class="thumb" style={`background-image:url('${n.afbeelding}')`}></div>
+            <div class="np">
+              <span class="cat">{n.categorie}</span>
+              <h3>{n.titel}</h3>
+              <p>{n.intro.length > 160 ? n.intro.slice(0, 160) + '…' : n.intro}</p>
+              <span class="more">Lees meer →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
