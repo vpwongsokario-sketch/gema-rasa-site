@@ -476,24 +476,23 @@ header.scrolled{box-shadow:0 6px 26px rgba(9,53,31,.13)}
   font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;color:var(--secondary);opacity:.35}
 
 /* ---------- ensembles binnen Jiwa Manunggal ---------- */
-.ensembles{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px}
-.ensemble{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;
-  display:flex;flex-direction:column;transition:transform .25s ease,box-shadow .3s ease}
-.ensemble:hover{transform:translateY(-4px);box-shadow:0 20px 46px rgba(9,53,31,.13)}
-.ens-beeld{position:relative;height:170px;background-size:cover;background-position:center var(--bgy,50%)}
-.ens-beeld::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(9,53,31,.15),rgba(9,53,31,.72))}
-.ens-aantal{position:absolute;z-index:2;left:16px;bottom:14px;background:var(--primary);
-  color:var(--primary-dark);font-family:'Poppins';font-size:11.5px;font-weight:700;
-  letter-spacing:.04em;padding:5px 12px;border-radius:8px}
-.ens-body{padding:24px;display:flex;flex-direction:column;flex:1}
-.ens-body h3{font-size:20px;font-weight:700;color:var(--primary-dark);line-height:1.15}
-.ens-leeftijd{display:inline-block;margin-top:6px;font-family:'Poppins';font-size:12px;font-weight:600;
-  letter-spacing:.08em;text-transform:uppercase;color:var(--orange)}
-.ens-body p{font-family:'Poppins';font-weight:300;font-size:14.5px;color:#4a4a4a;margin-top:12px}
-.ens-leden{list-style:none;margin:16px 0 0;padding-top:14px;border-top:1px dashed var(--line);
-  font-family:'Poppins';font-size:13.5px;color:var(--gray);display:flex;flex-direction:column;gap:5px}
-.ens-leden strong{font-weight:600;color:var(--primary-dark)}
+/* telbadge in de filterknop */
+.chip-tel{display:inline-block;margin-left:6px;background:rgba(9,53,31,.10);color:var(--primary-dark);
+  border-radius:20px;padding:1px 8px;font-size:11.5px;font-weight:700}
+.chip.active .chip-tel{background:rgba(244,243,232,.22);color:var(--cream)}
+
+/* toelichting bij het gekozen ensemble */
+.ens-uitleg{margin:0 0 30px}
+.ens-uitleg [data-uitleg]{display:none}
+.ens-uitleg [data-uitleg].actief{display:block;animation:riseIn .5s cubic-bezier(.22,.61,.36,1) backwards}
+.ens-uitleg h3{font-size:22px;font-weight:700;color:var(--primary-dark);display:flex;
+  align-items:center;gap:12px;flex-wrap:wrap}
+.ens-uitleg .ens-leeftijd{font-family:'Poppins';font-size:11.5px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--primary-dark);background:var(--primary);
+  padding:4px 11px;border-radius:20px}
+.ens-uitleg p{font-family:'Poppins';font-weight:300;font-size:15.5px;color:var(--gray);
+  margin-top:8px;max-width:680px}
+.ens-leeg{font-family:'Poppins';font-size:15px;color:var(--gray);text-align:center;padding:36px 0}
 
 /* info-kaarten (contact-locaties) */
 .info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:8px}

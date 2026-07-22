@@ -4,6 +4,11 @@
  */
 
 export const paginaNL: Record<string, string> = {
+  'gg.allen': 'Alle musici',
+  'gg.allenTitel': 'Het volledige orkest',
+  'gg.youngKort': 'Young Generation',
+  'gg.silverKort': 'Silver Generation',
+  'gg.mixKort': 'Mix',
   'gg.ensKicker': 'De ensembles',
   'gg.ensTitel': 'Drie groepen binnen Jiwa Manunggal',
   'gg.ensIntro': 'Jiwa Manunggal speelt in drie samenstellingen, elk met een eigen karakter en leeftijdsopbouw.',
@@ -157,6 +162,11 @@ export const paginaNL: Record<string, string> = {
 };
 
 export const paginaEN: Record<string, string> = {
+  'gg.allen': 'All musicians',
+  'gg.allenTitel': 'The full orchestra',
+  'gg.youngKort': 'Young Generation',
+  'gg.silverKort': 'Silver Generation',
+  'gg.mixKort': 'Mix',
   'gg.ensKicker': 'The ensembles',
   'gg.ensTitel': 'Three groups within Jiwa Manunggal',
   'gg.ensIntro': 'Jiwa Manunggal performs in three line-ups, each with its own character and age range.',
@@ -301,6 +311,11 @@ export const paginaEN: Record<string, string> = {
 };
 
 export const paginaID: Record<string, string> = {
+  'gg.allen': 'Semua musisi',
+  'gg.allenTitel': 'Orkestra lengkap',
+  'gg.youngKort': 'Young Generation',
+  'gg.silverKort': 'Silver Generation',
+  'gg.mixKort': 'Mix',
   'gg.ensKicker': 'Ensemble kami',
   'gg.ensTitel': 'Tiga kelompok dalam Jiwa Manunggal',
   'gg.ensIntro': 'Jiwa Manunggal tampil dalam tiga formasi, masing-masing dengan karakter dan rentang usia tersendiri.',

@@ -153,7 +153,11 @@ export async function getLeden(taal: string = 'nl') {
     ensembles: Array.isArray(d.ensembles) ? d.ensembles : [],
   });
   const alle = docs.map(map);
-  const gamelan = alle.filter((m) => m.rollen.includes('gamelan'));
+  // Speelt in de gamelangroep als de rol dat zegt, óf als er een ensemble is
+  // aangevinkt. Dat laatste is immers óók een uitspraak dat iemand meespeelt —
+  // anders zou wie als 'vrijwilliger' staat maar wel in Young Generation speelt
+  // onbedoeld van de pagina verdwijnen.
+  const gamelan = alle.filter((m) => m.rollen.includes('gamelan') || m.ensembles.length > 0);
   return {
     bestuur: alle.filter((m) => m.rollen.includes('bestuur')),
     // iedereen buiten het bestuur — iemand kan hier zowel speler als vrijwilliger zijn

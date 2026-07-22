@@ -13,13 +13,14 @@ const initialen = (naam = '') =>
 // De drie ensembles binnen Jiwa Manunggal. Deze staan er altijd — ze horen bij
 // de organisatie, ook als er nog niemand aan is toegewezen in het CMS.
 const groepen = [
-  { sleutel: 'young', leden: ensembles.young, foto: '/assets/perf4.jpg' },
-  { sleutel: 'silver', leden: ensembles.silver, foto: '/assets/perf-gamelan.jpg' },
-  { sleutel: 'mix', leden: ensembles.mix, foto: '/assets/perf2.jpg' },
+  { sleutel: 'young', leden: ensembles.young },
+  { sleutel: 'silver', leden: ensembles.silver },
+  { sleutel: 'mix', leden: ensembles.mix },
 ];
 
-// Is er al iemand ingedeeld? Zo niet, dan tonen we onderaan gewoon alle musici.
-const ingedeeld = groepen.some((g) => g.leden.length > 0);
+// Iedereen wordt in één raster getoond; de filterknoppen bepalen wie zichtbaar is.
+// Zo hoeven leden die in meerdere ensembles spelen niet dubbel te verschijnen.
+const alleMusici = gamelan;
 ---
 <Base taal={taal} title={`${t(taal, "gg.titel")} — Stichting Gema Rasa`}>
   <PageHero
@@ -43,8 +44,8 @@ const ingedeeld = groepen.some((g) => g.leden.length > 0);
     </div>
   </section>
 
-  <!-- DE DRIE ENSEMBLES -->
-  <section class="block batik" style="padding-top:0">
+  <!-- DE DRIE ENSEMBLES + MUSICI -->
+  <section class="block batik" style="padding-top:0" id="ensembles">
     <div class="wrap">
       <div class="ornament" style="margin-bottom:46px"><span></span></div>
       <div class="section-head">
@@ -53,43 +54,36 @@ const ingedeeld = groepen.some((g) => g.leden.length > 0);
         <p>{t(taal, "gg.ensIntro")}</p>
       </div>
 
-      <div class="ensembles">
+      {/* Filterknoppen: iedereen staat in één raster, dus wie in twee ensembles
+          speelt verschijnt niet dubbel op de pagina. */}
+      <div class="filters" id="ensFilters">
+        <button class="chip active" data-ens="all">
+          {t(taal, "gg.allen")} <span class="chip-tel">{alleMusici.length}</span>
+        </button>
         {groepen.map((g) => (
-          <article class="ensemble">
-            <div class="ens-beeld" style={`background-image:url('${g.foto}')`}>
-              {g.leden.length > 0 && (
-                <span class="ens-aantal">{g.leden.length} {t(taal, "gg.leden")}</span>
-              )}
-            </div>
-            <div class="ens-body">
-              <h3>{t(taal, `gg.${g.sleutel}Naam`)}</h3>
-              <span class="ens-leeftijd">{t(taal, `gg.${g.sleutel}Leeftijd`)}</span>
-              <p>{t(taal, `gg.${g.sleutel}Tekst`)}</p>
-              {g.leden.length > 0 && (
-                <ul class="ens-leden">
-                  {g.leden.map((m) => (
-                    <li><strong>{m.naam}</strong>{m.rol && <span> · {m.rol}</span>}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </article>
+          <button class="chip" data-ens={g.sleutel}>
+            {t(taal, `gg.${g.sleutel}Kort`)} <span class="chip-tel">{g.leden.length}</span>
+          </button>
         ))}
       </div>
-    </div>
-  </section>
 
-  <!-- ALLE MUSICI -->
-  <section class="block" style="padding-top:0">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="kicker">{t(taal, "gg.musiciKicker")}</span>
-        <h2>{ingedeeld ? t(taal, "gg.overigTitel") : t(taal, "gg.musiciTitel")}</h2>
-        {ingedeeld && ensembles.overig.length > 0 && <p>{t(taal, "gg.nogIndelen")}</p>}
+      {/* Toelichting bij het gekozen ensemble */}
+      <div class="ens-uitleg" id="ensUitleg">
+        <div data-uitleg="all" class="actief">
+          <h3>{t(taal, "gg.allenTitel")}</h3>
+          <p>{t(taal, "gg.ensIntro")}</p>
+        </div>
+        {groepen.map((g) => (
+          <div data-uitleg={g.sleutel}>
+            <h3>{t(taal, `gg.${g.sleutel}Naam`)} <span class="ens-leeftijd">{t(taal, `gg.${g.sleutel}Leeftijd`)}</span></h3>
+            <p>{t(taal, `gg.${g.sleutel}Tekst`)}</p>
+          </div>
+        ))}
       </div>
-      <div class="team-grid">
-        {(ingedeeld ? ensembles.overig : gamelan).map((m) => (
-          <div class="member">
+
+      <div class="team-grid" id="ensGrid">
+        {alleMusici.map((m) => (
+          <div class="member" data-ens={m.ensembles.join(' ')}>
             {m.foto
               ? <img class="avatar" src={m.foto} alt={m.naam} loading="lazy" />
               : <div class="avatar-fallback" aria-hidden="true">{initialen(m.naam)}</div>}
@@ -98,6 +92,7 @@ const ingedeeld = groepen.some((g) => g.leden.length > 0);
           </div>
         ))}
       </div>
+      <p class="ens-leeg" id="ensLeeg" hidden>{t(taal, "gg.nogIndelen")}</p>
     </div>
   </section>
 
@@ -109,3 +104,25 @@ const ingedeeld = groepen.some((g) => g.leden.length > 0);
     </div>
   </section>
 </Base>
+
+<script>
+  // Filter de musici op ensemble
+  const chips = document.querySelectorAll<HTMLButtonElement>('#ensFilters .chip');
+  const kaarten = document.querySelectorAll<HTMLElement>('#ensGrid .member');
+  const uitleg = document.querySelectorAll<HTMLElement>('#ensUitleg [data-uitleg]');
+  const leeg = document.getElementById('ensLeeg');
+
+  chips.forEach((c) => c.addEventListener('click', () => {
+    const keuze = c.dataset.ens || 'all';
+    chips.forEach((x) => x.classList.toggle('active', x === c));
+    uitleg.forEach((u) => u.classList.toggle('actief', u.dataset.uitleg === keuze));
+
+    let zichtbaar = 0;
+    kaarten.forEach((kaart) => {
+      const hoort = keuze === 'all' || (kaart.dataset.ens || '').split(' ').includes(keuze);
+      kaart.style.display = hoort ? '' : 'none';
+      if (hoort) zichtbaar++;
+    });
+    if (leeg) leeg.hidden = zichtbaar > 0;
+  }));
+</script>
