@@ -45,15 +45,21 @@ const initialen = (naam = '') =>
         <p>Samen vormen zij het geheel dat groter is dan de som der delen.</p>
       </div>
       <div class="team-grid">
-        {leden.map((m) => (
-          <div class="member">
-            {m.foto
-              ? <img class="avatar" src={m.foto} alt={m.naam} loading="lazy" />
-              : <div class="avatar-fallback" aria-hidden="true">{initialen(m.naam)}</div>}
-            <div class="naam">{m.naam}</div>
-            <div class="rol">{m.rol}</div>
-          </div>
-        ))}
+        {leden.map((m) => {
+          // Iemand kan meerdere rollen hebben, bijv. gamelanspeler én vrijwilliger
+          const extra = m.rollen?.includes('vrijwilliger') && !/vrijwillig/i.test(m.rol || '')
+            ? 'Vrijwilliger' : null;
+          const rolTekst = [m.rol, extra].filter(Boolean).join(' · ');
+          return (
+            <div class="member">
+              {m.foto
+                ? <img class="avatar" src={m.foto} alt={m.naam} loading="lazy" />
+                : <div class="avatar-fallback" aria-hidden="true">{initialen(m.naam)}</div>}
+              <div class="naam">{m.naam}</div>
+              <div class="rol">{rolTekst}</div>
+            </div>
+          );
+        })}
         <div class="member" style="border-style:dashed;display:flex;flex-direction:column;justify-content:center">
           <div class="naam">Jij?</div>
           <div class="rol">Vrijwilliger — doe mee</div>

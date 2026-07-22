@@ -75,9 +75,23 @@ const lid = defineType({
     defineField({ name: 'naam', title: 'Naam', type: 'string', validation: (r) => r.required() }),
     defineField({ name: 'rol', title: 'Rol / instrument', type: 'string' }),
     defineField({
-      name: 'groep', title: 'Groep', type: 'string',
-      options: { list: [{ title: 'Bestuur', value: 'bestuur' }, { title: 'Gamelangroep', value: 'gamelan' }, { title: 'Vrijwilliger', value: 'vrijwilliger' }], layout: 'radio' },
-      initialValue: 'gamelan',
+      name: 'rollen', title: 'Rollen', type: 'array', of: [{ type: 'string' }],
+      description: 'Meerdere mogelijk — iemand kan bijvoorbeeld zowel gamelanspeler als vrijwilliger zijn.',
+      options: {
+        list: [
+          { title: 'Bestuur', value: 'bestuur' },
+          { title: 'Gamelangroep', value: 'gamelan' },
+          { title: 'Vrijwilliger', value: 'vrijwilliger' },
+        ],
+        layout: 'grid',
+      },
+      initialValue: ['gamelan'],
+    }),
+    // Oud veld met één rol. Blijft bestaan zodat bestaande gegevens niet verloren
+    // gaan; verdwijnt uit beeld zodra de nieuwe rollen zijn ingevuld.
+    defineField({
+      name: 'groep', title: 'Groep (oude versie)', type: 'string', readOnly: true,
+      hidden: ({ parent }) => !parent?.groep || (parent?.rollen?.length ?? 0) > 0,
     }),
     defineField({ name: 'foto', title: 'Foto (optioneel)', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'volgorde', title: 'Volgorde', type: 'number', initialValue: 50 }),

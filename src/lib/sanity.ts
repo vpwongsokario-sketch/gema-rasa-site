@@ -93,21 +93,26 @@ export async function getAgenda() {
 
 /* ---------- Leden ---------- */
 export async function getLeden() {
-  const docs = await safe<any[]>('*[_type == "lid"] | order(volgorde asc){ naam, rol, groep, foto }');
+  const docs = await safe<any[]>('*[_type == "lid"] | order(volgorde asc){ naam, rol, groep, rollen, foto }');
   if (!docs || docs.length === 0) {
     const musici = ['Vrijwilliger', 'Marketing & Communicatie'];
-    const leeg = (m: any) => ({ ...m, foto: '' });
+    const leeg = (m: any) => ({ ...m, foto: '', rollen: [] });
     return {
       bestuur: local.bestuur.map(leeg),
       leden: local.leden.map(leeg),
       gamelan: local.leden.filter((m) => !musici.includes(m.rol)).map(leeg),
     };
   }
-  const map = (d: any) => ({ naam: d.naam, rol: d.rol, foto: img(d.foto, '') });
+  // Nieuw veld 'rollen' (meerdere) met terugval op het oude 'groep' (één rol)
+  const rollenVan = (d: any): string[] =>
+    Array.isArray(d.rollen) && d.rollen.length ? d.rollen : d.groep ? [d.groep] : [];
+  const map = (d: any) => ({ naam: d.naam, rol: d.rol, foto: img(d.foto, ''), rollen: rollenVan(d) });
+  const alle = docs.map(map);
   return {
-    bestuur: docs.filter((d) => d.groep === 'bestuur').map(map),
-    leden: docs.filter((d) => d.groep !== 'bestuur').map(map),
-    gamelan: docs.filter((d) => d.groep === 'gamelan').map(map),
+    bestuur: alle.filter((m) => m.rollen.includes('bestuur')),
+    // iedereen buiten het bestuur — iemand kan hier zowel speler als vrijwilliger zijn
+    leden: alle.filter((m) => !m.rollen.includes('bestuur')),
+    gamelan: alle.filter((m) => m.rollen.includes('gamelan')),
   };
 }
 
