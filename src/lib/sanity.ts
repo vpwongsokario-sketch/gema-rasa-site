@@ -204,6 +204,42 @@ export async function getMagazines(taal: string = 'nl') {
   }));
 }
 
+/* ---------- Fotoalbums ---------- */
+/** Bouwt een afbeeldings-URL op maat; scheelt bezoekers veel dataverbruik. */
+function beeld(bron: any, breedte: number) {
+  if (!bron) return '';
+  try {
+    return builder.image(bron).width(breedte).fit('max').auto('format').quality(78).url();
+  } catch { return ''; }
+}
+
+export async function getAlbums(taal: string = 'nl') {
+  const docs = await safe<any[]>(
+    '*[_type == "album" && defined(slug.current)] | order(datum desc){ titel, "slug": slug.current, datum, omschrijving, cover, fotos, externeUrl, externeAantal }',
+  );
+  if (!docs) return [];
+  return docs.map((d) => {
+    const fotos = Array.isArray(d.fotos) ? d.fotos : [];
+    return {
+      titel: d.titel ?? '',
+      slug: d.slug,
+      datum: d.datum ?? '',
+      datumLabel: d.datum ? datumLabel(d.datum, taal) : '',
+      omschrijving: d.omschrijving ?? '',
+      // Zonder omslagfoto pakken we de eerste foto uit het album
+      cover: beeld(d.cover ?? fotos[0], 900),
+      aantal: fotos.length,
+      externeUrl: d.externeUrl ?? '',
+      externeAantal: d.externeAantal ?? null,
+      fotos: fotos.map((f: any) => ({
+        tegel: beeld(f, 700),
+        groot: beeld(f, 1800),
+        bijschrift: f?.bijschrift ?? '',
+      })).filter((f: any) => f.tegel),
+    };
+  });
+}
+
 /* ---------- Vrienden ---------- */
 export async function getVrienden() {
   const docs = await safe<any[]>('*[_type == "vriend"]{ naam, type, omschrijving, logo, website }');

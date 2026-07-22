@@ -615,6 +615,54 @@ header.scrolled{box-shadow:0 6px 26px rgba(9,53,31,.13)}
 .social::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--kleur,#fff);flex:none}
 .social:hover{transform:translateY(-3px);background:rgba(244,243,232,.18);border-color:var(--primary)}
 
+/* ---------- fotoalbums ---------- */
+.albums{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:26px}
+.album{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  display:flex;flex-direction:column;transition:transform .25s ease,box-shadow .3s ease}
+.album:hover{transform:translateY(-4px);box-shadow:0 20px 46px rgba(9,53,31,.14)}
+.album-cover{position:relative;aspect-ratio:4/3;background-size:cover;background-position:center;
+  background-color:var(--primary-dark)}
+.album-aantal{position:absolute;left:14px;bottom:12px;background:var(--primary);color:var(--primary-dark);
+  font-family:'Poppins';font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:20px}
+.album-body{padding:24px;display:flex;flex-direction:column;flex:1;gap:6px}
+.album-body h3{font-size:20px;font-weight:700;color:var(--primary-dark);line-height:1.2}
+.album-datum{font-family:'Poppins';font-size:12px;font-weight:600;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--orange)}
+.album-body p{font-family:'Poppins';font-weight:300;font-size:14.5px;color:#4a4a4a;flex:1}
+
+/* raster binnen een album */
+.fotoraster{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));gap:12px}
+.foto{padding:0;border:0;background:none;cursor:pointer;border-radius:12px;overflow:hidden;
+  aspect-ratio:1;transition:transform .25s ease}
+.foto img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.foto:hover{transform:translateY(-3px)}
+.foto:hover img{transform:scale(1.06)}
+.foto:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+.album-acties{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+.pagehead .datum{font-family:'Poppins';font-size:14px;color:var(--primary);margin-top:14px;font-weight:500}
+
+/* vergrootweergave */
+.lightbox{position:fixed;inset:0;z-index:100;background:rgba(9,53,31,.96);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  animation:lbIn .22s ease}
+@keyframes lbIn{from{opacity:0}to{opacity:1}}
+.lb-figuur{margin:0;max-width:min(1200px,92vw);max-height:88vh;display:flex;flex-direction:column;gap:12px}
+.lb-figuur img{max-width:100%;max-height:80vh;object-fit:contain;border-radius:10px;display:block;margin:0 auto}
+.lb-figuur figcaption{color:rgba(244,243,232,.85);font-family:'Poppins';font-size:14px;text-align:center}
+.lb-figuur figcaption:empty{display:none}
+.lb-sluit,.lb-nav{position:absolute;background:rgba(244,243,232,.12);border:1px solid rgba(239,200,62,.3);
+  color:var(--cream);cursor:pointer;border-radius:50%;width:48px;height:48px;font-size:30px;line-height:1;
+  display:grid;place-items:center;transition:background .2s,transform .2s}
+.lb-sluit:hover,.lb-nav:hover{background:rgba(239,200,62,.25);transform:scale(1.06)}
+.lb-sluit{top:20px;right:20px;font-size:34px}
+.lb-vorige{left:16px}
+.lb-volgende{right:16px}
+@media(max-width:640px){
+  .lb-nav{width:42px;height:42px;font-size:26px}
+  .lb-vorige{left:8px}.lb-volgende{right:8px}
+  .lb-sluit{top:12px;right:12px}
+}
+
 /* info-kaarten (contact-locaties) */
 .info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px;margin-top:8px}
 .info-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px}

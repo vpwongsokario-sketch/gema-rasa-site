@@ -1,0 +1,43 @@
+---
+import { taalPaden, t, pad } from '../../../i18n/index.ts';
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import { getAlbums } from '../../../lib/sanity.ts';
+
+const albums = await getAlbums(taal);
+---
+<Base taal={taal} title={`${t(taal, "al.titel")} — Stichting Gema Rasa`}>
+  <PageHero
+    sleutel="albums"
+    eyebrow={t(taal, "al.eyebrow")}
+    titel={t(taal, "al.titel")}
+    tekst={t(taal, "al.intro")}
+    foto="/assets/perf2.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      {albums.length > 0 ? (
+        <div class="albums">
+          {albums.map((a) => (
+            <a class="album" href={pad(taal, `/albums/${a.slug}`)}>
+              <div class="album-cover" style={`background-image:url('${a.cover}')`}>
+                <span class="album-aantal">{a.aantal} {t(taal, "al.fotos")}</span>
+              </div>
+              <div class="album-body">
+                <h3>{a.titel}</h3>
+                {a.datumLabel && <span class="album-datum">{a.datumLabel}</span>}
+                {a.omschrijving && <p>{a.omschrijving}</p>}
+                <span class="more">{t(taal, "al.bekijkAlbum")} →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="ens-leeg">{t(taal, "al.geenAlbums")}</p>
+      )}
+    </div>
+  </section>
+</Base>

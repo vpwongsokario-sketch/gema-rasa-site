@@ -4,6 +4,19 @@
  */
 
 export const paginaNL: Record<string, string> = {
+  'al.eyebrow': "Foto's",
+  'al.titel': 'Fotoalbums',
+  'al.intro': 'Beelden van onze optredens, repetities en projecten.',
+  'al.geenAlbums': 'De eerste fotoalbums verschijnen binnenkort op deze pagina.',
+  'al.fotos': "foto's",
+  'al.bekijkAlbum': 'Bekijk album',
+  'al.alleFotos': "Bekijk alle foto's",
+  'al.alleFotosAantal': "Bekijk alle {n} foto's",
+  'al.terug': '← Alle albums',
+  'al.sluit': 'Sluiten',
+  'al.vorige': 'Vorige foto',
+  'al.volgende': 'Volgende foto',
+  'nav.albums': 'Fotoalbums',
   'nav.over': 'Over ons',
   'nav.groepen': 'Onze groepen',
   'nav.media': 'Media',
@@ -216,6 +229,19 @@ export const paginaNL: Record<string, string> = {
 };
 
 export const paginaEN: Record<string, string> = {
+  'al.eyebrow': 'Photos',
+  'al.titel': 'Photo albums',
+  'al.intro': 'Images from our performances, rehearsals and projects.',
+  'al.geenAlbums': 'The first photo albums will appear on this page soon.',
+  'al.fotos': 'photos',
+  'al.bekijkAlbum': 'View album',
+  'al.alleFotos': 'View all photos',
+  'al.alleFotosAantal': 'View all {n} photos',
+  'al.terug': '← All albums',
+  'al.sluit': 'Close',
+  'al.vorige': 'Previous photo',
+  'al.volgende': 'Next photo',
+  'nav.albums': 'Photo albums',
   'nav.over': 'About us',
   'nav.groepen': 'Our groups',
   'nav.media': 'Media',
@@ -418,6 +444,19 @@ export const paginaEN: Record<string, string> = {
 };
 
 export const paginaID: Record<string, string> = {
+  'al.eyebrow': 'Foto',
+  'al.titel': 'Album foto',
+  'al.intro': 'Gambar dari pertunjukan, latihan dan proyek kami.',
+  'al.geenAlbums': 'Album foto pertama akan segera tampil di halaman ini.',
+  'al.fotos': 'foto',
+  'al.bekijkAlbum': 'Lihat album',
+  'al.alleFotos': 'Lihat semua foto',
+  'al.alleFotosAantal': 'Lihat semua {n} foto',
+  'al.terug': '← Semua album',
+  'al.sluit': 'Tutup',
+  'al.vorige': 'Foto sebelumnya',
+  'al.volgende': 'Foto berikutnya',
+  'nav.albums': 'Album foto',
   'nav.over': 'Tentang kami',
   'nav.groepen': 'Grup kami',
   'nav.media': 'Media',

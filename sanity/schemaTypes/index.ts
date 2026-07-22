@@ -278,6 +278,7 @@ const paginakop = defineType({
         { title: 'Nieuws (overzicht)', value: 'nieuws' },
         { title: 'Magazine Suwara Jawa', value: 'suwara-jawa' },
         { title: "Video's", value: 'videos' },
+        { title: 'Fotoalbums', value: 'albums' },
       ] },
     }),
     defineField({ name: 'afbeelding', title: 'Achtergrondfoto', type: 'image', options: { hotspot: true },
@@ -309,6 +310,36 @@ const magazine = defineType({
       description: 'Upload de editie als PDF; bezoekers kunnen die openen of downloaden.' }),
   ],
   orderings: [{ title: 'Nieuwste eerst', name: 'nieuw', by: [{ field: 'nummer', direction: 'desc' }] }],
+  preview: { select: { title: 'titel', subtitle: 'datum', media: 'cover' } },
+});
+
+/* ---------- Fotoalbum ---------- */
+const album = defineType({
+  name: 'album',
+  title: 'Fotoalbums',
+  type: 'document',
+  description: 'Een selectie foto\'s per evenement. Upload bij voorkeur verkleinde foto\'s (max 2000px) — dat scheelt opslag en de site toont ze toch verkleind.',
+  fields: [
+    defineField({ name: 'titel', title: 'Titel', type: 'string', validation: (r) => r.required() }),
+    defineField({ name: 'slug', title: 'URL-slug', type: 'slug', options: { source: 'titel', maxLength: 96 }, validation: (r) => r.required() }),
+    defineField({ name: 'datum', title: 'Datum van het evenement', type: 'date' }),
+    defineField({ name: 'omschrijving', title: 'Korte omschrijving', type: 'text', rows: 3 }),
+    defineField({ name: 'cover', title: 'Omslagfoto', type: 'image', options: { hotspot: true },
+      description: 'Laat leeg om de eerste foto uit het album te gebruiken.' }),
+    defineField({
+      name: 'fotos', title: "Foto's", type: 'array',
+      of: [{ type: 'image', options: { hotspot: true }, fields: [
+        { name: 'bijschrift', title: 'Bijschrift', type: 'string' },
+      ] }],
+      options: { layout: 'grid' },
+      description: 'Je kunt meerdere foto\'s tegelijk selecteren bij het uploaden.',
+    }),
+    defineField({ name: 'externeUrl', title: 'Link naar volledige galerij', type: 'url',
+      description: 'Bijv. de Tyle-galerij met alle foto\'s. Verschijnt als knop onder het album.' }),
+    defineField({ name: 'externeAantal', title: 'Aantal foto\'s in die galerij', type: 'number',
+      description: 'Alleen voor de knoptekst, bijv. "Bekijk alle 556 foto\'s".' }),
+  ],
+  orderings: [{ title: 'Nieuwste eerst', name: 'datumDesc', by: [{ field: 'datum', direction: 'desc' }] }],
   preview: { select: { title: 'titel', subtitle: 'datum', media: 'cover' } },
 });
 
@@ -371,6 +402,6 @@ const aanmelding = defineType({
 });
 
 export const schemaTypes = [
-  homepage, paginakop, nieuws, evenement, lid, vriend, programma, product, galerijfoto, magazine,
+  homepage, paginakop, nieuws, evenement, lid, vriend, programma, product, galerijfoto, magazine, album,
   bericht, aanmelding,
 ];

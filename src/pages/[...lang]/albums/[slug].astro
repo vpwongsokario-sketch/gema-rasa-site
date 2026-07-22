@@ -1,0 +1,112 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getAlbums } from '../../../lib/sanity.ts';
+import { talen, t, pad } from '../../../i18n/index.ts';
+
+// Elk album × elke taal
+export async function getStaticPaths() {
+  const perTaal = await Promise.all(
+    talen.map(async (taal) => ({ taal, albums: await getAlbums(taal) })),
+  );
+  return perTaal.flatMap(({ taal, albums }) =>
+    albums.map((album) => ({
+      params: { lang: taal === 'nl' ? undefined : taal, slug: album.slug },
+      props: { album, taal },
+    })),
+  );
+}
+
+const { album, taal } = Astro.props;
+
+const alleFotosLabel = album.externeAantal
+  ? t(taal, 'al.alleFotosAantal').replace('{n}', String(album.externeAantal))
+  : t(taal, 'al.alleFotos');
+---
+<Base taal={taal} title={`${album.titel} — Stichting Gema Rasa`} description={album.omschrijving}>
+  <section class="pagehead" style={`--hero-img:url('${album.cover}')`}>
+    <div class="wrap">
+      <span class="eyebrow">{t(taal, "al.eyebrow")}</span>
+      <h1>{album.titel}</h1>
+      {album.datumLabel && <p class="datum">{album.datumLabel} · {album.fotos.length} {t(taal, "al.fotos")}</p>}
+      {album.omschrijving && <p>{album.omschrijving}</p>}
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="fotoraster" id="fotoraster">
+        {album.fotos.map((f, i) => (
+          <button class="foto" data-index={i} data-groot={f.groot} data-bijschrift={f.bijschrift}
+                  aria-label={f.bijschrift || `${t(taal, "al.eyebrow")} ${i + 1}`}>
+            <img src={f.tegel} alt={f.bijschrift || album.titel} loading="lazy" />
+          </button>
+        ))}
+      </div>
+
+      <div class="album-acties">
+        {album.externeUrl && (
+          <a class="btn gold" href={album.externeUrl} target="_blank" rel="noopener">{alleFotosLabel}</a>
+        )}
+        <a class="btn ghost" href={pad(taal, "/albums")}>{t(taal, "al.terug")}</a>
+      </div>
+    </div>
+  </section>
+
+  {/* Vergrootweergave */}
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lb-sluit" id="lbSluit" aria-label={t(taal, "al.sluit")}>&times;</button>
+    <button class="lb-nav lb-vorige" id="lbVorige" aria-label={t(taal, "al.vorige")}>&#8249;</button>
+    <figure class="lb-figuur">
+      <img id="lbBeeld" src="" alt="" />
+      <figcaption id="lbBijschrift"></figcaption>
+    </figure>
+    <button class="lb-nav lb-volgende" id="lbVolgende" aria-label={t(taal, "al.volgende")}>&#8250;</button>
+  </div>
+</Base>
+
+<script>
+  const raster = document.getElementById('fotoraster');
+  const box = document.getElementById('lightbox');
+  const beeld = document.getElementById('lbBeeld') as HTMLImageElement | null;
+  const bijschrift = document.getElementById('lbBijschrift');
+  const knoppen = Array.from(document.querySelectorAll<HTMLButtonElement>('#fotoraster .foto'));
+  let huidig = 0;
+
+  const toon = (i: number) => {
+    if (!knoppen.length || !beeld || !box) return;
+    huidig = (i + knoppen.length) % knoppen.length; // rondlopen
+    const k = knoppen[huidig];
+    beeld.src = k.dataset.groot || '';
+    beeld.alt = k.dataset.bijschrift || '';
+    if (bijschrift) bijschrift.textContent = k.dataset.bijschrift || '';
+    box.hidden = false;
+    document.body.classList.add('menu-open');
+  };
+
+  const sluit = () => {
+    if (!box) return;
+    box.hidden = true;
+    document.body.classList.remove('menu-open');
+  };
+
+  knoppen.forEach((k, i) => k.addEventListener('click', () => toon(i)));
+  document.getElementById('lbSluit')?.addEventListener('click', sluit);
+  document.getElementById('lbVorige')?.addEventListener('click', () => toon(huidig - 1));
+  document.getElementById('lbVolgende')?.addEventListener('click', () => toon(huidig + 1));
+  box?.addEventListener('click', (e) => { if (e.target === box) sluit(); });
+
+  document.addEventListener('keydown', (e) => {
+    if (box?.hidden) return;
+    if (e.key === 'Escape') sluit();
+    if (e.key === 'ArrowLeft') toon(huidig - 1);
+    if (e.key === 'ArrowRight') toon(huidig + 1);
+  });
+
+  // Vegen op mobiel
+  let startX = 0;
+  box?.addEventListener('touchstart', (e) => { startX = e.changedTouches[0].clientX; }, { passive: true });
+  box?.addEventListener('touchend', (e) => {
+    const verschil = e.changedTouches[0].clientX - startX;
+    if (Math.abs(verschil) > 50) toon(huidig + (verschil < 0 ? 1 : -1));
+  }, { passive: true });
+</script>

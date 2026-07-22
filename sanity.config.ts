@@ -30,6 +30,7 @@ export default defineConfig({
             S.documentTypeListItem('nieuws').title('Nieuws'),
             S.documentTypeListItem('galerijfoto').title('Fotostrook'),
             S.documentTypeListItem('magazine').title('Magazine Suwara Jawa'),
+            S.documentTypeListItem('album').title('Fotoalbums'),
             S.documentTypeListItem('evenement').title('Agenda'),
             S.documentTypeListItem('lid').title('Leden'),
             S.documentTypeListItem('vriend').title('Vrienden van'),
