@@ -250,6 +250,7 @@ const paginakop = defineType({
         { title: 'De Stichting', value: 'de-stichting' },
         { title: 'De Leden', value: 'leden' },
         { title: 'De Gamelangroep', value: 'de-gamelan-groep' },
+        { title: 'De Dansgroep', value: 'de-dansgroep' },
         { title: 'De Vrienden van', value: 'de-vrienden-van' },
         { title: 'Contact', value: 'contact' },
         { title: 'Steun ons', value: 'steun' },

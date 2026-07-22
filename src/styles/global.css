@@ -494,6 +494,18 @@ header.scrolled{box-shadow:0 6px 26px rgba(9,53,31,.13)}
   margin-top:8px;max-width:680px}
 .ens-leeg{font-family:'Poppins';font-size:15px;color:var(--gray);text-align:center;padding:36px 0}
 
+/* ---------- naam ontleed (Beksa / Laras / Ati) ---------- */
+.woorden{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:34px}
+.woord{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;
+  padding:30px 28px 28px;overflow:hidden;transition:transform .25s ease,box-shadow .3s ease}
+.woord:hover{transform:translateY(-4px);box-shadow:0 20px 46px rgba(9,53,31,.12)}
+.woord::before{content:"";position:absolute;top:0;left:0;width:100%;height:5px;
+  background:linear-gradient(90deg,var(--primary),var(--orange),var(--secondary))}
+.woord-teken{position:absolute;top:14px;right:20px;font-family:'Bricolage Grotesque',sans-serif;
+  font-size:80px;font-weight:700;line-height:1;color:var(--primary-dark);opacity:.07;pointer-events:none}
+.woord h3{font-size:21px;font-weight:700;color:var(--secondary);margin-bottom:10px;position:relative}
+.woord p{font-family:'Poppins';font-weight:300;font-size:14.5px;color:#4a4a4a;position:relative}
+
 /* info-kaarten (contact-locaties) */
 .info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:8px}
 .info-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px}
