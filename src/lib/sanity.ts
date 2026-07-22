@@ -25,8 +25,19 @@ async function safe<T>(q: string, params: Record<string, unknown> = {}): Promise
   }
 }
 
-const nl = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' });
-const datumLabel = (d: string) => (d ? nl.format(new Date(d)) : '');
+
+/** Kiest het veld in de gevraagde taal; valt terug op Nederlands als de vertaling leeg is. */
+function vertaald(doc: any, veld: string, taal: string = 'nl') {
+  if (taal === 'nl') return doc?.[veld];
+  return doc?.[`${veld}_${taal}`] || doc?.[veld];
+}
+
+const datumOpmaak: Record<string, Intl.DateTimeFormat> = {
+  nl: new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' }),
+  en: new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+  id: new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+};
+const datumLabel = (d: string, taal = 'nl') => (d ? (datumOpmaak[taal] ?? datumOpmaak.nl).format(new Date(d)) : '');
 
 /* ---------- Homepage ---------- */
 export async function getHomepage() {
@@ -72,22 +83,22 @@ export async function getPaginakop(sleutel: string) {
 }
 
 /* ---------- Nieuws ---------- */
-export async function getNieuws() {
-  const docs = await safe<any[]>('*[_type == "nieuws"] | order(datum desc){ "slug": slug.current, categorie, titel, intro, afbeelding }');
+export async function getNieuws(taal: string = 'nl') {
+  const docs = await safe<any[]>('*[_type == "nieuws"] | order(datum desc){ "slug": slug.current, categorie, titel, titel_en, titel_id, intro, intro_en, intro_id, afbeelding }');
   if (!docs || docs.length === 0) return local.nieuws;
   return docs.map((d) => ({
     slug: d.slug ?? '',
     categorie: d.categorie ?? 'Nieuws',
-    titel: d.titel ?? '',
-    intro: d.intro ?? '',
+    titel: vertaald(d, 'titel', taal) ?? '',
+    intro: vertaald(d, 'intro', taal) ?? '',
     afbeelding: img(d.afbeelding, '/assets/perf-gamelan.jpg'),
   }));
 }
 
 /* ---------- Nieuws: volledige artikelen (voor de detailpagina's) ---------- */
-export async function getNieuwsArtikelen() {
+export async function getNieuwsArtikelen(taal: string = 'nl') {
   const docs = await safe<any[]>(
-    '*[_type == "nieuws" && defined(slug.current)] | order(datum desc){ "slug": slug.current, categorie, titel, intro, datum, afbeelding, body }',
+    '*[_type == "nieuws" && defined(slug.current)] | order(datum desc){ "slug": slug.current, categorie, titel, titel_en, titel_id, intro, intro_en, intro_id, datum, afbeelding, body, body_en, body_id }',
   );
   if (!docs || docs.length === 0) {
     // Terugval: de artikelen die we lokaal kennen (nog zonder volledige tekst)
@@ -96,25 +107,30 @@ export async function getNieuwsArtikelen() {
   return docs.map((d) => ({
     slug: d.slug,
     categorie: d.categorie ?? 'Nieuws',
-    titel: d.titel ?? '',
-    intro: d.intro ?? '',
+    titel: vertaald(d, 'titel', taal) ?? '',
+    intro: vertaald(d, 'intro', taal) ?? '',
     datum: d.datum ?? '',
-    datumLabel: d.datum ? datumLabel(d.datum) : '',
+    datumLabel: d.datum ? datumLabel(d.datum, taal) : '',
     afbeelding: img(d.afbeelding, '/assets/perf-gamelan.jpg'),
-    body: d.body ?? null,
+    body: vertaald(d, 'body', taal) ?? null,
   }));
 }
 
 /* ---------- Agenda ---------- */
-export async function getAgenda() {
-  const docs = await safe<any[]>('*[_type == "evenement"] | order(datum desc){ titel, locatie, datum }');
+export async function getAgenda(taal: string = 'nl') {
+  const docs = await safe<any[]>('*[_type == "evenement"] | order(datum desc){ titel, titel_en, titel_id, locatie, locatie_en, locatie_id, datum }');
   if (!docs || docs.length === 0) return local.agenda;
-  return docs.map((d) => ({ titel: d.titel ?? '', locatie: d.locatie ?? '', datum: d.datum, datumLabel: datumLabel(d.datum) }));
+  return docs.map((d) => ({
+    titel: vertaald(d, 'titel', taal) ?? '',
+    locatie: vertaald(d, 'locatie', taal) ?? '',
+    datum: d.datum,
+    datumLabel: datumLabel(d.datum, taal),
+  }));
 }
 
 /* ---------- Leden ---------- */
-export async function getLeden() {
-  const docs = await safe<any[]>('*[_type == "lid"] | order(volgorde asc){ naam, rol, groep, rollen, foto }');
+export async function getLeden(taal: string = 'nl') {
+  const docs = await safe<any[]>('*[_type == "lid"] | order(volgorde asc){ naam, rol, rol_en, rol_id, groep, rollen, foto }');
   if (!docs || docs.length === 0) {
     const musici = ['Vrijwilliger', 'Marketing & Communicatie'];
     const leeg = (m: any) => ({ ...m, foto: '', rollen: [] });
@@ -127,7 +143,12 @@ export async function getLeden() {
   // Nieuw veld 'rollen' (meerdere) met terugval op het oude 'groep' (één rol)
   const rollenVan = (d: any): string[] =>
     Array.isArray(d.rollen) && d.rollen.length ? d.rollen : d.groep ? [d.groep] : [];
-  const map = (d: any) => ({ naam: d.naam, rol: d.rol, foto: img(d.foto, ''), rollen: rollenVan(d) });
+  const map = (d: any) => ({
+    naam: d.naam,
+    rol: vertaald(d, 'rol', taal) ?? '',
+    foto: img(d.foto, ''),
+    rollen: rollenVan(d),
+  });
   const alle = docs.map(map);
   return {
     bestuur: alle.filter((m) => m.rollen.includes('bestuur')),

@@ -6,18 +6,18 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 
 const manieren = [
-  { titel: 'Doneer je tijd', tekst: 'Help eenmalig of structureel mee als vrijwilliger — bij repetities, events of achter de schermen.' },
-  { titel: 'Financiële steun', tekst: 'Word maandelijkse donateur en help ons culturele projecten duurzaam mogelijk te maken.' },
-  { titel: 'Vergroot ons bereik', tekst: 'Volg en deel ons op social media en help zo de Javaanse cultuur te verspreiden.' },
-  { titel: 'Fondsenwerving & events', tekst: 'Zet je talenten in bij het organiseren van evenementen, fondsenwerving en marketing.' },
+  { titel: t(taal, "sn.m1t"), tekst: t(taal, "sn.m1b") },
+  { titel: t(taal, "sn.m2t"), tekst: t(taal, "sn.m2b") },
+  { titel: t(taal, "sn.m3t"), tekst: t(taal, "sn.m3b") },
+  { titel: t(taal, "sn.m4t"), tekst: t(taal, "sn.m4b") },
 ];
 ---
 <Base taal={taal} title="Steun ons — Stichting Gema Rasa">
   <PageHero
     sleutel="steun"
-    eyebrow="Steun ons"
-    titel="Help mee de Javaanse cultuur te verspreiden"
-    tekst="Meer dan 139 mensen steunen ons al. Er zijn verschillende manieren om bij te dragen — groot of klein, iedere bijdrage telt."
+    eyebrow={t(taal, "sn.eyebrow")}
+    titel={t(taal, "sn.titel")}
+    tekst={t(taal, "sn.intro")}
     foto="/assets/perf-wayang.jpg"
   />
 
@@ -40,43 +40,42 @@ const manieren = [
       <div class="split">
         <div>
           <div class="section-head" style="margin-bottom:22px">
-            <span class="kicker">Meedoen</span>
-            <h2>Meld je aan als vrijwilliger of lid</h2>
-            <p>Wil je meespelen in de gamelangroep, meedansen of achter de schermen helpen?
-              Laat je gegevens achter — we nemen contact met je op.</p>
+            <span class="kicker">{t(taal, "sn.aanmeldKicker")}</span>
+            <h2>{t(taal, "sn.aanmeldTitel")}</h2>
+            <p>{t(taal, "sn.aanmeldTekst")}</p>
           </div>
-          <form class="cform" data-formulier="vrijwilliger" data-bedankt="Bedankt voor je aanmelding! We nemen snel contact met je op.">
+          <form class="cform" data-formulier="vrijwilliger" data-bedankt={t(taal, "sn.bedankt")}>
             <div>
-              <label for="v-naam">Naam</label>
+              <label for="v-naam">{t(taal, "ct.naam")}</label>
               <input id="v-naam" name="naam" type="text" required />
             </div>
             <div>
-              <label for="v-email">E-mailadres</label>
+              <label for="v-email">{t(taal, "ct.email")}</label>
               <input id="v-email" name="email" type="email" required />
             </div>
             <div>
-              <label for="v-toelichting">Waarmee wil je helpen?</label>
-              <textarea id="v-toelichting" name="toelichting" placeholder="Bijvoorbeeld: gamelan spelen, dansen, events, techniek, communicatie…"></textarea>
+              <label for="v-toelichting">{t(taal, "sn.waarmee")}</label>
+              <textarea id="v-toelichting" name="toelichting" placeholder={t(taal, "sn.waarmeeHint")}></textarea>
             </div>
             <label class="akkoord donker">
               <input type="checkbox" name="toestemming" required />
-              <span>Ik ga ermee akkoord dat Stichting Gema Rasa mijn gegevens gebruikt om contact met mij op te nemen.</span>
+              <span>{t(taal, "sn.akkoord")}</span>
             </label>
             <input type="text" name="website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true" />
-            <button class="btn gold" type="submit" style="justify-self:start">Aanmelden</button>
+            <button class="btn gold" type="submit" style="justify-self:start">{t(taal, "sn.aanmelden")}</button>
             <p class="form-status" data-status role="status" aria-live="polite"></p>
           </form>
         </div>
         <div>
           <div class="info-card">
-            <h3>Wanneer wordt er geoefend?</h3>
-            <p>Vrijdagavond 19:30–21:30 of zondagmiddag 14:00–16:00, met ruimte voor flexibiliteit.</p>
-            <p style="margin-top:12px">Geen ervaring nodig — je leert het bij ons.</p>
+            <h3>{t(taal, "sn.oefenKop")}</h3>
+            <p>{t(taal, "sn.oefenTekst")}</p>
+            <p style="margin-top:12px">{t(taal, "sn.oefenTekst2")}</p>
           </div>
           <div class="info-card" style="margin-top:18px">
-            <h3>Liever eerst even praten?</h3>
-            <p>Dat kan natuurlijk ook.</p>
-            <a href="/contact" class="btn" style="margin-top:10px">Neem contact op</a>
+            <h3>{t(taal, "sn.pratenKop")}</h3>
+            <p>{t(taal, "sn.pratenTekst")}</p>
+            <a href={pad(taal, "/contact")} class="btn" style="margin-top:10px">{t(taal, "sn.pratenKnop")}</a>
           </div>
         </div>
       </div>

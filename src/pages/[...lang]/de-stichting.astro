@@ -8,44 +8,29 @@ import PageHero from '../../components/PageHero.astro';
 <Base taal={taal} title="De Stichting — Stichting Gema Rasa">
   <PageHero
     sleutel="de-stichting"
-    eyebrow="De Stichting"
-    titel="Transformatie tot traditie"
-    tekst="Stichting Gema Rasa is een culturele organisatie die zich inzet voor de promotie van Javaanse muziek en dans."
+    eyebrow={t(taal, "st.eyebrow")}
+    titel={t(taal, "st.titel")}
+    tekst={t(taal, "st.intro")}
     foto="/assets/perf-expo.jpg"
   />
 
   <section class="block">
     <div class="wrap">
       <div class="prose">
-        <p class="lead">De stichting ontstond uit een onverwacht keerpunt in het najaar van 2023.
-          Een bijeenkomst op 14 oktober bracht een gedeelde visie samen: het behoud van Javaanse
-          cultuur en kunst.</p>
-        <p>Op 20 oktober kreeg de organisatie haar naam en bestuursstructuur, gevolgd door de
-          officiële inschrijving bij de Kamer van Koophandel op 17 januari 2024. De verbonden
-          gamelangroep, <strong>Jiwa Manunggal</strong>, symboliseert het transformeren van
-          tegenslag tot culturele rijkdom.</p>
+        <p class="lead">{t(taal, "st.lead")}</p>
+        <p>{t(taal, "st.p1")}</p>
 
-        <h2>De naam</h2>
-        <h3>Gema — echo</h3>
-        <p>Letterlijk betekent "gema" "echo" in het Javaans en Indonesisch. Het staat voor de
-          weerklank van de rijke tradities van de Javaanse dans en gamelanmuziek, die resoneren
-          door generaties en gemeenschappen wereldwijd.</p>
-        <h3>Rasa — gevoel, essentie</h3>
-        <p>"Rasa" vertaalt zich als "gevoel", "smaak" of "essentie" — de diepe emotionele
-          verbinding en het innerlijke bewustzijn dat ontstaat door het beoefenen en ervaren van
-          Javaanse tradities.</p>
+        <h2>{t(taal, "st.naamKop")}</h2>
+        <h3>{t(taal, "st.gemaKop")}</h3>
+        <p>{t(taal, "st.gemaTekst")}</p>
+        <h3>{t(taal, "st.rasaKop")}</h3>
+        <p>{t(taal, "st.rasaTekst")}</p>
 
-        <h2>Onze visie</h2>
-        <p>Een wereld waarin Javaanse podiumkunsten — traditionele dans, gamelanmuziek en wayang —
-          dienen als krachtige bruggen voor persoonlijke groei, zelfbewustzijn en heling van
-          historische wonden, en die de Javaanse gemeenschappen uit Suriname, Nederland en
-          Indonesië verbinden.</p>
+        <h2>{t(taal, "st.visieKop")}</h2>
+        <p>{t(taal, "st.visieTekst")}</p>
 
-        <h2>Onze missie</h2>
-        <p>Wij promoten Javaanse podiumkunsten als middel om mensen met zichzelf en met elkaar te
-          verbinden. Met educatie, optredens en culturele uitwisseling bouwen we plekken van
-          verbondenheid, respect en wederzijdse verrijking — met oog voor onze gedeelde koloniale
-          geschiedenis.</p>
+        <h2>{t(taal, "st.missieKop")}</h2>
+        <p>{t(taal, "st.missieTekst")}</p>
       </div>
     </div>
   </section>
@@ -53,19 +38,18 @@ import PageHero from '../../components/PageHero.astro';
   <!-- CTA: menukaart -->
   <section class="cta soft" style="margin-bottom:20px">
     <div class="cta-inner">
-      <span class="eyebrow" style="justify-content:center;color:var(--orange)">Voor programmeurs &amp; organisaties</span>
-      <h2>Benieuwd wat we voor jou kunnen betekenen?</h2>
-      <p>Van een korte ceremoniële opening tot een compleet dagprogramma — ontdek ons aanbod aan
-        optredens, workshops en verhalen.</p>
-      <a class="btn gold" href="/menukaart">Bekijk de menukaart</a>
+      <span class="eyebrow" style="justify-content:center;color:var(--orange)">{t(taal, "st.ctaKicker")}</span>
+      <h2>{t(taal, "st.ctaTitel")}</h2>
+      <p>{t(taal, "st.ctaTekst")}</p>
+      <a class="btn gold" href={pad(taal, "/menukaart")}>{t(taal, "st.ctaKnop")}</a>
     </div>
   </section>
 
   <section class="cta">
     <div class="cta-inner">
-      <h2>Help ons mee met het verspreiden van de Javaanse cultuur</h2>
-      <p>Meer dan 139 mensen steunen ons al. Doe je mee?</p>
-      <a class="btn" href="/steun">Doe ook mee</a>
+      <h2>{t(taal, "st.steunTitel")}</h2>
+      <p>{t(taal, "st.steunTekst")}</p>
+      <a class="btn" href={pad(taal, "/steun")}>{t(taal, "st.steunKnop")}</a>
     </div>
   </section>
 </Base>

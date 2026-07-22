@@ -6,8 +6,14 @@ import { toHTML } from '@portabletext/to-html';
 
 // Elk artikel × elke taal
 export async function getStaticPaths() {
-  const artikelen = (await getNieuwsArtikelen()).filter((a) => a.slug);
-  return talen.flatMap((taal) =>
+  // Per taal ophalen, zodat elk artikel de vertaalde tekst krijgt
+  const perTaal = await Promise.all(
+    talen.map(async (taal) => ({
+      taal,
+      artikelen: (await getNieuwsArtikelen(taal)).filter((a) => a.slug),
+    })),
+  );
+  return perTaal.flatMap(({ taal, artikelen }) =>
     artikelen.map((artikel) => ({
       params: { lang: taal === 'nl' ? undefined : taal, slug: artikel.slug },
       props: { artikel, taal },
@@ -35,12 +41,10 @@ const tekst = artikel.body ? toHTML(artikel.body, { components: {} }) : '';
         <p class="lead">{artikel.intro}</p>
         {tekst && <div set:html={tekst} />}
         {!tekst && (
-          <p style="font-size:14px;color:var(--gray)">
-            De volledige tekst van dit bericht wordt nog toegevoegd in het CMS.
-          </p>
+          <p style="font-size:14px;color:var(--gray)">{t(taal, "nw.geenTekst")}</p>
         )}
         <p style="margin-top:38px">
-          <a class="btn" href="/nieuws">← Alle berichten</a>
+          <a class="btn" href={pad(taal, "/nieuws")}>{t(taal, "nw.alle")}</a>
         </p>
       </article>
     </div>

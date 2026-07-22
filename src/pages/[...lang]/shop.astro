@@ -8,20 +8,18 @@ import PageHero from '../../components/PageHero.astro';
 <Base taal={taal} title="Shop — Stichting Gema Rasa">
   <PageHero
     sleutel="shop"
-    eyebrow="SGR Merchandise"
-    titel="Onze webshop"
-    tekst="Exclusieve merchandise, met zorg ontworpen door de jongeren van Stichting Gema Rasa. Met jouw aankoop steun je onze culturele projecten."
+    eyebrow={t(taal, "sh.eyebrow")}
+    titel={t(taal, "sh.titel")}
+    tekst={t(taal, "sh.intro")}
     foto="/assets/perf4.jpg"
   />
 
   <section class="block">
     <div class="wrap">
       <div class="prose">
-        <p class="lead">De webshop wordt in de volgende stap opgezet met een lichte
-          winkelwagen-oplossing (Snipcart), zodat producten, prijzen en bestellingen makkelijk te
-          beheren zijn — zonder duur e-commerceplatform.</p>
-        <p>Wil je nu al iets bestellen of meer weten over de collectie? Neem gerust contact op.</p>
-        <p><a class="btn gold" href="/contact">Contact over merchandise</a></p>
+        <p class="lead">{t(taal, "sh.lead")}</p>
+        <p>{t(taal, "sh.p1")}</p>
+        <p><a class="btn gold" href={pad(taal, "/contact")}>{t(taal, "sh.knop")}</a></p>
       </div>
     </div>
   </section>

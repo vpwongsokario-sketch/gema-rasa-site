@@ -38,14 +38,31 @@ const nieuws = defineType({
   name: 'nieuws',
   title: 'Nieuws',
   type: 'document',
+  // Tabbladen per taal. Laat je Engels of Indonesisch leeg, dan toont de site
+  // automatisch de Nederlandse tekst.
+  groups: [
+    { name: 'nl', title: '🇳🇱 Nederlands', default: true },
+    { name: 'en', title: '🇬🇧 English' },
+    { name: 'id', title: '🇮🇩 Indonesia' },
+    { name: 'algemeen', title: 'Algemeen' },
+  ],
   fields: [
-    defineField({ name: 'titel', title: 'Titel', type: 'string', validation: (r) => r.required() }),
-    defineField({ name: 'slug', title: 'URL-slug', type: 'slug', options: { source: 'titel', maxLength: 96 }, validation: (r) => r.required() }),
-    defineField({ name: 'categorie', title: 'Categorie', type: 'string', initialValue: 'Nieuws' }),
-    defineField({ name: 'datum', title: 'Datum', type: 'date', initialValue: () => new Date().toISOString().slice(0, 10) }),
-    defineField({ name: 'afbeelding', title: 'Afbeelding', type: 'image', options: { hotspot: true } }),
-    defineField({ name: 'intro', title: 'Samenvatting', type: 'text', rows: 3 }),
-    defineField({ name: 'body', title: 'Volledige tekst', type: 'array', of: [{ type: 'block' }, { type: 'image' }] }),
+    defineField({ name: 'titel', title: 'Titel', type: 'string', group: 'nl', validation: (r) => r.required() }),
+    defineField({ name: 'intro', title: 'Samenvatting', type: 'text', rows: 3, group: 'nl' }),
+    defineField({ name: 'body', title: 'Volledige tekst', type: 'array', of: [{ type: 'block' }, { type: 'image' }], group: 'nl' }),
+
+    defineField({ name: 'titel_en', title: 'Title', type: 'string', group: 'en' }),
+    defineField({ name: 'intro_en', title: 'Summary', type: 'text', rows: 3, group: 'en' }),
+    defineField({ name: 'body_en', title: 'Full text', type: 'array', of: [{ type: 'block' }, { type: 'image' }], group: 'en' }),
+
+    defineField({ name: 'titel_id', title: 'Judul', type: 'string', group: 'id' }),
+    defineField({ name: 'intro_id', title: 'Ringkasan', type: 'text', rows: 3, group: 'id' }),
+    defineField({ name: 'body_id', title: 'Teks lengkap', type: 'array', of: [{ type: 'block' }, { type: 'image' }], group: 'id' }),
+
+    defineField({ name: 'slug', title: 'URL-slug', type: 'slug', options: { source: 'titel', maxLength: 96 }, group: 'algemeen', validation: (r) => r.required() }),
+    defineField({ name: 'categorie', title: 'Categorie', type: 'string', initialValue: 'Nieuws', group: 'algemeen' }),
+    defineField({ name: 'datum', title: 'Datum', type: 'date', group: 'algemeen', initialValue: () => new Date().toISOString().slice(0, 10) }),
+    defineField({ name: 'afbeelding', title: 'Afbeelding', type: 'image', options: { hotspot: true }, group: 'algemeen' }),
   ],
   orderings: [{ title: 'Datum, nieuwste eerst', name: 'datumDesc', by: [{ field: 'datum', direction: 'desc' }] }],
   preview: { select: { title: 'titel', subtitle: 'datum', media: 'afbeelding' } },
@@ -57,9 +74,13 @@ const evenement = defineType({
   title: 'Agenda',
   type: 'document',
   fields: [
-    defineField({ name: 'titel', title: 'Titel', type: 'string', validation: (r) => r.required() }),
+    defineField({ name: 'titel', title: 'Titel (NL)', type: 'string', validation: (r) => r.required() }),
+    defineField({ name: 'locatie', title: 'Locatie (NL)', type: 'string' }),
+    defineField({ name: 'titel_en', title: 'Title (EN)', type: 'string', description: 'Leeg laten = Nederlandse titel tonen.' }),
+    defineField({ name: 'locatie_en', title: 'Location (EN)', type: 'string' }),
+    defineField({ name: 'titel_id', title: 'Judul (ID)', type: 'string', description: 'Leeg laten = Nederlandse titel tonen.' }),
+    defineField({ name: 'locatie_id', title: 'Lokasi (ID)', type: 'string' }),
     defineField({ name: 'datum', title: 'Datum', type: 'date', validation: (r) => r.required() }),
-    defineField({ name: 'locatie', title: 'Locatie', type: 'string' }),
     defineField({ name: 'link', title: 'Link (optioneel)', type: 'url' }),
   ],
   orderings: [{ title: 'Datum, nieuwste eerst', name: 'datumDesc', by: [{ field: 'datum', direction: 'desc' }] }],
@@ -73,7 +94,9 @@ const lid = defineType({
   type: 'document',
   fields: [
     defineField({ name: 'naam', title: 'Naam', type: 'string', validation: (r) => r.required() }),
-    defineField({ name: 'rol', title: 'Rol / instrument', type: 'string' }),
+    defineField({ name: 'rol', title: 'Rol / instrument (NL)', type: 'string' }),
+    defineField({ name: 'rol_en', title: 'Role / instrument (EN)', type: 'string', description: 'Leeg laten = Nederlandse tekst tonen.' }),
+    defineField({ name: 'rol_id', title: 'Peran / instrumen (ID)', type: 'string', description: 'Leeg laten = Nederlandse tekst tonen.' }),
     defineField({
       name: 'rollen', title: 'Rollen', type: 'array', of: [{ type: 'string' }],
       description: 'Meerdere mogelijk — iemand kan bijvoorbeeld zowel gamelanspeler als vrijwilliger zijn.',

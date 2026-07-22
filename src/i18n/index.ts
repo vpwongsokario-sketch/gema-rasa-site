@@ -201,9 +201,16 @@ const id: Woordenboek = {
   'algemeen.tickets': 'Tiket',
 };
 
-const woordenboeken: Record<Taal, Woordenboek> = { nl, en, id };
+import { paginaNL, paginaEN, paginaID } from './paginas.ts';
+
+const woordenboeken: Record<Taal, Woordenboek> = {
+  nl: { ...nl, ...paginaNL },
+  en: { ...en, ...paginaEN },
+  id: { ...id, ...paginaID },
+};
+const nlVolledig = woordenboeken.nl;
 
 /** Haalt een tekst op; valt terug op Nederlands als de vertaling ontbreekt. */
 export function t(taal: Taal, sleutel: string): string {
-  return woordenboeken[taal]?.[sleutel] ?? nl[sleutel] ?? sleutel;
+  return woordenboeken[taal]?.[sleutel] ?? nlVolledig[sleutel] ?? sleutel;
 }

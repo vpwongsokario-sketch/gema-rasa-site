@@ -10,9 +10,9 @@ const vrienden = await getVrienden();
 <Base taal={taal} title="De Vrienden van — Stichting Gema Rasa">
   <PageHero
     sleutel="de-vrienden-van"
-    eyebrow="De Vrienden van"
-    titel="Ontmoet onze inspirerende partners"
-    tekst="Organisaties en individuen die met ons samenwerken en ons inspireren — een divers netwerk van culturele groepen, instellingen en toegewijde mensen."
+    eyebrow={t(taal, "vr.eyebrow")}
+    titel={t(taal, "vr.titel")}
+    tekst={t(taal, "vr.intro")}
     foto="/assets/perf3.jpg"
   />
 
@@ -38,9 +38,9 @@ const vrienden = await getVrienden();
 
   <section class="cta">
     <div class="cta-inner">
-      <h2>Word ook een Vriend van Gema Rasa</h2>
-      <p>Samenwerken, sponsoren of ons steunen? We komen graag met je in gesprek.</p>
-      <a class="btn" href="/contact">Neem contact op</a>
+      <h2>{t(taal, "vr.ctaTitel")}</h2>
+      <p>{t(taal, "vr.ctaTekst")}</p>
+      <a class="btn" href={pad(taal, "/contact")}>{t(taal, "vr.ctaKnop")}</a>
     </div>
   </section>
 </Base>

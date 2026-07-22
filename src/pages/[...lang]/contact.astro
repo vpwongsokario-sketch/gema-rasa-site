@@ -9,9 +9,9 @@ import { contact } from '../../data/content.js';
 <Base taal={taal} title="Contact — Stichting Gema Rasa">
   <PageHero
     sleutel="contact"
-    eyebrow="Contact"
-    titel="Stuur ons een bericht"
-    tekst="Vragen over een boeking, meedoen of samenwerken? We horen graag van je."
+    eyebrow={t(taal, "ct.eyebrow")}
+    titel={t(taal, "ct.titel")}
+    tekst={t(taal, "ct.intro")}
     foto="/assets/perf4.jpg"
   />
 
@@ -19,35 +19,33 @@ import { contact } from '../../data/content.js';
     <div class="wrap">
       <div class="split">
         <div>
-          <form class="cform" data-formulier="contact" data-bedankt="Bedankt! We hebben je bericht ontvangen en nemen snel contact op.">
+          <form class="cform" data-formulier="contact" data-bedankt={t(taal, "ct.bedankt")}>
             <div>
-              <label for="naam">Naam</label>
+              <label for="naam">{t(taal, "ct.naam")}</label>
               <input id="naam" name="naam" type="text" required />
             </div>
             <div>
-              <label for="email">E-mailadres</label>
+              <label for="email">{t(taal, "ct.email")}</label>
               <input id="email" name="email" type="email" required />
             </div>
             <div>
-              <label for="onderwerp">Onderwerp</label>
+              <label for="onderwerp">{t(taal, "ct.onderwerp")}</label>
               <input id="onderwerp" name="onderwerp" type="text" />
             </div>
             <div>
-              <label for="bericht">Bericht</label>
+              <label for="bericht">{t(taal, "ct.bericht")}</label>
               <textarea id="bericht" name="bericht" required></textarea>
             </div>
             <input type="text" name="website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true" />
-            <button class="btn gold" type="submit" style="justify-self:start">Verstuur bericht</button>
+            <button class="btn gold" type="submit" style="justify-self:start">{t(taal, "ct.verstuur")}</button>
             <p class="form-status" data-status role="status" aria-live="polite"></p>
-            <p style="font-family:'Poppins';font-size:12.5px;color:var(--gray);line-height:1.5">
-              We gebruiken je gegevens alleen om je vraag te beantwoorden.
-            </p>
+            <p style="font-family:'Poppins';font-size:12.5px;color:var(--gray);line-height:1.5">{t(taal, "ct.privacy")}</p>
           </form>
         </div>
         <div>
           <div class="section-head" style="margin-bottom:20px">
-            <span class="kicker">Onze locaties</span>
-            <h2 style="font-size:26px">Waar je ons vindt</h2>
+            <span class="kicker">{t(taal, "ct.locatiesKicker")}</span>
+            <h2 style="font-size:26px">{t(taal, "ct.locatiesTitel")}</h2>
           </div>
           <div class="info-cards">
             {contact.locaties.map((l) => (

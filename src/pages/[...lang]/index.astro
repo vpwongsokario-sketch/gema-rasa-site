@@ -6,8 +6,8 @@ import Base from '../../layouts/Base.astro';
 import { getHomepage, getNieuws, getAgenda, getGalerij } from '../../lib/sanity.ts';
 
 const { hero, productie } = await getHomepage();
-const nieuws = await getNieuws();
-const agenda = await getAgenda();
+const nieuws = await getNieuws(taal);
+const agenda = await getAgenda(taal);
 const galerij = await getGalerij();
 
 // Titel met accent-woord in goud (uit CMS)

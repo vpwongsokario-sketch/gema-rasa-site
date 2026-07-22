@@ -5,7 +5,7 @@ const { taal } = Astro.props;
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import { getLeden } from '../../lib/sanity.ts';
-const { gamelan } = await getLeden();
+const { gamelan } = await getLeden(taal);
 
 const initialen = (naam = '') =>
   naam.split(/[\s-]+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
@@ -13,26 +13,21 @@ const initialen = (naam = '') =>
 <Base taal={taal} title="De Gamelangroep Jiwa Manunggal — Stichting Gema Rasa">
   <PageHero
     sleutel="de-gamelan-groep"
-    eyebrow="De Gamelangroep"
-    titel="Jiwa Manunggal"
-    tekst="Zielen die samenkomen in eenheid — een collectieve uiting die groter is dan de som der delen."
+    eyebrow={t(taal, "gg.eyebrow")}
+    titel={t(taal, "gg.titel")}
+    tekst={t(taal, "gg.intro")}
     foto="/assets/perf2.jpg"
   />
 
   <section class="block">
     <div class="wrap">
       <div class="prose">
-        <h2>De naam</h2>
-        <h3>Jiwa — ziel</h3>
-        <p>"Jiwa" betekent "ziel": de essentie en innerlijke geest van individu en gemeenschap. Het
-          omvat de emoties, gevoelens en passie die artiesten en luisteraars verbinden, en de
-          persoonlijke verrijking die een culturele ervaring geeft.</p>
-        <h3>Manunggal — verenigd</h3>
-        <p>"Manunggal" betekent "verenigd" of "samen". Het benadrukt de samenhang binnen de groep:
-          hoe individuele talenten samensmelten tot een harmonieus geheel.</p>
-        <p><strong>Jiwa Manunggal</strong> verbeeldt zielen die samenkomen in eenheid — een
-          weerspiegeling van de visie van Stichting Gema Rasa om met Javaanse kunsten sterkere,
-          verbonden gemeenschappen te bouwen.</p>
+        <h2>{t(taal, "gg.naamKop")}</h2>
+        <h3>{t(taal, "gg.jiwaKop")}</h3>
+        <p>{t(taal, "gg.jiwaTekst")}</p>
+        <h3>{t(taal, "gg.manunggalKop")}</h3>
+        <p>{t(taal, "gg.manunggalTekst")}</p>
+        <p>{t(taal, "gg.samenTekst")}</p>
       </div>
     </div>
   </section>
@@ -40,8 +35,8 @@ const initialen = (naam = '') =>
   <section class="block" style="padding-top:0">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">De musici</span>
-        <h2>Wie het orkest vormen</h2>
+        <span class="kicker">{t(taal, "gg.musiciKicker")}</span>
+        <h2>{t(taal, "gg.musiciTitel")}</h2>
       </div>
       <div class="team-grid">
         {gamelan.map((m) => (
@@ -59,9 +54,9 @@ const initialen = (naam = '') =>
 
   <section class="cta">
     <div class="cta-inner">
-      <h2>Nodig Jiwa Manunggal uit voor uw evenement</h2>
-      <p>Beleef de betoverende muziek van de gamelangroep van Stichting Gema Rasa — live op uw podium.</p>
-      <a class="btn" href="/menukaart">Bekijk het aanbod</a>
+      <h2>{t(taal, "gg.ctaTitel")}</h2>
+      <p>{t(taal, "gg.ctaTekst")}</p>
+      <a class="btn" href={pad(taal, "/menukaart")}>{t(taal, "gg.ctaKnop")}</a>
     </div>
   </section>
 </Base>

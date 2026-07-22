@@ -5,7 +5,7 @@ const { taal } = Astro.props;
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import { getLeden } from '../../lib/sanity.ts';
-const { bestuur, leden } = await getLeden();
+const { bestuur, leden } = await getLeden(taal);
 
 // Initialen als er nog geen foto is geüpload
 const initialen = (naam = '') =>
@@ -14,17 +14,17 @@ const initialen = (naam = '') =>
 <Base taal={taal} title="De Leden — Stichting Gema Rasa">
   <PageHero
     sleutel="leden"
-    eyebrow="De Leden"
-    titel="We zijn meer dan een Javaanse stichting"
-    tekst="Bij SGR geloven we in de kracht van culturele verbinding en het doorgeven van ons rijke Javaanse erfgoed — over generaties en gemeenschappen heen."
+    eyebrow={t(taal, "ld.eyebrow")}
+    titel={t(taal, "ld.titel")}
+    tekst={t(taal, "ld.intro")}
     foto="/assets/perf-gamelan.jpg"
   />
 
   <section class="block">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Het bestuur</span>
-        <h2>Wie leiden de stichting</h2>
+        <span class="kicker">{t(taal, "ld.bestuurKicker")}</span>
+        <h2>{t(taal, "ld.bestuurTitel")}</h2>
       </div>
       <div class="team-grid">
         {bestuur.map((m) => (
@@ -43,15 +43,15 @@ const initialen = (naam = '') =>
   <section class="block" style="padding-top:0">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Gamelangroep Jiwa Manunggal</span>
-        <h2>De musici &amp; vrijwilligers</h2>
-        <p>Samen vormen zij het geheel dat groter is dan de som der delen.</p>
+        <span class="kicker">{t(taal, "ld.groepKicker")}</span>
+        <h2>{t(taal, "ld.groepTitel")}</h2>
+        <p>{t(taal, "ld.groepTekst")}</p>
       </div>
       <div class="team-grid">
         {leden.map((m) => {
           // Iemand kan meerdere rollen hebben, bijv. gamelanspeler én vrijwilliger
           const extra = m.rollen?.includes('vrijwilliger') && !/vrijwillig/i.test(m.rol || '')
-            ? 'Vrijwilliger' : null;
+            ? t(taal, "ld.vrijwilliger") : null;
           const rolTekst = [m.rol, extra].filter(Boolean).join(' · ');
           return (
             <div class="member">
@@ -64,8 +64,8 @@ const initialen = (naam = '') =>
           );
         })}
         <div class="member" style="border-style:dashed;display:flex;flex-direction:column;justify-content:center">
-          <div class="naam">Jij?</div>
-          <div class="rol">Vrijwilliger — doe mee</div>
+          <div class="naam">{t(taal, "ld.jij")}</div>
+          <div class="rol">{t(taal, "ld.jijRol")}</div>
         </div>
       </div>
     </div>
@@ -75,16 +75,14 @@ const initialen = (naam = '') =>
   <section class="block" style="padding-top:0">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Veelgestelde vragen</span>
-        <h2>Meedoen met Jiwa Manunggal</h2>
+        <span class="kicker">{t(taal, "ld.faqKicker")}</span>
+        <h2>{t(taal, "ld.faqTitel")}</h2>
       </div>
       <div class="prose">
-        <h3>Hoe word ik lid van Stichting Gema Rasa?</h3>
-        <p>Neem contact op via de <a href="/contact" style="color:var(--secondary)">contactpagina</a>
-          of mail naar <a href="mailto:info@stichtinggemarasa.com" style="color:var(--secondary)">info@stichtinggemarasa.com</a>.</p>
-        <h3>Wanneer oefent de gamelangroep Jiwa Manunggal?</h3>
-        <p>De repetities vinden plaats op vrijdagavond (19:30–21:30) of zondagmiddag (14:00–16:00),
-          met ruimte voor flexibiliteit. Neem contact op voor de actuele data.</p>
+        <h3>{t(taal, "ld.faq1V")}</h3>
+        <p>{t(taal, "ld.faq1A")}</p>
+        <h3>{t(taal, "ld.faq2V")}</h3>
+        <p>{t(taal, "ld.faq2A")}</p>
       </div>
     </div>
   </section>

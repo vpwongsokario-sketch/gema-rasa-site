@@ -11,9 +11,9 @@ const programmas = await getProgrammas();
 <Base taal={taal} title="Wat we voor je kunnen doen — Culturele Menukaart | Stichting Gema Rasa">
   <PageHero
     sleutel="menukaart"
-    eyebrow="Culturele Menukaart"
-    titel="Wat we voor je kunnen doen"
-    tekst="Van een korte ceremoniële opening tot een compleet dagprogramma. Wij zetten niet alleen een programma neer, maar een ervaring die mensen raakt, verbindt en bijblijft."
+    eyebrow={t(taal, "mk.eyebrow")}
+    titel={t(taal, "mk.titel")}
+    tekst={t(taal, "mk.intro")}
     foto="/assets/perf-wayang.jpg"
   />
 
@@ -21,10 +21,9 @@ const programmas = await getProgrammas();
   <section class="block" id="menukaart">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Kies jouw beleving</span>
-        <h2>Optredens, workshops &amp; verhalen</h2>
-        <p>Filter op wat past bij jouw event en doelgroep — theaters, musea, festivals, educatie,
-          bedrijven of community events.</p>
+        <span class="kicker">{t(taal, "mk.kiesKicker")}</span>
+        <h2>{t(taal, "mk.kiesTitel")}</h2>
+        <p>{t(taal, "mk.kiesTekst")}</p>
       </div>
       <div class="filters" id="filters">
         {filters.map((f, i) => (
@@ -50,9 +49,9 @@ const programmas = await getProgrammas();
   <section class="block video-sec" id="video">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Bekijk &amp; beluister</span>
-        <h2>Zie de beleving in beweging</h2>
-        <p>Korte fragmenten maken de menukaart tastbaar — hoor de gamelan en zie de dans vóór je boekt.</p>
+        <span class="kicker">{t(taal, "mk.videoKicker")}</span>
+        <h2>{t(taal, "mk.videoTitel")}</h2>
+        <p>{t(taal, "mk.videoTekst")}</p>
       </div>
       <div class="vgrid">
         {videos.map((v) => (
@@ -69,10 +68,9 @@ const programmas = await getProgrammas();
   <!-- CTA -->
   <section class="cta">
     <div class="cta-inner">
-      <h2>Twijfel je wat het beste past?</h2>
-      <p>Wij denken graag mee en stellen een programma samen dat perfect aansluit op jouw
-        doelgroep en doelstelling.</p>
-      <a class="btn" href="/contact">Vraag maatwerk aan</a>
+      <h2>{t(taal, "mk.ctaTitel")}</h2>
+      <p>{t(taal, "mk.ctaTekst")}</p>
+      <a class="btn" href={pad(taal, "/contact")}>{t(taal, "mk.ctaKnop")}</a>
     </div>
   </section>
 </Base>
