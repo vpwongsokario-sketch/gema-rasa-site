@@ -164,4 +164,64 @@ const galerijfoto = defineType({
   preview: { select: { title: 'bijschrift', media: 'afbeelding' }, prepare: ({ title, media }) => ({ title: title || 'Foto', media }) },
 });
 
-export const schemaTypes = [homepage, nieuws, evenement, lid, vriend, programma, product, galerijfoto];
+/* ---------- Binnengekomen berichten (contactformulier) ---------- */
+const bericht = defineType({
+  name: 'bericht',
+  title: 'Berichten',
+  type: 'document',
+  // Alleen-lezen: deze documenten komen van de website, niet uit het Studio
+  fields: [
+    defineField({ name: 'naam', title: 'Naam', type: 'string', readOnly: true }),
+    defineField({ name: 'email', title: 'E-mailadres', type: 'string', readOnly: true }),
+    defineField({ name: 'onderwerp', title: 'Onderwerp', type: 'string', readOnly: true }),
+    defineField({ name: 'bericht', title: 'Bericht', type: 'text', rows: 6, readOnly: true }),
+    defineField({ name: 'ontvangen', title: 'Ontvangen op', type: 'datetime', readOnly: true }),
+    defineField({ name: 'afgehandeld', title: 'Afgehandeld', type: 'boolean', initialValue: false,
+      description: 'Vink aan als dit bericht is beantwoord.' }),
+  ],
+  orderings: [{ title: 'Nieuwste eerst', name: 'nieuw', by: [{ field: 'ontvangen', direction: 'desc' }] }],
+  preview: {
+    select: { title: 'naam', subtitle: 'onderwerp', afgehandeld: 'afgehandeld' },
+    prepare: ({ title, subtitle, afgehandeld }) => ({
+      title: `${afgehandeld ? '✓ ' : ''}${title || 'Onbekend'}`,
+      subtitle: subtitle || 'Geen onderwerp',
+    }),
+  },
+});
+
+/* ---------- Aanmeldingen (nieuwsbrief & vrijwilliger) ---------- */
+const aanmelding = defineType({
+  name: 'aanmelding',
+  title: 'Aanmeldingen',
+  type: 'document',
+  fields: [
+    defineField({ name: 'naam', title: 'Naam', type: 'string', readOnly: true }),
+    defineField({ name: 'email', title: 'E-mailadres', type: 'string', readOnly: true }),
+    defineField({
+      name: 'soort', title: 'Soort aanmelding', type: 'string', readOnly: true,
+      options: { list: [
+        { title: 'Nieuwsbrief', value: 'nieuwsbrief' },
+        { title: 'Vrijwilliger / lid', value: 'vrijwilliger' },
+      ] },
+    }),
+    defineField({ name: 'toelichting', title: 'Toelichting', type: 'text', rows: 4, readOnly: true,
+      description: 'Waarmee wil deze persoon helpen / meespelen.' }),
+    defineField({ name: 'toestemming', title: 'Toestemming gegeven', type: 'boolean', readOnly: true,
+      description: 'AVG: heeft expliciet ingestemd met het ontvangen van e-mail.' }),
+    defineField({ name: 'ontvangen', title: 'Ontvangen op', type: 'datetime', readOnly: true }),
+    defineField({ name: 'verwerkt', title: 'Verwerkt', type: 'boolean', initialValue: false,
+      description: 'Vink aan als deze persoon is toegevoegd aan de mailinglijst of benaderd is.' }),
+  ],
+  orderings: [{ title: 'Nieuwste eerst', name: 'nieuw', by: [{ field: 'ontvangen', direction: 'desc' }] }],
+  preview: {
+    select: { title: 'email', soort: 'soort', naam: 'naam', verwerkt: 'verwerkt' },
+    prepare: ({ title, soort, naam, verwerkt }) => ({
+      title: `${verwerkt ? '✓ ' : ''}${naam || title || 'Onbekend'}`,
+      subtitle: soort === 'vrijwilliger' ? 'Vrijwilliger / lid' : 'Nieuwsbrief',
+    }),
+  },
+});
+
+export const schemaTypes = [
+  homepage, nieuws, evenement, lid, vriend, programma, product, galerijfoto, bericht, aanmelding,
+];

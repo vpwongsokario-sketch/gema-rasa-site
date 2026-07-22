@@ -31,11 +31,52 @@ const manieren = [
     </div>
   </section>
 
-  <section class="cta">
-    <div class="cta-inner">
-      <h2>Doe met ons mee</h2>
-      <p>Neem contact op en laat weten hoe jij wilt bijdragen. We denken graag met je mee.</p>
-      <a class="btn" href="/contact">Neem contact op</a>
+  <!-- AANMELDEN ALS VRIJWILLIGER / LID -->
+  <section class="block" id="aanmelden" style="padding-top:0">
+    <div class="wrap">
+      <div class="split">
+        <div>
+          <div class="section-head" style="margin-bottom:22px">
+            <span class="kicker">Meedoen</span>
+            <h2>Meld je aan als vrijwilliger of lid</h2>
+            <p>Wil je meespelen in de gamelangroep, meedansen of achter de schermen helpen?
+              Laat je gegevens achter — we nemen contact met je op.</p>
+          </div>
+          <form class="cform" data-formulier="vrijwilliger" data-bedankt="Bedankt voor je aanmelding! We nemen snel contact met je op.">
+            <div>
+              <label for="v-naam">Naam</label>
+              <input id="v-naam" name="naam" type="text" required />
+            </div>
+            <div>
+              <label for="v-email">E-mailadres</label>
+              <input id="v-email" name="email" type="email" required />
+            </div>
+            <div>
+              <label for="v-toelichting">Waarmee wil je helpen?</label>
+              <textarea id="v-toelichting" name="toelichting" placeholder="Bijvoorbeeld: gamelan spelen, dansen, events, techniek, communicatie…"></textarea>
+            </div>
+            <label class="akkoord donker">
+              <input type="checkbox" name="toestemming" required />
+              <span>Ik ga ermee akkoord dat Stichting Gema Rasa mijn gegevens gebruikt om contact met mij op te nemen.</span>
+            </label>
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true" />
+            <button class="btn gold" type="submit" style="justify-self:start">Aanmelden</button>
+            <p class="form-status" data-status role="status" aria-live="polite"></p>
+          </form>
+        </div>
+        <div>
+          <div class="info-card">
+            <h3>Wanneer wordt er geoefend?</h3>
+            <p>Vrijdagavond 19:30–21:30 of zondagmiddag 14:00–16:00, met ruimte voor flexibiliteit.</p>
+            <p style="margin-top:12px">Geen ervaring nodig — je leert het bij ons.</p>
+          </div>
+          <div class="info-card" style="margin-top:18px">
+            <h3>Liever eerst even praten?</h3>
+            <p>Dat kan natuurlijk ook.</p>
+            <a href="/contact" class="btn" style="margin-top:10px">Neem contact op</a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </Base>

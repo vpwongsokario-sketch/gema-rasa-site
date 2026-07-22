@@ -54,12 +54,19 @@ const { title = 'Stichting Gema Rasa — Bruggen bouwen met Javaanse podiumkunst
           <p style="margin-top:14px">Een culturele organisatie die zich inzet voor de promotie van
             Javaanse muziek en dans. Met passie en toewijding brengen wij de rijke tradities van Java
             naar een breed publiek.</p>
-          <form class="newsletter" onsubmit="return false">
-            <label>Schrijf je in voor onze nieuwsbrief</label>
+          <form class="newsletter" data-formulier="nieuwsbrief" data-bedankt="Bedankt! Je staat op de lijst.">
+            <label for="nl-email">Schrijf je in voor onze nieuwsbrief</label>
             <div class="nl-row">
-              <input type="email" placeholder="jouw@e-mail.nl" aria-label="E-mailadres" />
+              <input id="nl-email" name="email" type="email" required placeholder="jouw@e-mail.nl" aria-label="E-mailadres" />
               <button class="btn gold" type="submit">Inschrijven</button>
             </div>
+            <label class="akkoord">
+              <input type="checkbox" name="toestemming" required />
+              <span>Ja, stuur mij de nieuwsbrief. Afmelden kan altijd.</span>
+            </label>
+            {/* Verborgen veld tegen spambots */}
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true" />
+            <p class="form-status" data-status role="status" aria-live="polite"></p>
           </form>
         </div>
         <div>
@@ -139,6 +146,48 @@ const { title = 'Stichting Gema Rasa — Bruggen bouwen met Javaanse podiumkunst
     const bijScroll = () => kop?.classList.toggle('scrolled', window.scrollY > 8);
     bijScroll();
     window.addEventListener('scroll', bijScroll, { passive: true });
+
+    // --- Formulieren versturen (contact, nieuwsbrief, vrijwilliger) ---
+    document.querySelectorAll<HTMLFormElement>('form[data-formulier]').forEach((form) => {
+      const status = form.querySelector<HTMLElement>('[data-status]');
+      const knop = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      const knopTekst = knop?.textContent ?? '';
+
+      const meld = (tekst: string, gelukt: boolean) => {
+        if (!status) return;
+        status.textContent = tekst;
+        status.dataset.staat = gelukt ? 'ok' : 'fout';
+      };
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const velden = Object.fromEntries(new FormData(form) as any);
+        velden.soort = form.dataset.formulier;
+
+        if (knop) { knop.disabled = true; knop.textContent = 'Bezig…'; }
+        meld('', true);
+
+        try {
+          const res = await fetch('/api/formulier', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(velden),
+          });
+          const uitslag = await res.json().catch(() => ({ ok: false }));
+
+          if (res.ok && uitslag.ok) {
+            form.reset();
+            meld(form.dataset.bedankt || 'Bedankt! We hebben je bericht ontvangen.', true);
+          } else {
+            meld(uitslag.fout || 'Er ging iets mis. Probeer het later nog eens.', false);
+          }
+        } catch {
+          meld('Geen verbinding. Controleer je internet en probeer het opnieuw.', false);
+        } finally {
+          if (knop) { knop.disabled = false; knop.textContent = knopTekst; }
+        }
+      });
+    });
   </script>
 </body>
 </html>

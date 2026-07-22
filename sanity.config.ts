@@ -33,6 +33,10 @@ export default defineConfig({
             S.documentTypeListItem('vriend').title('Vrienden van'),
             S.documentTypeListItem('programma').title('Menukaart'),
             S.documentTypeListItem('product').title('Shop'),
+            S.divider(),
+            // Binnengekomen via de website (niet bewerkbaar, alleen inzien)
+            S.documentTypeListItem('bericht').title('📥 Berichten'),
+            S.documentTypeListItem('aanmelding').title('📥 Aanmeldingen'),
           ]),
     }),
     visionTool(),

@@ -392,6 +392,25 @@ header.scrolled{box-shadow:0 6px 26px rgba(9,53,31,.13)}
 .cform input:focus,.cform textarea:focus{outline:none;border-color:var(--secondary)}
 .cform textarea{min-height:130px;resize:vertical}
 
+/* verborgen spam-val: onzichtbaar voor mensen, wel invulbaar voor bots */
+.honeypot{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;
+  opacity:0!important;pointer-events:none!important}
+
+/* toestemmingsvinkje */
+.akkoord{display:flex;gap:10px;align-items:flex-start;font-family:'Poppins';font-size:12.5px;
+  font-weight:300;line-height:1.45;cursor:pointer;margin-top:12px;color:rgba(244,243,232,.8)}
+.akkoord input{margin-top:2px;accent-color:var(--primary);flex:none;width:15px;height:15px;cursor:pointer}
+.akkoord.donker{color:var(--gray)}
+.akkoord.donker input{accent-color:var(--secondary)}
+
+/* statusmelding onder een formulier */
+.form-status{font-family:'Poppins';font-size:13.5px;font-weight:500;margin:0;min-height:1px}
+.form-status:empty{display:none}
+.form-status[data-staat="ok"]{color:var(--secondary)}
+.form-status[data-staat="fout"]{color:#c0392b}
+footer .form-status[data-staat="ok"]{color:var(--primary)}
+footer .form-status[data-staat="fout"]{color:#ff9b8a}
+
 /* twee-koloms layout voor contact */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
 @media(max-width:820px){.split{grid-template-columns:1fr}}

@@ -15,7 +15,7 @@ import { contact } from '../data/content.js';
     <div class="wrap">
       <div class="split">
         <div>
-          <form class="cform" id="contactForm" onsubmit="return false">
+          <form class="cform" data-formulier="contact" data-bedankt="Bedankt! We hebben je bericht ontvangen en nemen snel contact op.">
             <div>
               <label for="naam">Naam</label>
               <input id="naam" name="naam" type="text" required />
@@ -32,8 +32,12 @@ import { contact } from '../data/content.js';
               <label for="bericht">Bericht</label>
               <textarea id="bericht" name="bericht" required></textarea>
             </div>
-            <button class="btn gold" type="submit">Verstuur bericht</button>
-            <p id="formNote" style="font-family:'Poppins';font-size:13px;color:var(--gray)"></p>
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true" />
+            <button class="btn gold" type="submit" style="justify-self:start">Verstuur bericht</button>
+            <p class="form-status" data-status role="status" aria-live="polite"></p>
+            <p style="font-family:'Poppins';font-size:12.5px;color:var(--gray);line-height:1.5">
+              We gebruiken je gegevens alleen om je vraag te beantwoorden.
+            </p>
           </form>
         </div>
         <div>
@@ -59,13 +63,4 @@ import { contact } from '../data/content.js';
     </div>
   </section>
 
-  <script>
-    // Tijdelijke afhandeling — wordt straks gekoppeld aan een formulierdienst (bv. Formspree)
-    const form = document.getElementById('contactForm') as HTMLFormElement | null;
-    const note = document.getElementById('formNote');
-    form?.addEventListener('submit', () => {
-      if (note) note.textContent = 'Bedankt! Je bericht is genoteerd — koppeling met e-mail volgt in de volgende stap.';
-      form.reset();
-    });
-  </script>
 </Base>
