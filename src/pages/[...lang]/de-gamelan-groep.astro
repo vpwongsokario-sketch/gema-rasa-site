@@ -10,12 +10,16 @@ const { gamelan, ensembles } = await getLeden(taal);
 const initialen = (naam = '') =>
   naam.split(/[\s-]+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
 
-// De drie ensembles binnen Jiwa Manunggal
+// De drie ensembles binnen Jiwa Manunggal. Deze staan er altijd — ze horen bij
+// de organisatie, ook als er nog niemand aan is toegewezen in het CMS.
 const groepen = [
   { sleutel: 'young', leden: ensembles.young, foto: '/assets/perf4.jpg' },
   { sleutel: 'silver', leden: ensembles.silver, foto: '/assets/perf-gamelan.jpg' },
   { sleutel: 'mix', leden: ensembles.mix, foto: '/assets/perf2.jpg' },
-].filter((g) => g.leden.length > 0);
+];
+
+// Is er al iemand ingedeeld? Zo niet, dan tonen we onderaan gewoon alle musici.
+const ingedeeld = groepen.some((g) => g.leden.length > 0);
 ---
 <Base taal={taal} title={`${t(taal, "gg.titel")} — Stichting Gema Rasa`}>
   <PageHero
@@ -53,17 +57,21 @@ const groepen = [
         {groepen.map((g) => (
           <article class="ensemble">
             <div class="ens-beeld" style={`background-image:url('${g.foto}')`}>
-              <span class="ens-aantal">{g.leden.length} {t(taal, "gg.leden")}</span>
+              {g.leden.length > 0 && (
+                <span class="ens-aantal">{g.leden.length} {t(taal, "gg.leden")}</span>
+              )}
             </div>
             <div class="ens-body">
               <h3>{t(taal, `gg.${g.sleutel}Naam`)}</h3>
               <span class="ens-leeftijd">{t(taal, `gg.${g.sleutel}Leeftijd`)}</span>
               <p>{t(taal, `gg.${g.sleutel}Tekst`)}</p>
-              <ul class="ens-leden">
-                {g.leden.map((m) => (
-                  <li><strong>{m.naam}</strong>{m.rol && <span> · {m.rol}</span>}</li>
-                ))}
-              </ul>
+              {g.leden.length > 0 && (
+                <ul class="ens-leden">
+                  {g.leden.map((m) => (
+                    <li><strong>{m.naam}</strong>{m.rol && <span> · {m.rol}</span>}</li>
+                  ))}
+                </ul>
+              )}
             </div>
           </article>
         ))}
@@ -76,11 +84,11 @@ const groepen = [
     <div class="wrap">
       <div class="section-head">
         <span class="kicker">{t(taal, "gg.musiciKicker")}</span>
-        <h2>{groepen.length > 0 ? t(taal, "gg.overigTitel") : t(taal, "gg.musiciTitel")}</h2>
-        {groepen.length > 0 && ensembles.overig.length > 0 && <p>{t(taal, "gg.nogIndelen")}</p>}
+        <h2>{ingedeeld ? t(taal, "gg.overigTitel") : t(taal, "gg.musiciTitel")}</h2>
+        {ingedeeld && ensembles.overig.length > 0 && <p>{t(taal, "gg.nogIndelen")}</p>}
       </div>
       <div class="team-grid">
-        {(groepen.length > 0 ? ensembles.overig : gamelan).map((m) => (
+        {(ingedeeld ? ensembles.overig : gamelan).map((m) => (
           <div class="member">
             {m.foto
               ? <img class="avatar" src={m.foto} alt={m.naam} loading="lazy" />
