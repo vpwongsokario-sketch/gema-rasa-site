@@ -4,6 +4,16 @@
  */
 
 export const paginaNL: Record<string, string> = {
+  'vd.eyebrow': "Video's & socials",
+  'vd.titel': 'Bekijk & beluister',
+  'vd.intro': 'Optredens, repetities en verhalen — onze nieuwste video\'s verschijnen hier automatisch.',
+  'vd.videosKop': 'Onze nieuwste video\'s',
+  'vd.videosTekst': 'Rechtstreeks van ons YouTube-kanaal. Klik op een video om te kijken.',
+  'vd.geenVideos': "Er konden nu even geen video's worden opgehaald. Bekijk ze op ons YouTube-kanaal.",
+  'vd.kanaal': 'Naar ons YouTube-kanaal',
+  'vd.socialKop': 'Volg ons',
+  'vd.socialTekst': 'Blijf op de hoogte van optredens, repetities en projecten.',
+  'nav.videos': "Video's",
   'mg.eyebrow': 'Ons magazine',
   'mg.titel': 'Suwara Jawa',
   'mg.intro': 'De stem van Java — ons eigen magazine over Javaanse cultuur, verhalen en de mensen erachter.',
@@ -199,6 +209,16 @@ export const paginaNL: Record<string, string> = {
 };
 
 export const paginaEN: Record<string, string> = {
+  'vd.eyebrow': 'Videos & socials',
+  'vd.titel': 'Watch & listen',
+  'vd.intro': 'Performances, rehearsals and stories — our latest videos appear here automatically.',
+  'vd.videosKop': 'Our latest videos',
+  'vd.videosTekst': 'Straight from our YouTube channel. Click a video to watch.',
+  'vd.geenVideos': 'No videos could be loaded right now. Watch them on our YouTube channel.',
+  'vd.kanaal': 'Go to our YouTube channel',
+  'vd.socialKop': 'Follow us',
+  'vd.socialTekst': 'Stay up to date with performances, rehearsals and projects.',
+  'nav.videos': 'Videos',
   'mg.eyebrow': 'Our magazine',
   'mg.titel': 'Suwara Jawa',
   'mg.intro': 'The voice of Java — our own magazine about Javanese culture, stories and the people behind them.',
@@ -384,6 +404,16 @@ export const paginaEN: Record<string, string> = {
 };
 
 export const paginaID: Record<string, string> = {
+  'vd.eyebrow': 'Video & media sosial',
+  'vd.titel': 'Tonton & dengarkan',
+  'vd.intro': 'Pertunjukan, latihan dan kisah — video terbaru kami tampil di sini secara otomatis.',
+  'vd.videosKop': 'Video terbaru kami',
+  'vd.videosTekst': 'Langsung dari kanal YouTube kami. Klik video untuk menonton.',
+  'vd.geenVideos': 'Video tidak dapat dimuat saat ini. Tonton di kanal YouTube kami.',
+  'vd.kanaal': 'Ke kanal YouTube kami',
+  'vd.socialKop': 'Ikuti kami',
+  'vd.socialTekst': 'Tetap ikuti pertunjukan, latihan dan proyek kami.',
+  'nav.videos': 'Video',
   'mg.eyebrow': 'Majalah kami',
   'mg.titel': 'Suwara Jawa',
   'mg.intro': 'Suara Jawa — majalah kami tentang budaya Jawa, kisah-kisah dan orang-orang di baliknya.',

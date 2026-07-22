@@ -101,6 +101,15 @@ export const vrienden = [
   { naam: 'Being Sadar', type: 'Partner', omschrijving: 'Hypnotherapie' },
 ];
 
+// Publieke social-profielen. LET OP: de LinkedIn-link op de oude Webflow-site
+// was een /admin/feed/posts/-URL — die werkt alleen voor beheerders.
+export const socials = [
+  { naam: 'YouTube',   url: 'https://www.youtube.com/@StichtingGemaRasa',      kleur: '#ff0000' },
+  { naam: 'Instagram', url: 'https://www.instagram.com/stichtinggemarasa',      kleur: '#e1306c' },
+  { naam: 'Facebook',  url: 'https://www.facebook.com/stichtinggemarasa',       kleur: '#1877f2' },
+  { naam: 'LinkedIn',  url: 'https://www.linkedin.com/company/102107834/',      kleur: '#0a66c2' },
+];
+
 export const contact = {
   email: 'info@stichtinggemarasa.com',
   telefoon: '+31 (0)6 15045418',

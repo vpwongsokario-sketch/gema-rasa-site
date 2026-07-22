@@ -258,6 +258,7 @@ const paginakop = defineType({
         { title: 'Menukaart', value: 'menukaart' },
         { title: 'Nieuws (overzicht)', value: 'nieuws' },
         { title: 'Magazine Suwara Jawa', value: 'suwara-jawa' },
+        { title: "Video's", value: 'videos' },
       ] },
     }),
     defineField({ name: 'afbeelding', title: 'Achtergrondfoto', type: 'image', options: { hotspot: true },

@@ -1,0 +1,92 @@
+---
+import { taalPaden, t, pad } from '../../i18n/index.ts';
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { getVideos, YT_KANAAL_URL } from '../../lib/youtube.ts';
+import { socials } from '../../data/content.js';
+
+const videos = await getVideos(taal, 12);
+---
+<Base taal={taal} title={`${t(taal, "vd.titel")} — Stichting Gema Rasa`}>
+  <PageHero
+    sleutel="videos"
+    eyebrow={t(taal, "vd.eyebrow")}
+    titel={t(taal, "vd.titel")}
+    tekst={t(taal, "vd.intro")}
+    foto="/assets/perf-gamelan.jpg"
+  />
+
+  <!-- VIDEO'S -->
+  <section class="block">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">YouTube</span>
+        <h2>{t(taal, "vd.videosKop")}</h2>
+        <p>{t(taal, "vd.videosTekst")}</p>
+      </div>
+
+      {videos.length > 0 ? (
+        <div class="videos">
+          {videos.map((v) => (
+            <article class="video" data-yt={v.id}>
+              <div class="video-thumb" style={`background-image:url('${v.thumb}')`}>
+                <span class="play" aria-hidden="true"></span>
+              </div>
+              <div class="video-body">
+                <h3>{v.titel}</h3>
+                {v.datumLabel && <span class="video-datum">{v.datumLabel}</span>}
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="ens-leeg">{t(taal, "vd.geenVideos")}</p>
+      )}
+
+      <p style="margin-top:34px">
+        <a class="btn" href={YT_KANAAL_URL} target="_blank" rel="noopener">{t(taal, "vd.kanaal")}</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- SOCIALS -->
+  <section class="block prod rond-boven rond-onder" data-parallax style="padding:70px 0">
+    <div class="wrap">
+      <div class="ornament op-donker" style="margin-bottom:30px"><span></span></div>
+      <div style="text-align:center;max-width:640px;margin:0 auto 34px">
+        <h2 style="color:#fff;font-size:clamp(28px,3.6vw,42px);font-weight:700">{t(taal, "vd.socialKop")}</h2>
+        <p style="color:rgba(244,243,232,.86);font-family:'Poppins';font-weight:300;margin-top:10px">
+          {t(taal, "vd.socialTekst")}
+        </p>
+      </div>
+      <div class="socials">
+        {socials.map((s) => (
+          <a class="social" href={s.url} target="_blank" rel="noopener" style={`--kleur:${s.kleur}`}>
+            <span class="social-naam">{s.naam}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // De YouTube-speler wordt pas geladen als je klikt: sneller én privacyvriendelijk
+  document.querySelectorAll<HTMLElement>('.video[data-yt]').forEach((kaart) => {
+    kaart.addEventListener('click', () => {
+      if (kaart.classList.contains('speelt')) return;
+      const id = kaart.dataset.yt;
+      const thumb = kaart.querySelector('.video-thumb');
+      if (!thumb || !id) return;
+      const frame = document.createElement('iframe');
+      frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+      frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      frame.allowFullscreen = true;
+      frame.loading = 'lazy';
+      thumb.appendChild(frame);
+      kaart.classList.add('speelt');
+    });
+  });
+</script>
