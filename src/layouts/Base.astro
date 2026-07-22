@@ -10,6 +10,28 @@ const paginaOmschrijving = description ?? t(taal, 'home.omschrijving');
 // Het huidige pad zonder taalvoorvoegsel, zodat de taalwisselaar naar
 // dezelfde pagina in een andere taal kan verwijzen.
 const huidigPad = Astro.url.pathname.replace(/^\/(en|id)(?=\/|$)/, '') || '/';
+
+// Menustructuur: drie groepen plus twee losse items. Zo blijft de balk kort
+// en vindt een bezoeker sneller wat hij zoekt.
+const menu = [
+  { sleutel: 'nav.over', items: [
+      { sleutel: 'nav.stichting', url: '/de-stichting' },
+      { sleutel: 'nav.leden', url: '/leden' },
+      { sleutel: 'nav.vrienden', url: '/de-vrienden-van' },
+  ] },
+  { sleutel: 'nav.groepen', items: [
+      { sleutel: 'nav.gamelan', url: '/de-gamelan-groep' },
+      { sleutel: 'nav.dans', url: '/de-dansgroep' },
+  ] },
+  { sleutel: 'nav.media', items: [
+      { sleutel: 'nav.nieuws', url: '/nieuws' },
+      { sleutel: 'nav.videos', url: '/videos' },
+      { sleutel: 'nav.magazine', url: '/suwara-jawa' },
+  ] },
+  { sleutel: 'nav.boeken', url: '/menukaart' },
+  { sleutel: 'nav.contact', url: '/contact' },
+];
+const actief = (u) => huidigPad === u || huidigPad.startsWith(u + '/');
 ---
 <!DOCTYPE html>
 <html lang={taal}>
@@ -46,14 +68,20 @@ const huidigPad = Astro.url.pathname.replace(/^\/(en|id)(?=\/|$)/, '') || '/';
           <img class="logo-img" src="/assets/logo.png" alt="Stichting Gema Rasa" />
         </a>
         <div class="navlinks">
-          <a href={pad(taal, '/de-stichting')}>{t(taal, 'nav.stichting')}</a>
-          <a href={pad(taal, '/leden')}>{t(taal, 'nav.leden')}</a>
-          <a href={pad(taal, '/de-gamelan-groep')}>{t(taal, 'nav.gamelan')}</a>
-          <a href={pad(taal, '/de-dansgroep')}>{t(taal, 'nav.dans')}</a>
-          <a href={pad(taal, '/videos')}>{t(taal, 'nav.videos')}</a>
-          <a href={pad(taal, '/suwara-jawa')}>{t(taal, 'nav.magazine')}</a>
-          <a href={pad(taal, '/de-vrienden-van')}>{t(taal, 'nav.vrienden')}</a>
-          <a href={pad(taal, '/contact')}>{t(taal, 'nav.contact')}</a>
+          {menu.map((m) => (m.items ? (
+            <div class="nav-groep">
+              <button class="nav-knop" aria-expanded="false" aria-haspopup="true">
+                {t(taal, m.sleutel)}<span class="pijl" aria-hidden="true"></span>
+              </button>
+              <div class="submenu">
+                {m.items.map((i) => (
+                  <a href={pad(taal, i.url)} class={actief(i.url) ? 'hier' : undefined}>{t(taal, i.sleutel)}</a>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <a href={pad(taal, m.url)} class={actief(m.url) ? 'hier' : undefined}>{t(taal, m.sleutel)}</a>
+          )))}
         </div>
         <div class="nav-right">
           <div class="lang" role="group" aria-label="Taal kiezen">
@@ -70,11 +98,46 @@ const huidigPad = Astro.url.pathname.replace(/^\/(en|id)(?=\/|$)/, '') || '/';
               </>
             ))}
           </div>
-          <a class="btn gold" href={pad(taal, '/steun')}>{t(taal, 'nav.steun')}</a>
+          <a class="btn gold steun-knop" href={pad(taal, '/steun')}>{t(taal, 'nav.steun')}</a>
+          <button class="hamburger" id="menuKnop" aria-expanded="false" aria-controls="mobielMenu"
+                  aria-label={t(taal, 'nav.menuOpen')}
+                  data-open={t(taal, 'nav.menuOpen')} data-sluit={t(taal, 'nav.menuSluit')}>
+            <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+          </button>
         </div>
       </nav>
     </div>
   </header>
+
+  <!-- Mobiel menu: alle links gegroepeerd, in één keer zichtbaar -->
+  <div class="mobiel-menu" id="mobielMenu" hidden>
+    <nav class="mobiel-inner">
+      {menu.map((m) => (
+        <div class="mobiel-groep">
+          {m.items ? (
+            <>
+              <h4>{t(taal, m.sleutel)}</h4>
+              {m.items.map((i) => (
+                <a href={pad(taal, i.url)} class={actief(i.url) ? 'hier' : undefined}>{t(taal, i.sleutel)}</a>
+              ))}
+            </>
+          ) : (
+            <a class="los" href={pad(taal, m.url)}>{t(taal, m.sleutel)}</a>
+          )}
+        </div>
+      ))}
+      <div class="mobiel-groep">
+        <h4>{t(taal, 'nav.taal')}</h4>
+        <div class="mobiel-talen">
+          {talen.map((andere) => (
+            <a href={pad(andere, huidigPad)} hreflang={andere}
+               class={andere === taal ? 'actief' : undefined}>{taalNamen[andere]}</a>
+          ))}
+        </div>
+      </div>
+      <a class="btn gold mobiel-steun" href={pad(taal, '/steun')}>{t(taal, 'nav.steun')}</a>
+    </nav>
+  </div>
 
   <slot />
 
@@ -201,6 +264,27 @@ const huidigPad = Astro.url.pathname.replace(/^\/(en|id)(?=\/|$)/, '') || '/';
         verschuif();
       }
     }
+
+    // --- Mobiel menu openen/sluiten ---
+    const menuKnop = document.getElementById('menuKnop');
+    const mobielMenu = document.getElementById('mobielMenu');
+
+    const zetMenu = (open: boolean) => {
+      if (!menuKnop || !mobielMenu) return;
+      menuKnop.setAttribute('aria-expanded', String(open));
+      menuKnop.setAttribute('aria-label', (open ? menuKnop.dataset.sluit : menuKnop.dataset.open) || '');
+      mobielMenu.hidden = !open;
+      document.body.classList.toggle('menu-open', open);
+    };
+
+    menuKnop?.addEventListener('click', () => {
+      zetMenu(menuKnop.getAttribute('aria-expanded') !== 'true');
+    });
+
+    // Sluiten bij klikken op een link, bij Escape, en bij verbreden naar desktop
+    mobielMenu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => zetMenu(false)));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') zetMenu(false); });
+    window.addEventListener('resize', () => { if (window.innerWidth > 1080) zetMenu(false); });
 
     // Schaduw onder de header zodra er gescrold wordt
     const kop = document.querySelector('header');

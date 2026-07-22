@@ -4,6 +4,13 @@
  */
 
 export const paginaNL: Record<string, string> = {
+  'nav.over': 'Over ons',
+  'nav.groepen': 'Onze groepen',
+  'nav.media': 'Media',
+  'nav.boeken': 'Boeken',
+  'nav.menuOpen': 'Menu openen',
+  'nav.menuSluit': 'Menu sluiten',
+  'nav.taal': 'Taal',
   'vd.eyebrow': "Video's & socials",
   'vd.titel': 'Bekijk & beluister',
   'vd.intro': 'Optredens, repetities en verhalen — onze nieuwste video\'s verschijnen hier automatisch.',
@@ -209,6 +216,13 @@ export const paginaNL: Record<string, string> = {
 };
 
 export const paginaEN: Record<string, string> = {
+  'nav.over': 'About us',
+  'nav.groepen': 'Our groups',
+  'nav.media': 'Media',
+  'nav.boeken': 'Bookings',
+  'nav.menuOpen': 'Open menu',
+  'nav.menuSluit': 'Close menu',
+  'nav.taal': 'Language',
   'vd.eyebrow': 'Videos & socials',
   'vd.titel': 'Watch & listen',
   'vd.intro': 'Performances, rehearsals and stories — our latest videos appear here automatically.',
@@ -404,6 +418,13 @@ export const paginaEN: Record<string, string> = {
 };
 
 export const paginaID: Record<string, string> = {
+  'nav.over': 'Tentang kami',
+  'nav.groepen': 'Grup kami',
+  'nav.media': 'Media',
+  'nav.boeken': 'Pemesanan',
+  'nav.menuOpen': 'Buka menu',
+  'nav.menuSluit': 'Tutup menu',
+  'nav.taal': 'Bahasa',
   'vd.eyebrow': 'Video & media sosial',
   'vd.titel': 'Tonton & dengarkan',
   'vd.intro': 'Pertunjukan, latihan dan kisah — video terbaru kami tampil di sini secara otomatis.',
