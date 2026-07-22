@@ -124,6 +124,7 @@ const { title = 'Stichting Gema Rasa — Bruggen bouwen met Javaanse podiumkunst
         if (!resterend.length) {
           window.removeEventListener('scroll', bijScrollAnim);
           window.removeEventListener('resize', bijScrollAnim);
+          clearInterval(hartslag);
         }
       };
 
@@ -136,9 +137,13 @@ const { title = 'Stichting Gema Rasa — Bruggen bouwen met Javaanse podiumkunst
 
       window.addEventListener('scroll', bijScrollAnim, { passive: true });
       window.addEventListener('resize', bijScrollAnim, { passive: true });
+
+      // Vangnet: elke seconde kijken wat er in beeld staat. Zo blijft er nooit iets
+      // onzichtbaar hangen als scroll-events niet aankomen, én onthullen we niets
+      // te vroeg — het effect blijft dus behouden.
+      const hartslag = setInterval(toon, 1000);
+
       toon(); // direct, niet via een animatieframe — werkt ook als rAF vertraagd is
-      // Vangnet: als er iets misgaat, na 3s alles gewoon tonen
-      setTimeout(() => resterend.forEach((el) => el.classList.add('is-visible')), 3000);
 
       // --- Parallax op hero-beelden: de achtergrond schuift trager mee ---
       const lagen = Array.from(document.querySelectorAll<HTMLElement>('[data-parallax], .hero'));
@@ -150,7 +155,7 @@ const { title = 'Stichting Gema Rasa — Bruggen bouwen met Javaanse podiumkunst
             const r = el.getBoundingClientRect();
             if (r.bottom < -200 || r.top > h + 200) return; // buiten beeld: overslaan
             const voortgang = (r.top + r.height / 2 - h / 2) / h; // -1 … 1
-            el.style.setProperty('--par', `${(voortgang * 70).toFixed(1)}px`);
+            el.style.setProperty('--par', `${(voortgang * 110).toFixed(1)}px`);
           });
         };
         const bijScrollPar = () => {

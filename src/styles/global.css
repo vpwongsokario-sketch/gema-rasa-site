@@ -47,7 +47,7 @@ nav{display:flex;align-items:center;justify-content:space-between;height:78px}
 
 /* ---------- hero ---------- */
 .hero{position:relative;overflow:hidden;color:var(--cream);background:var(--primary-dark)}
-.hero::before{content:"";position:absolute;left:0;right:0;top:-14%;bottom:-14%;z-index:0;
+.hero::before{content:"";position:absolute;left:0;right:0;top:-22%;bottom:-22%;z-index:0;
   background-image:linear-gradient(105deg,rgba(9,53,31,.96) 38%,rgba(9,53,31,.72) 62%,rgba(19,102,61,.4)),var(--hero-img,url('/assets/perf-wayang.jpg'));
   background-size:cover;background-position:center right;
   transform:translate3d(0,var(--par,0px),0) scale(1.04)}
@@ -257,7 +257,7 @@ footer a:hover{color:var(--primary)}
 /* ---------- subpagina's ---------- */
 .pagehead{background:var(--primary-dark);color:var(--cream);position:relative;overflow:hidden}
 /* hero-beeld met warme overlay; ruimer dan de sectie zodat parallax niet 'leeg' loopt */
-.pagehead::before{content:"";position:absolute;left:0;right:0;top:-14%;bottom:-14%;z-index:0;
+.pagehead::before{content:"";position:absolute;left:0;right:0;top:-22%;bottom:-22%;z-index:0;
   background-image:linear-gradient(100deg,rgba(9,53,31,.95) 26%,rgba(9,53,31,.74) 58%,rgba(19,102,61,.46)),
                    var(--hero-img,none);
   background-size:cover;background-position:var(--hero-pos,center);
