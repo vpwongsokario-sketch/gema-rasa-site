@@ -42,7 +42,7 @@ const datumLabel = (d: string, taal = 'nl') => (d ? (datumOpmaak[taal] ?? datumO
 /* ---------- Homepage ---------- */
 export async function getHomepage(taal: string = 'nl') {
   const doc = await safe<any>('*[_type == "homepage"][0]');
-  if (!doc) return { hero: local.hero, productie: local.productie };
+  if (!doc) return { hero: local.hero, productie: local.productie, merch: { actief: true, kicker: '', titel: '', tekst1: '', tekst2: '', afbeelding: '', knopLabel: '', knopUrl: '/shop' } };
   return {
     hero: {
       eyebrow: doc.heroEyebrow ?? local.hero.eyebrow,
@@ -64,6 +64,17 @@ export async function getHomepage(taal: string = 'nl') {
       afbeelding: img(doc.productieAfbeelding, local.productie.afbeelding),
       knopLabel: vertaald(doc, 'productieKnopLabel', taal) ?? 'Tickets',
       knopUrl: doc.productieKnopUrl ?? '/contact',
+    },
+    // Merchandise-blok. Lege velden betekenen: gebruik de standaardtekst.
+    merch: {
+      actief: doc.merchActief ?? true,
+      kicker: doc.merchKicker ?? '',
+      titel: vertaald(doc, 'merchTitel', taal) ?? '',
+      tekst1: vertaald(doc, 'merchTekst1', taal) ?? '',
+      tekst2: vertaald(doc, 'merchTekst2', taal) ?? '',
+      afbeelding: img(doc.merchAfbeelding, ''),
+      knopLabel: vertaald(doc, 'merchKnopLabel', taal) ?? '',
+      knopUrl: doc.merchKnopUrl ?? '/shop',
     },
   };
 }

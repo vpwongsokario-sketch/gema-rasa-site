@@ -8,6 +8,7 @@ const homepage = defineType({
   groups: [
     { name: 'hero', title: '🇳🇱 Hero', default: true },
     { name: 'productie', title: '🇳🇱 Voorstelling' },
+    { name: 'merch', title: '🇳🇱 Merchandise' },
     { name: 'en', title: '🇬🇧 English' },
     { name: 'id', title: '🇮🇩 Indonesia' },
   ],
@@ -32,6 +33,16 @@ const homepage = defineType({
     defineField({ name: 'productieKnopLabel', title: 'Knoptekst', type: 'string', initialValue: 'Tickets', group: 'productie' }),
     defineField({ name: 'productieKnopUrl', title: 'Knop-link', type: 'string', group: 'productie' }),
 
+    // Merchandise-blok op de homepage
+    defineField({ name: 'merchActief', title: 'Merchandise-blok tonen', type: 'boolean', initialValue: true, group: 'merch' }),
+    defineField({ name: 'merchKicker', title: 'Labeltje', type: 'string', group: 'merch', description: 'Bijv. "SGR Merchandise"' }),
+    defineField({ name: 'merchTitel', title: 'Titel', type: 'string', group: 'merch' }),
+    defineField({ name: 'merchTekst1', title: 'Eerste alinea', type: 'text', rows: 3, group: 'merch' }),
+    defineField({ name: 'merchTekst2', title: 'Tweede alinea', type: 'text', rows: 3, group: 'merch' }),
+    defineField({ name: 'merchAfbeelding', title: 'Foto', type: 'image', options: { hotspot: true }, group: 'merch' }),
+    defineField({ name: 'merchKnopLabel', title: 'Knoptekst', type: 'string', initialValue: 'Shop', group: 'merch' }),
+    defineField({ name: 'merchKnopUrl', title: 'Knop-link', type: 'string', initialValue: '/shop', group: 'merch' }),
+
     // ---- Engels (leeg laten = Nederlandse tekst tonen) ----
     defineField({ name: 'heroTitel_en', title: 'Hero title', type: 'string', group: 'en' }),
     defineField({ name: 'heroTitelAccent_en', title: 'Accent word', type: 'string', group: 'en' }),
@@ -42,6 +53,10 @@ const homepage = defineType({
     defineField({ name: 'productieBeschrijving_en', title: 'Description', type: 'text', rows: 4, group: 'en' }),
     defineField({ name: 'productieCitaat_en', title: 'Quote', type: 'text', rows: 2, group: 'en' }),
     defineField({ name: 'productieKnopLabel_en', title: 'Button label', type: 'string', group: 'en' }),
+    defineField({ name: 'merchTitel_en', title: 'Merchandise title', type: 'string', group: 'en' }),
+    defineField({ name: 'merchTekst1_en', title: 'Merchandise paragraph 1', type: 'text', rows: 3, group: 'en' }),
+    defineField({ name: 'merchTekst2_en', title: 'Merchandise paragraph 2', type: 'text', rows: 3, group: 'en' }),
+    defineField({ name: 'merchKnopLabel_en', title: 'Merchandise button', type: 'string', group: 'en' }),
 
     // ---- Indonesisch ----
     defineField({ name: 'heroTitel_id', title: 'Judul hero', type: 'string', group: 'id' }),
@@ -53,6 +68,10 @@ const homepage = defineType({
     defineField({ name: 'productieBeschrijving_id', title: 'Deskripsi', type: 'text', rows: 4, group: 'id' }),
     defineField({ name: 'productieCitaat_id', title: 'Kutipan', type: 'text', rows: 2, group: 'id' }),
     defineField({ name: 'productieKnopLabel_id', title: 'Label tombol', type: 'string', group: 'id' }),
+    defineField({ name: 'merchTitel_id', title: 'Judul merchandise', type: 'string', group: 'id' }),
+    defineField({ name: 'merchTekst1_id', title: 'Paragraf 1', type: 'text', rows: 3, group: 'id' }),
+    defineField({ name: 'merchTekst2_id', title: 'Paragraf 2', type: 'text', rows: 3, group: 'id' }),
+    defineField({ name: 'merchKnopLabel_id', title: 'Tombol merchandise', type: 'string', group: 'id' }),
   ],
   preview: { prepare: () => ({ title: 'Homepage' }) },
 });

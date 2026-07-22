@@ -5,7 +5,7 @@ const { taal } = Astro.props;
 import Base from '../../layouts/Base.astro';
 import { getHomepage, getNieuws, getAgenda, getGalerij } from '../../lib/sanity.ts';
 
-const { hero, productie } = await getHomepage(taal);
+const { hero, productie, merch } = await getHomepage(taal);
 const nieuws = await getNieuws(taal);
 const agenda = await getAgenda(taal);
 const galerij = await getGalerij();
@@ -61,21 +61,27 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
     </section>
   )}
 
-  <!-- MERCHANDISE -->
-  <section class="block" style="padding-top:0">
-    <div class="wrap">
-      <div class="merch">
-        <div class="img" style="background-image:url('/assets/perf4.jpg')"></div>
-        <div class="body">
-          <span class="kicker">{t(taal, "home.merchKicker")}</span>
-          <h2>{t(taal, "home.merchTitel")}</h2>
-          <p>{t(taal, "home.merchTekst1")}</p>
-          <p>{t(taal, "home.merchTekst2")}</p>
-          <a class="btn" href={pad(taal, "/shop")} style="margin-top:8px">{t(taal, "home.shop")}</a>
+  <!-- MERCHANDISE (via CMS) -->
+  {merch.actief && (
+    <section class="block" style="padding-top:0">
+      <div class="wrap">
+        <div class="merch">
+          <div class="img" style={`background-image:url('${merch.afbeelding || "/assets/perf4.jpg"}')`}></div>
+          <div class="body">
+            <span class="kicker">{merch.kicker || t(taal, "home.merchKicker")}</span>
+            <h2>{merch.titel || t(taal, "home.merchTitel")}</h2>
+            <p>{merch.tekst1 || t(taal, "home.merchTekst1")}</p>
+            {(merch.tekst2 || t(taal, "home.merchTekst2")) && (
+              <p>{merch.tekst2 || t(taal, "home.merchTekst2")}</p>
+            )}
+            <a class="btn" href={pad(taal, merch.knopUrl || "/shop")} style="margin-top:8px">
+              {merch.knopLabel || t(taal, "home.shop")}
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
   <!-- OVER DE STICHTING: GEMA & RASA -->
   <section class="block batik" id="over" style="padding-top:0">
