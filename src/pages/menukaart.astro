@@ -1,18 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import { catName, filters, videos } from '../data/programmas.js';
 import { getProgrammas } from '../lib/sanity.ts';
 const programmas = await getProgrammas();
 ---
 <Base title="Wat we voor je kunnen doen — Culturele Menukaart | Stichting Gema Rasa">
-  <section class="pagehead">
-    <div class="wrap">
-      <span class="eyebrow">Culturele Menukaart</span>
-      <h1>Wat we voor je kunnen doen</h1>
-      <p>Van een korte ceremoniële opening tot een compleet dagprogramma. Wij zetten niet alleen
-        een programma neer, maar een ervaring die mensen raakt, verbindt en bijblijft.</p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="Culturele Menukaart"
+    titel="Wat we voor je kunnen doen"
+    tekst="Van een korte ceremoniële opening tot een compleet dagprogramma. Wij zetten niet alleen een programma neer, maar een ervaring die mensen raakt, verbindt en bijblijft."
+    foto="/assets/perf-wayang.jpg"
+  />
 
   <!-- MENUKAART -->
   <section class="block" id="menukaart">

@@ -1,15 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import { contact } from '../data/content.js';
 ---
 <Base title="Contact — Stichting Gema Rasa">
-  <section class="pagehead">
-    <div class="wrap">
-      <span class="eyebrow">Contact</span>
-      <h1>Stuur ons een bericht</h1>
-      <p>Vragen over een boeking, meedoen of samenwerken? We horen graag van je.</p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="Contact"
+    titel="Stuur ons een bericht"
+    tekst="Vragen over een boeking, meedoen of samenwerken? We horen graag van je."
+    foto="/assets/perf4.jpg"
+  />
 
   <section class="block">
     <div class="wrap">

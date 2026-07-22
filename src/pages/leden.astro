@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import { getLeden } from '../lib/sanity.ts';
 const { bestuur, leden } = await getLeden();
 
@@ -8,14 +9,12 @@ const initialen = (naam = '') =>
   naam.split(/[\s-]+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
 ---
 <Base title="De Leden — Stichting Gema Rasa">
-  <section class="pagehead">
-    <div class="wrap">
-      <span class="eyebrow">De Leden</span>
-      <h1>We zijn meer dan een Javaanse stichting</h1>
-      <p>Bij SGR geloven we in de kracht van culturele verbinding en het doorgeven van ons rijke
-        Javaanse erfgoed — over generaties en gemeenschappen heen.</p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="De Leden"
+    titel="We zijn meer dan een Javaanse stichting"
+    tekst="Bij SGR geloven we in de kracht van culturele verbinding en het doorgeven van ons rijke Javaanse erfgoed — over generaties en gemeenschappen heen."
+    foto="/assets/perf-gamelan.jpg"
+  />
 
   <section class="block">
     <div class="wrap">

@@ -1,17 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import { getVrienden } from '../lib/sanity.ts';
 const vrienden = await getVrienden();
 ---
 <Base title="De Vrienden van — Stichting Gema Rasa">
-  <section class="pagehead">
-    <div class="wrap">
-      <span class="eyebrow">De Vrienden van</span>
-      <h1>Ontmoet onze inspirerende partners</h1>
-      <p>Organisaties en individuen die met ons samenwerken en ons inspireren — een divers netwerk
-        van culturele groepen, instellingen en toegewijde mensen.</p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="De Vrienden van"
+    titel="Ontmoet onze inspirerende partners"
+    tekst="Organisaties en individuen die met ons samenwerken en ons inspireren — een divers netwerk van culturele groepen, instellingen en toegewijde mensen."
+    foto="/assets/perf3.jpg"
+  />
 
   <section class="block">
     <div class="wrap">

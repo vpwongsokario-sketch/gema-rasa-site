@@ -39,7 +39,7 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
 
   <!-- UITGELICHTE PRODUCTIE (via CMS) -->
   {productie.actief && (
-    <section class="block prod" id="productie">
+    <section class="block prod rond-boven rond-onder" id="productie" data-parallax>
       <div class="wrap">
         <div class="inner">
           <div class="art" style={`background-image:url('${productie.afbeelding}')`}>
@@ -77,8 +77,9 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
   </section>
 
   <!-- OVER DE STICHTING: GEMA & RASA -->
-  <section class="block" id="over" style="padding-top:0">
+  <section class="block batik" id="over" style="padding-top:0">
     <div class="wrap">
+      <div class="ornament" style="margin-bottom:52px"><span></span></div>
       <div class="section-head">
         <span class="kicker">De Stichting</span>
         <h2>Stichting Gema Rasa</h2>
@@ -104,10 +105,11 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
 
   <!-- BEWEGENDE FOTOSTROOK (via CMS) -->
   {galerij.length > 0 && (
-    <section class="strook" id="fotos">
+    <section class="strook rond-boven rond-onder" id="fotos">
       <div class="kop">
         <span class="kicker">Impressie</span>
         <h2>Gema Rasa in beeld</h2>
+        <div class="ornament op-donker" style="margin-top:18px"><span></span></div>
       </div>
       <div class="marquee">
         <div class="marquee-track">

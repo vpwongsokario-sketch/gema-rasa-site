@@ -1,0 +1,21 @@
+---
+/**
+ * Paginakop met hero-beeld, warme overlay, batikmotief en parallax.
+ * Gebruik: <PageHero eyebrow="De Leden" titel="..." tekst="..." foto="/assets/perf-gamelan.jpg" />
+ */
+const {
+  eyebrow,
+  titel,
+  tekst,
+  foto = '/assets/perf-wayang.jpg',
+  positie = 'center',
+} = Astro.props;
+---
+<section class="pagehead" data-parallax style={`--hero-img:url('${foto}');--hero-pos:${positie}`}>
+  <div class="wrap">
+    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+    <h1>{titel}</h1>
+    {tekst && <p>{tekst}</p>}
+    <slot />
+  </div>
+</section>

@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import { getLeden } from '../lib/sanity.ts';
 const { gamelan } = await getLeden();
 
@@ -7,13 +8,12 @@ const initialen = (naam = '') =>
   naam.split(/[\s-]+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
 ---
 <Base title="De Gamelangroep Jiwa Manunggal — Stichting Gema Rasa">
-  <section class="pagehead">
-    <div class="wrap">
-      <span class="eyebrow">De Gamelangroep</span>
-      <h1>Jiwa Manunggal</h1>
-      <p>Zielen die samenkomen in eenheid — een collectieve uiting die groter is dan de som der delen.</p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="De Gamelangroep"
+    titel="Jiwa Manunggal"
+    tekst="Zielen die samenkomen in eenheid — een collectieve uiting die groter is dan de som der delen."
+    foto="/assets/perf2.jpg"
+  />
 
   <section class="block">
     <div class="wrap">

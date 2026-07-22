@@ -47,12 +47,12 @@ nav{display:flex;align-items:center;justify-content:space-between;height:78px}
 
 /* ---------- hero ---------- */
 .hero{position:relative;overflow:hidden;color:var(--cream);background:var(--primary-dark)}
-.hero::before{content:"";position:absolute;inset:0;z-index:0;
+.hero::before{content:"";position:absolute;left:0;right:0;top:-14%;bottom:-14%;z-index:0;
   background-image:linear-gradient(105deg,rgba(9,53,31,.96) 38%,rgba(9,53,31,.72) 62%,rgba(19,102,61,.4)),var(--hero-img,url('/assets/perf-wayang.jpg'));
-  background-size:cover;background-position:center right}
-.hero::after{content:"";position:absolute;inset:0;z-index:1;opacity:.4;
-  background:radial-gradient(circle at 14px 14px,rgba(239,200,62,.16) 2px,transparent 2.5px);
-  background-size:28px 28px}
+  background-size:cover;background-position:center right;
+  transform:translate3d(0,var(--par,0px),0) scale(1.04)}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.12;
+  background-image:var(--batik-goud);background-size:64px 64px}
 .hero-inner{position:relative;z-index:2;padding:104px 0 116px;max-width:780px}
 .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Poppins';font-size:12px;
   letter-spacing:.2em;text-transform:uppercase;color:var(--primary);margin-bottom:22px;font-weight:500}
@@ -109,8 +109,8 @@ section.block{padding:88px 0}
 
 /* ---------- video sectie ---------- */
 .video-sec{background:var(--primary-dark);color:var(--cream);position:relative;overflow:hidden}
-.video-sec::before{content:"";position:absolute;inset:0;opacity:.4;
-  background:radial-gradient(circle at 14px 14px,rgba(239,200,62,.14) 2px,transparent 2.5px);background-size:28px 28px}
+.video-sec::before{content:"";position:absolute;inset:0;opacity:.12;
+  background-image:var(--batik-goud);background-size:64px 64px}
 .video-sec .wrap{position:relative;z-index:2}
 .video-sec .section-head h2{color:#fff}
 .video-sec .section-head p{color:rgba(244,243,232,.8)}
@@ -188,8 +188,8 @@ footer a:hover{color:var(--primary)}
 
 /* ---------- productie-feature (donker, uitgelicht) ---------- */
 .prod{background:var(--primary-dark);color:var(--cream);position:relative;overflow:hidden}
-.prod::before{content:"";position:absolute;inset:0;opacity:.4;
-  background:radial-gradient(circle at 14px 14px,rgba(239,200,62,.14) 2px,transparent 2.5px);background-size:28px 28px}
+.prod::before{content:"";position:absolute;inset:0;opacity:.12;
+  background-image:var(--batik-goud);background-size:64px 64px}
 .prod .wrap{position:relative;z-index:2}
 .prod .inner{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
 .prod .art{position:relative;border-radius:20px;overflow:hidden;min-height:400px;
@@ -256,9 +256,16 @@ footer a:hover{color:var(--primary)}
 
 /* ---------- subpagina's ---------- */
 .pagehead{background:var(--primary-dark);color:var(--cream);position:relative;overflow:hidden}
-.pagehead::after{content:"";position:absolute;inset:0;opacity:.4;
-  background:radial-gradient(circle at 14px 14px,rgba(239,200,62,.14) 2px,transparent 2.5px);background-size:28px 28px}
-.pagehead .wrap{position:relative;z-index:2;padding:72px 0 64px;max-width:760px}
+/* hero-beeld met warme overlay; ruimer dan de sectie zodat parallax niet 'leeg' loopt */
+.pagehead::before{content:"";position:absolute;left:0;right:0;top:-14%;bottom:-14%;z-index:0;
+  background-image:linear-gradient(100deg,rgba(9,53,31,.95) 26%,rgba(9,53,31,.74) 58%,rgba(19,102,61,.46)),
+                   var(--hero-img,none);
+  background-size:cover;background-position:var(--hero-pos,center);
+  transform:translate3d(0,var(--par,0px),0)}
+/* batikmotief over het beeld */
+.pagehead::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.10;
+  background-image:var(--batik-goud);background-size:64px 64px}
+.pagehead .wrap{position:relative;z-index:2;padding:104px 0 96px;max-width:800px}
 .pagehead .eyebrow{margin-bottom:16px}
 .pagehead h1{font-size:clamp(34px,5vw,58px);font-weight:700;color:#fff}
 .pagehead p{font-family:'Poppins';font-weight:300;font-size:17px;color:rgba(244,243,232,.9);margin-top:16px}
@@ -281,10 +288,53 @@ footer a:hover{color:var(--primary)}
 .member.board .naam{color:#fff}
 .member.board .rol{color:var(--primary)}
 
+/* ============ JAVAANSE DESIGN-ELEMENTEN ============ */
+
+/* Kawung — klassiek Javaans batikmotief (vier bloembladen rond een hart).
+   Als fijne textuur, in goud, heel licht van dekking. */
+:root{
+  --batik-goud:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23efc83e' stroke-width='1.1'%3E%3Cellipse cx='32' cy='19' rx='11.5' ry='7'/%3E%3Cellipse cx='32' cy='45' rx='11.5' ry='7'/%3E%3Cellipse cx='19' cy='32' rx='7' ry='11.5'/%3E%3Cellipse cx='45' cy='32' rx='7' ry='11.5'/%3E%3Ccircle cx='32' cy='32' r='1.6' fill='%23efc83e' stroke='none'/%3E%3Cellipse cx='0' cy='0' rx='11.5' ry='7'/%3E%3Cellipse cx='64' cy='0' rx='11.5' ry='7'/%3E%3Cellipse cx='0' cy='64' rx='11.5' ry='7'/%3E%3Cellipse cx='64' cy='64' rx='11.5' ry='7'/%3E%3C/g%3E%3C/svg%3E");
+  --batik-donker:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%2309351f' stroke-width='1.1'%3E%3Cellipse cx='32' cy='19' rx='11.5' ry='7'/%3E%3Cellipse cx='32' cy='45' rx='11.5' ry='7'/%3E%3Cellipse cx='19' cy='32' rx='7' ry='11.5'/%3E%3Cellipse cx='45' cy='32' rx='7' ry='11.5'/%3E%3Ccircle cx='32' cy='32' r='1.6' fill='%2309351f' stroke='none'/%3E%3Cellipse cx='0' cy='0' rx='11.5' ry='7'/%3E%3Cellipse cx='64' cy='0' rx='11.5' ry='7'/%3E%3Cellipse cx='0' cy='64' rx='11.5' ry='7'/%3E%3Cellipse cx='64' cy='64' rx='11.5' ry='7'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* batiktextuur op lichte secties */
+.batik{position:relative}
+.batik::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:var(--batik-donker);background-size:64px 64px;opacity:.045}
+.batik>*{position:relative;z-index:1}
+
+/* gouden ornamentlijn tussen secties */
+.ornament{display:flex;align-items:center;justify-content:center;gap:14px;padding:6px 0}
+.ornament::before,.ornament::after{content:"";height:1px;flex:1;max-width:190px;
+  background:linear-gradient(90deg,transparent,rgba(239,200,62,.55))}
+.ornament::after{background:linear-gradient(90deg,rgba(239,200,62,.55),transparent)}
+.ornament span{width:9px;height:9px;transform:rotate(45deg);background:var(--primary);flex:none;
+  box-shadow:0 0 0 4px rgba(239,200,62,.16)}
+.ornament.op-donker::before{background:linear-gradient(90deg,transparent,rgba(239,200,62,.45))}
+.ornament.op-donker::after{background:linear-gradient(90deg,rgba(239,200,62,.45),transparent)}
+
+/* organische, ronde overgang naar donkere secties */
+.rond-boven{border-radius:44px 44px 0 0}
+.rond-onder{border-radius:0 0 44px 44px}
+@media(max-width:640px){.rond-boven{border-radius:28px 28px 0 0}.rond-onder{border-radius:0 0 28px 28px}}
+
+/* warme gouden gloed over beelden */
+.warm{position:relative}
+.warm::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(160deg,rgba(239,200,62,.14),transparent 55%,rgba(252,142,68,.12));
+  mix-blend-mode:overlay}
+
+/* warme overlay op de beelden in de fotostrook, nieuws en merchandise */
+.marquee figure::before,.news .thumb::after,.merch .img::after{content:"";position:absolute;inset:0;
+  z-index:1;pointer-events:none;mix-blend-mode:overlay;
+  background:linear-gradient(160deg,rgba(239,200,62,.18),transparent 55%,rgba(252,142,68,.15))}
+.news .thumb,.merch .img{position:relative}
+.marquee figcaption{z-index:2}
+
 /* ---------- bewegende fotostrook ---------- */
 .strook{padding:76px 0 84px;background:var(--primary-dark);position:relative;overflow:hidden}
-.strook::before{content:"";position:absolute;inset:0;opacity:.4;
-  background:radial-gradient(circle at 14px 14px,rgba(239,200,62,.14) 2px,transparent 2.5px);background-size:28px 28px}
+.strook::before{content:"";position:absolute;inset:0;opacity:.12;
+  background-image:var(--batik-goud);background-size:64px 64px}
 .strook .kop{position:relative;z-index:2;text-align:center;margin-bottom:38px}
 .strook .kop .kicker{font-family:'Poppins';color:var(--primary);font-weight:600;letter-spacing:.13em;
   text-transform:uppercase;font-size:12.5px}
@@ -332,9 +382,7 @@ html:not(.anim) .marquee{overflow-x:auto}
 .anim :is(.hero-inner,.pagehead .wrap)>*:nth-child(4){animation-delay:.40s}
 .anim :is(.hero-inner,.pagehead .wrap)>*:nth-child(5){animation-delay:.50s}
 
-/* zachte zoom op de hero-achtergrond */
-@keyframes slowZoom{from{transform:scale(1)}to{transform:scale(1.07)}}
-.anim .hero::before{animation:slowZoom 18s ease-out forwards}
+/* (de trage zoom is vervangen door parallax — zie de --par variabele) */
 
 /* header krijgt schaduw zodra je scrollt */
 header{transition:box-shadow .3s ease,background .3s ease}

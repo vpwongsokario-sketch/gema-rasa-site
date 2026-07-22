@@ -1,15 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 ---
 <Base title="Shop — Stichting Gema Rasa">
-  <section class="pagehead">
-    <div class="wrap">
-      <span class="eyebrow">SGR Merchandise</span>
-      <h1>Onze webshop</h1>
-      <p>Exclusieve merchandise, met zorg ontworpen door de jongeren van Stichting Gema Rasa.
-        Met jouw aankoop steun je onze culturele projecten.</p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="SGR Merchandise"
+    titel="Onze webshop"
+    tekst="Exclusieve merchandise, met zorg ontworpen door de jongeren van Stichting Gema Rasa. Met jouw aankoop steun je onze culturele projecten."
+    foto="/assets/perf4.jpg"
+  />
 
   <section class="block">
     <div class="wrap">

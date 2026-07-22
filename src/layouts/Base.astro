@@ -136,9 +136,32 @@ const { title = 'Stichting Gema Rasa — Bruggen bouwen met Javaanse podiumkunst
 
       window.addEventListener('scroll', bijScrollAnim, { passive: true });
       window.addEventListener('resize', bijScrollAnim, { passive: true });
-      requestAnimationFrame(toon);
+      toon(); // direct, niet via een animatieframe — werkt ook als rAF vertraagd is
       // Vangnet: als er iets misgaat, na 3s alles gewoon tonen
       setTimeout(() => resterend.forEach((el) => el.classList.add('is-visible')), 3000);
+
+      // --- Parallax op hero-beelden: de achtergrond schuift trager mee ---
+      const lagen = Array.from(document.querySelectorAll<HTMLElement>('[data-parallax], .hero'));
+      if (lagen.length) {
+        let bezig = false;
+        const verschuif = () => {
+          const h = window.innerHeight;
+          lagen.forEach((el) => {
+            const r = el.getBoundingClientRect();
+            if (r.bottom < -200 || r.top > h + 200) return; // buiten beeld: overslaan
+            const voortgang = (r.top + r.height / 2 - h / 2) / h; // -1 … 1
+            el.style.setProperty('--par', `${(voortgang * 70).toFixed(1)}px`);
+          });
+        };
+        const bijScrollPar = () => {
+          if (bezig) return;
+          bezig = true;
+          requestAnimationFrame(() => { bezig = false; verschuif(); });
+        };
+        window.addEventListener('scroll', bijScrollPar, { passive: true });
+        window.addEventListener('resize', bijScrollPar, { passive: true });
+        verschuif();
+      }
     }
 
     // Schaduw onder de header zodra er gescrold wordt
