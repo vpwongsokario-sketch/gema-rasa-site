@@ -1,6 +1,9 @@
 ---
-import Base from '../layouts/Base.astro';
-import PageHero from '../components/PageHero.astro';
+import { taalPaden, t, pad } from '../../i18n/index.ts';
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
 
 const manieren = [
   { titel: 'Doneer je tijd', tekst: 'Help eenmalig of structureel mee als vrijwilliger — bij repetities, events of achter de schermen.' },
@@ -9,7 +12,7 @@ const manieren = [
   { titel: 'Fondsenwerving & events', tekst: 'Zet je talenten in bij het organiseren van evenementen, fondsenwerving en marketing.' },
 ];
 ---
-<Base title="Steun ons — Stichting Gema Rasa">
+<Base taal={taal} title="Steun ons — Stichting Gema Rasa">
   <PageHero
     sleutel="steun"
     eyebrow="Steun ons"

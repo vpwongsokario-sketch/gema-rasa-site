@@ -1,6 +1,9 @@
 ---
-import Base from '../layouts/Base.astro';
-import { getHomepage, getNieuws, getAgenda, getGalerij } from '../lib/sanity.ts';
+import { taalPaden, t, pad } from '../../i18n/index.ts';
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+import Base from '../../layouts/Base.astro';
+import { getHomepage, getNieuws, getAgenda, getGalerij } from '../../lib/sanity.ts';
 
 const { hero, productie } = await getHomepage();
 const nieuws = await getNieuws();
@@ -12,7 +15,7 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
   ? hero.titel.split(hero.titelAccent)
   : [hero.titel, ''];
 ---
-<Base>
+<Base taal={taal}>
   <!-- HERO (via CMS) -->
   <section class="hero" id="top" style={`--hero-img:url('${hero.afbeelding}')`}>
     <div class="wrap">
@@ -22,7 +25,7 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
         <p class="lead">{hero.tekst}</p>
         <div class="hero-cta">
           <a class="btn gold" href={hero.knopUrl}>{hero.knopLabel}</a>
-          <a class="btn ghost" style="color:var(--cream);border-color:rgba(239,200,62,.5)" href="#nieuws">Bekijk nieuws</a>
+          <a class="btn ghost" style="color:var(--cream);border-color:rgba(239,200,62,.5)" href="#nieuws">{t(taal, "home.bekijkNieuws")}</a>
         </div>
       </div>
     </div>
@@ -30,10 +33,10 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
 
   <div class="strip">
     <div class="wrap">
-      <span><b>Live gamelan</b> — orkest Jiwa Manunggal</span>
-      <span><b>Javaanse dans</b> &amp; theater</span>
-      <span><b>Educatie</b> &amp; workshops</span>
-      <span><b>Verhalen</b> uit de Javaanse traditie</span>
+      <span>{t(taal, "home.strip1")}</span>
+      <span>{t(taal, "home.strip2")}</span>
+      <span>{t(taal, "home.strip3")}</span>
+      <span>{t(taal, "home.strip4")}</span>
     </div>
   </div>
 
@@ -64,13 +67,11 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
       <div class="merch">
         <div class="img" style="background-image:url('/assets/perf4.jpg')"></div>
         <div class="body">
-          <span class="kicker">SGR Merchandise</span>
-          <h2>Steun cultuur met een exclusief aandenken</h2>
-          <p>Onze exclusieve merchandise is met zorg en creativiteit ontworpen door de jongeren
-            van Stichting Gema Rasa.</p>
-          <p>Met jouw aankoop steun je niet alleen onze culturele projecten, maar draag je ook bij
-            aan het behoud en de promotie van Javaanse muziek en dans.</p>
-          <a class="btn" href="/shop" style="margin-top:8px">Shop</a>
+          <span class="kicker">{t(taal, "home.merchKicker")}</span>
+          <h2>{t(taal, "home.merchTitel")}</h2>
+          <p>{t(taal, "home.merchTekst1")}</p>
+          <p>{t(taal, "home.merchTekst2")}</p>
+          <a class="btn" href={pad(taal, "/shop")} style="margin-top:8px">{t(taal, "home.shop")}</a>
         </div>
       </div>
     </div>
@@ -81,23 +82,18 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
     <div class="wrap">
       <div class="ornament" style="margin-bottom:52px"><span></span></div>
       <div class="section-head">
-        <span class="kicker">De Stichting</span>
-        <h2>Stichting Gema Rasa</h2>
-        <p>Een culturele organisatie die zich met passie en toewijding inzet voor de promotie van
-          Javaanse muziek en dans, en de rijke tradities van Java naar een breed publiek brengt.</p>
+        <span class="kicker">{t(taal, "home.overKicker")}</span>
+        <h2>{t(taal, "home.overTitel")}</h2>
+        <p>{t(taal, "home.overTekst")}</p>
       </div>
       <div class="duo">
         <div class="word">
           <h3>Gema</h3>
-          <p>Letterlijk vertaald betekent "gema" "echo" in het Javaans en Indonesisch. In de context
-            van de stichting symboliseert dit de weerklank van de Javaanse cultuur en tradities die
-            resoneren door de generaties heen.</p>
+          <p>{t(taal, "home.gemaTekst")}</p>
         </div>
         <div class="word">
           <h3>Rasa</h3>
-          <p>"Rasa" kan vertaald worden als "gevoel", "smaak" of "essentie". Het verwijst naar de
-            diepe emotionele verbinding en het gevoel dat men krijgt bij het beoefenen en ervaren
-            van Javaanse dans en muziek.</p>
+          <p>{t(taal, "home.rasaTekst")}</p>
         </div>
       </div>
     </div>
@@ -107,8 +103,8 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
   {galerij.length > 0 && (
     <section class="strook rond-boven rond-onder" id="fotos">
       <div class="kop">
-        <span class="kicker">Impressie</span>
-        <h2>Gema Rasa in beeld</h2>
+        <span class="kicker">{t(taal, "home.fotoKicker")}</span>
+        <h2>{t(taal, "home.fotoTitel")}</h2>
         <div class="ornament op-donker" style="margin-top:18px"><span></span></div>
       </div>
       <div class="marquee">
@@ -128,14 +124,14 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
   <section class="block" id="nieuws" style="padding-top:0">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Foto's, Video's &amp; Nieuws</span>
-        <h2>Bekijk onze optredens en evenementen</h2>
-        <p>Het laatste nieuws van het gamelanorkest en de projecten van Stichting Gema Rasa.</p>
-        <p style="margin-top:14px"><a class="btn ghost" href="/nieuws">Alle berichten</a></p>
+        <span class="kicker">{t(taal, "home.nieuwsKicker")}</span>
+        <h2>{t(taal, "home.nieuwsTitel")}</h2>
+        <p>{t(taal, "home.nieuwsTekst")}</p>
+        <p style="margin-top:14px"><a class="btn ghost" href={pad(taal, "/nieuws")}>{t(taal, "home.alleBerichten")}</a></p>
       </div>
       <div class="news-grid">
         {nieuws.map((n) => (
-          <a class="news" href={`/nieuws/${n.slug}`}>
+          <a class="news" href={pad(taal, `/nieuws/${n.slug}`)}>
             <div class="thumb" style={`background-image:url('${n.afbeelding}')`}></div>
             <div class="np">
               <span class="cat">{n.categorie}</span>
@@ -152,12 +148,11 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
   <!-- CTA: BOEK GEMA RASA → menukaart -->
   <section class="cta">
     <div class="cta-inner">
-      <h2>Nodig Gema Rasa uit voor uw evenement</h2>
-      <p>Beleef de betoverende muziek van de Gamelan Groep Jiwa Manunggal van Stichting Gema Rasa.
-        Benieuwd wat we voor jou kunnen betekenen? Bekijk onze culturele menukaart.</p>
+      <h2>{t(taal, "home.ctaTitel")}</h2>
+      <p>{t(taal, "home.ctaTekst")}</p>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-        <a class="btn" href="/menukaart">Bekijk wat we bieden</a>
-        <a class="btn ghost" href="/contact">Direct contact</a>
+        <a class="btn" href={pad(taal, "/menukaart")}>{t(taal, "home.ctaKnop")}</a>
+        <a class="btn ghost" href={pad(taal, "/contact")}>{t(taal, "home.ctaContact")}</a>
       </div>
     </div>
   </section>
@@ -166,10 +161,9 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
   <section class="block" id="agenda">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Agenda</span>
-        <h2>Evenementen die wij ondersteunen</h2>
-        <p>Evenementen waar onze gamelangroep Jiwa Manunggal optreedt of die helpen met het
-          verspreiden van de Javaanse cultuur.</p>
+        <span class="kicker">{t(taal, "home.agendaKicker")}</span>
+        <h2>{t(taal, "home.agendaTitel")}</h2>
+        <p>{t(taal, "home.agendaTekst")}</p>
       </div>
       <div class="agenda">
         {agenda.map((e) => (

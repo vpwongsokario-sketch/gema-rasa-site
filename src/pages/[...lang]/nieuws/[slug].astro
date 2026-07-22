@@ -1,21 +1,26 @@
 ---
-import Base from '../../layouts/Base.astro';
-import { getNieuwsArtikelen } from '../../lib/sanity.ts';
+import Base from '../../../layouts/Base.astro';
+import { getNieuwsArtikelen } from '../../../lib/sanity.ts';
+import { talen, t, pad } from '../../../i18n/index.ts';
 import { toHTML } from '@portabletext/to-html';
 
+// Elk artikel × elke taal
 export async function getStaticPaths() {
-  const artikelen = await getNieuwsArtikelen();
-  return artikelen
-    .filter((a) => a.slug)
-    .map((artikel) => ({ params: { slug: artikel.slug }, props: { artikel } }));
+  const artikelen = (await getNieuwsArtikelen()).filter((a) => a.slug);
+  return talen.flatMap((taal) =>
+    artikelen.map((artikel) => ({
+      params: { lang: taal === 'nl' ? undefined : taal, slug: artikel.slug },
+      props: { artikel, taal },
+    })),
+  );
 }
 
-const { artikel } = Astro.props;
+const { artikel, taal } = Astro.props;
 
 // De volledige tekst uit het CMS omzetten naar HTML (leeg = alleen de samenvatting)
 const tekst = artikel.body ? toHTML(artikel.body, { components: {} }) : '';
 ---
-<Base title={`${artikel.titel} — Stichting Gema Rasa`} description={artikel.intro}>
+<Base taal={taal} title={`${artikel.titel} — Stichting Gema Rasa`} description={artikel.intro}>
   <section class="pagehead artikel-kop" style={`--hero-img:url('${artikel.afbeelding}')`}>
     <div class="wrap">
       <span class="eyebrow">{artikel.categorie}</span>

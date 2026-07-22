@@ -1,8 +1,11 @@
 ---
-import Base from '../layouts/Base.astro';
-import PageHero from '../components/PageHero.astro';
+import { taalPaden, t, pad } from '../../i18n/index.ts';
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
 ---
-<Base title="Shop — Stichting Gema Rasa">
+<Base taal={taal} title="Shop — Stichting Gema Rasa">
   <PageHero
     sleutel="shop"
     eyebrow="SGR Merchandise"

@@ -1,11 +1,14 @@
 ---
-import Base from '../../layouts/Base.astro';
-import PageHero from '../../components/PageHero.astro';
-import { getNieuwsArtikelen } from '../../lib/sanity.ts';
+import { taalPaden, t, pad } from '../../../i18n/index.ts';
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import { getNieuwsArtikelen } from '../../../lib/sanity.ts';
 
 const artikelen = await getNieuwsArtikelen();
 ---
-<Base title="Nieuws — Stichting Gema Rasa">
+<Base taal={taal} title="Nieuws — Stichting Gema Rasa">
   <PageHero
     sleutel="nieuws"
     eyebrow="Foto's, Video's &amp; Nieuws"

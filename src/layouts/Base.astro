@@ -1,15 +1,26 @@
 ---
 import '../styles/global.css';
 import { contact } from '../data/content.js';
-const { title = 'Stichting Gema Rasa — Bruggen bouwen met Javaanse podiumkunsten', description = 'De betoverende klanken van het gamelanorkest en de sierlijke bewegingen van de Javaanse dans, voor een fascinerende culturele beleving.' } = Astro.props;
+import { t, pad, talen, taalNamen, type Taal } from '../i18n/index.ts';
+
+const { taal = 'nl' as Taal, title, description } = Astro.props;
+const paginaTitel = title ?? t(taal, 'home.titel');
+const paginaOmschrijving = description ?? t(taal, 'home.omschrijving');
+
+// Het huidige pad zonder taalvoorvoegsel, zodat de taalwisselaar naar
+// dezelfde pagina in een andere taal kan verwijzen.
+const huidigPad = Astro.url.pathname.replace(/^\/(en|id)(?=\/|$)/, '') || '/';
 ---
 <!DOCTYPE html>
-<html lang="nl">
+<html lang={taal}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
-  <meta name="description" content={description} />
+  <title>{paginaTitel}</title>
+  <meta name="description" content={paginaOmschrijving} />
+  {talen.map((andere) => (
+    <link rel="alternate" hreflang={andere} href={new URL(pad(andere, huidigPad), Astro.site ?? Astro.url).toString()} />
+  ))}
   <link rel="icon" type="image/png" href="/assets/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,19 +37,32 @@ const { title = 'Stichting Gema Rasa — Bruggen bouwen met Javaanse podiumkunst
   <header>
     <div class="wrap">
       <nav>
-        <a class="brand" href="/#top">
+        <a class="brand" href={pad(taal, '/')}>
           <img class="logo-img" src="/assets/logo.png" alt="Stichting Gema Rasa" />
         </a>
         <div class="navlinks">
-          <a href="/de-stichting">De Stichting</a>
-          <a href="/leden">De Leden</a>
-          <a href="/de-gamelan-groep">De Gamelangroep</a>
-          <a href="/de-vrienden-van">De Vrienden van</a>
-          <a href="/contact">Contact</a>
+          <a href={pad(taal, '/de-stichting')}>{t(taal, 'nav.stichting')}</a>
+          <a href={pad(taal, '/leden')}>{t(taal, 'nav.leden')}</a>
+          <a href={pad(taal, '/de-gamelan-groep')}>{t(taal, 'nav.gamelan')}</a>
+          <a href={pad(taal, '/de-vrienden-van')}>{t(taal, 'nav.vrienden')}</a>
+          <a href={pad(taal, '/contact')}>{t(taal, 'nav.contact')}</a>
         </div>
         <div class="nav-right">
-          <span class="lang"><b>NL</b> · EN · ID</span>
-          <a class="btn gold" href="/steun">Steun</a>
+          <div class="lang" role="group" aria-label="Taal kiezen">
+            {talen.map((andere, i) => (
+              <>
+                {i > 0 && <span class="scheider">·</span>}
+                <a
+                  href={pad(andere, huidigPad)}
+                  hreflang={andere}
+                  title={taalNamen[andere]}
+                  aria-current={andere === taal ? 'true' : undefined}
+                  class={andere === taal ? 'actief' : undefined}
+                >{andere.toUpperCase()}</a>
+              </>
+            ))}
+          </div>
+          <a class="btn gold" href={pad(taal, '/steun')}>{t(taal, 'nav.steun')}</a>
         </div>
       </nav>
     </div>
@@ -51,18 +75,16 @@ const { title = 'Stichting Gema Rasa — Bruggen bouwen met Javaanse podiumkunst
       <div class="fgrid">
         <div>
           <span class="name" style="color:#fff;font-weight:700;font-size:18px">Stichting Gema Rasa</span>
-          <p style="margin-top:14px">Een culturele organisatie die zich inzet voor de promotie van
-            Javaanse muziek en dans. Met passie en toewijding brengen wij de rijke tradities van Java
-            naar een breed publiek.</p>
+          <p style="margin-top:14px">{t(taal, 'footer.over')}</p>
           <form class="newsletter" data-formulier="nieuwsbrief" data-bedankt="Bedankt! Je staat op de lijst.">
-            <label for="nl-email">Schrijf je in voor onze nieuwsbrief</label>
+            <label for="nl-email">{t(taal, 'footer.nieuwsbrief')}</label>
             <div class="nl-row">
-              <input id="nl-email" name="email" type="email" required placeholder="jouw@e-mail.nl" aria-label="E-mailadres" />
-              <button class="btn gold" type="submit">Inschrijven</button>
+              <input id="nl-email" name="email" type="email" required placeholder={t(taal, 'footer.emailPlaceholder')} aria-label="E-mail" />
+              <button class="btn gold" type="submit">{t(taal, 'footer.inschrijven')}</button>
             </div>
             <label class="akkoord">
               <input type="checkbox" name="toestemming" required />
-              <span>Ja, stuur mij de nieuwsbrief. Afmelden kan altijd.</span>
+              <span>{t(taal, 'footer.akkoord')}</span>
             </label>
             {/* Verborgen veld tegen spambots */}
             <input type="text" name="website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true" />
@@ -70,15 +92,15 @@ const { title = 'Stichting Gema Rasa — Bruggen bouwen met Javaanse podiumkunst
           </form>
         </div>
         <div>
-          <h4>Handige links</h4>
-          <a href="/">Home</a>
-          <a href="/de-stichting">De Stichting</a>
-          <a href="/leden">De Leden</a>
-          <a href="/de-gamelan-groep">De Gamelangroep</a>
-          <a href="/de-vrienden-van">De Vrienden van</a>
+          <h4>{t(taal, 'footer.links')}</h4>
+          <a href={pad(taal, '/')}>{t(taal, 'nav.home')}</a>
+          <a href={pad(taal, '/de-stichting')}>{t(taal, 'nav.stichting')}</a>
+          <a href={pad(taal, '/leden')}>{t(taal, 'nav.leden')}</a>
+          <a href={pad(taal, '/de-gamelan-groep')}>{t(taal, 'nav.gamelan')}</a>
+          <a href={pad(taal, '/de-vrienden-van')}>{t(taal, 'nav.vrienden')}</a>
         </div>
         <div>
-          <h4>Onze contactgegevens</h4>
+          <h4>{t(taal, 'footer.contactgegevens')}</h4>
           <a href={`mailto:${contact.email}`}>{contact.email}</a>
           <a href={`tel:${contact.telefoon.replace(/[^+0-9]/g, '')}`}>{contact.telefoon}</a>
           <p>{contact.adres}</p>
@@ -86,8 +108,8 @@ const { title = 'Stichting Gema Rasa — Bruggen bouwen met Javaanse podiumkunst
         </div>
       </div>
       <div class="fbar">
-        <span>© Stichting Gema Rasa. All Rights Reserved 2026.</span>
-        <span>Bruggen bouwen met Javaanse podiumkunsten</span>
+        <span>{t(taal, 'footer.rechten')}</span>
+        <span>{t(taal, 'footer.slogan')}</span>
       </div>
     </div>
   </footer>
