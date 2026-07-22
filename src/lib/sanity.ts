@@ -130,14 +130,16 @@ export async function getAgenda(taal: string = 'nl') {
 
 /* ---------- Leden ---------- */
 export async function getLeden(taal: string = 'nl') {
-  const docs = await safe<any[]>('*[_type == "lid"] | order(volgorde asc){ naam, rol, rol_en, rol_id, groep, rollen, foto }');
+  const docs = await safe<any[]>('*[_type == "lid"] | order(volgorde asc){ naam, rol, rol_en, rol_id, groep, rollen, ensembles, foto }');
   if (!docs || docs.length === 0) {
     const musici = ['Vrijwilliger', 'Marketing & Communicatie'];
-    const leeg = (m: any) => ({ ...m, foto: '', rollen: [] });
+    const leeg = (m: any) => ({ ...m, foto: '', rollen: [], ensembles: [] });
+    const gamelanLokaal = local.leden.filter((m) => !musici.includes(m.rol)).map(leeg);
     return {
       bestuur: local.bestuur.map(leeg),
       leden: local.leden.map(leeg),
-      gamelan: local.leden.filter((m) => !musici.includes(m.rol)).map(leeg),
+      gamelan: gamelanLokaal,
+      ensembles: { young: [], silver: [], mix: [], overig: gamelanLokaal },
     };
   }
   // Nieuw veld 'rollen' (meerdere) met terugval op het oude 'groep' (één rol)
@@ -148,13 +150,23 @@ export async function getLeden(taal: string = 'nl') {
     rol: vertaald(d, 'rol', taal) ?? '',
     foto: img(d.foto, ''),
     rollen: rollenVan(d),
+    ensembles: Array.isArray(d.ensembles) ? d.ensembles : [],
   });
   const alle = docs.map(map);
+  const gamelan = alle.filter((m) => m.rollen.includes('gamelan'));
   return {
     bestuur: alle.filter((m) => m.rollen.includes('bestuur')),
     // iedereen buiten het bestuur — iemand kan hier zowel speler als vrijwilliger zijn
     leden: alle.filter((m) => !m.rollen.includes('bestuur')),
-    gamelan: alle.filter((m) => m.rollen.includes('gamelan')),
+    gamelan,
+    // De drie ensembles binnen Jiwa Manunggal. Wie nog niet is ingedeeld,
+    // verschijnt onder 'overig', zodat niemand van de pagina verdwijnt.
+    ensembles: {
+      young: gamelan.filter((m) => m.ensembles.includes('young')),
+      silver: gamelan.filter((m) => m.ensembles.includes('silver')),
+      mix: gamelan.filter((m) => m.ensembles.includes('mix')),
+      overig: gamelan.filter((m) => m.ensembles.length === 0),
+    },
   };
 }
 

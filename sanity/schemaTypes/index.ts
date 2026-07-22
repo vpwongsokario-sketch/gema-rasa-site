@@ -140,6 +140,18 @@ const lid = defineType({
       name: 'groep', title: 'Groep (oude versie)', type: 'string', readOnly: true,
       hidden: ({ parent }) => !parent?.groep || (parent?.rollen?.length ?? 0) > 0,
     }),
+    defineField({
+      name: 'ensembles', title: 'Ensemble(s) binnen Jiwa Manunggal', type: 'array', of: [{ type: 'string' }],
+      description: 'Meerdere mogelijk — iemand kan bijvoorbeeld in Young Generation én in Mix spelen.',
+      options: {
+        list: [
+          { title: 'Young Generation (3–30 jaar)', value: 'young' },
+          { title: 'Silver Generation (30 jaar en ouder)', value: 'silver' },
+          { title: 'Mix (beide generaties samen)', value: 'mix' },
+        ],
+        layout: 'grid',
+      },
+    }),
     defineField({ name: 'foto', title: 'Foto (optioneel)', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'volgorde', title: 'Volgorde', type: 'number', initialValue: 50 }),
   ],

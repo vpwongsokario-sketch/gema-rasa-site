@@ -4,6 +4,21 @@
  */
 
 export const paginaNL: Record<string, string> = {
+  'gg.ensKicker': 'De ensembles',
+  'gg.ensTitel': 'Drie groepen binnen Jiwa Manunggal',
+  'gg.ensIntro': 'Jiwa Manunggal speelt in drie samenstellingen, elk met een eigen karakter en leeftijdsopbouw.',
+  'gg.youngNaam': 'Jiwa Manunggal Young Generation',
+  'gg.youngLeeftijd': '3 tot 30 jaar',
+  'gg.youngTekst': 'De jonge garde: kinderen en jongeren die spelenderwijs de gamelan leren kennen en met frisse energie op het podium staan.',
+  'gg.silverNaam': 'Jiwa Manunggal Silver Generation',
+  'gg.silverLeeftijd': 'vanaf 30 jaar',
+  'gg.silverTekst': 'De ervaren spelers, die de traditie dragen en doorgeven aan de volgende generatie.',
+  'gg.mixNaam': 'Jiwa Manunggal Mix',
+  'gg.mixLeeftijd': 'beide generaties samen',
+  'gg.mixTekst': 'Jong en ervaren samen op één podium — precies waar Jiwa Manunggal, "zielen verenigd", voor staat.',
+  'gg.overigTitel': 'Overige musici',
+  'gg.nogIndelen': 'Deze musici zijn nog niet aan een ensemble toegewezen.',
+  'gg.leden': 'leden',
   // ---- De Stichting ----
   'st.eyebrow': 'De Stichting',
   'st.titel': 'Transformatie tot traditie',
@@ -142,6 +157,21 @@ export const paginaNL: Record<string, string> = {
 };
 
 export const paginaEN: Record<string, string> = {
+  'gg.ensKicker': 'The ensembles',
+  'gg.ensTitel': 'Three groups within Jiwa Manunggal',
+  'gg.ensIntro': 'Jiwa Manunggal performs in three line-ups, each with its own character and age range.',
+  'gg.youngNaam': 'Jiwa Manunggal Young Generation',
+  'gg.youngLeeftijd': 'ages 3 to 30',
+  'gg.youngTekst': 'The young guard: children and young people who discover the gamelan through play and bring fresh energy to the stage.',
+  'gg.silverNaam': 'Jiwa Manunggal Silver Generation',
+  'gg.silverLeeftijd': 'ages 30 and up',
+  'gg.silverTekst': 'The experienced players, who carry the tradition and pass it on to the next generation.',
+  'gg.mixNaam': 'Jiwa Manunggal Mix',
+  'gg.mixLeeftijd': 'both generations together',
+  'gg.mixTekst': 'Young and experienced on one stage — exactly what Jiwa Manunggal, "souls united", stands for.',
+  'gg.overigTitel': 'Other musicians',
+  'gg.nogIndelen': 'These musicians have not been assigned to an ensemble yet.',
+  'gg.leden': 'members',
   'st.eyebrow': 'The Foundation',
   'st.titel': 'Transformation into tradition',
   'st.intro': 'Stichting Gema Rasa is a cultural organisation dedicated to promoting Javanese music and dance.',
@@ -271,6 +301,21 @@ export const paginaEN: Record<string, string> = {
 };
 
 export const paginaID: Record<string, string> = {
+  'gg.ensKicker': 'Ensemble kami',
+  'gg.ensTitel': 'Tiga kelompok dalam Jiwa Manunggal',
+  'gg.ensIntro': 'Jiwa Manunggal tampil dalam tiga formasi, masing-masing dengan karakter dan rentang usia tersendiri.',
+  'gg.youngNaam': 'Jiwa Manunggal Young Generation',
+  'gg.youngLeeftijd': 'usia 3 sampai 30 tahun',
+  'gg.youngTekst': 'Generasi muda: anak-anak dan remaja yang mengenal gamelan sambil bermain dan tampil dengan energi segar.',
+  'gg.silverNaam': 'Jiwa Manunggal Silver Generation',
+  'gg.silverLeeftijd': 'usia 30 tahun ke atas',
+  'gg.silverTekst': 'Para pemain berpengalaman yang menjaga tradisi dan mewariskannya kepada generasi berikutnya.',
+  'gg.mixNaam': 'Jiwa Manunggal Mix',
+  'gg.mixLeeftijd': 'kedua generasi bersama',
+  'gg.mixTekst': 'Yang muda dan yang berpengalaman dalam satu panggung — persis makna Jiwa Manunggal, "jiwa yang menyatu".',
+  'gg.overigTitel': 'Musisi lainnya',
+  'gg.nogIndelen': 'Musisi ini belum ditempatkan dalam sebuah ensemble.',
+  'gg.leden': 'anggota',
   'st.eyebrow': 'Tentang Yayasan',
   'st.titel': 'Dari perubahan menjadi tradisi',
   'st.intro': 'Stichting Gema Rasa adalah organisasi budaya yang berdedikasi mempromosikan musik dan tari Jawa.',
