@@ -6,7 +6,7 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import { contact } from '../../data/content.js';
 ---
-<Base taal={taal} title="Contact — Stichting Gema Rasa">
+<Base taal={taal} title={`${t(taal, "ct.titel")} — Stichting Gema Rasa`}>
   <PageHero
     sleutel="contact"
     eyebrow={t(taal, "ct.eyebrow")}

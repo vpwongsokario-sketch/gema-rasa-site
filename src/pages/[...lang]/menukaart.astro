@@ -8,7 +8,7 @@ import { catName, filters, videos } from '../../data/programmas.js';
 import { getProgrammas } from '../../lib/sanity.ts';
 const programmas = await getProgrammas();
 ---
-<Base taal={taal} title="Wat we voor je kunnen doen — Culturele Menukaart | Stichting Gema Rasa">
+<Base taal={taal} title={`${t(taal, "mk.titel")} — Stichting Gema Rasa`}>
   <PageHero
     sleutel="menukaart"
     eyebrow={t(taal, "mk.eyebrow")}

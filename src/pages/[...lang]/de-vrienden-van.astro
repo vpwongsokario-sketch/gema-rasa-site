@@ -7,7 +7,7 @@ import PageHero from '../../components/PageHero.astro';
 import { getVrienden } from '../../lib/sanity.ts';
 const vrienden = await getVrienden();
 ---
-<Base taal={taal} title="De Vrienden van — Stichting Gema Rasa">
+<Base taal={taal} title={`${t(taal, "vr.titel")} — Stichting Gema Rasa`}>
   <PageHero
     sleutel="de-vrienden-van"
     eyebrow={t(taal, "vr.eyebrow")}

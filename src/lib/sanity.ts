@@ -40,15 +40,15 @@ const datumOpmaak: Record<string, Intl.DateTimeFormat> = {
 const datumLabel = (d: string, taal = 'nl') => (d ? (datumOpmaak[taal] ?? datumOpmaak.nl).format(new Date(d)) : '');
 
 /* ---------- Homepage ---------- */
-export async function getHomepage() {
+export async function getHomepage(taal: string = 'nl') {
   const doc = await safe<any>('*[_type == "homepage"][0]');
   if (!doc) return { hero: local.hero, productie: local.productie };
   return {
     hero: {
       eyebrow: doc.heroEyebrow ?? local.hero.eyebrow,
-      titel: doc.heroTitel ?? local.hero.titel,
-      titelAccent: doc.heroTitelAccent ?? '',
-      tekst: doc.heroTekst ?? local.hero.tekst,
+      titel: vertaald(doc, 'heroTitel', taal) ?? local.hero.titel,
+      titelAccent: vertaald(doc, 'heroTitelAccent', taal) ?? '',
+      tekst: vertaald(doc, 'heroTekst', taal) ?? local.hero.tekst,
       afbeelding: img(doc.heroAfbeelding, local.hero.afbeelding),
       knopLabel: doc.heroKnopLabel ?? local.hero.knopLabel,
       knopUrl: doc.heroKnopUrl ?? local.hero.knopUrl,
@@ -56,13 +56,13 @@ export async function getHomepage() {
     productie: {
       actief: doc.productieActief ?? false,
       kicker: doc.productieKicker ?? '',
-      titel: doc.productieTitel ?? '',
-      datumLabel: doc.productieDatumLabel ?? '',
-      intro: doc.productieIntro ?? '',
-      beschrijving: doc.productieBeschrijving ?? '',
-      citaat: doc.productieCitaat ?? '',
+      titel: vertaald(doc, 'productieTitel', taal) ?? '',
+      datumLabel: vertaald(doc, 'productieDatumLabel', taal) ?? '',
+      intro: vertaald(doc, 'productieIntro', taal) ?? '',
+      beschrijving: vertaald(doc, 'productieBeschrijving', taal) ?? '',
+      citaat: vertaald(doc, 'productieCitaat', taal) ?? '',
       afbeelding: img(doc.productieAfbeelding, local.productie.afbeelding),
-      knopLabel: doc.productieKnopLabel ?? 'Tickets',
+      knopLabel: vertaald(doc, 'productieKnopLabel', taal) ?? 'Tickets',
       knopUrl: doc.productieKnopUrl ?? '/contact',
     },
   };

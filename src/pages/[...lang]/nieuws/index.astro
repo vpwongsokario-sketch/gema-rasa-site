@@ -8,7 +8,7 @@ import { getNieuwsArtikelen } from '../../../lib/sanity.ts';
 
 const artikelen = await getNieuwsArtikelen(taal);
 ---
-<Base taal={taal} title="Nieuws — Stichting Gema Rasa">
+<Base taal={taal} title={`${t(taal, "nw.titel")} — Stichting Gema Rasa`}>
   <PageHero
     sleutel="nieuws"
     eyebrow={t(taal, "nw.eyebrow")}

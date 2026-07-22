@@ -89,6 +89,14 @@ const nl: Woordenboek = {
   // algemeen
   'algemeen.leesMeer': 'Lees meer',
   'algemeen.tickets': 'Tickets',
+  'algemeen.merk': 'Stichting Gema Rasa',
+
+  // formuliermeldingen (worden door de JavaScript gebruikt)
+  'form.bezig': 'Bezig…',
+  'form.bedankt': 'Bedankt! We hebben je bericht ontvangen.',
+  'form.bedanktNieuwsbrief': 'Bedankt! Je staat op de lijst.',
+  'form.fout': 'Er ging iets mis. Probeer het later nog eens.',
+  'form.offline': 'Geen verbinding. Controleer je internet en probeer het opnieuw.',
 };
 
 const en: Woordenboek = {
@@ -144,6 +152,13 @@ const en: Woordenboek = {
 
   'algemeen.leesMeer': 'Read more',
   'algemeen.tickets': 'Tickets',
+  'algemeen.merk': 'Stichting Gema Rasa',
+
+  'form.bezig': 'Sending…',
+  'form.bedankt': 'Thank you! We have received your message.',
+  'form.bedanktNieuwsbrief': "Thank you! You're on the list.",
+  'form.fout': 'Something went wrong. Please try again later.',
+  'form.offline': 'No connection. Please check your internet and try again.',
 };
 
 const id: Woordenboek = {
@@ -199,6 +214,13 @@ const id: Woordenboek = {
 
   'algemeen.leesMeer': 'Baca selengkapnya',
   'algemeen.tickets': 'Tiket',
+  'algemeen.merk': 'Stichting Gema Rasa',
+
+  'form.bezig': 'Mengirim…',
+  'form.bedankt': 'Terima kasih! Pesan Anda telah kami terima.',
+  'form.bedanktNieuwsbrief': 'Terima kasih! Anda telah terdaftar.',
+  'form.fout': 'Terjadi kesalahan. Silakan coba lagi nanti.',
+  'form.offline': 'Tidak ada koneksi. Periksa internet Anda dan coba lagi.',
 };
 
 import { paginaNL, paginaEN, paginaID } from './paginas.ts';

@@ -5,7 +5,7 @@ const { taal } = Astro.props;
 import Base from '../../layouts/Base.astro';
 import { getHomepage, getNieuws, getAgenda, getGalerij } from '../../lib/sanity.ts';
 
-const { hero, productie } = await getHomepage();
+const { hero, productie } = await getHomepage(taal);
 const nieuws = await getNieuws(taal);
 const agenda = await getAgenda(taal);
 const galerij = await getGalerij();
@@ -137,7 +137,7 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
               <span class="cat">{n.categorie}</span>
               <h3>{n.titel}</h3>
               <p>{n.intro.length > 160 ? n.intro.slice(0, 160) + '…' : n.intro}</p>
-              <span class="more">Lees meer →</span>
+              <span class="more">{t(taal, "algemeen.leesMeer")} →</span>
             </div>
           </a>
         ))}

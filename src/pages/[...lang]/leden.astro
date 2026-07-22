@@ -11,7 +11,7 @@ const { bestuur, leden } = await getLeden(taal);
 const initialen = (naam = '') =>
   naam.split(/[\s-]+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
 ---
-<Base taal={taal} title="De Leden — Stichting Gema Rasa">
+<Base taal={taal} title={`${t(taal, "ld.titel")} — Stichting Gema Rasa`}>
   <PageHero
     sleutel="leden"
     eyebrow={t(taal, "ld.eyebrow")}

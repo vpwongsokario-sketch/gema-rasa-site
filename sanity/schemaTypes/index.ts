@@ -6,8 +6,10 @@ const homepage = defineType({
   title: 'Homepage',
   type: 'document',
   groups: [
-    { name: 'hero', title: 'Hero' },
-    { name: 'productie', title: 'Uitgelichte voorstelling' },
+    { name: 'hero', title: '🇳🇱 Hero', default: true },
+    { name: 'productie', title: '🇳🇱 Voorstelling' },
+    { name: 'en', title: '🇬🇧 English' },
+    { name: 'id', title: '🇮🇩 Indonesia' },
   ],
   fields: [
     // Hero
@@ -29,6 +31,28 @@ const homepage = defineType({
     defineField({ name: 'productieAfbeelding', title: 'Foto voorstelling', type: 'image', options: { hotspot: true }, group: 'productie' }),
     defineField({ name: 'productieKnopLabel', title: 'Knoptekst', type: 'string', initialValue: 'Tickets', group: 'productie' }),
     defineField({ name: 'productieKnopUrl', title: 'Knop-link', type: 'string', group: 'productie' }),
+
+    // ---- Engels (leeg laten = Nederlandse tekst tonen) ----
+    defineField({ name: 'heroTitel_en', title: 'Hero title', type: 'string', group: 'en' }),
+    defineField({ name: 'heroTitelAccent_en', title: 'Accent word', type: 'string', group: 'en' }),
+    defineField({ name: 'heroTekst_en', title: 'Hero intro', type: 'text', rows: 3, group: 'en' }),
+    defineField({ name: 'productieTitel_en', title: 'Production title', type: 'string', group: 'en' }),
+    defineField({ name: 'productieDatumLabel_en', title: 'Date & venue', type: 'string', group: 'en' }),
+    defineField({ name: 'productieIntro_en', title: 'Intro', type: 'text', rows: 3, group: 'en' }),
+    defineField({ name: 'productieBeschrijving_en', title: 'Description', type: 'text', rows: 4, group: 'en' }),
+    defineField({ name: 'productieCitaat_en', title: 'Quote', type: 'text', rows: 2, group: 'en' }),
+    defineField({ name: 'productieKnopLabel_en', title: 'Button label', type: 'string', group: 'en' }),
+
+    // ---- Indonesisch ----
+    defineField({ name: 'heroTitel_id', title: 'Judul hero', type: 'string', group: 'id' }),
+    defineField({ name: 'heroTitelAccent_id', title: 'Kata aksen', type: 'string', group: 'id' }),
+    defineField({ name: 'heroTekst_id', title: 'Intro hero', type: 'text', rows: 3, group: 'id' }),
+    defineField({ name: 'productieTitel_id', title: 'Judul pertunjukan', type: 'string', group: 'id' }),
+    defineField({ name: 'productieDatumLabel_id', title: 'Tanggal & lokasi', type: 'string', group: 'id' }),
+    defineField({ name: 'productieIntro_id', title: 'Intro', type: 'text', rows: 3, group: 'id' }),
+    defineField({ name: 'productieBeschrijving_id', title: 'Deskripsi', type: 'text', rows: 4, group: 'id' }),
+    defineField({ name: 'productieCitaat_id', title: 'Kutipan', type: 'text', rows: 2, group: 'id' }),
+    defineField({ name: 'productieKnopLabel_id', title: 'Label tombol', type: 'string', group: 'id' }),
   ],
   preview: { prepare: () => ({ title: 'Homepage' }) },
 });
