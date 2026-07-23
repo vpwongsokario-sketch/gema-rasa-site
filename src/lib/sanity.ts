@@ -260,8 +260,9 @@ export async function getAlbums(taal: string = 'nl') {
       externeAantal: d.externeAantal ?? null,
       seo: { titel: d.seo?.titel ?? '', beschrijving: d.seo?.beschrijving ?? '', afbeelding: beeldOfLeeg(d.seo?.afbeelding) },
       fotos: fotos.map((f: any) => ({
-        tegel: beeld(f, 700),
-        groot: beeld(f, 1800),
+        // Vierkante, compacte miniatuur (past precies in het raster, scheelt data)
+        tegel: (() => { try { return builder.image(f).width(500).height(500).fit('crop').auto('format').quality(66).url(); } catch { return ''; } })(),
+        groot: (() => { try { return builder.image(f).width(1600).fit('max').auto('format').quality(74).url(); } catch { return ''; } })(),
         bijschrift: f?.bijschrift ?? '',
       })).filter((f: any) => f.tegel),
     };

@@ -38,7 +38,7 @@ const alleFotosLabel = album.externeAantal
         {album.fotos.map((f, i) => (
           <button class="foto" data-index={i} data-groot={f.groot} data-bijschrift={f.bijschrift}
                   aria-label={f.bijschrift || `${t(taal, "al.eyebrow")} ${i + 1}`}>
-            <img src={f.tegel} alt={f.bijschrift || album.titel} loading="lazy" />
+            <img src={f.tegel} alt={f.bijschrift || album.titel} width="500" height="500" loading="lazy" decoding="async" />
           </button>
         ))}
       </div>
