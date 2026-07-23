@@ -1,5 +1,26 @@
 import { defineType, defineField } from 'sanity';
 
+/* ---------- Herbruikbaar SEO-blok ----------
+   Vind-je-terug-velden. Laat je ze leeg, dan gebruikt de site automatisch de
+   gewone titel en tekst — invullen is dus alleen nodig als je iets specifieks wilt. */
+const seoVeld = defineField({
+  name: 'seo',
+  title: 'Vindbaarheid (SEO)',
+  type: 'object',
+  options: { collapsible: true, collapsed: true },
+  description: 'Bepaalt hoe deze pagina in Google en op social media verschijnt. Leeg laten mag.',
+  fields: [
+    defineField({ name: 'titel', title: 'Google-titel', type: 'string',
+      validation: (r) => r.max(60).warning('Houd het onder ~60 tekens, anders kapt Google af.'),
+      description: 'De blauwe klikbare titel in Google. Leeg = de gewone paginatitel.' }),
+    defineField({ name: 'beschrijving', title: 'Google-omschrijving', type: 'text', rows: 2,
+      validation: (r) => r.max(160).warning('Houd het onder ~160 tekens.'),
+      description: 'Het grijze tekstje onder de titel in Google. Leeg = de intro van de pagina.' }),
+    defineField({ name: 'afbeelding', title: 'Deelafbeelding', type: 'image',
+      description: 'Verschijnt bij delen op WhatsApp, Facebook, LinkedIn. Liggend beeld werkt het best.' }),
+  ],
+});
+
 /* ---------- Homepage (singleton) ---------- */
 const homepage = defineType({
   name: 'homepage',
@@ -106,6 +127,7 @@ const nieuws = defineType({
     defineField({ name: 'categorie', title: 'Categorie', type: 'string', initialValue: 'Nieuws', group: 'algemeen' }),
     defineField({ name: 'datum', title: 'Datum', type: 'date', group: 'algemeen', initialValue: () => new Date().toISOString().slice(0, 10) }),
     defineField({ name: 'afbeelding', title: 'Afbeelding', type: 'image', options: { hotspot: true }, group: 'algemeen' }),
+    { ...seoVeld, group: 'algemeen' },
   ],
   orderings: [{ title: 'Datum, nieuwste eerst', name: 'datumDesc', by: [{ field: 'datum', direction: 'desc' }] }],
   preview: { select: { title: 'titel', subtitle: 'datum', media: 'afbeelding' } },

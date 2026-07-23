@@ -8,7 +8,7 @@ import { getAlbums } from '../../../lib/sanity.ts';
 
 const albums = await getAlbums(taal);
 ---
-<Base taal={taal} title={`${t(taal, "al.titel")} — Stichting Gema Rasa`}>
+<Base taal={taal} description={t(taal, "al.intro")} title={`${t(taal, "al.titel")} — Stichting Gema Rasa`}>
   <PageHero
     sleutel="albums"
     eyebrow={t(taal, "al.eyebrow")}

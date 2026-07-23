@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Het bewerk-dashboard hoeft niet geïndexeerd te worden
+Disallow: /studio
+
+Sitemap: https://gema-rasa-site.pages.dev/sitemap-index.xml

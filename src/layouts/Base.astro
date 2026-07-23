@@ -3,13 +3,55 @@ import '../styles/global.css';
 import { contact } from '../data/content.js';
 import { t, pad, talen, taalNamen, type Taal } from '../i18n/index.ts';
 
-const { taal = 'nl' as Taal, title, description } = Astro.props;
+const {
+  taal = 'nl' as Taal,
+  title,
+  description,
+  ogImage,           // pagina-eigen deelafbeelding (absolute of /assets-pad)
+  ogType = 'website',
+  jsonld,            // extra structured data voor deze pagina (Article, Event…)
+  noindex = false,
+} = Astro.props;
+
 const paginaTitel = title ?? t(taal, 'home.titel');
 const paginaOmschrijving = description ?? t(taal, 'home.omschrijving');
 
 // Het huidige pad zonder taalvoorvoegsel, zodat de taalwisselaar naar
 // dezelfde pagina in een andere taal kan verwijzen.
 const huidigPad = Astro.url.pathname.replace(/^\/(en|id)(?=\/|$)/, '') || '/';
+
+// Basis-URL voor canonical, sitemap en Open Graph
+const siteURL = Astro.site ?? new URL('https://gema-rasa-site.pages.dev');
+const canonical = new URL(Astro.url.pathname, siteURL).toString();
+const deelAfbeelding = new URL(ogImage ?? '/assets/perf-wayang.jpg', siteURL).toString();
+const ogLocale = { nl: 'nl_NL', en: 'en_GB', id: 'id_ID' }[taal];
+
+// Organisatie-gegevens: helpt Google én AI-zoekmachines begrijpen wie je bent.
+const organisatie = {
+  '@context': 'https://schema.org',
+  '@type': ['NGO', 'PerformingGroup'],
+  name: 'Stichting Gema Rasa',
+  alternateName: 'Gema Rasa',
+  url: siteURL.origin,
+  logo: new URL('/assets/logo.png', siteURL).toString(),
+  image: deelAfbeelding,
+  description: t('nl', 'home.omschrijving'),
+  email: contact.email,
+  telephone: contact.telefoon,
+  foundingDate: '2024-01-17',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Aan de Botersloot 2',
+    addressLocality: 'Ammerstol',
+    addressCountry: 'NL',
+  },
+  sameAs: [
+    'https://www.youtube.com/@StichtingGemaRasa',
+    'https://www.instagram.com/stichtinggemarasa',
+    'https://www.facebook.com/stichtinggemarasa',
+    'https://www.linkedin.com/company/102107834/',
+  ],
+};
 
 // Menustructuur: drie groepen plus twee losse items. Zo blijft de balk kort
 // en vindt een bezoeker sneller wat hij zoekt.
@@ -41,9 +83,33 @@ const actief = (u) => huidigPad === u || huidigPad.startsWith(u + '/');
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{paginaTitel}</title>
   <meta name="description" content={paginaOmschrijving} />
+  {noindex && <meta name="robots" content="noindex,follow" />}
+  <link rel="canonical" href={canonical} />
+
+  {/* Talen: verwijzingen naar dezelfde pagina in andere talen */}
   {talen.map((andere) => (
-    <link rel="alternate" hreflang={andere} href={new URL(pad(andere, huidigPad), Astro.site ?? Astro.url).toString()} />
+    <link rel="alternate" hreflang={andere} href={new URL(pad(andere, huidigPad), siteURL).toString()} />
   ))}
+  <link rel="alternate" hreflang="x-default" href={new URL(pad('nl', huidigPad), siteURL).toString()} />
+
+  {/* Open Graph — mooie voorvertoning bij delen op social/WhatsApp */}
+  <meta property="og:type" content={ogType} />
+  <meta property="og:title" content={paginaTitel} />
+  <meta property="og:description" content={paginaOmschrijving} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={deelAfbeelding} />
+  <meta property="og:site_name" content="Stichting Gema Rasa" />
+  <meta property="og:locale" content={ogLocale} />
+
+  {/* Twitter/X */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={paginaTitel} />
+  <meta name="twitter:description" content={paginaOmschrijving} />
+  <meta name="twitter:image" content={deelAfbeelding} />
+
+  {/* Structured data: wie we zijn (voor Google + AI-zoekmachines) */}
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(organisatie)} />
+  {jsonld && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonld)} />}
   <link rel="icon" type="image/png" href="/assets/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

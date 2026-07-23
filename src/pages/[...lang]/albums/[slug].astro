@@ -22,7 +22,7 @@ const alleFotosLabel = album.externeAantal
   ? t(taal, 'al.alleFotosAantal').replace('{n}', String(album.externeAantal))
   : t(taal, 'al.alleFotos');
 ---
-<Base taal={taal} title={`${album.titel} — Stichting Gema Rasa`} description={album.omschrijving}>
+<Base taal={taal} title={`${album.titel} — Stichting Gema Rasa`} description={album.omschrijving} ogImage={album.cover}>
   <section class="pagehead" style={`--hero-img:url('${album.cover}')`}>
     <div class="wrap">
       <span class="eyebrow">{t(taal, "al.eyebrow")}</span>

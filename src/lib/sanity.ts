@@ -39,6 +39,12 @@ const datumOpmaak: Record<string, Intl.DateTimeFormat> = {
 };
 const datumLabel = (d: string, taal = 'nl') => (d ? (datumOpmaak[taal] ?? datumOpmaak.nl).format(new Date(d)) : '');
 
+/** Als er een afbeelding is: een gedeelde-URL; anders lege string. */
+function beeldOfLeeg(bron: any) {
+  if (!bron) return '';
+  try { return builder.image(bron).width(1200).height(630).fit('crop').url(); } catch { return ''; }
+}
+
 /* ---------- Homepage ---------- */
 export async function getHomepage(taal: string = 'nl') {
   const doc = await safe<any>('*[_type == "homepage"][0]');
@@ -109,7 +115,7 @@ export async function getNieuws(taal: string = 'nl') {
 /* ---------- Nieuws: volledige artikelen (voor de detailpagina's) ---------- */
 export async function getNieuwsArtikelen(taal: string = 'nl') {
   const docs = await safe<any[]>(
-    '*[_type == "nieuws" && defined(slug.current)] | order(datum desc){ "slug": slug.current, categorie, titel, titel_en, titel_id, intro, intro_en, intro_id, datum, afbeelding, body, body_en, body_id }',
+    '*[_type == "nieuws" && defined(slug.current)] | order(datum desc){ "slug": slug.current, categorie, titel, titel_en, titel_id, intro, intro_en, intro_id, datum, afbeelding, body, body_en, body_id, seo }',
   );
   if (!docs || docs.length === 0) {
     // Terugval: de artikelen die we lokaal kennen (nog zonder volledige tekst)
@@ -124,6 +130,9 @@ export async function getNieuwsArtikelen(taal: string = 'nl') {
     datumLabel: d.datum ? datumLabel(d.datum, taal) : '',
     afbeelding: img(d.afbeelding, '/assets/perf-gamelan.jpg'),
     body: vertaald(d, 'body', taal) ?? null,
+    seoTitel: d.seo?.titel ?? '',
+    seoBeschrijving: d.seo?.beschrijving ?? '',
+    seoAfbeelding: beeldOfLeeg(d.seo?.afbeelding),
   }));
 }
 

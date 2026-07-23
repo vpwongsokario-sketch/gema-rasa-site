@@ -25,8 +25,30 @@ const { artikel, taal } = Astro.props;
 
 // De volledige tekst uit het CMS omzetten naar HTML (leeg = alleen de samenvatting)
 const tekst = artikel.body ? toHTML(artikel.body, { components: {} }) : '';
+
+// Vindbaarheid: eigen SEO-velden hebben voorrang, anders de gewone tekst
+const seoTitel = artikel.seoTitel || `${artikel.titel} — Stichting Gema Rasa`;
+const seoBeschrijving = artikel.seoBeschrijving || artikel.intro;
+const deelBeeld = artikel.seoAfbeelding || artikel.afbeelding;
+
+// Structured data: dit is een nieuwsartikel (Google Nieuws + AI pikken dit op)
+const artikelSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'NewsArticle',
+  headline: artikel.titel,
+  description: artikel.intro,
+  image: deelBeeld ? [new URL(deelBeeld, Astro.site ?? Astro.url).toString()] : undefined,
+  datePublished: artikel.datum || undefined,
+  inLanguage: taal,
+  author: { '@type': 'Organization', name: 'Stichting Gema Rasa' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Stichting Gema Rasa',
+    logo: { '@type': 'ImageObject', url: new URL('/assets/logo.png', Astro.site ?? Astro.url).toString() },
+  },
+};
 ---
-<Base taal={taal} title={`${artikel.titel} — Stichting Gema Rasa`} description={artikel.intro}>
+<Base taal={taal} title={seoTitel} description={seoBeschrijving} ogImage={deelBeeld} ogType="article" jsonld={artikelSchema}>
   <section class="pagehead artikel-kop" style={`--hero-img:url('${artikel.afbeelding}')`}>
     <div class="wrap">
       <span class="eyebrow">{artikel.categorie}</span>
