@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 
 // De live-URL. Nodig voor canonical-links, sitemap en Open Graph.
 // Wijzig dit naar https://www.stichtinggemarasa.com zodra het domein gekoppeld is.
-const SITE = 'https://gema-rasa-site.pages.dev';
+const SITE = 'https://stichtinggemarasa.com';
 
 // https://astro.build/config
 export default defineConfig({
