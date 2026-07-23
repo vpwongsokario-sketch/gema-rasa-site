@@ -2,16 +2,17 @@
 import { taalPaden, t, pad } from '../../i18n/index.ts';
 export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
+const paginaSeo = await getPaginaSeo('leden');
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
-import { getLeden } from '../../lib/sanity.ts';
+import { getLeden , getPaginaSeo} from '../../lib/sanity.ts';
 const { bestuur, leden } = await getLeden(taal);
 
 // Initialen als er nog geen foto is geüpload
 const initialen = (naam = '') =>
   naam.split(/[\s-]+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
 ---
-<Base taal={taal} description={t(taal, "ld.intro")} title={`${t(taal, "ld.titel")} — Stichting Gema Rasa`}>
+<Base taal={taal} seo={paginaSeo} description={t(taal, "ld.intro")} title={`${t(taal, "ld.titel")} — Stichting Gema Rasa`}>
   <PageHero
     sleutel="leden"
     eyebrow={t(taal, "ld.eyebrow")}

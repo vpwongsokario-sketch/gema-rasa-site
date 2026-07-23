@@ -2,6 +2,8 @@
 import { taalPaden, t, pad } from '../../i18n/index.ts';
 export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
+const paginaSeo = await getPaginaSeo('videos');
+import { getPaginaSeo } from '../../lib/sanity.ts';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import { getVideos, YT_KANAAL_URL } from '../../lib/youtube.ts';
@@ -9,7 +11,7 @@ import { socials } from '../../data/content.js';
 
 const videos = await getVideos(taal, 12);
 ---
-<Base taal={taal} description={t(taal, "vd.intro")} title={`${t(taal, "vd.titel")} — Stichting Gema Rasa`}>
+<Base taal={taal} seo={paginaSeo} description={t(taal, "vd.intro")} title={`${t(taal, "vd.titel")} — Stichting Gema Rasa`}>
   <PageHero
     sleutel="videos"
     eyebrow={t(taal, "vd.eyebrow")}

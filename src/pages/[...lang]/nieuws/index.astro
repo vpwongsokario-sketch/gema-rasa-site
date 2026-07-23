@@ -2,13 +2,14 @@
 import { taalPaden, t, pad } from '../../../i18n/index.ts';
 export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
+const paginaSeo = await getPaginaSeo('nieuws');
 import Base from '../../../layouts/Base.astro';
 import PageHero from '../../../components/PageHero.astro';
-import { getNieuwsArtikelen } from '../../../lib/sanity.ts';
+import { getNieuwsArtikelen , getPaginaSeo} from '../../../lib/sanity.ts';
 
 const artikelen = await getNieuwsArtikelen(taal);
 ---
-<Base taal={taal} description={t(taal, "nw.intro")} title={`${t(taal, "nw.titel")} — Stichting Gema Rasa`}>
+<Base taal={taal} seo={paginaSeo} description={t(taal, "nw.intro")} title={`${t(taal, "nw.titel")} — Stichting Gema Rasa`}>
   <PageHero
     sleutel="nieuws"
     eyebrow={t(taal, "nw.eyebrow")}

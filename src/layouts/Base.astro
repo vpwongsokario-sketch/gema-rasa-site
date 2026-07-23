@@ -11,10 +11,13 @@ const {
   ogType = 'website',
   jsonld,            // extra structured data voor deze pagina (Article, Event…)
   noindex = false,
+  seo,               // CMS-override {titel, beschrijving, afbeelding} — leeg = gewone tekst
 } = Astro.props;
 
-const paginaTitel = title ?? t(taal, 'home.titel');
-const paginaOmschrijving = description ?? t(taal, 'home.omschrijving');
+// Een ingevuld SEO-veld in het CMS wint altijd van de standaardtekst.
+const paginaTitel = seo?.titel || title || t(taal, 'home.titel');
+const paginaOmschrijving = seo?.beschrijving || description || t(taal, 'home.omschrijving');
+const deelBron = seo?.afbeelding || ogImage;
 
 // Het huidige pad zonder taalvoorvoegsel, zodat de taalwisselaar naar
 // dezelfde pagina in een andere taal kan verwijzen.
@@ -23,7 +26,7 @@ const huidigPad = Astro.url.pathname.replace(/^\/(en|id)(?=\/|$)/, '') || '/';
 // Basis-URL voor canonical, sitemap en Open Graph
 const siteURL = Astro.site ?? new URL('https://gema-rasa-site.pages.dev');
 const canonical = new URL(Astro.url.pathname, siteURL).toString();
-const deelAfbeelding = new URL(ogImage ?? '/assets/perf-wayang.jpg', siteURL).toString();
+const deelAfbeelding = new URL(deelBron ?? '/assets/perf-wayang.jpg', siteURL).toString();
 const ogLocale = { nl: 'nl_NL', en: 'en_GB', id: 'id_ID' }[taal];
 
 // Organisatie-gegevens: helpt Google én AI-zoekmachines begrijpen wie je bent.

@@ -5,7 +5,7 @@ const { taal } = Astro.props;
 import Base from '../../layouts/Base.astro';
 import { getHomepage, getNieuws, getAgenda, getGalerij } from '../../lib/sanity.ts';
 
-const { hero, productie, merch } = await getHomepage(taal);
+const { hero, productie, merch, seo: paginaSeo } = await getHomepage(taal);
 const nieuws = await getNieuws(taal);
 const agenda = await getAgenda(taal);
 const galerij = await getGalerij();
@@ -15,7 +15,7 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
   ? hero.titel.split(hero.titelAccent)
   : [hero.titel, ''];
 ---
-<Base taal={taal}>
+<Base taal={taal} seo={paginaSeo}>
   <!-- HERO (via CMS) -->
   <section class="hero" id="top" style={`--hero-img:url('${hero.afbeelding}')`}>
     <div class="wrap">

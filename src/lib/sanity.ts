@@ -48,7 +48,7 @@ function beeldOfLeeg(bron: any) {
 /* ---------- Homepage ---------- */
 export async function getHomepage(taal: string = 'nl') {
   const doc = await safe<any>('*[_type == "homepage"][0]');
-  if (!doc) return { hero: local.hero, productie: local.productie, merch: { actief: true, kicker: '', titel: '', tekst1: '', tekst2: '', afbeelding: '', knopLabel: '', knopUrl: '/shop' } };
+  if (!doc) return { hero: local.hero, productie: local.productie, merch: { actief: true, kicker: '', titel: '', tekst1: '', tekst2: '', afbeelding: '', knopLabel: '', knopUrl: '/shop' }, seo: { titel: '', beschrijving: '', afbeelding: '' } };
   return {
     hero: {
       eyebrow: doc.heroEyebrow ?? local.hero.eyebrow,
@@ -82,6 +82,24 @@ export async function getHomepage(taal: string = 'nl') {
       knopLabel: vertaald(doc, 'merchKnopLabel', taal) ?? '',
       knopUrl: doc.merchKnopUrl ?? '/shop',
     },
+    seo: {
+      titel: doc.seo?.titel ?? '',
+      beschrijving: doc.seo?.beschrijving ?? '',
+      afbeelding: beeldOfLeeg(doc.seo?.afbeelding),
+    },
+  };
+}
+
+/* ---------- SEO-velden van een vaste pagina ---------- */
+export async function getPaginaSeo(sleutel: string) {
+  const doc = await safe<any>(
+    '*[_type == "paginakop" && pagina == $sleutel][0]{ seo }',
+    { sleutel },
+  );
+  return {
+    titel: doc?.seo?.titel ?? '',
+    beschrijving: doc?.seo?.beschrijving ?? '',
+    afbeelding: beeldOfLeeg(doc?.seo?.afbeelding),
   };
 }
 
@@ -224,7 +242,7 @@ function beeld(bron: any, breedte: number) {
 
 export async function getAlbums(taal: string = 'nl') {
   const docs = await safe<any[]>(
-    '*[_type == "album" && defined(slug.current)] | order(datum desc){ titel, "slug": slug.current, datum, omschrijving, cover, fotos, externeUrl, externeAantal }',
+    '*[_type == "album" && defined(slug.current)] | order(datum desc){ titel, "slug": slug.current, datum, omschrijving, cover, fotos, externeUrl, externeAantal, seo }',
   );
   if (!docs) return [];
   return docs.map((d) => {
@@ -240,6 +258,7 @@ export async function getAlbums(taal: string = 'nl') {
       aantal: fotos.length,
       externeUrl: d.externeUrl ?? '',
       externeAantal: d.externeAantal ?? null,
+      seo: { titel: d.seo?.titel ?? '', beschrijving: d.seo?.beschrijving ?? '', afbeelding: beeldOfLeeg(d.seo?.afbeelding) },
       fotos: fotos.map((f: any) => ({
         tegel: beeld(f, 700),
         groot: beeld(f, 1800),

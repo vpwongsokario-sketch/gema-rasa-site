@@ -93,6 +93,7 @@ const homepage = defineType({
     defineField({ name: 'merchTekst1_id', title: 'Paragraf 1', type: 'text', rows: 3, group: 'id' }),
     defineField({ name: 'merchTekst2_id', title: 'Paragraf 2', type: 'text', rows: 3, group: 'id' }),
     defineField({ name: 'merchKnopLabel_id', title: 'Tombol merchandise', type: 'string', group: 'id' }),
+    { ...seoVeld, group: 'hero' },
   ],
   preview: { prepare: () => ({ title: 'Homepage' }) },
 });
@@ -309,6 +310,7 @@ const paginakop = defineType({
       description: 'Laat leeg om de standaardtitel van de pagina te houden.' }),
     defineField({ name: 'tekst', title: 'Introtekst (optioneel)', type: 'text', rows: 3,
       description: 'Laat leeg om de standaardtekst te houden.' }),
+    seoVeld,
   ],
   preview: { select: { title: 'pagina', media: 'afbeelding' } },
 });
@@ -330,6 +332,7 @@ const magazine = defineType({
       description: 'Link naar de online versie. Laat leeg als je hieronder een PDF uploadt.' }),
     defineField({ name: 'pdf', title: 'PDF (optioneel)', type: 'file',
       description: 'Upload de editie als PDF; bezoekers kunnen die openen of downloaden.' }),
+    seoVeld,
   ],
   orderings: [{ title: 'Nieuwste eerst', name: 'nieuw', by: [{ field: 'nummer', direction: 'desc' }] }],
   preview: { select: { title: 'titel', subtitle: 'datum', media: 'cover' } },
@@ -360,6 +363,7 @@ const album = defineType({
       description: 'Bijv. de Tyle-galerij met alle foto\'s. Verschijnt als knop onder het album.' }),
     defineField({ name: 'externeAantal', title: 'Aantal foto\'s in die galerij', type: 'number',
       description: 'Alleen voor de knoptekst, bijv. "Bekijk alle 556 foto\'s".' }),
+    seoVeld,
   ],
   orderings: [{ title: 'Nieuwste eerst', name: 'datumDesc', by: [{ field: 'datum', direction: 'desc' }] }],
   preview: { select: { title: 'titel', subtitle: 'datum', media: 'cover' } },
