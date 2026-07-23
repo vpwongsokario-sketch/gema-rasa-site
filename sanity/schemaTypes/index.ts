@@ -271,7 +271,8 @@ const galerijfoto = defineType({
   title: 'Fotostrook',
   type: 'document',
   fields: [
-    defineField({ name: 'afbeelding', title: 'Foto', type: 'image', options: { hotspot: true }, validation: (r) => r.required() }),
+    defineField({ name: 'afbeelding', title: 'Foto', type: 'image', options: { hotspot: true }, validation: (r) => r.required(),
+      description: 'Tip: verklein grote foto\'s eerst naar max 2000px (bijv. via bulkresizephotos.com) — sneller uploaden.' }),
     defineField({ name: 'bijschrift', title: 'Bijschrift (optioneel)', type: 'string', description: 'Verschijnt over de foto bij het zweven met de muis.' }),
     defineField({ name: 'volgorde', title: 'Volgorde', type: 'number', initialValue: 50 }),
   ],
@@ -357,7 +358,10 @@ const album = defineType({
         { name: 'bijschrift', title: 'Bijschrift', type: 'string' },
       ] }],
       options: { layout: 'grid' },
-      description: 'Je kunt meerdere foto\'s tegelijk selecteren bij het uploaden.',
+      description:
+        '⚠️ Verklein je foto\'s eerst naar max 2000 pixels — dan gaat uploaden veel sneller. ' +
+        'Makkelijkst: ga naar bulkresizephotos.com, sleep je foto\'s erin, kies "Longest Side 2000", ' +
+        'download en upload die hier. Je kunt daarna alle foto\'s in één keer selecteren.',
     }),
     defineField({ name: 'externeUrl', title: 'Link naar volledige galerij', type: 'url',
       description: 'Bijv. de Tyle-galerij met alle foto\'s. Verschijnt als knop onder het album.' }),
