@@ -95,24 +95,22 @@ export const onRequestPost = async (context: any): Promise<Response> => {
     return json({ ok: false, fout: 'Opslaan mislukt. Probeer het later nog eens.' }, 502);
   }
 
-  // Nieuwsbrief-aanmelding ook doorzetten naar MailerLite (voor het versturen).
-  // Lukt dit niet, dan blijft de aanmelding wél in het CMS staan — geen fout naar
-  // de bezoeker. Zonder token wordt deze stap netjes overgeslagen.
-  if (soort === 'nieuwsbrief' && env?.MAILERLITE_TOKEN) {
+  // Nieuwsbrief-aanmelding ook doorzetten naar GoHighLevel (voor het versturen).
+  // Gaat via een Inbound-Webhook van GHL; de workflow daar maakt/updatet het
+  // contact. Lukt dit niet of ontbreekt de URL, dan blijft de aanmelding wél in
+  // het CMS staan — nooit een fout richting de bezoeker.
+  if (soort === 'nieuwsbrief' && env?.GHL_WEBHOOK_URL) {
     try {
-      const body: Record<string, unknown> = {
-        email,
-        fields: { name: kort(data.naam, 120) || undefined },
-      };
-      if (env.MAILERLITE_GROUP_ID) body.groups = [String(env.MAILERLITE_GROUP_ID)];
-      await fetch('https://connect.mailerlite.com/api/subscribers', {
+      await fetch(String(env.GHL_WEBHOOK_URL), {
         method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          accept: 'application/json',
-          authorization: `Bearer ${env.MAILERLITE_TOKEN}`,
-        },
-        body: JSON.stringify(body),
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          naam: kort(data.naam, 120),
+          bron: 'website-nieuwsbrief',
+          toestemming: true,
+          ontvangen: new Date().toISOString(),
+        }),
       });
     } catch {
       // stil: de aanmelding staat al veilig in het CMS
