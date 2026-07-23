@@ -642,9 +642,12 @@ header.scrolled{box-shadow:0 6px 26px rgba(9,53,31,.13)}
 .pagehead .datum{font-family:'Poppins';font-size:14px;color:var(--primary);margin-top:14px;font-weight:500}
 
 /* vergrootweergave */
+/* De vergrootweergave: verborgen tenzij open. Belangrijk: [hidden] moet 'display:flex'
+   overrulen, anders blijft het donkere waas over de pagina liggen. */
 .lightbox{position:fixed;inset:0;z-index:100;background:rgba(9,53,31,.96);
   display:flex;align-items:center;justify-content:center;padding:24px;
   animation:lbIn .22s ease}
+.lightbox[hidden]{display:none}
 @keyframes lbIn{from{opacity:0}to{opacity:1}}
 .lb-figuur{margin:0;max-width:min(1200px,92vw);max-height:88vh;display:flex;flex-direction:column;gap:12px}
 .lb-figuur img{max-width:100%;max-height:80vh;object-fit:contain;border-radius:10px;display:block;margin:0 auto}
