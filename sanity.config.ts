@@ -38,6 +38,7 @@ export default defineConfig({
             S.documentTypeListItem('lid').title('Leden'),
             S.documentTypeListItem('vriend').title('Vrienden van'),
             S.documentTypeListItem('programma').title('Menukaart'),
+            S.documentTypeListItem('menukaartvideo').title('Menukaart-video\'s'),
             S.documentTypeListItem('product').title('Shop'),
             S.divider(),
             // Binnengekomen via de website (niet bewerkbaar, alleen inzien)
