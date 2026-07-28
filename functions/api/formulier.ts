@@ -95,25 +95,30 @@ export const onRequestPost = async (context: any): Promise<Response> => {
     return json({ ok: false, fout: 'Opslaan mislukt. Probeer het later nog eens.' }, 502);
   }
 
-  // Nieuwsbrief-aanmelding ook doorzetten naar GoHighLevel (voor het versturen).
-  // Gaat via een Inbound-Webhook van GHL; de workflow daar maakt/updatet het
-  // contact. Lukt dit niet of ontbreekt de URL, dan blijft de aanmelding wél in
-  // het CMS staan — nooit een fout richting de bezoeker.
-  if (soort === 'nieuwsbrief' && env?.GHL_WEBHOOK_URL) {
+  // Elk bericht/aanmelding ook doorzetten naar GoHighLevel, zodat je daar een
+  // e-mailmelding krijgt én nieuwsbrief-aanmeldingen als contact worden
+  // toegevoegd. Gaat via een Inbound-Webhook van GHL; de workflow daar bepaalt
+  // op basis van "soort" wat er gebeurt (melding sturen, contact taggen, enz.).
+  // Lukt dit niet of ontbreekt de URL, dan blijft alles wél in het CMS staan —
+  // nooit een fout richting de bezoeker.
+  if (env?.GHL_WEBHOOK_URL) {
     try {
       await fetch(String(env.GHL_WEBHOOK_URL), {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
+          soort,
           email,
           naam: kort(data.naam, 120),
-          bron: 'website-nieuwsbrief',
-          toestemming: true,
+          onderwerp: kort(data.onderwerp, 200),
+          bericht: kort(data.bericht, 5000),
+          toelichting: kort(data.toelichting, 2000),
+          bron: 'website',
           ontvangen: new Date().toISOString(),
         }),
       });
     } catch {
-      // stil: de aanmelding staat al veilig in het CMS
+      // stil: het bericht/de aanmelding staat al veilig in het CMS
     }
   }
 
