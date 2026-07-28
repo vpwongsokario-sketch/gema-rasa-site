@@ -95,26 +95,38 @@ export const onRequestPost = async (context: any): Promise<Response> => {
     return json({ ok: false, fout: 'Opslaan mislukt. Probeer het later nog eens.' }, 502);
   }
 
-  // Elk bericht/aanmelding ook doorzetten naar GoHighLevel, zodat je daar een
-  // e-mailmelding krijgt én nieuwsbrief-aanmeldingen als contact worden
-  // toegevoegd. Gaat via een Inbound-Webhook van GHL; de workflow daar bepaalt
-  // op basis van "soort" wat er gebeurt (melding sturen, contact taggen, enz.).
-  // Lukt dit niet of ontbreekt de URL, dan blijft alles wél in het CMS staan —
-  // nooit een fout richting de bezoeker.
-  if (env?.GHL_WEBHOOK_URL) {
+  // Contact ook naar GoHighLevel schrijven via de gewone API (gratis; géén
+  // premium-webhook). We 'upserten' op e-mail: bestaat het contact al, dan wordt
+  // het bijgewerkt, anders nieuw aangemaakt. De tag per soort maakt filteren
+  // mogelijk én laat in GHL een gratis meldingsworkflow (trigger op tag) los.
+  // Lukt dit niet, dan blijft alles gewoon in het CMS staan — nooit een fout
+  // richting de bezoeker.
+  const GHL_TAGS: Record<string, string> = {
+    contact: 'website-bericht',
+    nieuwsbrief: 'website-nieuwsbrief',
+    vrijwilliger: 'website-vrijwilliger',
+  };
+  if (env?.GHL_API_TOKEN && env?.GHL_LOCATION_ID) {
     try {
-      await fetch(String(env.GHL_WEBHOOK_URL), {
+      const naam = kort(data.naam, 120);
+      const delen = naam.split(/\s+/).filter(Boolean);
+      const voornaam = delen.shift() || '';
+      await fetch('https://services.leadconnectorhq.com/contacts/upsert', {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        headers: {
+          authorization: `Bearer ${env.GHL_API_TOKEN}`,
+          version: '2021-07-28',
+          'content-type': 'application/json',
+          accept: 'application/json',
+        },
         body: JSON.stringify({
-          soort,
+          locationId: String(env.GHL_LOCATION_ID),
           email,
-          naam: kort(data.naam, 120),
-          onderwerp: kort(data.onderwerp, 200),
-          bericht: kort(data.bericht, 5000),
-          toelichting: kort(data.toelichting, 2000),
-          bron: 'website',
-          ontvangen: new Date().toISOString(),
+          name: naam || undefined,
+          firstName: voornaam || undefined,
+          lastName: delen.join(' ') || undefined,
+          source: 'website',
+          tags: [GHL_TAGS[soort] || 'website'],
         }),
       });
     } catch {
