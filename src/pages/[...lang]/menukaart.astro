@@ -5,9 +5,10 @@ const { taal } = Astro.props;
 const paginaSeo = await getPaginaSeo('menukaart');
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
-import { catName, filters, videos } from '../../data/programmas.js';
-import { getProgrammas , getPaginaSeo} from '../../lib/sanity.ts';
+import { catName, filters } from '../../data/programmas.js';
+import { getProgrammas , getPaginaSeo, getMenukaartVideos } from '../../lib/sanity.ts';
 const programmas = await getProgrammas();
+const videos = await getMenukaartVideos();
 ---
 <Base taal={taal} seo={paginaSeo} description={t(taal, "mk.intro")} title={`${t(taal, "mk.titel")} — Stichting Gema Rasa`}>
   <PageHero
@@ -47,6 +48,7 @@ const programmas = await getProgrammas();
   </section>
 
   <!-- VIDEO -->
+  {videos.length > 0 && (
   <section class="block video-sec" id="video">
     <div class="wrap">
       <div class="section-head">
@@ -65,6 +67,7 @@ const programmas = await getProgrammas();
       </div>
     </div>
   </section>
+  )}
 
   <!-- CTA -->
   <section class="cta">

@@ -477,7 +477,28 @@ const aanmelding = defineType({
   },
 });
 
+const menukaartvideo = defineType({
+  name: 'menukaartvideo',
+  title: 'Menukaart-video',
+  type: 'document',
+  fields: [
+    defineField({ name: 'titel', title: 'Titel', type: 'string', validation: (r) => r.required(),
+      description: 'Bijv. "Gamelan", "Javaanse dans" of "Wayang Kulit".' }),
+    defineField({ name: 'kicker', title: 'Labeltje (optioneel)', type: 'string',
+      description: 'Klein kopje boven de titel, bijv. "Optreden", "Workshop" of "Schaduwspel".' }),
+    defineField({ name: 'youtube', title: 'YouTube-link', type: 'url', validation: (r) => r.required(),
+      description: 'Plak de volledige YouTube-link, bijv. https://www.youtube.com/watch?v=XXXX of https://youtu.be/XXXX. De juiste thumbnail wordt automatisch van YouTube gehaald.' }),
+    defineField({ name: 'volgorde', title: 'Volgorde', type: 'number', initialValue: 50,
+      description: 'Lager getal = eerder in de rij.' }),
+  ],
+  orderings: [{ title: 'Volgorde', name: 'volgorde', by: [{ field: 'volgorde', direction: 'asc' }] }],
+  preview: {
+    select: { title: 'titel', subtitle: 'kicker' },
+    prepare: ({ title, subtitle }) => ({ title: title || 'Video', subtitle: subtitle || 'Menukaart-video' }),
+  },
+});
+
 export const schemaTypes = [
   homepage, doneren, paginakop, nieuws, evenement, lid, vriend, programma, product, galerijfoto, magazine, album,
-  bericht, aanmelding,
+  menukaartvideo, bericht, aanmelding,
 ];

@@ -320,6 +320,33 @@ export async function getGalerij() {
   return docs.map((d) => ({ url: img(d.afbeelding, ''), bijschrift: d.bijschrift ?? '' }));
 }
 
+/* ---------- Menukaart-video's ---------- */
+/** Haalt de 11-teken YouTube-video-ID uit allerlei linkvormen (watch?v=, youtu.be/, embed/, shorts/) of een kale ID. */
+function youtubeId(url: string): string {
+  const s = String(url ?? '').trim();
+  if (/^[a-zA-Z0-9_-]{11}$/.test(s)) return s;
+  const m = s.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/v\/)([a-zA-Z0-9_-]{11})/);
+  return m ? m[1] : '';
+}
+
+export async function getMenukaartVideos() {
+  const docs = await safe<any[]>('*[_type == "menukaartvideo"] | order(volgorde asc){ titel, kicker, youtube }');
+  if (!docs || docs.length === 0) return [];
+  return docs
+    .map((d) => {
+      const id = youtubeId(d.youtube);
+      if (!id) return null;
+      return {
+        yt: id,
+        // Echte thumbnail rechtstreeks van YouTube — altijd beschikbaar, altijd kloppend
+        poster: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
+        kicker: d.kicker ?? '',
+        title: d.titel ?? '',
+      };
+    })
+    .filter(Boolean);
+}
+
 /* ---------- Menukaart ---------- */
 export async function getProgrammas() {
   const docs = await safe<any[]>('*[_type == "programma"] | order(volgorde asc){ naam, categorie, desc, perfect, dur, price, badge, label }');
