@@ -520,6 +520,9 @@ const vestiging = defineType({
         fields: [
           defineField({ name: 'naam', title: 'Naam', type: 'string', validation: (r) => r.required() }),
           defineField({ name: 'rol', title: 'Rol', type: 'string', description: 'Bijv. Vertegenwoordiger, Coördinator.' }),
+          defineField({ name: 'email', title: 'E-mail (optioneel)', type: 'string',
+            description: 'Verschijnt als "Neem contact op"-knop op de kaart. Laat leeg om geen contactknop te tonen.',
+            validation: (r) => r.email().error('Vul een geldig e-mailadres in.') }),
           defineField({ name: 'foto', title: 'Foto', type: 'image', options: { hotspot: true } }),
         ],
         preview: { select: { title: 'naam', subtitle: 'rol', media: 'foto' } },

@@ -318,6 +318,7 @@ export async function getVestigingen() {
     reps: (Array.isArray(d.vertegenwoordigers) ? d.vertegenwoordigers : []).map((r: any) => ({
       naam: r?.naam ?? '',
       rol: r?.rol ?? '',
+      email: r?.email ?? '',
       foto: img(r?.foto, ''),
     })),
   }));

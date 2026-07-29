@@ -50,6 +50,13 @@ const initialen = (naam = '') =>
                   : <div class="avatar-fallback" aria-hidden="true">{initialen(r.naam)}</div>}
                 <div class="naam">{r.naam}</div>
                 {r.rol && <div class="rol">{r.rol}</div>}
+                {r.email && (
+                  <a class="rep-mail"
+                     href={`mailto:${r.email}`}
+                     style="display:inline-block;margin-top:12px;padding:7px 16px;border:1px solid var(--orange);border-radius:999px;font-size:13px;font-weight:600;color:var(--orange);text-decoration:none;white-space:nowrap">
+                    ✉ {t(taal, "ww.mailKnop")}
+                  </a>
+                )}
               </div>
             ))}
           </div>
