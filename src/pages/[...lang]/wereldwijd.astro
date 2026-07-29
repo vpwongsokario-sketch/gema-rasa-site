@@ -51,11 +51,12 @@ const initialen = (naam = '') =>
                 <div class="naam">{r.naam}</div>
                 {r.rol && <div class="rol">{r.rol}</div>}
                 {r.email && (
-                  <a class="rep-mail"
-                     href={`mailto:${r.email}`}
-                     style="display:inline-block;margin-top:12px;padding:7px 16px;border:1px solid var(--orange);border-radius:999px;font-size:13px;font-weight:600;color:var(--orange);text-decoration:none;white-space:nowrap">
+                  <button type="button" class="rep-contact"
+                     data-rep-naam={r.naam}
+                     data-rep-email={r.email}
+                     data-team={`${v.land}${v.stad ? ' — ' + v.stad : ''}`}>
                     ✉ {t(taal, "ww.mailKnop")}
-                  </a>
+                  </button>
                 )}
               </div>
             ))}
@@ -72,4 +73,80 @@ const initialen = (naam = '') =>
       <a class="btn" href={pad(taal, "/contact")}>{t(taal, "nav.contact")}</a>
     </div>
   </section>
+
+  {/* Contactformulier voor een vertegenwoordiger (één venster, hergebruikt) */}
+  <dialog id="repDialog" class="rep-dialog">
+    <form class="cform" data-formulier="vertegenwoordiger" data-bedankt={t(taal, "ct.bedankt")}>
+      <button type="button" class="rep-dialog-sluit" id="repDialogSluit" aria-label={t(taal, "al.sluit")}>&times;</button>
+      <h3>{t(taal, "ww.mailKnop")}</h3>
+      <p class="rep-dialog-voor" id="repDialogVoor"></p>
+      <div>
+        <label for="rep-naam">{t(taal, "ct.naam")}</label>
+        <input id="rep-naam" name="naam" type="text" required />
+      </div>
+      <div>
+        <label for="rep-email">{t(taal, "ct.email")}</label>
+        <input id="rep-email" name="email" type="email" required />
+      </div>
+      <div>
+        <label for="rep-bericht">{t(taal, "ct.bericht")}</label>
+        <textarea id="rep-bericht" name="bericht" required></textarea>
+      </div>
+      <input type="text" name="website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true" />
+      <input type="hidden" name="repNaam" id="rep-veld-naam" />
+      <input type="hidden" name="repEmail" id="rep-veld-email" />
+      <input type="hidden" name="team" id="rep-veld-team" />
+      <button class="btn gold" type="submit" style="justify-self:start">{t(taal, "ct.verstuur")}</button>
+      <p class="form-status" data-status role="status" aria-live="polite"></p>
+      <p class="rep-privacy">{t(taal, "ct.privacy")}</p>
+    </form>
+  </dialog>
 </Base>
+
+<style>
+  .rep-contact {
+    display: inline-block; margin-top: 12px; padding: 7px 16px;
+    border: 1px solid var(--orange); border-radius: 999px;
+    background: transparent; color: var(--orange);
+    font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;
+    transition: background .15s, color .15s;
+  }
+  .rep-contact:hover { background: var(--orange); color: #fff; }
+
+  .rep-dialog {
+    border: none; border-radius: 18px; padding: 28px 26px; background: #fff;
+    max-width: 460px; width: calc(100% - 32px);
+    box-shadow: 0 24px 70px rgba(0,0,0,.32);
+  }
+  .rep-dialog::backdrop { background: rgba(9,53,31,.55); }
+  .rep-dialog form { position: relative; }
+  .rep-dialog h3 { margin: 0 0 2px; }
+  .rep-dialog-voor { margin: 0 0 14px; color: var(--orange); font-weight: 600; font-size: 13px; }
+  .rep-dialog-sluit {
+    position: absolute; top: -6px; right: -4px; background: none; border: none;
+    font-size: 28px; line-height: 1; cursor: pointer; color: var(--gray, #888);
+  }
+  .rep-privacy { font-family: 'Poppins'; font-size: 12.5px; color: var(--gray, #777); line-height: 1.5; margin-top: 4px; }
+</style>
+
+<script>
+  const dialog = document.getElementById('repDialog') as HTMLDialogElement | null;
+  const vNaam = document.getElementById('rep-veld-naam') as HTMLInputElement | null;
+  const vEmail = document.getElementById('rep-veld-email') as HTMLInputElement | null;
+  const vTeam = document.getElementById('rep-veld-team') as HTMLInputElement | null;
+  const voor = document.getElementById('repDialogVoor');
+
+  document.querySelectorAll<HTMLButtonElement>('.rep-contact').forEach((knop) => {
+    knop.addEventListener('click', () => {
+      if (!dialog) return;
+      if (vNaam) vNaam.value = knop.dataset.repNaam || '';
+      if (vEmail) vEmail.value = knop.dataset.repEmail || '';
+      if (vTeam) vTeam.value = knop.dataset.team || '';
+      if (voor) voor.textContent = [knop.dataset.repNaam, knop.dataset.team].filter(Boolean).join(' · ');
+      dialog.showModal();
+    });
+  });
+
+  document.getElementById('repDialogSluit')?.addEventListener('click', () => dialog?.close());
+  dialog?.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+</script>

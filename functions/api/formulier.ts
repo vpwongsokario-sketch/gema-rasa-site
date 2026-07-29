@@ -56,6 +56,21 @@ export const onRequestPost = async (context: any): Promise<Response> => {
       ontvangen: new Date().toISOString(),
       afgehandeld: false,
     };
+  } else if (soort === 'vertegenwoordiger') {
+    const bericht = kort(data.bericht, 5000);
+    if (!bericht) return json({ ok: false, fout: 'Vul een bericht in.' }, 400);
+    const repNaam = kort(data.repNaam, 120);
+    const team = kort(data.team, 160);
+    doc = {
+      _type: 'bericht',
+      naam: kort(data.naam, 120),
+      email,
+      onderwerp: `Contact via wereldwijd-pagina${repNaam ? ' — ' + repNaam : ''}`,
+      bestemming: [team, repNaam, kort(data.repEmail, 200)].filter(Boolean).join(' · '),
+      bericht,
+      ontvangen: new Date().toISOString(),
+      afgehandeld: false,
+    };
   } else if (soort === 'nieuwsbrief' || soort === 'vrijwilliger') {
     // AVG: zonder expliciete toestemming slaan we niets op
     if (!isWaar(data.toestemming)) {
@@ -105,6 +120,7 @@ export const onRequestPost = async (context: any): Promise<Response> => {
     contact: 'website-bericht',
     nieuwsbrief: 'website-nieuwsbrief',
     vrijwilliger: 'website-vrijwilliger',
+    vertegenwoordiger: 'website-vertegenwoordiger',
   };
   if (env?.GHL_API_TOKEN && env?.GHL_LOCATION_ID) {
     try {
@@ -131,6 +147,42 @@ export const onRequestPost = async (context: any): Promise<Response> => {
       });
     } catch {
       // stil: het bericht/de aanmelding staat al veilig in het CMS
+    }
+  }
+
+  // Bericht voor een vertegenwoordiger ook rechtstreeks naar diens inbox mailen
+  // (via Resend). De bezoeker staat als reply-to, zodat de vertegenwoordiger
+  // meteen kan antwoorden. Lukt dit niet, dan staat het bericht al in het CMS
+  // (+ GHL) — nooit een fout richting de bezoeker.
+  if (soort === 'vertegenwoordiger' && env?.RESEND_API_KEY) {
+    const repEmail = kort(data.repEmail, 200).toLowerCase();
+    if (geldigEmail(repEmail)) {
+      const naam = kort(data.naam, 120);
+      const team = kort(data.team, 160);
+      const tekst = kort(data.bericht, 5000);
+      try {
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            authorization: `Bearer ${env.RESEND_API_KEY}`,
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            from: String(env.RESEND_FROM || 'Stichting Gema Rasa <contact@stichtinggemarasa.com>'),
+            to: [repEmail],
+            reply_to: email,
+            subject: `Nieuw bericht via de website${team ? ' — ' + team : ''}`,
+            text:
+              `Je hebt een bericht ontvangen via stichtinggemarasa.com.\n\n` +
+              `Van: ${naam || 'Onbekend'} <${email}>\n` +
+              (team ? `Team: ${team}\n` : '') +
+              `\nBericht:\n${tekst}\n\n` +
+              `— Antwoord rechtstreeks op deze e-mail om te reageren.`,
+          }),
+        });
+      } catch {
+        // stil: het bericht staat al veilig in het CMS (+ GHL)
+      }
     }
   }
 

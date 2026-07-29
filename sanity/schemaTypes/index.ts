@@ -430,6 +430,8 @@ const bericht = defineType({
     defineField({ name: 'naam', title: 'Naam', type: 'string', readOnly: true }),
     defineField({ name: 'email', title: 'E-mailadres', type: 'string', readOnly: true }),
     defineField({ name: 'onderwerp', title: 'Onderwerp', type: 'string', readOnly: true }),
+    defineField({ name: 'bestemming', title: 'Voor (vertegenwoordiger)', type: 'string', readOnly: true,
+      description: 'Ingevuld bij berichten via de wereldwijd-pagina: naar welk team/vertegenwoordiger dit is gestuurd.' }),
     defineField({ name: 'bericht', title: 'Bericht', type: 'text', rows: 6, readOnly: true }),
     defineField({ name: 'ontvangen', title: 'Ontvangen op', type: 'datetime', readOnly: true }),
     defineField({ name: 'afgehandeld', title: 'Afgehandeld', type: 'boolean', initialValue: false,
