@@ -105,18 +105,24 @@ const initialen = (naam = '') =>
 
 <style>
   .rep-contact {
-    display: inline-block; margin-top: 12px; padding: 7px 16px;
-    border: 1px solid var(--orange); border-radius: 999px;
-    background: transparent; color: var(--orange);
-    font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;
-    transition: background .15s, color .15s;
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-top: 14px; padding: 9px 18px;
+    border: none; border-radius: 999px;
+    background: var(--orange); color: #fff;
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    cursor: pointer; white-space: nowrap;
+    transition: filter .15s, transform .15s;
   }
-  .rep-contact:hover { background: var(--orange); color: #fff; }
+  .rep-contact:hover { filter: brightness(1.07); transform: translateY(-1px); }
 
   .rep-dialog {
+    position: fixed; top: 50%; left: 50%; right: auto; bottom: auto;
+    transform: translate(-50%, -50%); margin: 0;
     border: none; border-radius: 18px; padding: 28px 26px; background: #fff;
     max-width: 460px; width: calc(100% - 32px);
+    max-height: 90vh; overflow-y: auto;
     box-shadow: 0 24px 70px rgba(0,0,0,.32);
+    font-family: inherit;
   }
   .rep-dialog::backdrop { background: rgba(9,53,31,.55); }
   .rep-dialog form { position: relative; }
