@@ -105,8 +105,8 @@ const initialen = (naam = '') =>
 
 <style>
   .rep-contact {
-    display: inline-flex; align-items: center; gap: 7px;
-    margin-top: 14px; padding: 9px 18px;
+    display: flex; align-items: center; gap: 7px;
+    width: fit-content; margin: 0 auto 22px; padding: 9px 18px;
     border: none; border-radius: 999px;
     background: var(--orange); color: #fff;
     font-family: inherit; font-size: 13px; font-weight: 600;
@@ -114,6 +114,8 @@ const initialen = (naam = '') =>
     transition: filter .15s, transform .15s;
   }
   .rep-contact:hover { filter: brightness(1.07); transform: translateY(-1px); }
+  /* Kaarten met foto hebben padding:0; geef de rol wat ruimte boven de knop */
+  .member:has(.rep-contact) .rol { padding-bottom: 14px; }
 
   .rep-dialog {
     position: fixed; top: 50%; left: 50%; right: auto; bottom: auto;
