@@ -303,6 +303,26 @@ export async function getVrienden() {
   }));
 }
 
+/* ---------- Teams wereldwijd ---------- */
+export async function getVestigingen() {
+  const docs = await safe<any[]>(
+    '*[_type == "vestiging"] | order(volgorde asc){ land, stad, vlag, intro, foto, vertegenwoordigers }',
+  );
+  if (!docs || docs.length === 0) return [];
+  return docs.map((d) => ({
+    land: d.land ?? '',
+    stad: d.stad ?? '',
+    vlag: d.vlag ?? '',
+    intro: d.intro ?? '',
+    foto: img(d.foto, ''),
+    reps: (Array.isArray(d.vertegenwoordigers) ? d.vertegenwoordigers : []).map((r: any) => ({
+      naam: r?.naam ?? '',
+      rol: r?.rol ?? '',
+      foto: img(r?.foto, ''),
+    })),
+  }));
+}
+
 /* ---------- Fotostrook ---------- */
 export async function getGalerij() {
   const docs = await safe<any[]>('*[_type == "galerijfoto"] | order(volgorde asc){ afbeelding, bijschrift }');

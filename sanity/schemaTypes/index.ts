@@ -295,6 +295,7 @@ const paginakop = defineType({
         { title: 'De Gamelangroep', value: 'de-gamelan-groep' },
         { title: 'De Dansgroep', value: 'de-dansgroep' },
         { title: 'De Vrienden van', value: 'de-vrienden-van' },
+        { title: 'Gema Rasa wereldwijd', value: 'wereldwijd' },
         { title: 'Contact', value: 'contact' },
         { title: 'Steun ons', value: 'steun' },
         { title: 'Shop', value: 'shop' },
@@ -498,7 +499,43 @@ const menukaartvideo = defineType({
   },
 });
 
+const vestiging = defineType({
+  name: 'vestiging',
+  title: 'Team wereldwijd',
+  type: 'document',
+  fields: [
+    defineField({ name: 'land', title: 'Land', type: 'string', validation: (r) => r.required(),
+      description: 'Bijv. Nederland, Indonesië, Suriname.' }),
+    defineField({ name: 'stad', title: 'Stad / regio', type: 'string',
+      description: 'Bijv. Yogyakarta, Paramaribo.' }),
+    defineField({ name: 'vlag', title: 'Vlag-emoji (optioneel)', type: 'string',
+      description: 'Bijv. 🇳🇱 🇮🇩 🇸🇷 — plak gewoon de vlag-emoji.' }),
+    defineField({ name: 'intro', title: 'Introtekst', type: 'text', rows: 4,
+      description: 'Korte omschrijving van het team en de activiteiten daar.' }),
+    defineField({ name: 'foto', title: 'Sfeerfoto (optioneel)', type: 'image', options: { hotspot: true } }),
+    defineField({
+      name: 'vertegenwoordigers', title: 'Vertegenwoordiger(s)', type: 'array',
+      of: [{
+        type: 'object',
+        fields: [
+          defineField({ name: 'naam', title: 'Naam', type: 'string', validation: (r) => r.required() }),
+          defineField({ name: 'rol', title: 'Rol', type: 'string', description: 'Bijv. Vertegenwoordiger, Coördinator.' }),
+          defineField({ name: 'foto', title: 'Foto', type: 'image', options: { hotspot: true } }),
+        ],
+        preview: { select: { title: 'naam', subtitle: 'rol', media: 'foto' } },
+      }],
+    }),
+    defineField({ name: 'volgorde', title: 'Volgorde', type: 'number', initialValue: 50,
+      description: 'Lager getal = eerder op de pagina.' }),
+  ],
+  orderings: [{ title: 'Volgorde', name: 'volgorde', by: [{ field: 'volgorde', direction: 'asc' }] }],
+  preview: {
+    select: { title: 'land', subtitle: 'stad', media: 'foto' },
+    prepare: ({ title, subtitle, media }) => ({ title: title || 'Team', subtitle: subtitle || 'Team wereldwijd', media }),
+  },
+});
+
 export const schemaTypes = [
   homepage, doneren, paginakop, nieuws, evenement, lid, vriend, programma, product, galerijfoto, magazine, album,
-  menukaartvideo, bericht, aanmelding,
+  menukaartvideo, vestiging, bericht, aanmelding,
 ];

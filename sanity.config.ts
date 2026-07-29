@@ -37,6 +37,7 @@ export default defineConfig({
             S.documentTypeListItem('evenement').title('Agenda'),
             S.documentTypeListItem('lid').title('Leden'),
             S.documentTypeListItem('vriend').title('Vrienden van'),
+            S.documentTypeListItem('vestiging').title('🌍 Teams wereldwijd'),
             S.documentTypeListItem('programma').title('Menukaart'),
             S.documentTypeListItem('menukaartvideo').title('Menukaart-video\'s'),
             S.documentTypeListItem('product').title('Shop'),

@@ -1,0 +1,68 @@
+---
+import { taalPaden, t, pad } from '../../i18n/index.ts';
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { getVestigingen, getPaginaSeo } from '../../lib/sanity.ts';
+const paginaSeo = await getPaginaSeo('wereldwijd');
+const vestigingen = await getVestigingen();
+
+// Initialen als er nog geen foto is geüpload
+const initialen = (naam = '') =>
+  naam.split(/[\s-]+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+---
+<Base taal={taal} seo={paginaSeo} description={t(taal, "ww.intro")} title={`${t(taal, "ww.titel")} — Stichting Gema Rasa`}>
+  <PageHero
+    sleutel="wereldwijd"
+    eyebrow={t(taal, "ww.eyebrow")}
+    titel={t(taal, "ww.titel")}
+    tekst={t(taal, "ww.intro")}
+    foto="/assets/perf-wayang.jpg"
+  />
+
+  {vestigingen.length === 0 ? (
+    <section class="block">
+      <div class="wrap">
+        <p style="text-align:center;opacity:.7">{t(taal, "ww.leeg")}</p>
+      </div>
+    </section>
+  ) : vestigingen.map((v) => (
+    <section class="block">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="kicker">{v.vlag ? `${v.vlag} ` : ''}{v.land}</span>
+          <h2>{v.stad || v.land}</h2>
+          {v.intro && <p>{v.intro}</p>}
+        </div>
+
+        {v.foto && (
+          <img src={v.foto} alt={`${v.land}${v.stad ? ' — ' + v.stad : ''}`} loading="lazy"
+               style="width:100%;max-height:360px;object-fit:cover;border-radius:18px;margin:0 0 28px" />
+        )}
+
+        {v.reps.length > 0 && (
+          <div class="team-grid">
+            {v.reps.map((r) => (
+              <div class="member">
+                {r.foto
+                  ? <img class="avatar" src={r.foto} alt={r.naam} loading="lazy" />
+                  : <div class="avatar-fallback" aria-hidden="true">{initialen(r.naam)}</div>}
+                <div class="naam">{r.naam}</div>
+                {r.rol && <div class="rol">{r.rol}</div>}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  ))}
+
+  <section class="cta">
+    <div class="cta-inner">
+      <h2>{t(taal, "ww.eyebrow")}</h2>
+      <p>{t(taal, "ww.intro")}</p>
+      <a class="btn" href={pad(taal, "/contact")}>{t(taal, "nav.contact")}</a>
+    </div>
+  </section>
+</Base>

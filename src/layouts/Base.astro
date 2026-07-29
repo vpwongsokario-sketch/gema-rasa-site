@@ -62,6 +62,7 @@ const menu = [
   { sleutel: 'nav.over', items: [
       { sleutel: 'nav.stichting', url: '/de-stichting' },
       { sleutel: 'nav.leden', url: '/leden' },
+      { sleutel: 'nav.wereldwijd', url: '/wereldwijd' },
       { sleutel: 'nav.vrienden', url: '/de-vrienden-van' },
   ] },
   { sleutel: 'nav.groepen', items: [
@@ -237,6 +238,7 @@ const actief = (u) => huidigPad === u || huidigPad.startsWith(u + '/');
           <a href={pad(taal, '/')}>{t(taal, 'nav.home')}</a>
           <a href={pad(taal, '/de-stichting')}>{t(taal, 'nav.stichting')}</a>
           <a href={pad(taal, '/leden')}>{t(taal, 'nav.leden')}</a>
+          <a href={pad(taal, '/wereldwijd')}>{t(taal, 'nav.wereldwijd')}</a>
           <a href={pad(taal, '/de-gamelan-groep')}>{t(taal, 'nav.gamelan')}</a>
           <a href={pad(taal, '/de-dansgroep')}>{t(taal, 'nav.dans')}</a>
           <a href={pad(taal, '/videos')}>{t(taal, 'nav.videos')}</a>
