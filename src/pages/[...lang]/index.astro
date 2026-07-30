@@ -3,12 +3,13 @@ import { taalPaden, t, pad } from '../../i18n/index.ts';
 export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
 import Base from '../../layouts/Base.astro';
-import { getHomepage, getNieuws, getAgenda, getGalerij } from '../../lib/sanity.ts';
+import { getHomepage, getNieuws, getAgenda, getGalerij, getInitiatieven } from '../../lib/sanity.ts';
 
 const { hero, productie, merch, seo: paginaSeo } = await getHomepage(taal);
 const nieuws = await getNieuws(taal);
 const agenda = await getAgenda(taal);
 const galerij = await getGalerij();
+const initiatieven = await getInitiatieven();
 
 // Titel met accent-woord in goud (uit CMS)
 const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.titelAccent)
@@ -182,4 +183,27 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
       </div>
     </div>
   </section>
+
+  <!-- ONZE INITIATIEVEN -->
+  {initiatieven.length > 0 && (
+    <section class="block" id="initiatieven" style="padding-top:0">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="kicker">{t(taal, "home.iniKicker")}</span>
+          <h2>{t(taal, "home.iniTitel")}</h2>
+          <p>{t(taal, "home.iniTekst")}</p>
+        </div>
+        <div class="ini-grid">
+          {initiatieven.map((i) => (
+            <a class="ini-kaart" href={i.url} target="_blank" rel="noopener">
+              {i.emoji && <span class="ini-emoji" aria-hidden="true">{i.emoji}</span>}
+              <span class="ini-naam">{i.naam}</span>
+              {i.omschrijving && <span class="ini-oms">{i.omschrijving}</span>}
+              <span class="ini-link">{i.url.replace(/^https?:\/\//, '')} ↗</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 </Base>

@@ -303,6 +303,25 @@ export async function getVrienden() {
   }));
 }
 
+/* ---------- Initiatieven (zusterprojecten) ---------- */
+const INITIATIEVEN_FALLBACK = [
+  { naam: 'Echo’s van Java', omschrijving: 'Communityplatform voor Javaans talent', url: 'https://echosvanjava.com', emoji: '🌐' },
+  { naam: 'Echo’s van Java Festival', omschrijving: 'Jaarlijks cultureel festival', url: 'https://echosvanjava.nl', emoji: '🎪' },
+  { naam: 'Cara Jawa', omschrijving: 'Javaanse taal- en cultuurlessen', url: 'https://carajawa.nl', emoji: '📚' },
+  { naam: 'Cara Jawa Dictionary', omschrijving: 'Online Javaans woordenboek', url: 'https://dictionary.carajawa.nl', emoji: '📖' },
+  { naam: 'Suwara Jawa', omschrijving: 'Magazine: verhalen & verdieping', url: 'https://suwarajawa.nl', emoji: '📰' },
+];
+export async function getInitiatieven() {
+  const docs = await safe<any[]>('*[_type == "initiatief"] | order(volgorde asc){ naam, omschrijving, url, emoji }');
+  if (!docs || docs.length === 0) return INITIATIEVEN_FALLBACK;
+  return docs.map((d) => ({
+    naam: d.naam ?? '',
+    omschrijving: d.omschrijving ?? '',
+    url: d.url ?? '#',
+    emoji: d.emoji ?? '',
+  }));
+}
+
 /* ---------- Teams wereldwijd ---------- */
 export async function getVestigingen() {
   const docs = await safe<any[]>(

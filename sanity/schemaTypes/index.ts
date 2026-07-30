@@ -540,7 +540,23 @@ const vestiging = defineType({
   },
 });
 
+const initiatief = defineType({
+  name: 'initiatief',
+  title: 'Initiatief (zusterproject)',
+  type: 'document',
+  fields: [
+    defineField({ name: 'naam', title: 'Naam', type: 'string', validation: (r) => r.required() }),
+    defineField({ name: 'omschrijving', title: 'Korte omschrijving', type: 'string' }),
+    defineField({ name: 'url', title: 'Website (URL)', type: 'url', validation: (r) => r.required(),
+      description: 'Volledige link, bijv. https://echosvanjava.com' }),
+    defineField({ name: 'emoji', title: 'Emoji/icoon (optioneel)', type: 'string', description: 'Bijv. 🌐 🎪 📚 📖 📰' }),
+    defineField({ name: 'volgorde', title: 'Volgorde', type: 'number', initialValue: 50, description: 'Lager = eerder.' }),
+  ],
+  orderings: [{ title: 'Volgorde', name: 'volgorde', by: [{ field: 'volgorde', direction: 'asc' }] }],
+  preview: { select: { title: 'naam', subtitle: 'url' }, prepare: ({ title, subtitle }) => ({ title: title || 'Initiatief', subtitle }) },
+});
+
 export const schemaTypes = [
   homepage, doneren, paginakop, nieuws, evenement, lid, vriend, programma, product, galerijfoto, magazine, album,
-  menukaartvideo, vestiging, bericht, aanmelding,
+  menukaartvideo, vestiging, initiatief, bericht, aanmelding,
 ];

@@ -85,6 +85,9 @@ const nl: Woordenboek = {
   'home.agendaKicker': 'Agenda',
   'home.agendaTitel': 'Evenementen die wij ondersteunen',
   'home.agendaTekst': 'Evenementen waar onze gamelangroep Jiwa Manunggal optreedt of die helpen met het verspreiden van de Javaanse cultuur.',
+  'home.iniKicker': 'Ons netwerk',
+  'home.iniTitel': 'Onze initiatieven',
+  'home.iniTekst': 'Stichting Gema Rasa verbindt verschillende projecten rond Javaanse cultuur, taal en podiumkunsten.',
 
   // algemeen
   'algemeen.leesMeer': 'Lees meer',
@@ -149,6 +152,9 @@ const en: Woordenboek = {
   'home.agendaKicker': 'Agenda',
   'home.agendaTitel': 'Events we support',
   'home.agendaTekst': 'Events where our gamelan group Jiwa Manunggal performs, or that help spread Javanese culture.',
+  'home.iniKicker': 'Our network',
+  'home.iniTitel': 'Our initiatives',
+  'home.iniTekst': 'Stichting Gema Rasa connects several projects around Javanese culture, language and performing arts.',
 
   'algemeen.leesMeer': 'Read more',
   'algemeen.tickets': 'Tickets',
@@ -211,6 +217,9 @@ const id: Woordenboek = {
   'home.agendaKicker': 'Agenda',
   'home.agendaTitel': 'Acara yang kami dukung',
   'home.agendaTekst': 'Acara tempat grup gamelan Jiwa Manunggal tampil, atau yang turut menyebarkan budaya Jawa.',
+  'home.iniKicker': 'Jaringan kami',
+  'home.iniTitel': 'Inisiatif kami',
+  'home.iniTekst': 'Stichting Gema Rasa menghubungkan berbagai proyek seputar budaya, bahasa, dan seni pertunjukan Jawa.',
 
   'algemeen.leesMeer': 'Baca selengkapnya',
   'algemeen.tickets': 'Tiket',
