@@ -155,15 +155,50 @@ export async function getNieuwsArtikelen(taal: string = 'nl') {
 }
 
 /* ---------- Agenda ---------- */
+// Leidende bron voor de brede community-agenda is het Echo's van Java platform
+// (§8.1/§8.2). Zo hoeven community-events niet dubbel te worden ingevoerd.
+// LET OP: wijzig dit naar https://echosvanjava.com zodra dat domein aan het
+// platform gekoppeld is.
+const PLATFORM_API = 'https://echos-van-java.onrender.com';
+
+/** Haalt aankomende, goedgekeurde events op uit de platform-API (leeg bij fout). */
+async function getPlatformEvents(taal: string) {
+  try {
+    const res = await fetch(`${PLATFORM_API}/api/events?upcoming=true`, { signal: AbortSignal.timeout(8000) });
+    if (!res.ok) return [] as any[];
+    const evs = await res.json();
+    if (!Array.isArray(evs)) return [] as any[];
+    return evs
+      .map((e: any) => ({
+        titel: e.title ?? '',
+        locatie: [e.loc, e.country].filter(Boolean).join(', '),
+        datum: e.date,
+        datumLabel: e.date ? datumLabel(e.date, taal) : '',
+      }))
+      .filter((e: any) => e.titel && e.datum);
+  } catch {
+    return [] as any[];
+  }
+}
+
 export async function getAgenda(taal: string = 'nl') {
   const docs = await safe<any[]>('*[_type == "evenement"] | order(datum desc){ titel, titel_en, titel_id, locatie, locatie_en, locatie_id, datum }');
-  if (!docs || docs.length === 0) return local.agenda;
-  return docs.map((d) => ({
-    titel: vertaald(d, 'titel', taal) ?? '',
-    locatie: vertaald(d, 'locatie', taal) ?? '',
-    datum: d.datum,
-    datumLabel: datumLabel(d.datum, taal),
-  }));
+  const eigen = (docs && docs.length)
+    ? docs.map((d) => ({
+        titel: vertaald(d, 'titel', taal) ?? '',
+        locatie: vertaald(d, 'locatie', taal) ?? '',
+        datum: d.datum,
+        datumLabel: datumLabel(d.datum, taal),
+      }))
+    : (local.agenda as any[]);
+  // Community-events uit de platform-API erbij; ontdubbelen op titel+datum
+  // (eigen/ondersteunde events uit Sanity hebben voorrang).
+  const community = await getPlatformEvents(taal);
+  const sleutel = (e: any) => `${String(e.titel || '').toLowerCase().trim()}|${e.datum}`;
+  const gezien = new Set(eigen.map(sleutel));
+  const samen = [...eigen, ...community.filter((e: any) => !gezien.has(sleutel(e)))];
+  samen.sort((a: any, b: any) => String(b.datum || '').localeCompare(String(a.datum || '')));
+  return samen;
 }
 
 /* ---------- Leden ---------- */
