@@ -161,6 +161,19 @@ export async function getNieuwsArtikelen(taal: string = 'nl') {
 // platform gekoppeld is.
 const PLATFORM_API = 'https://echos-van-java.onrender.com';
 
+const maandKort: Record<string, Intl.DateTimeFormat> = {
+  nl: new Intl.DateTimeFormat('nl-NL', { month: 'short' }),
+  en: new Intl.DateTimeFormat('en-GB', { month: 'short' }),
+  id: new Intl.DateTimeFormat('id-ID', { month: 'short' }),
+};
+/** Splitst een datum in dag-nummer + korte maand (voor de datumbadge op de kaart). */
+function dagMaand(datum: string, taal = 'nl') {
+  if (!datum) return { dag: '', maand: '' };
+  const d = new Date(datum);
+  if (isNaN(d.getTime())) return { dag: '', maand: '' };
+  return { dag: String(d.getDate()), maand: (maandKort[taal] ?? maandKort.nl).format(d).replace('.', '').toUpperCase() };
+}
+
 /** Haalt aankomende, goedgekeurde events op uit de platform-API (leeg bij fout). */
 async function getPlatformEvents(taal: string) {
   try {
@@ -174,6 +187,12 @@ async function getPlatformEvents(taal: string) {
         locatie: [e.loc, e.country].filter(Boolean).join(', '),
         datum: e.date,
         datumLabel: e.date ? datumLabel(e.date, taal) : '',
+        ...dagMaand(e.date, taal),
+        foto: e.photo_url || '',
+        cat: e.cat || '',
+        gratis: !!e.free,
+        prijs: e.price || '',
+        ticketUrl: e.ticketUrl || '',
       }))
       .filter((e: any) => e.titel && e.datum);
   } catch {
@@ -189,15 +208,20 @@ export async function getAgenda(taal: string = 'nl') {
         locatie: vertaald(d, 'locatie', taal) ?? '',
         datum: d.datum,
         datumLabel: datumLabel(d.datum, taal),
+        ...dagMaand(d.datum, taal),
+        foto: '', cat: '', gratis: false, prijs: '', ticketUrl: '',
       }))
-    : (local.agenda as any[]);
+    : (local.agenda as any[]).map((e: any) => ({ ...e, ...dagMaand(e.datum, taal), foto: '', cat: '', gratis: false, prijs: '', ticketUrl: '' }));
   // Community-events uit de platform-API erbij; ontdubbelen op titel+datum
   // (eigen/ondersteunde events uit Sanity hebben voorrang).
   const community = await getPlatformEvents(taal);
   const sleutel = (e: any) => `${String(e.titel || '').toLowerCase().trim()}|${e.datum}`;
   const gezien = new Set(eigen.map(sleutel));
-  const samen = [...eigen, ...community.filter((e: any) => !gezien.has(sleutel(e)))];
-  samen.sort((a: any, b: any) => String(b.datum || '').localeCompare(String(a.datum || '')));
+  // Alleen aankomende events, chronologisch (soonest eerst) — zoals het platform.
+  const vandaag = new Date().toISOString().slice(0, 10);
+  const samen = [...eigen, ...community.filter((e: any) => !gezien.has(sleutel(e)))]
+    .filter((e: any) => !e.datum || e.datum >= vandaag);
+  samen.sort((a: any, b: any) => String(a.datum || '').localeCompare(String(b.datum || '')));
   return samen;
 }
 

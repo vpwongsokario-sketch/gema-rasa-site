@@ -173,12 +173,23 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
         <p>{t(taal, "home.agendaTekst")}</p>
         <p style="margin-top:14px"><a class="btn ghost" href="https://echos-van-java.onrender.com" target="_blank" rel="noopener">{t(taal, "home.alleEvenementen")}</a></p>
       </div>
-      <div class="agenda">
+      <div class="evgrid">
         {agenda.slice(0, 6).map((e) => (
-          <div class="row">
-            <span class="d">{e.datumLabel}</span>
-            <span class="t">{e.titel}</span>
-            <span class="loc">{e.locatie}</span>
+          <div class="evkaart">
+            <div class={`evkaart-media${e.foto ? ' met-foto' : ''}`} style={e.foto ? `background-image:url('${e.foto}')` : undefined}>
+              {!e.foto && <span class="evkaart-ic" aria-hidden="true">✦</span>}
+              <div class="evkaart-badge"><span class="d">{e.dag}</span><span class="m">{e.maand}</span></div>
+            </div>
+            <div class="evkaart-body">
+              <h3>{e.titel}</h3>
+              {e.locatie && <div class="evkaart-loc">◎ {e.locatie}</div>}
+            </div>
+            <div class="evkaart-foot">
+              <span>{e.cat && <span class="evchip cat">{e.cat}</span>}</span>
+              {e.gratis
+                ? <span class="evchip gratis">{t(taal, "home.gratis")}</span>
+                : (e.prijs ? <span class="evchip prijs">{e.prijs}</span> : <span></span>)}
+            </div>
           </div>
         ))}
       </div>
