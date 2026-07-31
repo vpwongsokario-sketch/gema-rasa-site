@@ -206,15 +206,18 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
           <p>{t(taal, "home.iniTekst")}</p>
           <div class="ornament" style="margin-top:18px"><span></span></div>
         </div>
-        <div class="ini-grid">
-          {initiatieven.map((i) => (
-            <a class="ini-kaart" href={i.url} target="_blank" rel="noopener">
-              {i.emoji && <span class="ini-emoji" aria-hidden="true">{i.emoji}</span>}
-              <span class="ini-naam">{i.naam}</span>
-              {i.omschrijving && <span class="ini-oms">{i.omschrijving}</span>}
-              <span class="ini-link">{t(taal, "home.iniBezoek")} ↗</span>
-            </a>
-          ))}
+        <div class="team-grid">
+          {initiatieven.map((i) => {
+            const Kaart = i.url ? 'a' : 'div';
+            return (
+              <Kaart class="member" href={i.url || undefined} target={i.url ? '_blank' : undefined} rel={i.url ? 'noopener' : undefined}>
+                {i.emoji && <div class="logo-wrap" style="font-size:38px" aria-hidden="true">{i.emoji}</div>}
+                <div class="naam">{i.naam}</div>
+                {i.omschrijving && <div class="rol">{i.omschrijving}</div>}
+                <div class="rol" style="margin-top:10px;color:var(--orange-ink);font-weight:600">{t(taal, "home.iniBezoek")} ↗</div>
+              </Kaart>
+            );
+          })}
         </div>
       </div>
     </section>
