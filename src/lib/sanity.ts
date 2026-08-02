@@ -159,7 +159,7 @@ export async function getNieuwsArtikelen(taal: string = 'nl') {
 // (§8.1/§8.2). Zo hoeven community-events niet dubbel te worden ingevoerd.
 // LET OP: wijzig dit naar https://echosvanjava.com zodra dat domein aan het
 // platform gekoppeld is.
-const PLATFORM_API = 'https://echos-van-java.onrender.com';
+const PLATFORM_API = 'https://echosvanjava.com';
 
 const maandKort: Record<string, Intl.DateTimeFormat> = {
   nl: new Intl.DateTimeFormat('nl-NL', { month: 'short' }),
