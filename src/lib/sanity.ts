@@ -365,6 +365,7 @@ export async function getVrienden() {
 /* ---------- Initiatieven (zusterprojecten) ---------- */
 const INITIATIEVEN_FALLBACK = [
   { naam: 'Echo’s van Java', omschrijving: 'Communityplatform voor Javaans talent', url: 'https://echosvanjava.com', emoji: '🌐' },
+  { naam: 'Haagse Onzichtbare Verhalen', omschrijving: 'Verhalen van Hagenaars met Javaanse roots', url: '/haagse-onzichtbare-verhalen', emoji: '🎬' },
   { naam: 'Echo’s van Java Festival', omschrijving: 'Jaarlijks cultureel festival', url: 'https://echosvanjava.nl', emoji: '🎪' },
   { naam: 'Cara Jawa', omschrijving: 'Javaanse taal- en cultuurlessen', url: 'https://carajawa.nl', emoji: '📚' },
   { naam: 'Cara Jawa Dictionary', omschrijving: 'Online Javaans woordenboek', url: 'https://dictionary.carajawa.nl', emoji: '📖' },

@@ -209,12 +209,14 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
         <div class="team-grid">
           {initiatieven.map((i) => {
             const Kaart = i.url ? 'a' : 'div';
+            const extern = !!i.url && /^https?:\/\//.test(i.url);
+            const href = i.url ? (extern ? i.url : pad(taal, i.url)) : undefined;
             return (
-              <Kaart class="member" href={i.url || undefined} target={i.url ? '_blank' : undefined} rel={i.url ? 'noopener' : undefined}>
+              <Kaart class="member" href={href} target={extern ? '_blank' : undefined} rel={extern ? 'noopener' : undefined}>
                 {i.emoji && <div class="logo-wrap" style="font-size:38px" aria-hidden="true">{i.emoji}</div>}
                 <div class="naam">{i.naam}</div>
                 {i.omschrijving && <div class="rol">{i.omschrijving}</div>}
-                <div class="rol" style="margin-top:10px;color:var(--orange-ink);font-weight:600">{t(taal, "home.iniBezoek")} ↗</div>
+                <div class="rol" style="margin-top:10px;color:var(--orange-ink);font-weight:600">{t(taal, "home.iniBezoek")} {extern ? "↗" : "→"}</div>
               </Kaart>
             );
           })}

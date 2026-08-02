@@ -3,70 +3,194 @@ import { taalPaden, t, pad } from '../../i18n/index.ts';
 export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
 import Base from '../../layouts/Base.astro';
-import PageHero from '../../components/PageHero.astro';
 import { getPaginaSeo } from '../../lib/sanity.ts';
 
 const paginaSeo = await getPaginaSeo('haagse-onzichtbare-verhalen');
+const banner = '/assets/onzichtbare_verhalen_banner.png';
 
-// De drie bijeenkomsten. Vul datum/locatie in en zet de Ticket Tailor-link
-// in `ticket` zodra die bekend is; laat leeg voor "Tickets volgen binnenkort".
-const bijeenkomsten = [
-  { key: 'b1', datum: '', locatie: '', ticket: '' },
-  { key: 'b2', datum: '', locatie: '', ticket: '' },
-  { key: 'b3', datum: '', locatie: '', ticket: '' },
+// De drie avonden. Verhaal-alinea's mogen <em>/<strong> bevatten (worden als HTML gerenderd).
+const programma = [
+  {
+    nr: '01', thema: 'Zichtbaarheid', koppel: 'Errol & Renell',
+    datum: 'Donderdag 27 augustus 2026', tijd: '19:00 – 21:00 uur',
+    locatie: 'Museum Sophiahof, Sophialaan 10, 2514 JR Den Haag',
+    verhaal: [
+      '<em>Vijftig jaar ertussen, dezelfde frustratie.</em> In de jaren tachtig richtte Errol een ontmoetingscentrum op — en kreeg te horen dat hij &ldquo;zich niet als een Javaan gedroeg&rdquo; omdat hij te hard duwde.',
+      'Renell, veertig jaar later: <em>&ldquo;Het is genoeg geweest, het wordt tijd dat wij op de voorgrond gaan.&rdquo;</em>',
+      'Zij is het antwoord op een klacht die hij toen formuleerde. En ze weten dat van elkaar niet — nog niet.',
+    ],
+    vraag: 'Wat is er in vijftig jaar veranderd aan wat er van een Javaan verwacht wordt, en door wie?',
+    ticket: 'https://www.tickettailor.com/events/stichtinggemarasa/2341235',
+  },
+  {
+    nr: '02', thema: 'Van buitenaf', koppel: 'Sharona & Shinta',
+    datum: 'Dinsdag 1 september 2026', tijd: '19:00 – 21:00 uur',
+    locatie: 'De Boomhuttenclub, 2512 CM Den Haag',
+    verhaal: [
+      'Allebei opgegroeid buiten de Haagse gemeenschap. Allebei met een moeder die op assimilatie stuurde. Allebei op zoek.',
+      'Maar Sharona zocht op haar zestiende in haar eentje, en vond niemand. Shinta kwam met een stamboom van vierhonderd jaar — en kan uitleggen waarom Sharona die van haar niet heeft.',
+    ],
+    vraag: 'Wat heb je nodig om je ergens thuis te voelen, en wie gaat dat maken?',
+    ticket: 'https://www.tickettailor.com/events/stichtinggemarasa/2341422',
+  },
+  {
+    nr: '03', thema: 'Wat niet wordt uitgesproken', koppel: 'Roesman & Raoul',
+    datum: 'Woensdag 2 september 2026', tijd: '19:00 – 21:00 uur',
+    locatie: 'Zuiderpark, Heineweg 15, 2533 SX Den Haag',
+    verhaal: [
+      'Twee vaders van rond de veertig. Allebei bezig om de emotionele stilte te doorbreken bij hun eigen kinderen. Allebei met de erkenning: <em>ik heb het zelf niet meegekregen.</em>',
+      'De boodschappentas en de autoritten, naast elkaar, jaren later.',
+    ],
+    vraag: 'Wat geef je door zonder het te willen, en wat kies je bewust om anders te doen?',
+    ticket: 'https://www.tickettailor.com/events/stichtinggemarasa/2341438',
+  },
 ];
----
-<Base taal={taal} seo={paginaSeo} description={t(taal, "hv.intro")} title={`${t(taal, "hv.titel")} — Stichting Gema Rasa`}>
-  <PageHero
-    sleutel="haagse-onzichtbare-verhalen"
-    eyebrow={t(taal, "hv.eyebrow")}
-    titel={t(taal, "hv.titel")}
-    tekst={t(taal, "hv.intro")}
-    foto="/assets/perf-wayang.jpg"
-  />
 
+const ttUrl = 'https://www.tickettailor.com/all-tickets/stichtinggemarasa/?ref=website_widget&show_search_filter=true&show_date_filter=true&show_sort=true';
+---
+<Base
+  taal={taal}
+  seo={paginaSeo}
+  ogImage={banner}
+  description={t(taal, "hv.metaDesc")}
+  title={`${t(taal, "hv.titel")} — Stichting Gema Rasa`}
+>
+  <!-- HERO: de banner is een compleet ontwerp met eigen tekst — schoon tonen, geen overlay -->
+  <h1 class="hv-sr">{t(taal, "hv.titel")}</h1>
+  <img class="hv-banner" src={banner} alt={`${t(taal, "hv.titel")} — ${t(taal, "hv.eyebrow")} · Stichting Gema Rasa`} width="2048" height="652" />
+
+  <!-- INTRO -->
   <section class="block">
     <div class="wrap">
       <div class="prose">
-        <h2>{t(taal, "hv.overKop")}</h2>
-        <p class="lead">{t(taal, "hv.overTekst")}</p>
+        <p class="lead">{t(taal, "hv.intro")}</p>
+        <p>{t(taal, "hv.introP2")}</p>
+        <p>{t(taal, "hv.introP3")}</p>
+        <p class="hv-gratis">{t(taal, "hv.introGratis")}</p>
       </div>
     </div>
   </section>
 
-  <!-- BIJEENKOMSTEN -->
+  <!-- PROGRAMMA: DRIE AVONDEN -->
   <section class="block batik" style="padding-top:0">
     <div class="wrap">
       <div class="ornament" style="margin-bottom:46px"><span></span></div>
       <div class="section-head">
         <span class="kicker">{t(taal, "hv.eyebrow")}</span>
-        <h2>{t(taal, "hv.bijeenkomstenKop")}</h2>
-        <p>{t(taal, "hv.bijeenkomstenIntro")}</p>
+        <h2>{t(taal, "hv.programmaKop")}</h2>
       </div>
 
-      <div class="edities">
-        {bijeenkomsten.map((b) => (
-          <article class="editie">
-            <div class="editie-body">
-              <h3>{t(taal, `hv.${b.key}Titel`)}</h3>
-              <p style="margin:2px 0 10px"><strong>{t(taal, "hv.datumLabel")}:</strong> {b.datum || t(taal, "hv.tbaDatum")}<br/><strong>{t(taal, "hv.locatieLabel")}:</strong> {b.locatie || t(taal, "hv.tbaLocatie")}</p>
-              <p>{t(taal, `hv.${b.key}Thema`)}</p>
-              {b.ticket
-                ? <a class="btn gold" href={b.ticket} target="_blank" rel="noopener">{t(taal, "hv.ticketKnop")}</a>
-                : <span class="editie-datum">{t(taal, "hv.ticketBinnenkort")}</span>}
-            </div>
-          </article>
-        ))}
+      {programma.map((b) => (
+        <article class="avond">
+          <span class="kicker">{t(taal, "hv.avond")} {b.nr} — {b.thema}</span>
+          <h3 class="avond-koppel">{b.koppel}</h3>
+          <p class="avond-meta">
+            <strong>{t(taal, "hv.datumLabel")}:</strong> {b.datum}<br/>
+            <strong>{t(taal, "hv.tijdLabel")}:</strong> {b.tijd}<br/>
+            <strong>{t(taal, "hv.locatieLabel")}:</strong> {b.locatie}
+          </p>
+          <div class="avond-verhaal">
+            {b.verhaal.map((p) => <p set:html={p} />)}
+          </div>
+          <p class="avond-vraag"><strong>{t(taal, "hv.vraagLabel")}:</strong> {b.vraag}</p>
+          <a class="btn gold" href={b.ticket} target="_blank" rel="noopener">{t(taal, "hv.reserveer")}</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- SLOTQUOTE -->
+  <section class="cta soft">
+    <div class="cta-inner">
+      <span class="kicker">{t(taal, "hv.slotEyebrow")}</span>
+      <blockquote class="hv-quote">&ldquo;Dat betekent niet dat ik minder Javaans ben. Eigenlijk maak ik een nieuwe vorm van mijn Javaanse identiteit.&rdquo;</blockquote>
+      <p class="hv-quote-bron">{t(taal, "hv.slotBron")}</p>
+    </div>
+  </section>
+
+  <!-- RESERVEREN (Ticket Tailor) -->
+  <section class="block" id="reserveren" style="padding-top:0">
+    <div class="wrap">
+      <div class="prose">
+        <h2>{t(taal, "hv.reserveerKop")}</h2>
+        <p>{t(taal, "hv.reserveerTekst")}</p>
+      </div>
+      <div class="tt-widget">
+        <div class="tt-widget-fallback">
+          <p><a class="btn gold" href={ttUrl} target="_blank" rel="noopener">{t(taal, "hv.reserveer")}</a></p>
+        </div>
+        <script
+          is:inline
+          src="https://cdn.tickettailor.com/js/widgets/min/widget.js"
+          data-url={ttUrl}
+          data-type="inline"
+          data-inline-minimal="true"
+          data-inline-show-logo="false"
+          data-inline-bg-fill="false"
+          data-inline-ref="website_widget"
+        ></script>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT / MEEDOEN -->
-  <section class="cta soft" style="margin-bottom:24px">
+  <!-- CONTACT (secundair, onder reserveren) -->
+  <section class="cta soft">
     <div class="cta-inner">
       <h2>{t(taal, "hv.ctaKop")}</h2>
       <p>{t(taal, "hv.ctaTekst")}</p>
-      <a class="btn gold" href={pad(taal, "/contact")}>{t(taal, "hv.ctaKnop")}</a>
+      <a class="btn" href={pad(taal, "/contact")}>{t(taal, "hv.ctaKnop")}</a>
     </div>
   </section>
+
+  <!-- SUBSIDIEVERMELDING -->
+  <p class="hv-subsidie">{t(taal, "hv.subsidie")}</p>
 </Base>
+
+<style>
+  .hv-banner { display: block; width: 100%; height: auto; }
+  .hv-sr {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  .hv-gratis { font-style: italic; color: var(--orange-ink); margin-top: 14px; }
+  .avond {
+    max-width: 760px;
+    margin: 0 auto 44px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--line);
+  }
+  .avond:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .avond-koppel { margin: 6px 0 14px; }
+  .avond-meta { line-height: 1.7; margin: 0 0 18px; }
+  .avond-verhaal p { margin-bottom: 12px; line-height: 1.8; }
+  .avond-vraag {
+    margin: 18px 0 22px;
+    padding: 14px 16px;
+    background: rgba(252, 142, 68, .10);
+    border-left: 3px solid var(--orange);
+    border-radius: 8px;
+  }
+  .hv-quote {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    font-style: italic;
+    line-height: 1.4;
+    max-width: 700px;
+    margin: 8px auto 12px;
+  }
+  .hv-quote-bron { font-weight: 600; letter-spacing: .04em; }
+  .tt-widget { max-width: 760px; margin: 26px auto 0; }
+  .tt-widget-fallback { text-align: center; }
+  .hv-subsidie {
+    text-align: center;
+    color: #3F5D3A;
+    font-family: Inter, system-ui, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-size: 12px;
+    line-height: 1.6;
+    padding: 8px 20px 40px;
+    margin: 0;
+  }
+</style>
