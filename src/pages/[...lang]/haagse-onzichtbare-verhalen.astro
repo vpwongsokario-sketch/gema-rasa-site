@@ -1,0 +1,72 @@
+---
+import { taalPaden, t, pad } from '../../i18n/index.ts';
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { getPaginaSeo } from '../../lib/sanity.ts';
+
+const paginaSeo = await getPaginaSeo('haagse-onzichtbare-verhalen');
+
+// De drie bijeenkomsten. Vul datum/locatie in en zet de Ticket Tailor-link
+// in `ticket` zodra die bekend is; laat leeg voor "Tickets volgen binnenkort".
+const bijeenkomsten = [
+  { key: 'b1', datum: '', locatie: '', ticket: '' },
+  { key: 'b2', datum: '', locatie: '', ticket: '' },
+  { key: 'b3', datum: '', locatie: '', ticket: '' },
+];
+---
+<Base taal={taal} seo={paginaSeo} description={t(taal, "hv.intro")} title={`${t(taal, "hv.titel")} — Stichting Gema Rasa`}>
+  <PageHero
+    sleutel="haagse-onzichtbare-verhalen"
+    eyebrow={t(taal, "hv.eyebrow")}
+    titel={t(taal, "hv.titel")}
+    tekst={t(taal, "hv.intro")}
+    foto="/assets/perf-wayang.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      <div class="prose">
+        <h2>{t(taal, "hv.overKop")}</h2>
+        <p class="lead">{t(taal, "hv.overTekst")}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIJEENKOMSTEN -->
+  <section class="block batik" style="padding-top:0">
+    <div class="wrap">
+      <div class="ornament" style="margin-bottom:46px"><span></span></div>
+      <div class="section-head">
+        <span class="kicker">{t(taal, "hv.eyebrow")}</span>
+        <h2>{t(taal, "hv.bijeenkomstenKop")}</h2>
+        <p>{t(taal, "hv.bijeenkomstenIntro")}</p>
+      </div>
+
+      <div class="edities">
+        {bijeenkomsten.map((b) => (
+          <article class="editie">
+            <div class="editie-body">
+              <h3>{t(taal, `hv.${b.key}Titel`)}</h3>
+              <p style="margin:2px 0 10px"><strong>{t(taal, "hv.datumLabel")}:</strong> {b.datum || t(taal, "hv.tbaDatum")}<br/><strong>{t(taal, "hv.locatieLabel")}:</strong> {b.locatie || t(taal, "hv.tbaLocatie")}</p>
+              <p>{t(taal, `hv.${b.key}Thema`)}</p>
+              {b.ticket
+                ? <a class="btn gold" href={b.ticket} target="_blank" rel="noopener">{t(taal, "hv.ticketKnop")}</a>
+                : <span class="editie-datum">{t(taal, "hv.ticketBinnenkort")}</span>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / MEEDOEN -->
+  <section class="cta soft" style="margin-bottom:24px">
+    <div class="cta-inner">
+      <h2>{t(taal, "hv.ctaKop")}</h2>
+      <p>{t(taal, "hv.ctaTekst")}</p>
+      <a class="btn gold" href={pad(taal, "/contact")}>{t(taal, "hv.ctaKnop")}</a>
+    </div>
+  </section>
+</Base>
