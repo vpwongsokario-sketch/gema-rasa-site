@@ -304,6 +304,7 @@ const paginakop = defineType({
         { title: 'Magazine Suwara Jawa', value: 'suwara-jawa' },
         { title: "Video's", value: 'videos' },
         { title: 'Fotoalbums', value: 'albums' },
+        { title: 'Cursus dans & kendang', value: 'cursus-dans-kendang' },
       ] },
     }),
     defineField({ name: 'afbeelding', title: 'Achtergrondfoto', type: 'image', options: { hotspot: true },

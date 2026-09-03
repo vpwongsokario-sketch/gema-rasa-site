@@ -1,0 +1,523 @@
+---
+import { taalPaden, t, pad } from '../../i18n/index.ts';
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { getPaginaSeo } from '../../lib/sanity.ts';
+
+const paginaSeo = await getPaginaSeo('cursus-dans-kendang');
+const hero = '/assets/cursus-hero.jpg';
+
+// Ticket Tailor: twee losse events, elk met een eigen capaciteit van 15 plaatsen.
+const ttDans = 'https://www.tickettailor.com/events/stichtinggemarasa/2397435';
+const ttKendang = 'https://www.tickettailor.com/events/stichtinggemarasa/2397461';
+
+const locatie = 'KizzMotions, Suikerbakkerstraat 40, 3194 AK Hoogvliet Rotterdam';
+const routeUrl = 'https://maps.google.com/?q=Suikerbakkerstraat+40,+3194+AK+Hoogvliet+Rotterdam';
+
+// Lesinhoud staat bewust in het Nederlands: het zijn Javaanse vaktermen en
+// stuknamen die in elke taal hetzelfde blijven.
+const blokken = [
+  {
+    sleutel: 'blok1',
+    reeks: '15 t/m 18 september 2026',
+    studio: 'KizzMotions · studio 1 (15 & 16 sept) · studio 2 (17 & 18 sept)',
+    dagen: [
+      {
+        datum: '15 september', dag: 'dinsdag',
+        dans: { nr: 1, uur: '17.00 – 18.30', titel: 'Introductie klassieke Javaanse dans + basistechniek (sessie 1)', materiaal: 'basishouding van de klassieke Javaanse dans, met beeldmateriaal' },
+        kendang: { nr: 1, uur: '19.30 – 21.00', titel: 'Introductie gamelan + klankkarakter van de kendhang', materiaal: 'namen van de gamelaninstrumenten, notatie en klanksymbolen van de kendhang' },
+      },
+      {
+        datum: '16 september', dag: 'woensdag',
+        dans: { nr: 2, uur: '17.00 – 18.30', titel: 'Basistechniek klassieke Javaanse dans (sessie 2)', materiaal: 'basishouding van de klassieke Javaanse dans' },
+        kendang: { nr: 2, uur: '19.30 – 21.00', titel: 'Lancaran Bindri', materiaal: 'notatie · saron · gong cilik · kendhang' },
+      },
+      {
+        datum: '17 september', dag: 'donderdag',
+        dans: { nr: 3, uur: '17.00 – 18.30', titel: 'Miru jarik — de randen van de jarik netjes en gelijkmatig vouwen tot wiron', materiaal: 'jarik parang klithik, basiskennis van de wiru' },
+        kendang: { nr: 3, uur: '19.30 – 21.00', titel: 'Lancaran Suwe Ora Jamu', materiaal: 'notatie · saron · gong cilik · kendhang' },
+      },
+      {
+        datum: '18 september', dag: 'vrijdag',
+        dans: { nr: 4, uur: '17.00 – 18.30', titel: 'Tutorial: het Gambyong Pareanom-kostuum dragen', materiaal: 'sanggul, accessoires, korset, angkin, stagen, jarik wiru' },
+        kendang: { nr: 4, uur: '19.30 – 21.00', titel: 'Lancaran Suwe Ora Jamu', materiaal: 'notatie · saron · gong cilik · kendhang' },
+      },
+    ],
+  },
+  {
+    sleutel: 'blok2',
+    reeks: '22 t/m 25 september 2026',
+    studio: 'KizzMotions · studio 1 (22 & 23 sept) · studio 2 (24 & 25 sept)',
+    dagen: [
+      {
+        datum: '22 september', dag: 'dinsdag',
+        dans: { nr: 5, uur: '17.00 – 18.30', titel: 'Gambyong Pareanom', materiaal: 'muziek Gambyong Pareanom' },
+        kendang: { nr: 5, uur: '19.00 – 21.00', titel: 'Lancaran Gugur Gunung', materiaal: 'notatie · saron · gong cilik · kendhang' },
+      },
+      {
+        datum: '23 september', dag: 'woensdag',
+        dans: { nr: 6, uur: '17.00 – 18.30', titel: 'Gambyong Pareanom', materiaal: 'muziek Gambyong Pareanom' },
+        kendang: { nr: 6, uur: '19.00 – 21.00', titel: 'Lancaran Gugur Gunung', materiaal: 'notatie · saron · gong cilik · kendhang' },
+      },
+      {
+        datum: '24 september', dag: 'donderdag',
+        dans: { nr: 7, uur: '17.00 – 18.30', titel: 'Gambyong Pareanom', materiaal: 'muziek Gambyong Pareanom' },
+        kendang: { nr: 7, uur: '19.00 – 21.00', titel: 'Jaranan Kendhang', materiaal: 'notatie · saron · gong cilik · kendhang' },
+      },
+      {
+        datum: '25 september', dag: 'vrijdag',
+        dans: { nr: 8, uur: '17.00 – 18.30', titel: 'Gambyong Pareanom', materiaal: 'muziek Gambyong Pareanom' },
+        kendang: { nr: 8, uur: '19.00 – 21.00', titel: 'Jaranan Kendhang', materiaal: 'notatie · saron · gong cilik · kendhang' },
+      },
+    ],
+  },
+];
+
+const dansPunten = [
+  'Introductie in de klassieke Javaanse dans en de basishouding',
+  'Basistechniek in twee opbouwende sessies',
+  'Miru jarik — de randen van de jarik gelijkmatig vouwen tot wiron',
+  'Het Gambyong Pareanom-kostuum leren dragen: sanggul, korset, angkin, stagen en jarik wiru',
+  'Vier lessen verdieping in de dans Gambyong Pareanom, op muziek',
+];
+const kendangPunten = [
+  'Introductie in de gamelan en de namen van de instrumenten',
+  'Het klankkarakter van de kendhang en de notatie van de klanksymbolen',
+  'Lancaran Bindri en Lancaran Suwe Ora Jamu',
+  'Verdieping: Lancaran Gugur Gunung en Jaranan Kendhang',
+  'Je speelt steeds samen met saron en gong cilik',
+];
+const klanken = ['dhah', 'tak', 'thung', 'dhen', 'tong', 'ket'];
+
+const faq = [1, 2, 3, 4].map((n) => ({ v: t(taal, `cur.faq${n}v`), a: t(taal, `cur.faq${n}a`) }));
+
+// Structured data: twee cursussen, zodat Google en AI-zoekmachines de data,
+// prijs en locatie los kunnen lezen.
+const cursusSchema = [
+  { naam: t(taal, 'cur.dansKop'), url: ttDans, docent: 'Mas Damar' },
+  { naam: t(taal, 'cur.kendangKop'), url: ttKendang, docent: 'Mas Surono' },
+].map((c) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: c.naam,
+  description: t(taal, 'cur.metaDesc'),
+  provider: { '@type': 'NGO', name: 'Stichting Gema Rasa', url: 'https://www.stichtinggemarasa.com' },
+  hasCourseInstance: {
+    '@type': 'CourseInstance',
+    courseMode: 'onsite',
+    startDate: '2026-09-15',
+    endDate: '2026-09-25',
+    maximumAttendeeCapacity: 15,
+    instructor: { '@type': 'Person', name: c.docent },
+    location: {
+      '@type': 'Place',
+      name: 'KizzMotions',
+      address: { '@type': 'PostalAddress', streetAddress: 'Suikerbakkerstraat 40', postalCode: '3194 AK', addressLocality: 'Hoogvliet Rotterdam', addressCountry: 'NL' },
+    },
+  },
+  offers: { '@type': 'Offer', price: '140', priceCurrency: 'EUR', url: c.url, availability: 'https://schema.org/InStock' },
+}));
+---
+<Base
+  taal={taal}
+  seo={paginaSeo}
+  ogImage={hero}
+  jsonld={cursusSchema}
+  description={t(taal, 'cur.metaDesc')}
+  title={`${t(taal, 'cur.titel')} — Stichting Gema Rasa`}
+>
+  <PageHero
+    sleutel="cursus-dans-kendang"
+    eyebrow={t(taal, 'cur.eyebrow')}
+    titel={t(taal, 'cur.titel')}
+    tekst={t(taal, 'cur.intro')}
+    foto={hero}
+  >
+    <div class="hero-cta">
+      <a class="btn gold" href="#reserveren">{t(taal, 'cur.reserveerKicker')}</a>
+      <a class="btn ghost" href="#programma">{t(taal, 'cur.programmaKicker')}</a>
+    </div>
+  </PageHero>
+
+  <!-- FEITENSTROOK -->
+  <div class="cur-strook">
+    <div class="wrap">
+      <span>{t(taal, 'cur.factLessen')}</span>
+      <span>{t(taal, 'cur.factGroep')}</span>
+      <span>{t(taal, 'cur.factNiveau')}</span>
+      <span>KizzMotions, Hoogvliet Rotterdam</span>
+    </div>
+  </div>
+
+  <!-- TWEE CURSUSSEN -->
+  <section class="block">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, 'cur.cursussenKicker')}</span>
+        <h2>{t(taal, 'cur.cursussenKop')}</h2>
+        <p>{t(taal, 'cur.cursussenTekst')}</p>
+      </div>
+
+      <div class="cur-tracks">
+        <article class="cur-track dans">
+          <img class="cur-track-img" src="/assets/cursus-dans-jarik.jpg" alt="Jarik met batikmotief, gedragen in de traditionele Javaanse dans" width="1500" height="478" loading="lazy" />
+          <div class="cur-track-body">
+            <span class="cur-tag">{t(taal, 'cur.dansTag')}</span>
+            <h3>{t(taal, 'cur.dansKop')}</h3>
+            <p class="cur-wie">{t(taal, 'cur.docentLabel')}: <strong>Mas Damar</strong></p>
+            <p class="cur-tijd">17.00 – 18.30 uur<small>{t(taal, 'cur.elkeLesdag')}</small></p>
+            <ul>{dansPunten.map((p) => <li>{p}</li>)}</ul>
+            <a class="cur-track-cta" href={ttDans} target="_blank" rel="noopener">{t(taal, 'cur.reserveerVanaf')} →</a>
+          </div>
+        </article>
+
+        <article class="cur-track kendang">
+          <img class="cur-track-img" src="/assets/cursus-kendang-hand.jpg" alt="Hand op het vel van de kendhang" width="1500" height="478" loading="lazy" />
+          <div class="cur-track-body">
+            <span class="cur-tag">{t(taal, 'cur.kendangTag')}</span>
+            <h3>{t(taal, 'cur.kendangKop')}</h3>
+            <p class="cur-wie">{t(taal, 'cur.docentLabel')}: <strong>Mas Surono</strong></p>
+            <p class="cur-tijd">19.30 – 21.00 uur / 19.00 – 21.00 uur<small>{t(taal, 'cur.elkeLesdag')}</small></p>
+            <ul>{kendangPunten.map((p) => <li>{p}</li>)}</ul>
+            <div class="cur-klank">
+              <span class="cur-klank-kop">{t(taal, 'cur.klanksymbolen')}</span>
+              <div class="cur-klank-rij">{klanken.map((k) => <span>{k}</span>)}</div>
+            </div>
+            <a class="cur-track-cta" href={ttKendang} target="_blank" rel="noopener">{t(taal, 'cur.reserveerVanaf')} →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMMA -->
+  <section class="block batik" id="programma">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, 'cur.programmaKicker')}</span>
+        <h2>{t(taal, 'cur.programmaKop')}</h2>
+        <p>{t(taal, 'cur.programmaTekst')}</p>
+      </div>
+
+      {blokken.map((blok) => (
+        <div class="cur-blok">
+          <div class="cur-blok-kop">
+            <h3>{t(taal, `cur.${blok.sleutel}`)}</h3>
+            <span class="cur-reeks">{blok.reeks}</span>
+            <span class="cur-studio">{blok.studio}</span>
+          </div>
+          <div class="cur-legenda">
+            <b>{t(taal, 'cur.datumKol')}</b>
+            <b class="l-dans">{t(taal, 'cur.dansKol')}</b>
+            <b class="l-kendang">{t(taal, 'cur.kendangKol')}</b>
+          </div>
+          {blok.dagen.map((d) => (
+            <div class="cur-dag">
+              <div class="cur-datum">{d.datum}<span>{d.dag}</span></div>
+              <div class="cur-slot dans">
+                <div class="cur-slot-kop"><span class="cur-nr">{d.dans.nr}</span><span class="cur-uur">{d.dans.uur}</span></div>
+                <p class="cur-titel">{d.dans.titel}</p>
+                <p class="cur-mat">{t(taal, 'cur.materiaal')}: {d.dans.materiaal}</p>
+              </div>
+              <div class="cur-slot kendang">
+                <div class="cur-slot-kop"><span class="cur-nr">{d.kendang.nr}</span><span class="cur-uur">{d.kendang.uur}</span></div>
+                <p class="cur-titel">{d.kendang.titel}</p>
+                <p class="cur-mat">{t(taal, 'cur.materiaal')}: {d.kendang.materiaal}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+
+      <p class="cur-terug">{t(taal, 'cur.terug')}</p>
+    </div>
+  </section>
+
+  <!-- PRIJZEN & PRAKTISCH -->
+  <section class="block">
+    <div class="wrap">
+      <div class="split">
+        <div>
+          <div class="section-head">
+            <span class="kicker">{t(taal, 'cur.prijzenKicker')}</span>
+            <h2>{t(taal, 'cur.prijzenKop')}</h2>
+            <p>{t(taal, 'cur.prijzenTekst')}</p>
+          </div>
+          <div class="cur-prijs">
+            <div><b>{t(taal, 'cur.prijs4')}</b><small>{t(taal, 'cur.prijs4Sub')}</small></div>
+            <span class="cur-bedrag">€ 80</span>
+          </div>
+          <div class="cur-prijs uitgelicht">
+            <div><span class="cur-vlag">{t(taal, 'cur.heleCursus')}</span><b>{t(taal, 'cur.prijs8')}</b><small>{t(taal, 'cur.prijs8Sub')}</small></div>
+            <span class="cur-bedrag">€ 140</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="info-card">
+            <h3>{t(taal, 'cur.praktischKicker')}</h3>
+            <dl class="cur-info">
+              <div><dt>{t(taal, 'cur.dataLabel')}</dt><dd>15, 16, 17, 18 september<small>en 22, 23, 24, 25 september 2026</small></dd></div>
+              <div><dt>{t(taal, 'cur.tijdenLabel')}</dt><dd>17.00 – 18.30 uur<small>19.30 – 21.00 uur (basis) · 19.00 – 21.00 uur (verdieping)</small></dd></div>
+              <div><dt>{t(taal, 'cur.locatieLabel')}</dt><dd>{locatie}<small><a href={routeUrl} target="_blank" rel="noopener">{t(taal, 'cur.route')} →</a></small></dd></div>
+              <div><dt>{t(taal, 'cur.groepLabel')}</dt><dd>{t(taal, 'cur.groepWaarde')}</dd></div>
+              <div><dt>{t(taal, 'cur.taalLabel')}</dt><dd>{t(taal, 'cur.taalWaarde')}</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOCENTEN -->
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, 'cur.docentenKicker')}</span>
+        <h2>{t(taal, 'cur.docentenKop')}</h2>
+        <p>{t(taal, 'cur.docentenTekst')}</p>
+      </div>
+      <div class="duo">
+        <div class="word">
+          <img class="cur-portret" src="/assets/docent-mas-damar.jpg" alt="Mas Damar" width="700" height="700" loading="lazy" />
+          <span class="kicker">{t(taal, 'cur.docentDans')}</span>
+          <h3>Mas Damar</h3>
+          <p>{t(taal, 'cur.damarTekst')}</p>
+        </div>
+        <div class="word">
+          <img class="cur-portret" src="/assets/docent-mas-surono.jpg" alt="Mas Surono" width="700" height="700" loading="lazy" />
+          <span class="kicker">{t(taal, 'cur.docentKendang')}</span>
+          <h3>Mas Surono</h3>
+          <p>{t(taal, 'cur.suronoTekst')}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESERVEREN -->
+  <section class="block prod rond-boven rond-onder" id="reserveren" style="padding:64px 0">
+    <div class="wrap">
+      <div class="ornament op-donker" style="margin-bottom:30px"><span></span></div>
+      <div class="cur-reserveer">
+        <span class="kicker">{t(taal, 'cur.reserveerKicker')}</span>
+        <h2>{t(taal, 'cur.reserveerKop')}</h2>
+        <p>{t(taal, 'cur.reserveerTekst')}</p>
+        <div class="cur-knoppen">
+          <a class="btn gold" href={ttDans} target="_blank" rel="noopener">{t(taal, 'cur.reserveerDans')}</a>
+          <a class="btn gold" href={ttKendang} target="_blank" rel="noopener">{t(taal, 'cur.reserveerKendang')}</a>
+        </div>
+        <p class="cur-plaatsen">{t(taal, 'cur.plaatsen')}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VEELGESTELDE VRAGEN -->
+  <section class="block">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, 'cur.faqKicker')}</span>
+        <h2>{t(taal, 'cur.faqKop')}</h2>
+      </div>
+      <div class="cur-faq">
+        {faq.map((f) => (
+          <div>
+            <h3>{f.v}</h3>
+            <p>{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta soft">
+    <div class="cta-inner">
+      <h2>{t(taal, 'cur.ctaKop')}</h2>
+      <p>{t(taal, 'cur.ctaTekst')}</p>
+      <a class="btn" href={pad(taal, '/contact')}>{t(taal, 'cur.ctaKnop')}</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Feitenstrook direct onder de hero — zelfde gouden balk als op de homepage */
+  .cur-strook { background: var(--primary); }
+  .cur-strook .wrap {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 8px 40px; padding-top: 14px; padding-bottom: 14px;
+    font-family: 'Poppins', sans-serif; font-size: 13.5px; font-weight: 500;
+    color: var(--primary-dark);
+  }
+  .cur-strook span { display: flex; align-items: center; gap: 8px; }
+  .cur-strook span::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--primary-dark); flex: none;
+  }
+
+  /* Twee cursuskaarten */
+  .cur-tracks { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 34px; }
+  .cur-track {
+    background: #fff; border: 1px solid var(--line); border-radius: 16px;
+    overflow: hidden; display: flex; flex-direction: column;
+    border-top: 4px solid var(--accent);
+  }
+  .cur-track.dans { --accent: var(--orange-ink); }
+  .cur-track.kendang { --accent: var(--secondary); }
+  .cur-track-img { display: block; width: 100%; height: auto; aspect-ratio: 3.14 / 1; object-fit: cover; }
+  .cur-track-body { padding: 26px 28px 28px; display: flex; flex-direction: column; flex: 1; }
+  .cur-tag {
+    font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 600;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--accent);
+  }
+  .cur-track h3 { font-size: 25px; font-weight: 700; color: var(--primary-dark); margin: 7px 0 10px; }
+  .cur-wie { font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 14.5px; color: #4a4a4a; }
+  .cur-wie strong { font-weight: 500; color: var(--ink); }
+  .cur-tijd {
+    margin: 14px 0 16px; padding-left: 14px; border-left: 3px solid var(--accent);
+    font-family: 'Poppins', sans-serif; font-size: 15px; font-variant-numeric: tabular-nums;
+  }
+  .cur-tijd small { display: block; font-size: 13px; color: var(--gray); }
+  .cur-track ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+  .cur-track li {
+    position: relative; padding-left: 20px;
+    font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 14.5px; color: #4a4a4a;
+  }
+  .cur-track li::before {
+    content: ""; position: absolute; left: 0; top: .62em;
+    width: 8px; height: 8px; border: 1.5px solid var(--accent); border-radius: 2px; transform: rotate(45deg);
+  }
+  .cur-klank { margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--line); }
+  .cur-klank-kop {
+    font-family: 'Poppins', sans-serif; font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--gray);
+  }
+  .cur-klank-rij { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+  .cur-klank-rij span {
+    background: rgba(19,102,61,.10); color: var(--secondary);
+    padding: 3px 10px; border-radius: 5px; font-weight: 600; font-size: 15px;
+  }
+  .cur-track-cta {
+    margin-top: auto; padding-top: 18px; border-top: 1px solid var(--line);
+    font-family: 'Poppins', sans-serif; font-size: 14.5px; font-weight: 500;
+    color: var(--accent); text-decoration: none;
+  }
+  .cur-track-cta:hover { text-decoration: underline; }
+
+  /* Programma: datum links, twee sporen ernaast */
+  .cur-blok { margin-top: 44px; }
+  .cur-blok-kop {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px;
+    padding-bottom: 12px; border-bottom: 2px solid var(--primary-dark);
+  }
+  .cur-blok-kop h3 { font-size: 23px; font-weight: 700; color: var(--primary-dark); }
+  .cur-reeks { font-family: 'Poppins', sans-serif; font-size: 13.5px; color: var(--gray); }
+  .cur-studio {
+    margin-left: auto; font-family: 'Poppins', sans-serif; font-size: 12px;
+    letter-spacing: .06em; text-transform: uppercase; color: var(--gray);
+  }
+  .cur-legenda, .cur-dag { display: grid; grid-template-columns: 132px 1fr 1fr; gap: 0 22px; }
+  .cur-legenda {
+    padding: 10px 0 4px; font-family: 'Poppins', sans-serif; font-size: 11px;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--gray);
+  }
+  .cur-legenda b { font-weight: 500; }
+  .cur-legenda .l-dans { color: var(--orange-ink); }
+  .cur-legenda .l-kendang { color: var(--secondary); }
+  .cur-dag { padding: 18px 0; border-top: 1px solid var(--line); }
+  .cur-datum {
+    font-weight: 600; font-size: 16px; line-height: 1.3; color: var(--primary-dark);
+    font-variant-numeric: tabular-nums;
+  }
+  .cur-datum span {
+    display: block; font-family: 'Poppins', sans-serif; font-weight: 300;
+    font-size: 13px; color: var(--gray);
+  }
+  .cur-slot.dans { --accent: var(--orange-ink); }
+  .cur-slot.kendang { --accent: var(--secondary); }
+  .cur-slot-kop { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+  .cur-nr {
+    width: 22px; height: 22px; border-radius: 50%; flex: none;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--accent); color: var(--cream); font-size: 12px; font-weight: 700;
+  }
+  .cur-uur {
+    font-family: 'Poppins', sans-serif; font-size: 13.5px; font-weight: 500;
+    color: var(--accent); font-variant-numeric: tabular-nums;
+  }
+  .cur-titel { font-family: 'Poppins', sans-serif; font-size: 15px; color: var(--ink); }
+  .cur-mat {
+    font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 13px;
+    color: var(--gray); line-height: 1.55; margin-top: 3px;
+  }
+  .cur-terug {
+    margin-top: 22px; font-family: 'Poppins', sans-serif; font-size: 14px; color: var(--gray);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cur-terug::before { content: ""; width: 26px; height: 1px; background: var(--line); }
+
+  /* Prijzen */
+  .cur-prijs {
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    background: #fff; border: 1px solid var(--line); border-radius: 14px;
+    padding: 20px 22px; margin-top: 14px;
+  }
+  .cur-prijs.uitgelicht { border: 2px solid var(--primary); }
+  .cur-prijs b { display: block; font-size: 17px; font-weight: 700; color: var(--primary-dark); }
+  .cur-prijs small { font-family: 'Poppins', sans-serif; font-size: 13px; color: var(--gray); }
+  .cur-vlag {
+    display: inline-block; background: var(--primary); color: var(--primary-dark);
+    font-family: 'Poppins', sans-serif; font-size: 10.5px; font-weight: 600;
+    letter-spacing: .1em; text-transform: uppercase; padding: 2px 8px;
+    border-radius: 4px; margin-bottom: 6px;
+  }
+  .cur-bedrag {
+    font-size: 27px; font-weight: 700; color: var(--secondary);
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+
+  /* Praktisch */
+  .cur-info { margin: 6px 0 0; }
+  .cur-info div { display: grid; grid-template-columns: 104px 1fr; gap: 14px; padding: 12px 0; border-top: 1px solid var(--line); }
+  .cur-info dt {
+    font-family: 'Poppins', sans-serif; font-size: 11.5px; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--gray); padding-top: 3px;
+  }
+  .cur-info dd { margin: 0; font-family: 'Poppins', sans-serif; font-size: 14.5px; }
+  .cur-info dd small { display: block; font-size: 13px; color: var(--gray); }
+  .cur-info a { color: var(--orange-ink); }
+
+  /* Docentportretten */
+  .cur-portret {
+    display: block; width: 100%; height: auto; aspect-ratio: 5 / 4; object-fit: cover;
+    border-radius: 12px; margin: -8px 0 14px;
+  }
+
+  /* Reserveren op donkere band */
+  .cur-reserveer { max-width: 760px; margin: 0 auto; text-align: center; }
+  .cur-reserveer h2 { color: #fff; font-size: clamp(24px, 3vw, 34px); margin: 8px 0 12px; }
+  .cur-reserveer > p {
+    font-family: 'Poppins', sans-serif; font-weight: 300;
+    color: rgba(244,243,232,.9); font-size: 16px;
+  }
+  .cur-knoppen { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 24px; }
+  .cur-plaatsen {
+    margin: 26px auto 0; max-width: 620px; padding: 14px 18px;
+    border: 1px solid rgba(239,200,62,.35); border-radius: 10px;
+    font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 14px;
+    color: rgba(244,243,232,.82);
+  }
+
+  /* Vragen */
+  .cur-faq { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 44px; margin-top: 30px; }
+  .cur-faq h3 { font-size: 17px; font-weight: 700; color: var(--primary-dark); margin-bottom: 6px; }
+  .cur-faq p { font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 14.5px; color: #4a4a4a; }
+
+  @media (max-width: 860px) {
+    .cur-tracks, .cur-faq { grid-template-columns: 1fr; }
+    .cur-legenda { display: none; }
+    .cur-dag { grid-template-columns: 1fr; gap: 14px; }
+    .cur-datum { padding-bottom: 4px; border-bottom: 1px solid var(--line); }
+    .cur-studio { margin-left: 0; width: 100%; }
+  }
+</style>

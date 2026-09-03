@@ -42,6 +42,7 @@ const nl: Woordenboek = {
   'nav.steun': 'Steun',
   'nav.home': 'Home',
   'nav.nieuws': 'Nieuws',
+  'nav.cursus': 'Cursus',
 
   // footer
   'footer.over': 'Een culturele organisatie die zich inzet voor de promotie van Javaanse muziek en dans. Met passie en toewijding brengen wij de rijke tradities van Java naar een breed publiek.',
@@ -114,6 +115,7 @@ const en: Woordenboek = {
   'nav.steun': 'Support',
   'nav.home': 'Home',
   'nav.nieuws': 'News',
+  'nav.cursus': 'Course',
 
   'footer.over': 'A cultural organisation dedicated to promoting Javanese music and dance. With passion and commitment we bring the rich traditions of Java to a wide audience.',
   'footer.nieuwsbrief': 'Subscribe to our newsletter',
@@ -182,6 +184,7 @@ const id: Woordenboek = {
   'nav.steun': 'Dukung Kami',
   'nav.home': 'Beranda',
   'nav.nieuws': 'Berita',
+  'nav.cursus': 'Kursus',
 
   'footer.over': 'Sebuah organisasi budaya yang berdedikasi untuk mempromosikan musik dan tari Jawa. Dengan penuh semangat kami menghadirkan kekayaan tradisi Jawa kepada khalayak luas.',
   'footer.nieuwsbrief': 'Berlangganan buletin kami',
