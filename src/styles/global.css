@@ -350,6 +350,9 @@ footer a:hover{color:var(--primary)}
 .prose li{margin-bottom:7px}
 .prose a{color:var(--secondary);text-decoration:underline;text-underline-offset:3px}
 .prose img{max-width:100%;height:auto;border-radius:14px;margin:22px 0}
+.prose .knop-blok{margin:26px 0}
+.prose .knop-blok .btn{text-decoration:none}
+.prose .knop-blok .btn:hover{text-decoration:none}
 .prose blockquote{border-left:3px solid var(--primary);padding-left:18px;margin:22px 0;
   font-style:italic;color:var(--gray)}
 .prose strong{font-weight:600;color:var(--ink)}

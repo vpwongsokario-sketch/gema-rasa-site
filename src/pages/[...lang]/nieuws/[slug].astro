@@ -1,6 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import { getNieuwsArtikelen } from '../../../lib/sanity.ts';
+import { getNieuwsArtikelen, img } from '../../../lib/sanity.ts';
 import { talen, t, pad } from '../../../i18n/index.ts';
 import { toHTML } from '@portabletext/to-html';
 
@@ -23,8 +23,36 @@ export async function getStaticPaths() {
 
 const { artikel, taal } = Astro.props;
 
+// Tekens die stuk kunnen in HTML netjes ontsnappen
+const esc = (v: unknown) =>
+  String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+// Knopstijlen uit het CMS naar de bestaande knopklassen van de site
+const knopKlasse: Record<string, string> = { goud: 'btn gold', groen: 'btn', omlijnd: 'btn ghost' };
+
 // De volledige tekst uit het CMS omzetten naar HTML (leeg = alleen de samenvatting)
-const tekst = artikel.body ? toHTML(artikel.body, { components: {} }) : '';
+const tekst = artikel.body
+  ? toHTML(artikel.body, {
+      components: {
+        types: {
+          // Knop: een link die er als knop uitziet
+          knop: ({ value }: any) => {
+            if (!value?.url || !value?.tekst) return '';
+            const klasse = knopKlasse[value.stijl] ?? 'btn gold';
+            const extern = /^https?:\/\//i.test(value.url) && !value.url.includes('stichtinggemarasa.com');
+            const attrs = extern ? ' target="_blank" rel="noopener"' : '';
+            return `<p class="knop-blok"><a class="${klasse}" href="${esc(value.url)}"${attrs}>${esc(value.tekst)}</a></p>`;
+          },
+          // Afbeelding in de tekst (werd hiervoor stilzwijgend overgeslagen)
+          image: ({ value }: any) => {
+            const src = img(value);
+            if (!src) return '';
+            return `<img src="${esc(src)}" alt="${esc(value?.alt ?? '')}" loading="lazy">`;
+          },
+        },
+      },
+    })
+  : '';
 
 // Vindbaarheid: eigen SEO-velden hebben voorrang, anders de gewone tekst
 const seoTitel = artikel.seoTitel || `${artikel.titel} — Stichting Gema Rasa`;

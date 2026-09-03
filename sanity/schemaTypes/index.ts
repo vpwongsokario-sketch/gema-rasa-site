@@ -99,6 +99,25 @@ const homepage = defineType({
 });
 
 /* ---------- Nieuws ---------- */
+const knop = defineType({
+  name: 'knop',
+  title: 'Knop',
+  type: 'object',
+  fields: [
+    defineField({ name: 'tekst', title: 'Tekst op de knop', type: 'string', validation: (r) => r.required(),
+      description: 'Kort en actief, bijv. "Reserveer je plek".' }),
+    defineField({ name: 'url', title: 'Link', type: 'string', validation: (r) => r.required(),
+      description: 'Interne link zoals /cursus-dans-kendang, of een volledige URL met https://' }),
+    defineField({ name: 'stijl', title: 'Stijl', type: 'string', initialValue: 'goud',
+      options: { list: [
+        { title: 'Goud (meest opvallend)', value: 'goud' },
+        { title: 'Groen', value: 'groen' },
+        { title: 'Omlijnd', value: 'omlijnd' },
+      ], layout: 'radio' } }),
+  ],
+  preview: { select: { title: 'tekst', subtitle: 'url' }, prepare: ({ title, subtitle }) => ({ title: `Knop: ${title || ''}`, subtitle }) },
+});
+
 const nieuws = defineType({
   name: 'nieuws',
   title: 'Nieuws',
@@ -114,15 +133,15 @@ const nieuws = defineType({
   fields: [
     defineField({ name: 'titel', title: 'Titel', type: 'string', group: 'nl', validation: (r) => r.required() }),
     defineField({ name: 'intro', title: 'Samenvatting', type: 'text', rows: 3, group: 'nl' }),
-    defineField({ name: 'body', title: 'Volledige tekst', type: 'array', of: [{ type: 'block' }, { type: 'image' }], group: 'nl' }),
+    defineField({ name: 'body', title: 'Volledige tekst', type: 'array', of: [{ type: 'block' }, { type: 'image' }, { type: 'knop' }], group: 'nl' }),
 
     defineField({ name: 'titel_en', title: 'Title', type: 'string', group: 'en' }),
     defineField({ name: 'intro_en', title: 'Summary', type: 'text', rows: 3, group: 'en' }),
-    defineField({ name: 'body_en', title: 'Full text', type: 'array', of: [{ type: 'block' }, { type: 'image' }], group: 'en' }),
+    defineField({ name: 'body_en', title: 'Full text', type: 'array', of: [{ type: 'block' }, { type: 'image' }, { type: 'knop' }], group: 'en' }),
 
     defineField({ name: 'titel_id', title: 'Judul', type: 'string', group: 'id' }),
     defineField({ name: 'intro_id', title: 'Ringkasan', type: 'text', rows: 3, group: 'id' }),
-    defineField({ name: 'body_id', title: 'Teks lengkap', type: 'array', of: [{ type: 'block' }, { type: 'image' }], group: 'id' }),
+    defineField({ name: 'body_id', title: 'Teks lengkap', type: 'array', of: [{ type: 'block' }, { type: 'image' }, { type: 'knop' }], group: 'id' }),
 
     defineField({ name: 'slug', title: 'URL-slug', type: 'slug', options: { source: 'titel', maxLength: 96 }, group: 'algemeen', validation: (r) => r.required() }),
     defineField({ name: 'categorie', title: 'Categorie', type: 'string', initialValue: 'Nieuws', group: 'algemeen' }),
@@ -558,6 +577,7 @@ const initiatief = defineType({
 });
 
 export const schemaTypes = [
+  knop,
   homepage, doneren, paginakop, nieuws, evenement, lid, vriend, programma, product, galerijfoto, magazine, album,
   menukaartvideo, vestiging, initiatief, bericht, aanmelding,
 ];
