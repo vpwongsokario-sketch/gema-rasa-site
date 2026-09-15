@@ -324,6 +324,7 @@ const paginakop = defineType({
         { title: "Video's", value: 'videos' },
         { title: 'Fotoalbums', value: 'albums' },
         { title: 'Cursus dans & kendang', value: 'cursus-dans-kendang' },
+        { title: 'Educatiereis Java 2027', value: 'educatiereis-java-2027' },
       ] },
     }),
     defineField({ name: 'afbeelding', title: 'Achtergrondfoto', type: 'image', options: { hotspot: true },

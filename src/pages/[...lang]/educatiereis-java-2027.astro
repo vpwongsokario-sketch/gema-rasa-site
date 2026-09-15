@@ -1,0 +1,345 @@
+---
+/**
+ * Educatiereis Java 2027 — aanbetalingspagina.
+ *
+ * Bedragen, data en de betaallink staan hieronder in REIS: dat is de enige
+ * plek waar je ze hoeft te wijzigen. De teksten staan in src/i18n/java2027.ts.
+ */
+import { taalPaden, t, pad } from '../../i18n/index.ts';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { getPaginaSeo } from '../../lib/sanity.ts';
+
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+const paginaSeo = await getPaginaSeo('educatiereis-java-2027');
+
+/* ---------- Hier pas je de reis aan ---------- */
+const REIS = {
+  prijs: 1000,                    // totaalprijs per persoon
+  termijnen: [250, 375, 375],     // aanbetaling, tweede termijn, derde termijn
+  vervaldata: ['2026-10-31', '2026-12-15', '2027-05-15'],
+  vertrek: '2027-08-01',
+  terug: '2027-08-15',
+  mollieUrl: '',                  // Mollie-betaallink. Leeg = de knop verwijst naar de contactpagina.
+};
+/* -------------------------------------------- */
+
+const loc = { nl: 'nl-NL', en: 'en-GB', id: 'id-ID' }[taal];
+const euro = (n: number) =>
+  new Intl.NumberFormat(loc, { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(n);
+const datum = (iso: string) =>
+  new Intl.DateTimeFormat(loc, { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso));
+
+const reisperiode = `${new Date(REIS.vertrek).getDate()} — ${datum(REIS.terug)}`;
+const betaalUrl = REIS.mollieUrl || pad(taal, '/contact');
+
+const fotos = ['gamelan', 'koken', 'museum', 'borobudur', 'rivier', 'ramayana'];
+const programma = fotos.map((naam, i) => ({
+  foto: `/assets/java2027/${naam}.jpg`,
+  cat: t(taal, `jv.p${i + 1}cat`),
+  titel: t(taal, `jv.p${i + 1}t`),
+  tekst: t(taal, `jv.p${i + 1}b`),
+}));
+
+const termijnen = REIS.termijnen.map((bedrag, i) => ({
+  kop: t(taal, `jv.t${i + 1}kop`),
+  tekst: t(taal, `jv.t${i + 1}b`),
+  bedrag: euro(bedrag),
+  datum: datum(REIS.vervaldata[i]),
+  deel: Math.round((bedrag / REIS.prijs) * 100),
+  betaald: Math.round((REIS.termijnen.slice(0, i + 1).reduce((a, b) => a + b, 0) / REIS.prijs) * 100),
+}));
+
+const inbegrepen = [1, 2, 3, 4, 5, 6, 7].map((i) => t(taal, `jv.incl${i}`));
+const nietInbegrepen = [1, 2, 3, 4, 5].map((i) => t(taal, `jv.excl${i}`));
+const stappen = [1, 2, 3, 4].map((i) => ({ kop: t(taal, `jv.s${i}t`), tekst: t(taal, `jv.s${i}b`) }));
+const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antwoord: t(taal, `jv.a${i}`) }));
+---
+
+<Base
+  taal={taal}
+  seo={paginaSeo}
+  title={`${t(taal, 'jv.titel')} — Stichting Gema Rasa`}
+  description={t(taal, 'jv.intro')}
+  ogImage="/assets/java2027/ramayana.jpg"
+>
+  <PageHero
+    sleutel="educatiereis-java-2027"
+    eyebrow={t(taal, 'jv.eyebrow')}
+    titel={t(taal, 'jv.titel')}
+    tekst={t(taal, 'jv.intro')}
+    foto="/assets/java2027/hero.jpg"
+    positie="center"
+  >
+    <div class="jv-hero-cta">
+      <a class="btn gold" href="#reserveren">{t(taal, 'jv.heroKnop')} — {euro(REIS.termijnen[0])}</a>
+      <a class="btn jv-ghost" href="#programma">{t(taal, 'jv.heroKnop2')}</a>
+    </div>
+  </PageHero>
+
+  <div class="strip">
+    <div class="wrap">
+      <div><b>{reisperiode}</b> · {t(taal, 'jv.dagen')}</div>
+      <div><b>{t(taal, 'jv.plaats')}</b> · Java, Indonesië</div>
+      <div>{t(taal, 'jv.reserverenTot')} <b>{datum(REIS.vervaldata[0])}</b></div>
+    </div>
+  </div>
+
+  <!-- PROGRAMMA -->
+  <section class="block" id="programma">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, 'jv.progKicker')}</span>
+        <h2>{t(taal, 'jv.progTitel')}</h2>
+        <p>{t(taal, 'jv.progTekst')}</p>
+      </div>
+
+      <div class="news-grid">
+        {programma.map((p) => (
+          <article class="news jv-kaart">
+            <div class="thumb" style={`background-image:url('${p.foto}')`}></div>
+            <div class="np">
+              <span class="cat">{p.cat}</span>
+              <h3>{p.titel}</h3>
+              <p>{p.tekst}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIJS -->
+  <section class="block jv-prijs" style="padding-top:0">
+    <div class="wrap">
+      <div class="jv-prijs-grid">
+        <div>
+          <span class="kicker">{t(taal, 'jv.prijsKicker')}</span>
+          <p class="jv-bedrag">{euro(REIS.prijs)}</p>
+          <p class="jv-bedrag-onder">{t(taal, 'jv.prijsOnder')}</p>
+        </div>
+        <div class="jv-incl">
+          <div>
+            <h3>{t(taal, 'jv.inclKop')}</h3>
+            <ul class="jv-ja">{inbegrepen.map((r) => <li>{r}</li>)}</ul>
+          </div>
+          <div>
+            <h3>{t(taal, 'jv.exclKop')}</h3>
+            <ul class="jv-nee">{nietInbegrepen.map((r) => <li>{r}</li>)}</ul>
+          </div>
+        </div>
+      </div>
+      <p class="jv-voet">{t(taal, 'jv.prijsVoet')}</p>
+    </div>
+  </section>
+
+  <!-- TERMIJNEN -->
+  <section class="block prod jv-termijnen">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, 'jv.betKicker')}</span>
+        <h2>{t(taal, 'jv.betTitel')}</h2>
+        <p>{t(taal, 'jv.betTekst')}</p>
+      </div>
+
+      <div class="jv-rij">
+        {termijnen.map((tm) => (
+          <div class="jv-termijn">
+            <span class="jv-stap">{tm.kop}</span>
+            <span class="jv-euro">{tm.bedrag}</span>
+            <span class="jv-datum">{t(taal, 'jv.uiterlijk')} {tm.datum}</span>
+            <div class="jv-balk"><i style={`width:${tm.betaald}%`}></i></div>
+            <span class="jv-deel">{tm.betaald}% {t(taal, 'jv.betaald')}</span>
+            <p>{tm.tekst}</p>
+          </div>
+        ))}
+      </div>
+
+      <p class="jv-soepel">{t(taal, 'jv.betSoepel')}</p>
+    </div>
+  </section>
+
+  <!-- RESERVEREN -->
+  <section class="block" id="reserveren">
+    <div class="wrap">
+      <div class="split jv-res">
+        <div>
+          <div class="section-head" style="margin-bottom:22px">
+            <span class="kicker">{t(taal, 'jv.resKicker')}</span>
+            <h2>{t(taal, 'jv.resTitel')}</h2>
+            <p>{t(taal, 'jv.resTekst')}</p>
+          </div>
+          <a class="btn gold jv-groot" href={betaalUrl} rel="noopener">
+            {t(taal, 'jv.resKnop')} — {euro(REIS.termijnen[0])}
+          </a>
+          <p class="jv-klein">{t(taal, 'jv.resKlein')}</p>
+        </div>
+
+        <div class="info-card">
+          <h3>{t(taal, 'jv.stappenKop')}</h3>
+          <ol class="jv-stappen">
+            {stappen.map((s) => (
+              <li><div><strong>{s.kop}</strong><span>{s.tekst}</span></div></li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VRAGEN -->
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, 'jv.vraagKicker')}</span>
+        <h2>{t(taal, 'jv.vraagTitel')}</h2>
+      </div>
+      <div class="jv-vragen">
+        {vragen.map((v) => (
+          <details>
+            <summary>{v.vraag}</summary>
+            <div class="jv-antwoord">{v.antwoord}</div>
+          </details>
+        ))}
+      </div>
+      <p class="jv-klein" style="margin-top:26px">
+        {t(taal, 'jv.nogVragen')} <a class="jv-link" href={pad(taal, '/contact')}>{t(taal, 'jv.nogVragenKnop')}</a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* hero-knoppen in de paginakop */
+  .jv-hero-cta { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 26px; }
+  .jv-ghost {
+    background: transparent; color: var(--cream);
+    border: 1.5px solid rgba(244, 243, 232, .5);
+  }
+  .jv-ghost:hover { background: rgba(244, 243, 232, .12); border-color: var(--primary); }
+
+  /* programma-kaarten: geen link, dus geen zweefeffect */
+  .jv-kaart:hover { transform: none; box-shadow: none; }
+  .jv-kaart .thumb { background-position: center; }
+
+  /* prijs */
+  .jv-prijs-grid {
+    display: grid; grid-template-columns: .8fr 1.2fr; gap: 46px; align-items: start;
+    background: #fff; border: 1px solid var(--line); border-radius: 22px; padding: 44px;
+    box-shadow: 0 18px 50px rgba(9, 53, 31, .08);
+  }
+  .jv-bedrag {
+    font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700;
+    font-size: clamp(42px, 5.6vw, 64px); color: var(--secondary);
+    line-height: 1; margin-top: 12px; font-variant-numeric: tabular-nums;
+  }
+  .jv-bedrag-onder { font-family: 'Poppins', sans-serif; font-size: 14px; color: var(--gray); margin-top: 10px; }
+  .jv-incl { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
+  .jv-incl h3 {
+    font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--primary-dark);
+    padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 14px;
+  }
+  .jv-incl ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .jv-incl li {
+    font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 14.5px; color: #4a4a4a;
+    line-height: 1.5; padding-left: 22px; position: relative;
+  }
+  .jv-ja li::before {
+    content: ""; position: absolute; left: 0; top: 8px; width: 9px; height: 9px;
+    border-radius: 50%; background: var(--primary);
+  }
+  .jv-nee li::before {
+    content: ""; position: absolute; left: 0; top: 12px; width: 10px; height: 2px;
+    background: rgba(9, 53, 31, .3);
+  }
+  .jv-voet {
+    font-family: 'Poppins', sans-serif; font-size: 13.5px; color: var(--gray);
+    margin-top: 20px; font-style: italic;
+  }
+
+  /* termijnen (donkere sectie) */
+  .jv-termijnen .wrap { position: relative; z-index: 2; }
+  .jv-termijnen .section-head h2 { color: #fff; }
+  .jv-termijnen .section-head p { color: rgba(244, 243, 232, .82); }
+  .jv-termijnen .kicker { color: var(--primary); }
+  .jv-rij { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .jv-termijn {
+    border: 1px solid rgba(239, 200, 62, .25); border-radius: 16px; padding: 26px;
+    background: rgba(244, 243, 232, .05); display: flex; flex-direction: column; gap: 9px;
+  }
+  .jv-termijn:first-child { border-color: var(--primary); background: rgba(239, 200, 62, .1); }
+  .jv-stap {
+    font-family: 'Poppins', sans-serif; font-size: 11.5px; font-weight: 600; letter-spacing: .13em;
+    text-transform: uppercase; color: var(--primary);
+  }
+  .jv-euro {
+    font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 40px;
+    color: #fff; line-height: 1; font-variant-numeric: tabular-nums;
+  }
+  .jv-datum { font-family: 'Poppins', sans-serif; font-size: 14px; color: rgba(244, 243, 232, .92); }
+  .jv-balk { height: 6px; border-radius: 3px; background: rgba(244, 243, 232, .16); overflow: hidden; margin-top: 6px; }
+  .jv-balk i { display: block; height: 100%; background: var(--primary); }
+  .jv-deel {
+    font-family: 'Poppins', sans-serif; font-size: 12px; letter-spacing: .04em;
+    color: rgba(244, 243, 232, .6);
+  }
+  .jv-termijn p {
+    font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 14.5px;
+    color: rgba(244, 243, 232, .86); margin-top: 4px;
+  }
+  .jv-soepel {
+    margin-top: 28px; border-left: 3px solid var(--orange); padding-left: 18px; max-width: 62ch;
+    font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 15px; color: rgba(244, 243, 232, .86);
+  }
+
+  /* reserveren */
+  .jv-groot { padding: 16px 30px; font-size: 15.5px; }
+  .jv-klein { font-family: 'Poppins', sans-serif; font-size: 13.5px; color: var(--gray); margin-top: 14px; }
+  .jv-link { color: var(--secondary); font-weight: 600; }
+  .jv-link:hover { text-decoration: underline; }
+  .jv-stappen { list-style: none; counter-reset: s; display: flex; flex-direction: column; gap: 16px; margin-top: 14px; }
+  .jv-stappen li { display: grid; grid-template-columns: 30px 1fr; gap: 14px; align-items: start; }
+  .jv-stappen li > div { min-width: 0; }
+  .jv-stappen li::before {
+    counter-increment: s; content: counter(s);
+    font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 700; color: var(--primary-dark);
+    background: var(--primary); width: 30px; height: 30px; border-radius: 50%;
+    display: grid; place-items: center;
+  }
+  .jv-stappen strong {
+    display: block; font-family: 'Poppins', sans-serif; font-size: 14.5px;
+    font-weight: 600; color: var(--primary-dark);
+  }
+  .jv-stappen span {
+    font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 14px; color: #4a4a4a; line-height: 1.5;
+  }
+
+  /* vragen */
+  .jv-vragen { border-top: 1px solid var(--line); }
+  .jv-vragen details { border-bottom: 1px solid var(--line); }
+  .jv-vragen summary {
+    cursor: pointer; list-style: none; padding: 20px 44px 20px 0; position: relative;
+    font-weight: 700; font-size: 19px; color: var(--primary-dark);
+  }
+  .jv-vragen summary::-webkit-details-marker { display: none; }
+  .jv-vragen summary::after {
+    content: ""; position: absolute; right: 8px; top: 27px; width: 9px; height: 9px;
+    border-right: 2px solid var(--secondary); border-bottom: 2px solid var(--secondary);
+    transform: rotate(45deg); transition: transform .22s;
+  }
+  .jv-vragen details[open] summary::after { transform: rotate(-135deg); }
+  .jv-antwoord {
+    padding: 0 0 22px; max-width: 70ch;
+    font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 15px; color: #4a4a4a;
+  }
+
+  @media (max-width: 900px) {
+    .jv-prijs-grid { grid-template-columns: 1fr; gap: 30px; padding: 32px; }
+    .jv-rij { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .jv-incl { grid-template-columns: 1fr; gap: 24px; }
+  }
+</style>
