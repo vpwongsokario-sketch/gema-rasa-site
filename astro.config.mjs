@@ -19,6 +19,14 @@ export default defineConfig({
       studioBasePath: '/studio',
       useCdn: false,
       apiVersion: '2024-01-01',
+      // Leessleutel. Nodig omdat de dataset op privé staat: in datzelfde
+      // project zitten de leden-, bestel- en inzendgegevens van Suwara Jawa,
+      // en die horen niet openbaar leesbaar te zijn. Zonder deze sleutel
+      // bouwt deze site zonder content.
+      //
+      // Zet SANITY_API_READ_TOKEN in de omgevingsvariabelen van Cloudflare Pages.
+      // Een token met alleen Viewer-rechten is genoeg.
+      token: process.env.SANITY_API_READ_TOKEN,
     }),
     react(),
     sitemap({
