@@ -13,8 +13,22 @@ opnieuw gebouwd via een deploy hook.
 | Build output directory | `dist` |
 | Node version | 20 of hoger (env var `NODE_VERSION=20`) |
 
-De Sanity Project ID (`6q1rydes`) en dataset (`production`) staan in `astro.config.mjs` —
-geen geheimen nodig, want de dataset is publiek leesbaar.
+De Sanity Project ID (`6q1rydes`) en dataset (`production`) staan in `astro.config.mjs`.
+
+**Let op — er is nu wél een geheim nodig.** De dataset staat op *private*, omdat er in
+hetzelfde Sanity-project persoonsgegevens van Suwara Jawa staan (leden, bestellingen,
+inzendingen). Stond die op publiek, dan kon iedereen die het project-ID kent die gegevens
+uitlezen; het project-ID staat in de JavaScript van elke site.
+
+Daarom heeft deze site een leessleutel nodig om te kunnen bouwen:
+
+| Env var | Waarde |
+|---|---|
+| `SANITY_API_READ_TOKEN` | Sanity-token met **Viewer**-rechten |
+
+Zet die in Cloudflare Pages → *Settings → Environment variables* (Production, en Preview als
+die gebruikt wordt). Zonder deze variabele bouwt de site **zonder content** — en omdat er een
+deploy hook op Sanity zit, gebeurt dat al bij de eerstvolgende publicatie in het CMS.
 
 ## Stappen (eenmalig)
 
