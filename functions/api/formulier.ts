@@ -110,6 +110,36 @@ export const onRequestPost = async (context: any): Promise<Response> => {
     return json({ ok: false, fout: 'Opslaan mislukt. Probeer het later nog eens.' }, 502);
   }
 
+  /**
+   * Een nieuwsbrief-aanmelding ook op de nieuwsbrieflijst zetten.
+   *
+   * De lijst staat in hetzelfde Sanity-project, maar we schrijven er niet zelf
+   * in: we geven het door aan suwarajawa.nl, waar de mailingtool woont. Daar
+   * staan de regels over toestemming, dubbele adressen en testdomeinen — en
+   * die wil je op één plek hebben, niet in twee websites die uit elkaar
+   * groeien.
+   *
+   * Lukt het niet, dan gaat er niets verloren: de aanmelding staat hierboven
+   * al in het CMS, met datum en toestemming. De bezoeker merkt er niets van.
+   */
+  if (soort === 'nieuwsbrief') {
+    try {
+      const basis = env?.MAILINGTOOL_URL || 'https://www.suwarajawa.nl';
+      await fetch(`${basis}/api/nieuwsbrief/aanmelden`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          naam: kort(data.naam, 120),
+          lijst: 'gema-rasa',
+          toestemming: true,
+        }),
+      });
+    } catch {
+      // stil: de aanmelding staat al veilig in het CMS
+    }
+  }
+
   // Contact ook naar GoHighLevel schrijven via de gewone API (gratis; géén
   // premium-webhook). We 'upserten' op e-mail: bestaat het contact al, dan wordt
   // het bijgewerkt, anders nieuw aangemaakt. De tag per soort maakt filteren
