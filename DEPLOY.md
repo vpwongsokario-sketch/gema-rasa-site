@@ -60,3 +60,24 @@ npm install
 npm run dev      # site + Studio op http://localhost:4321  (Studio op /studio)
 npm run build    # productie-build naar dist/
 ```
+
+## Nieuwsbrief
+
+Een aanmelding via het formulier onderaan de site komt op twee plekken terecht:
+
+1. Als `aanmelding` in Sanity — met datum en toestemmingsvinkje. Dat is het bewijs
+   dat iemand zich heeft opgegeven, en dat blijft hier staan.
+2. Op de nieuwsbrieflijst van de mailingtool, via een aanroep naar
+   `https://www.suwarajawa.nl/api/nieuwsbrief/aanmelden` met `lijst: "gema-rasa"`.
+
+De regels over toestemming, dubbele adressen en testdomeinen staan alleen in de
+mailingtool. Dat is bewust: twee websites die elk hun eigen versie van die regels
+bijhouden, groeien uit elkaar.
+
+Lukt de tweede stap niet, dan gaat er niets verloren — de aanmelding staat al in
+Sanity en de bezoeker krijgt gewoon 'bedankt' te zien. Zet de aanmelding dan met
+de hand op de lijst in de Studio onder Nieuwsbrief → Inschrijvingen.
+
+Staat de mailingtool ooit op een ander adres, dan kun je dat in Cloudflare Pages
+zetten als `MAILINGTOOL_URL`. Zonder die variabele gebruikt hij
+`https://www.suwarajawa.nl`.
