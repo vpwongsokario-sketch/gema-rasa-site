@@ -227,7 +227,15 @@ export async function getAgenda(taal: string = 'nl') {
 
 /* ---------- Leden ---------- */
 export async function getLeden(taal: string = 'nl') {
-  const docs = await safe<any[]>('*[_type == "lid"] | order(volgorde asc){ naam, rol, rol_en, rol_id, groep, rollen, ensembles, foto }');
+  /**
+   * Alleen de leden die op de teampagina horen.
+   *
+   * Sinds de administratie van de deelnemersbijdrage in het beheer zit, staan er
+   * ook mensen als lid in de database die alleen meebetalen. Die horen hier niet
+   * automatisch op te komen. Het vinkje staat standaard aan, dus de bestaande
+   * leden blijven staan; alleen wie het uitzet verdwijnt van de site.
+   */
+  const docs = await safe<any[]>('*[_type == "lid" && opDeWebsite != false] | order(volgorde asc){ naam, rol, rol_en, rol_id, groep, rollen, ensembles, foto }');
   if (!docs || docs.length === 0) {
     const musici = ['Vrijwilliger', 'Marketing & Communicatie'];
     const leeg = (m: any) => ({ ...m, foto: '', rollen: [], ensembles: [] });
