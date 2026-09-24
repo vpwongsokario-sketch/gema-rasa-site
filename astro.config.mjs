@@ -15,8 +15,21 @@ export default defineConfig({
     sanity({
       projectId: '6q1rydes',
       dataset: 'production',
-      // Studio (bewerk-dashboard) draait op /studio
-      studioBasePath: '/studio',
+      /**
+       * Geen Studio meer op deze site.
+       *
+       * Het bewerken gebeurt op één plek, onder de stichting:
+       * nieuwsbrief.stichtinggemarasa.com/studio. Daarvoor stonden hier de
+       * website-soorten en op het platform het magazine, de leden en de
+       * nieuwsbrief — twee deuren naar dezelfde kamer. De leden en vrienden
+       * stonden hier, de abonnees en de nieuwsbrieflezers daar, en de berichten
+       * uit het contactformulier hier: zeven onafgehandeld, waarvan drie van
+       * mensen die sinds juli op antwoord wachtten omdat niemand deze Studio
+       * opendeed.
+       *
+       * Deze site blijft de gegevens gewoon ophalen. Daarvoor is de
+       * projectsleutel en het leestoken nodig, geen veldbeschrijvingen.
+       */
       useCdn: false,
       apiVersion: '2024-01-01',
       // Leessleutel. Nodig omdat de dataset op privé staat: in datzelfde
