@@ -1,0 +1,16 @@
+# Doorverwijzingen die Cloudflare Pages zelf afhandelt.
+#
+# /beheer is het adres dat je intuïtief typt, maar het beheer draait niet op
+# deze site — het staat bij Vercel, op beheer.stichtinggemarasa.com. Een
+# doorgeefluik voor /beheer, /studio, /_next en /api zou dat op één domein
+# kunnen krijgen, maar dan loopt het beheer door de padregels van de publieke
+# site heen, en botst /api met de twee functies die daar al staan. Gaat daar
+# iets mis, dan ligt niet alleen het beheer eruit maar deze site ook.
+#
+# Vandaar een doorverwijzing: het adres werkt, en er kan niets aan deze site
+# kapot. 302 en niet 301, zodat we het later nog kunnen omzetten zonder dat het
+# in browsers blijft hangen.
+/beheer      https://beheer.stichtinggemarasa.com/beheer      302
+/beheer/*    https://beheer.stichtinggemarasa.com/beheer/:splat 302
+/studio      https://beheer.stichtinggemarasa.com/studio      302
+/studio/*    https://beheer.stichtinggemarasa.com/studio/:splat 302
