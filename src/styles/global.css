@@ -135,7 +135,19 @@ body.menu-open{overflow:hidden}
 .strip b{font-weight:700}
 
 /* ---------- sections ---------- */
-section.block{padding:88px 0}
+/* Het ritme tussen de secties.
+   Een sectie met een eigen achtergrond — een groene band, een batikvlak —
+   heeft aan beide kanten evenveel lucht nodig. De ruimte van het blok erboven
+   valt buiten die kleur en telt visueel niet mee, dus zonder eigen ruimte
+   begint de inhoud tegen de rand van de band aan.
+   Alleen een sectie die het verhaal van de vorige afmaakt krijgt de klasse
+   'vervolg' en staat dichterbij: dat is één blok, geen nieuw onderwerp. */
+section.block{padding:104px 0}
+section.block.vervolg{padding-top:40px}
+@media (max-width:720px){
+  section.block{padding:64px 0}
+  section.block.vervolg{padding-top:26px}
+}
 .section-head{max-width:640px;margin-bottom:42px}
 .section-head .kicker{font-family:'Poppins';color:var(--orange-ink);font-weight:600;letter-spacing:.13em;
   text-transform:uppercase;font-size:12.5px}
