@@ -54,7 +54,9 @@ const REIS = {
  * niet meer klopt als de verdeling verandert.
  */
 const eersteDeel = Number(REIS.termijnen[0]?.deel) || 25;
-const eersteVolwassene = Math.round((REIS.prijsVolwassene * eersteDeel) / 100);
+// In centen rekenen en pas daarna delen: bij 37,5% van € 750 gaat het anders
+// mis op een halve cent.
+const eersteVolwassene = Math.round(REIS.prijsVolwassene * 100 * eersteDeel / 100) / 100;
 
 /** Waar de boeking naartoe gaat. Daar staat de Mollie-sleutel. */
 const BOEK_URL = 'https://beheer.stichtinggemarasa.com/api/reis/boeken';
@@ -66,6 +68,16 @@ const MAILADRES = 'info@stichtinggemarasa.com';
 const loc = { nl: 'nl-NL', en: 'en-GB', id: 'id-ID' }[taal];
 const euro = (n: number) =>
   new Intl.NumberFormat(loc, { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(n);
+
+/**
+ * Hetzelfde, maar met de centen erbij.
+ *
+ * Voor alles wat werkelijk betaald wordt. Een kind kost € 750 en een kwart
+ * daarvan is € 187,50; zonder centen staat er € 188 op het scherm en vraagt
+ * Mollie € 187,50. Dat verschil ziet een ouder, en dan klopt er iets niet.
+ */
+const euroCent = (n: number) =>
+  new Intl.NumberFormat(loc, { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(n);
 const datum = (iso: string) =>
   new Intl.DateTimeFormat(loc, { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(iso));
 
@@ -88,12 +100,12 @@ const programma = fotos.map((naam, i) => ({
  */
 let opgeteld = 0;
 const termijnen = REIS.termijnen.map((tm: any, i: number) => {
-  const bedrag = Math.round((REIS.prijsVolwassene * (Number(tm.deel) || 0)) / 100);
+  const bedrag = Math.round((REIS.prijsVolwassene * 100 * (Number(tm.deel) || 0)) / 100) / 100;
   opgeteld += bedrag;
   return {
     kop: t(taal, `jv.t${i + 1}kop`),
     tekst: t(taal, `jv.t${i + 1}b`),
-    bedrag: euro(bedrag),
+    bedrag: euroCent(bedrag),
     datum: tm.vervaldatum ? datum(tm.vervaldatum) : '',
     deel: Math.round(Number(tm.deel) || 0),
     betaald: Math.round((opgeteld / REIS.prijsVolwassene) * 100),
@@ -122,7 +134,7 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
     positie="center"
   >
     <div class="jv-hero-cta">
-      <a class="btn gold" href="#reserveren">{t(taal, 'jv.heroKnop')} — {euro(eersteVolwassene)}</a>
+      <a class="btn gold" href="#reserveren">{t(taal, 'jv.heroKnop')} — {euroCent(eersteVolwassene)}</a>
       <a class="btn jv-ghost" href="#programma">{t(taal, 'jv.heroKnop2')}</a>
     </div>
   </PageHero>
@@ -280,11 +292,11 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
               <div class="jv-som" aria-live="polite">
                 <div>
                   <span>{t(taal, 'jv.somTotaal')}</span>
-                  <strong data-som-totaal>{euro(REIS.prijsVolwassene * 2)}</strong>
+                  <strong data-som-totaal>{euroCent(REIS.prijsVolwassene * 2)}</strong>
                 </div>
                 <div class="jv-som-nu">
                   <span>{t(taal, 'jv.somNu')}</span>
-                  <strong data-som-nu>{euro(eersteVolwassene * 2)}</strong>
+                  <strong data-som-nu>{euroCent(eersteVolwassene * 2)}</strong>
                 </div>
               </div>
 
@@ -310,7 +322,7 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
               <input type="text" name="website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true" />
 
               <button class="btn gold jv-groot" type="submit">
-                {t(taal, 'jv.resKnop')} — <span data-som-knop>{euro(eersteVolwassene * 2)}</span>
+                {t(taal, 'jv.resKnop')} — <span data-som-knop>{euroCent(eersteVolwassene * 2)}</span>
               </button>
               <p class="jv-status" data-boek-status role="status" aria-live="polite"></p>
               <p class="jv-klein">{t(taal, 'jv.resKlein')}</p>
@@ -435,7 +447,7 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
 
     const geld = new Intl.NumberFormat(
       { nl: 'nl-NL', en: 'en-GB', id: 'id-ID' }[taal] || 'nl-NL',
-      { style: 'currency', currency: 'EUR' },
+      { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 },
     );
 
     const status = form.querySelector<HTMLElement>('[data-boek-status]');
@@ -453,9 +465,17 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
     };
 
     const rekenen = () => {
-      const totaal = getal('volwassenen') * prijsVolwassene + getal('kinderen') * prijsKind;
-      // Naar boven afgerond op hele centen, net als op de server.
-      const nu = Math.round((totaal * deel) / 100);
+      /**
+       * In centen rekenen, net als de server.
+       *
+       * In euro's rekenen en dan afronden maakt van € 687,50 een € 688, en dan
+       * staat er op het scherm een ander bedrag dan Mollie vraagt.
+       */
+      const totaalCenten =
+        getal('volwassenen') * Math.round(prijsVolwassene * 100) +
+        getal('kinderen') * Math.round(prijsKind * 100);
+      const totaal = totaalCenten / 100;
+      const nu = Math.round((totaalCenten * deel) / 100) / 100;
       if (velden.totaal) velden.totaal.textContent = geld.format(totaal);
       if (velden.nu) velden.nu.textContent = geld.format(nu);
       if (velden.opKnop) velden.opKnop.textContent = geld.format(nu);
