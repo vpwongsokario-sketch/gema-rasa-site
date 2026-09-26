@@ -464,3 +464,25 @@ export async function getProgrammas() {
     dur: d.dur ?? '', price: d.price ?? '', badge: !!d.badge, label: d.label ?? '',
   }));
 }
+
+/**
+ * De educatiereis, met de prijzen.
+ *
+ * De prijzen staan in Sanity en niet in de pagina, omdat ze op twee plekken
+ * nodig zijn: hier om ze te tonen, en bij het platform dat de betaling
+ * aanmaakt. Stonden ze op beide plekken los, dan verandert er ooit eentje en
+ * staat er op de pagina een ander bedrag dan er wordt afgeschreven.
+ *
+ * Valt Sanity weg, dan geeft dit null terug en gebruikt de pagina de waarden
+ * die er als terugval in staan. Beter een pagina met de bekende prijzen dan
+ * een pagina die niet laadt.
+ */
+export async function getReis() {
+  return await safe<any>(
+    `*[_id == "reis.java2027"][0]{
+      titel, open, vertrek, terug, reserverenTot,
+      prijsVolwassene, prijsKind, kindVanaf, volwassenVanaf,
+      termijnen[]{ deel, vervaldatum, omschrijving }
+    }`,
+  );
+}

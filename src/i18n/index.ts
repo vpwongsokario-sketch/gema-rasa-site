@@ -245,11 +245,12 @@ const id: Woordenboek = {
 };
 
 import { paginaNL, paginaEN, paginaID } from './paginas.ts';
+import { javaNL, javaEN, javaID } from './java2027.ts';
 
 const woordenboeken: Record<Taal, Woordenboek> = {
-  nl: { ...nl, ...paginaNL },
-  en: { ...en, ...paginaEN },
-  id: { ...id, ...paginaID },
+  nl: { ...nl, ...paginaNL, ...javaNL },
+  en: { ...en, ...paginaEN, ...javaEN },
+  id: { ...id, ...paginaID, ...javaID },
 };
 const nlVolledig = woordenboeken.nl;
 
