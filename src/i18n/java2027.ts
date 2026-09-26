@@ -132,6 +132,22 @@ export const javaNL: Record<string, string> = {
   'jv.formTitel': 'Of laat je vraag hier achter',
   'jv.formKnop': 'Versturen',
   'jv.formBedankt': 'Dank je wel — we nemen snel contact met je op.',
+  /* --- dag voor dag en het hotel --- */
+  'jv.dagKicker': 'Dag voor dag',
+  'jv.dagTitel': 'Wat je elke dag doet',
+  'jv.dagTekst': 'Vijftien dagen, van aankomst tot het optreden op het Ramayana-podium. Klik een dag open voor de tijden.',
+  'jv.dag': 'Dag',
+  'jv.dagVoet': 'Tijden en volgorde kunnen nog schuiven; het weer en het verkeer op Java houden zich niet aan een schema. Het strand op dag 5 wordt Pantai Ngrenehan of Pantai Mesra — dat kiezen we dichter bij de reis.',
+
+  'jv.hotelKicker': 'Waar je slaapt',
+  'jv.hotelTitel': 'Puri Pangeran, midden in Yogyakarta',
+  'jv.hotelTekst': 'Een guesthouse met lage gebouwtjes rond een tuin, een zwembad met waterval, en \u2019s ochtends de geur van frangipani. Vanaf hier vertrek je elke dag, en hier kom je \u2019s avonds terug.',
+  'jv.hotelAltZwembad': 'Het zwembad met waterval, gezien vanaf het terras',
+  'jv.hotelAltBungalows': 'Het pad tussen de bungalows, met bloemen en een frangipaniboom',
+  'jv.hotelAltTuin': 'Een huistempeltje onder de oude boom in de tuin',
+  'jv.hotelLink': 'Bekijk het hotel op puripangeran.com',
+  'jv.plekkenVrij': 'Nog {vrij} van de {max} plekken vrij.',
+  'jv.plekkenVol': 'De reis is vol. Neem contact op als je op de wachtlijst wilt.',
 };
 
 export const javaEN: Record<string, string> = {
@@ -261,6 +277,22 @@ export const javaEN: Record<string, string> = {
   'jv.formTitel': 'Or leave your question here',
   'jv.formKnop': 'Send',
   'jv.formBedankt': 'Thank you \u2014 we will get back to you soon.',
+  /* --- dag voor dag en het hotel --- */
+  'jv.dagKicker': 'Day by day',
+  'jv.dagTitel': 'What you do each day',
+  'jv.dagTekst': 'Fifteen days, from arrival to the performance on the Ramayana stage. Open a day to see the times.',
+  'jv.dag': 'Day',
+  'jv.dagVoet': 'Times and order may still shift; the weather and the traffic on Java do not keep to a schedule. The beach on day 5 will be either Pantai Ngrenehan or Pantai Mesra \u2014 we decide closer to the trip.',
+
+  'jv.hotelKicker': 'Where you stay',
+  'jv.hotelTitel': 'Puri Pangeran, in the heart of Yogyakarta',
+  'jv.hotelTekst': 'A guesthouse of low buildings around a garden, a pool with a waterfall, and the scent of frangipani in the morning. You set out from here every day, and come back here in the evening.',
+  'jv.hotelAltZwembad': 'The pool with its waterfall, seen from the terrace',
+  'jv.hotelAltBungalows': 'The path between the bungalows, with flowers and a frangipani tree',
+  'jv.hotelAltTuin': 'A small house shrine beneath the old tree in the garden',
+  'jv.hotelLink': 'See the hotel at puripangeran.com',
+  'jv.plekkenVrij': '{vrij} of {max} places still available.',
+  'jv.plekkenVol': 'The trip is full. Get in touch if you would like to be on the waiting list.',
 };
 
 export const javaID: Record<string, string> = {
@@ -390,4 +422,23 @@ export const javaID: Record<string, string> = {
   'jv.formTitel': 'Atau tinggalkan pertanyaan Anda di sini',
   'jv.formKnop': 'Kirim',
   'jv.formBedankt': 'Terima kasih \u2014 kami akan segera menghubungi Anda.',
+
+  // Engels, niet Indonesisch: vertalen hoefde niet van het bestuur, en
+  // Engels is voor een Indonesische lezer bruikbaarder dan Nederlands.
+  /* --- dag voor dag en het hotel --- */
+  'jv.dagKicker': 'Day by day',
+  'jv.dagTitel': 'What you do each day',
+  'jv.dagTekst': 'Fifteen days, from arrival to the performance on the Ramayana stage. Open a day to see the times.',
+  'jv.dag': 'Day',
+  'jv.dagVoet': 'Times and order may still shift; the weather and the traffic on Java do not keep to a schedule. The beach on day 5 will be either Pantai Ngrenehan or Pantai Mesra \u2014 we decide closer to the trip.',
+
+  'jv.hotelKicker': 'Where you stay',
+  'jv.hotelTitel': 'Puri Pangeran, in the heart of Yogyakarta',
+  'jv.hotelTekst': 'A guesthouse of low buildings around a garden, a pool with a waterfall, and the scent of frangipani in the morning. You set out from here every day, and come back here in the evening.',
+  'jv.hotelAltZwembad': 'The pool with its waterfall, seen from the terrace',
+  'jv.hotelAltBungalows': 'The path between the bungalows, with flowers and a frangipani tree',
+  'jv.hotelAltTuin': 'A small house shrine beneath the old tree in the garden',
+  'jv.hotelLink': 'See the hotel at puripangeran.com',
+  'jv.plekkenVrij': '{vrij} of {max} places still available.',
+  'jv.plekkenVol': 'The trip is full. Get in touch if you would like to be on the waiting list.',
 };

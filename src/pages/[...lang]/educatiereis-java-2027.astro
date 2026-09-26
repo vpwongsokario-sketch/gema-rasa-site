@@ -9,6 +9,7 @@ import { taalPaden, t } from '../../i18n/index.ts';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import { getPaginaSeo, getReis } from '../../lib/sanity.ts';
+import { PROGRAMMA } from '../../data/java2027-programma.ts';
 
 export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
@@ -57,6 +58,21 @@ const eersteDeel = Number(REIS.termijnen[0]?.deel) || 25;
 // In centen rekenen en pas daarna delen: bij 37,5% van € 750 gaat het anders
 // mis op een halve cent.
 const eersteVolwassene = Math.round(REIS.prijsVolwassene * 100 * eersteDeel / 100) / 100;
+
+/**
+ * Het dagprogramma in de taal van deze pagina.
+ *
+ * Nederlands op de Nederlandse pagina, Engels op de andere twee. Het bestuur
+ * hoefde geen Indonesische vertaling; Engels is voor een Indonesische lezer
+ * bruikbaarder dan Nederlands, en dat is wat er anders zou staan.
+ */
+const dagTaal: 'nl' | 'en' = taal === 'nl' ? 'nl' : 'en';
+const dagen = PROGRAMMA.map((d) => ({
+  dag: d.dag,
+  weekdag: d.weekdag[dagTaal],
+  titel: d.titel[dagTaal],
+  regels: d.regels.map((r) => ({ tijd: r.tijd, wat: r[dagTaal], waar: r.waar })),
+}));
 
 /** Waar de boeking naartoe gaat. Daar staat de Mollie-sleutel. */
 const BOEK_URL = 'https://beheer.stichtinggemarasa.com/api/reis/boeken';
@@ -171,6 +187,65 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
     </div>
   </section>
 
+  <!-- DAG VOOR DAG -->
+  <section class="block" id="dagprogramma" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, 'jv.dagKicker')}</span>
+        <h2>{t(taal, 'jv.dagTitel')}</h2>
+        <p>{t(taal, 'jv.dagTekst')}</p>
+      </div>
+
+      <div class="jv-dagen">
+        {dagen.map((d) => (
+          <details class="jv-dag">
+            <summary>
+              <span class="jv-dagnr">{t(taal, 'jv.dag')} {d.dag}</span>
+              <span class="jv-dagtitel">{d.titel}</span>
+              <span class="jv-dagweek">{d.weekdag}</span>
+            </summary>
+            <ul class="jv-dagrijen">
+              {d.regels.map((r) => (
+                <li>
+                  <span class="jv-tijd">{r.tijd ?? ''}</span>
+                  <span class="jv-wat">
+                    {r.wat}
+                    {r.waar && <em>{r.waar}</em>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </details>
+        ))}
+      </div>
+
+      <p class="jv-klein" style="margin-top:22px">{t(taal, 'jv.dagVoet')}</p>
+    </div>
+  </section>
+
+  <!-- WAAR JE SLAAPT -->
+  <section class="block prod" id="hotel" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, 'jv.hotelKicker')}</span>
+        <h2>{t(taal, 'jv.hotelTitel')}</h2>
+        <p>{t(taal, 'jv.hotelTekst')}</p>
+      </div>
+
+      <div class="jv-hotel">
+        <figure><img src="/assets/java2027/hotel/zwembad.jpg" alt={t(taal, 'jv.hotelAltZwembad')} loading="lazy" width="720" height="1280" /></figure>
+        <figure><img src="/assets/java2027/hotel/bungalows.jpg" alt={t(taal, 'jv.hotelAltBungalows')} loading="lazy" width="720" height="1280" /></figure>
+        <figure><img src="/assets/java2027/hotel/tuin.jpg" alt={t(taal, 'jv.hotelAltTuin')} loading="lazy" width="720" height="1280" /></figure>
+      </div>
+
+      <p class="jv-klein" style="margin-top:18px">
+        <a class="jv-link" href="https://www.puripangeran.com/" target="_blank" rel="noopener">
+          {t(taal, 'jv.hotelLink')}
+        </a>
+      </p>
+    </div>
+  </section>
+
   <!-- PRIJS -->
   <section class="block jv-prijs" style="padding-top:0">
     <div class="wrap">
@@ -258,7 +333,11 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
               data-kind={REIS.prijsKind}
               data-deel={REIS.termijnen[0]?.deel ?? 25}
               data-taal={taal}
+              data-msg-plekken={t(taal, 'jv.plekkenVrij')}
+              data-msg-vol={t(taal, 'jv.plekkenVol')}
             >
+              <p class="jv-plekken" data-plekken hidden></p>
+
               <fieldset class="jv-aantallen">
                 <legend>{t(taal, 'jv.wieGaanMee')}</legend>
 
@@ -483,6 +562,37 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
 
     form.addEventListener('input', rekenen);
     rekenen();
+
+    /**
+     * Hoeveel plekken er nog vrij zijn, opgehaald op het moment van kijken.
+     *
+     * Deze pagina wordt gebouwd en blijft dan staan. Zou het aantal erin
+     * gebakken zitten, dan staat er dagen later nog 'nog 12 plekken' terwijl de
+     * reis vol is. Lukt het ophalen niet, dan staat er niets — beter geen getal
+     * dan een verkeerd getal.
+     */
+    const plekkenRegel = form.querySelector<HTMLElement>('[data-plekken]');
+    fetch(url.replace('/boeken', '/plekken'))
+      .then((r) => (r.ok ? r.json() : null))
+      .then((p) => {
+        if (!p || !plekkenRegel) return;
+        if (p.open === false) {
+          plekkenRegel.textContent = form.dataset.msgVol || '';
+          plekkenRegel.className = 'jv-plekken vol';
+          plekkenRegel.hidden = !plekkenRegel.textContent;
+          knop?.setAttribute('disabled', 'disabled');
+          return;
+        }
+        if (typeof p.vrij === 'number' && typeof p.max === 'number') {
+          plekkenRegel.textContent = (form.dataset.msgPlekken || '')
+            .replace('{vrij}', String(p.vrij))
+            .replace('{max}', String(p.max));
+          plekkenRegel.hidden = !plekkenRegel.textContent;
+        }
+      })
+      .catch(() => {
+        /* niets tonen */
+      });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -709,6 +819,63 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
   @media (max-width: 720px) {
     .jv-velden { grid-template-columns: 1fr; }
     .jv-aantallen label { padding: 10px 12px; }
+  }
+
+  .jv-plekken {
+    margin: 0; font-size: 14px; padding: 10px 14px;
+    background: rgba(239, 200, 62, .18); border-left: 3px solid var(--gold, #EFC83E);
+  }
+  .jv-plekken.vol { background: rgba(140, 47, 47, .08); border-left-color: #8C2F2F; color: #8C2F2F; }
+
+  /* --- dag voor dag --- */
+  .jv-dagen { display: grid; gap: 8px; }
+  .jv-dag {
+    background: #fff; border: 1px solid var(--line, rgba(0,0,0,.12)); border-radius: 4px;
+  }
+  .jv-dag summary {
+    display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+    padding: 14px 18px; cursor: pointer; list-style: none;
+  }
+  .jv-dag summary::-webkit-details-marker { display: none; }
+  .jv-dag summary::after {
+    content: ''; margin-left: auto; width: 8px; height: 8px;
+    border-right: 2px solid var(--primary-dark); border-bottom: 2px solid var(--primary-dark);
+    transform: rotate(45deg); transition: transform .22s; flex: 0 0 auto;
+  }
+  .jv-dag[open] summary::after { transform: rotate(-135deg); }
+  .jv-dagnr {
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--primary-dark); min-width: 54px;
+  }
+  .jv-dagtitel { font-size: 16.5px; }
+  .jv-dagweek { font-size: 13px; opacity: .6; }
+
+  .jv-dagrijen { list-style: none; margin: 0; padding: 0 18px 16px; }
+  .jv-dagrijen li {
+    display: flex; gap: 16px; align-items: baseline;
+    padding: 9px 0; border-top: 1px solid var(--line, rgba(0,0,0,.08));
+  }
+  .jv-tijd {
+    flex: 0 0 104px; font-size: 13.5px; font-variant-numeric: tabular-nums;
+    color: var(--primary-dark); white-space: nowrap;
+  }
+  .jv-wat { font-size: 15px; line-height: 1.55; }
+  .jv-wat em { display: block; font-style: normal; font-size: 13px; opacity: .62; }
+
+  /* --- het hotel --- */
+  .jv-hotel { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .jv-hotel figure { margin: 0; }
+  .jv-hotel img {
+    display: block; width: 100%; height: 340px; object-fit: cover;
+    border-radius: 4px; background: rgba(0,0,0,.05);
+  }
+
+  @media (max-width: 720px) {
+    .jv-hotel { grid-template-columns: 1fr 1fr; }
+    .jv-hotel figure:first-child { grid-column: 1 / -1; }
+    .jv-hotel img { height: 240px; }
+    .jv-dagrijen li { flex-direction: column; gap: 2px; }
+    .jv-tijd { flex: none; }
   }
 
 </style>
