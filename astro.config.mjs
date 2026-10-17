@@ -8,6 +8,10 @@ import sitemap from '@astrojs/sitemap';
 // Wijzig dit naar https://www.stichtinggemarasa.com zodra het domein gekoppeld is.
 const SITE = 'https://stichtinggemarasa.com';
 
+/** Het adres van de gamelancursus op het ledenportaal. */
+const CURSUS =
+  'https://leden.stichtinggemarasa.com/cursussen/javaanse-gamelan-solo-style-in-vogelvlucht'
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE,
@@ -22,11 +26,18 @@ export default defineConfig({
    *
    * De pagina is weg maar het adres niet: de link is gedeeld om te testen, en
    * een gedeelde link hoort niet dood te lopen.
+   *
+   * Het eindadres is sinds 17 oktober 2026 het ledenportaal zelf, niet meer
+   * suwarajawa.nl. Dat wees wel de goede kant op -- het magazine stuurt
+   * /cursussen door naar het portaal -- maar dan sprong een bezoeker twee keer
+   * en kwam de naam van een tijdschrift in de adresbalk voorbij voor een
+   * cursus van de stichting. De cursus heet nu ook anders, op verzoek van de
+   * voorzitter, dus de naam in het adres is mee veranderd.
    */
   redirects: {
-    '/gamelan-cursus': 'https://www.suwarajawa.nl/cursussen/gamelan-vanaf-de-basis',
-    '/en/gamelan-cursus': 'https://www.suwarajawa.nl/cursussen/gamelan-vanaf-de-basis',
-    '/id/gamelan-cursus': 'https://www.suwarajawa.nl/cursussen/gamelan-vanaf-de-basis',
+    '/gamelan-cursus': CURSUS,
+    '/en/gamelan-cursus': CURSUS,
+    '/id/gamelan-cursus': CURSUS,
   },
   integrations: [
     sanity({
