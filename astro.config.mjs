@@ -10,7 +10,7 @@ const SITE = 'https://stichtinggemarasa.com';
 
 /** Het adres van de gamelancursus op het ledenportaal. */
 const CURSUS =
-  'https://leden.stichtinggemarasa.com/cursussen/javaanse-gamelan-solo-style-in-vogelvlucht'
+  'https://leden.stichtinggemarasa.com/cursussen/javaanse-gamelan-solo-style'
 
 // https://astro.build/config
 export default defineConfig({
