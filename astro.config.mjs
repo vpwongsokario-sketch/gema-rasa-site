@@ -43,8 +43,9 @@ export default defineConfig({
     }),
     react(),
     sitemap({
-      // De Studio en API-routes horen niet in de sitemap
-      filter: (page) => !page.includes('/studio'),
+      // De Studio en API-routes horen niet in de sitemap, de gamelancursus
+      // (nog) ook niet: die wordt eerst binnen de stichting getest.
+      filter: (page) => !page.includes('/studio') && !page.includes('/gamelan-cursus'),
       i18n: {
         defaultLocale: 'nl',
         locales: { nl: 'nl-NL', en: 'en-GB', id: 'id-ID' },

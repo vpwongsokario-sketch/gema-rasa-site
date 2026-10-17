@@ -1,0 +1,1343 @@
+{
+ "title": "Gamelan vanaf de basis",
+ "modules": [
+  {
+   "nr": 1,
+   "label": "Module 1",
+   "title_nl": "De basis",
+   "title_en": "The basics",
+   "lessons": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "nr": 2,
+   "label": "Module 2",
+   "title_nl": "Irama, peking, bonang, ladrang",
+   "title_en": "Irama, peking, bonang, ladrang",
+   "lessons": [
+    5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "nr": 3,
+   "label": "Module 3",
+   "title_nl": "Kendhang, pathet, zachte instrumenten, srepegan",
+   "title_en": "Kendhang, pathet, soft instruments, srepegan",
+   "lessons": [
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "nr": 4,
+   "label": "Module 4",
+   "title_nl": "Pélog, bubaran, gendèr, gendhing",
+   "title_en": "Pélog, bubaran, gendèr, gendhing",
+   "lessons": [
+    13,
+    14,
+    15,
+    16
+   ]
+  }
+ ],
+ "lessons": [
+  {
+   "nr": 1,
+   "title": "What is gamelan?",
+   "summary_nl": "Wat is gamelan? Het woord, de balungan als 'skelet'-melodie, leren op het gehoor en de omgangsvormen rond de instrumenten.",
+   "summary_en": "Gamelan explained from scratch: what the word means, the balungan as the 'skeleton' melody, learning by ear, and the etiquette of the gamelan.",
+   "oefening_nl": "Luister naar een opname en probeer de gong te horen.",
+   "youtube_id": "doZ0buw7MU8",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les1.jpg",
+   "sheet": {
+    "key_ideas": [
+     "Gamelan comes from gamel, a kind of hammer: the instruments are struck, with mallets called tabuh.",
+     "Karawitan is the wider word: gamelan music as a whole, singing included.",
+     "Usually only the balungan, the 'skeleton' melody, is written down. Notation is a reminder; the sound comes first.",
+     "Etiquette: shoes off, sit on the floor, and never step over an instrument. Say 'nuwun sewu' when you pass."
+    ],
+    "words": [
+     {
+      "word": "gamelan",
+      "meaning": "the ensemble and its instruments"
+     },
+     {
+      "word": "tabuh",
+      "meaning": "mallet"
+     },
+     {
+      "word": "karawitan",
+      "meaning": "gamelan music, including singing"
+     },
+     {
+      "word": "balungan",
+      "meaning": "skeleton melody"
+     },
+     {
+      "word": "nuwun sewu",
+      "meaning": "excuse me"
+     }
+    ],
+    "practice": "Listen to a recording of Central Javanese gamelan. Find the big gong and feel the cycle come round.",
+    "quiz": [
+     {
+      "question": "Where does the word gamelan come from?",
+      "options": [
+       "A word for a temple",
+       "Gamel, a kind of hammer",
+       "A word for singing"
+      ],
+      "correct": 1,
+      "explanation": "Gamel is a hammer: the instruments are struck."
+     },
+     {
+      "question": "What is usually written down in gamelan notation?",
+      "options": [
+       "Every part",
+       "Only the drum part",
+       "Only the balungan"
+      ],
+      "correct": 2,
+      "explanation": "The other parts are learned by ear, from patterns."
+     },
+     {
+      "question": "What should you never do near a gamelan?",
+      "options": [
+       "Step over an instrument",
+       "Sit on the floor",
+       "Take off your shoes"
+      ],
+      "correct": 0,
+      "explanation": "Walk around it, bend low and say nuwun sewu."
+     },
+     {
+      "question": "What does the course say about mistakes?",
+      "options": [
+       "Avoid them at all cost",
+       "Be aware of them, but keep trying things out",
+       "Stop playing when you make one"
+      ],
+      "correct": 1,
+      "explanation": "Learning should be relaxed."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 2,
+   "title": "The instruments and their roles",
+   "summary_nl": "Een rondgang langs alle instrumenten: gongs, kenong en kempul, sarons, slenthem, bonang, de zachte instrumenten, de stemmen en de kendhang.",
+   "summary_en": "A tour of the ensemble: the gongs that mark the structure, the sarons and slenthem that play the balungan, the bonang, the soft instruments, the voices and the drum.",
+   "oefening_nl": "Noem bij een foto van een gamelan de instrumenten bij naam.",
+   "youtube_id": "n_GXwVRxZkM",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les2.jpg",
+   "sheet": {
+    "key_ideas": [
+     "A full gamelan has 40 to 60 instruments, often a double set: one sléndro, one pélog.",
+     "Three roles: gongs mark the structure, the drum controls time, the melodic instruments carry the melody in layers.",
+     "Gong ageng, kempul, kenong, kethuk and kempyang are the 'punctuation' of the music.",
+     "Balungan instruments from low to high: slenthem, demung, saron barung, saron panerus (peking)."
+    ],
+    "words": [
+     {
+      "word": "gong ageng",
+      "meaning": "largest gong, ends the longest cycle"
+     },
+     {
+      "word": "gongan",
+      "meaning": "the music from gong to gong"
+     },
+     {
+      "word": "kempul",
+      "meaning": "small hanging gongs"
+     },
+     {
+      "word": "kenong",
+      "meaning": "large kettle gongs, divide the gongan"
+     },
+     {
+      "word": "saron",
+      "meaning": "metallophone with thick keys"
+     },
+     {
+      "word": "bonang",
+      "meaning": "two rows of small kettles"
+     },
+     {
+      "word": "rebab",
+      "meaning": "two-string fiddle, melodic leader"
+     },
+     {
+      "word": "kendhang",
+      "meaning": "drum, leads the tempo"
+     }
+    ],
+    "practice": "Look at a photo of a gamelan and name every instrument you can.",
+    "quiz": [
+     {
+      "question": "Which instrument marks the end of the longest cycle?",
+      "options": [
+       "Kenong",
+       "Bonang",
+       "Gong ageng"
+      ],
+      "correct": 2,
+      "explanation": "The music between two gong strokes is a gongan."
+     },
+     {
+      "question": "Who leads the tempo in gamelan?",
+      "options": [
+       "The drummer",
+       "A conductor",
+       "The gong player"
+      ],
+      "correct": 0,
+      "explanation": "There is no conductor; the kendhang leads time, the rebab leads the melodic flow."
+     },
+     {
+      "question": "Which saron is the smallest and highest?",
+      "options": [
+       "Demung",
+       "Peking",
+       "Saron barung"
+      ],
+      "correct": 1,
+      "explanation": "The saron panerus is also called peking."
+     },
+     {
+      "question": "What do the kenong do?",
+      "options": [
+       "Play fast patterns",
+       "Introduce the piece",
+       "Divide each gongan into equal phrases"
+      ],
+      "correct": 2,
+      "explanation": "After the gong, the kenong is the most important structural instrument."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 3,
+   "title": "Tuning and notation",
+   "summary_nl": "Sléndro en pélog, pathet, de cijfernotatie (Kepatihan), de gatra, de structuursymbolen en balungan mlaku en nibani.",
+   "summary_en": "Sléndro and pélog, the idea of pathet, Kepatihan cipher notation, the gatra, the structure symbols, and balungan mlaku and nibani.",
+   "oefening_nl": "Lees een gatra hardop: ji, ro, lu, ma, nem.",
+   "youtube_id": "WxAp3qyAn38",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les3.jpg",
+   "sheet": {
+    "key_ideas": [
+     "Laras means tuning system. There are two: sléndro (5 tones) and pélog (7 tones).",
+     "There is no standard tuning: every gamelan has its own.",
+     "Kepatihan cipher notation: numbers are tones, dots above/below mark high/low register, a dot alone is a rest.",
+     "Four beats make a gatra. The weight falls at the end: count towards four."
+    ],
+    "words": [
+     {
+      "word": "laras",
+      "meaning": "tuning system"
+     },
+     {
+      "word": "sléndro",
+      "meaning": "five-tone tuning: 1 2 3 5 6"
+     },
+     {
+      "word": "pélog",
+      "meaning": "seven-tone tuning"
+     },
+     {
+      "word": "pathet",
+      "meaning": "mode"
+     },
+     {
+      "word": "gatra",
+      "meaning": "group of four beats"
+     },
+     {
+      "word": "ji, ro, lu, pat, ma, nem, pi",
+      "meaning": "the tone names 1 to 7"
+     },
+     {
+      "word": "mlaku",
+      "meaning": "balungan with a tone on every beat"
+     },
+     {
+      "word": "nibani",
+      "meaning": "balungan with a rest between tones"
+     }
+    ],
+    "practice": "Say the sléndro names out loud while you look at the numbers: ji, ro, lu, ma, nem.",
+    "quiz": [
+     {
+      "question": "Which number is missing in sléndro?",
+      "options": [
+       "4",
+       "1",
+       "6"
+      ],
+      "correct": 0,
+      "explanation": "Sléndro uses 1 2 3 5 6."
+     },
+     {
+      "question": "What does a dot in place of a number mean?",
+      "options": [
+       "High register",
+       "A rest: the previous tone keeps ringing",
+       "A gong stroke"
+      ],
+      "correct": 1,
+      "explanation": "A dot above or below a number changes the register; a dot alone is a rest."
+     },
+     {
+      "question": "Where does the weight fall in a gatra?",
+      "options": [
+       "On the first beat",
+       "On every beat equally",
+       "On the last beat"
+      ],
+      "correct": 2,
+      "explanation": "The gong also falls on the last beat."
+     },
+     {
+      "question": "What is the Javanese name for tone 5?",
+      "options": [
+       "Ma",
+       "Nem",
+       "Lu"
+      ],
+      "correct": 0,
+      "explanation": "Ji, ro, lu, pat, ma, nem, pi."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 4,
+   "title": "Your first piece",
+   "summary_nl": "Zitten en dempen, een oefening op vijf tonen, de lancaran-vorm en een oefengongan om mee te spelen, langzaam en iets sneller.",
+   "summary_en": "Sitting and damping, a five-tone drill, the lancaran form, and a practice gongan to play along with, slow and medium.",
+   "oefening_nl": "Speel de oefengongan mee op saron, of tik hem op tafel.",
+   "youtube_id": "ckLXv8zyKc0",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les4.jpg",
+   "sheet": {
+    "key_ideas": [
+     "Sit cross-legged, back straight, mallet in the right hand.",
+     "Damping: the left hand stops the previous key at the moment the right hand strikes the next one.",
+     "A lancaran has 16 beats: four gatra in one gongan.",
+     "Kethuk on beats 1 and 3, kempul on beat 2 (not in the first gatra), kenong on beat 4, gong on beat 16."
+    ],
+    "words": [
+     {
+      "word": "lancaran",
+      "meaning": "short 16-beat form"
+     },
+     {
+      "word": "kenongan",
+      "meaning": "a phrase closed by the kenong"
+     },
+     {
+      "word": "matur nuwun",
+      "meaning": "thank you"
+     }
+    ],
+    "practice": "Play the practice gongan (.3.2 .5.3 .6.5 .3.2) slowly on a saron, or tap it on a table and sing the names.",
+    "quiz": [
+     {
+      "question": "Which hand damps on the saron?",
+      "options": [
+       "The right hand",
+       "The left hand",
+       "Nobody damps"
+      ],
+      "correct": 1,
+      "explanation": "The left hand grasps the key you just played."
+     },
+     {
+      "question": "How many beats does a lancaran gongan have?",
+      "options": [
+       "8",
+       "32",
+       "16"
+      ],
+      "correct": 2,
+      "explanation": "Four gatra of four beats."
+     },
+     {
+      "question": "In a lancaran, where does the kenong play?",
+      "options": [
+       "On beat 4 of each gatra",
+       "On beat 1",
+       "Only at the end"
+      ],
+      "correct": 0,
+      "explanation": "The gong sounds together with the last kenong."
+     },
+     {
+      "question": "What matters more when you start?",
+      "options": [
+       "Speed",
+       "Evenness",
+       "Volume"
+      ],
+      "correct": 1,
+      "explanation": "Slowly is fine."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 5,
+   "title": "Irama: time that breathes",
+   "summary_nl": "Wat irama is, de vijf niveaus, één gatra in drie irama, en de trommelaar die elke overgang leidt.",
+   "summary_en": "What irama is, the five irama levels, one gatra heard in three irama, and the drummer who leads every change.",
+   "oefening_nl": "Tel bij een opname de peking-slagen per balungan-tel: twee, vier of acht?",
+   "youtube_id": "y0riMQSUJbk",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les5.jpg",
+   "sheet": {
+    "key_ideas": [
+     "Irama is about tempo and density: how many notes the elaborating instruments play per balungan beat.",
+     "Count the peking: lancar 1, tanggung 2, dadi 4, wilet 8, rangkep 16.",
+     "The balungan melody stays the same; only the space around it changes.",
+     "The kendhang leads every change of tempo and irama."
+    ],
+    "words": [
+     {
+      "word": "irama",
+      "meaning": "the relation of tempo and density"
+     },
+     {
+      "word": "tanggung, dadi, wilet, rangkep",
+      "meaning": "irama levels"
+     },
+     {
+      "word": "seseg, sedheng, tamban",
+      "meaning": "fast, medium, slow"
+     }
+    ],
+    "practice": "With a recording: find the balungan beat and count the peking notes against it. Two, four or eight?",
+    "quiz": [
+     {
+      "question": "In irama dadi, how many peking notes per balungan beat?",
+      "options": [
+       "2",
+       "8",
+       "4"
+      ],
+      "correct": 2,
+      "explanation": "Tanggung 2, dadi 4, wilet 8."
+     },
+     {
+      "question": "Who decides the irama?",
+      "options": [
+       "The drummer",
+       "The peking",
+       "The singer"
+      ],
+      "correct": 0,
+      "explanation": "The kendhang leads the ensemble."
+     },
+     {
+      "question": "When the irama gets slower, what happens to the balungan melody?",
+      "options": [
+       "It changes",
+       "It stays the same, only wider",
+       "It disappears"
+      ],
+      "correct": 1,
+      "explanation": "Only the space around it changes."
+     },
+     {
+      "question": "Where is irama lancar used?",
+      "options": [
+       "In every form",
+       "Only in wayang",
+       "Only in the lancaran form"
+      ],
+      "correct": 2,
+      "explanation": "You played it in lesson 4."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 6,
+   "title": "The peking and interlocking",
+   "summary_nl": "De peking: nacah lamba en nacah rangkep, Solo- en Yogya-stijl, in elkaar grijpend spel (pinjalan, imbal) en een oefenloop.",
+   "summary_en": "Nacah lamba and nacah rangkep on the peking, Solo and Yogya style, pinjalan and imbal, and a practice loop to play along with.",
+   "oefening_nl": "Speel de peking-oefenloop mee: elke toon twee keer.",
+   "youtube_id": "C4ILUkz2ePk",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les6.jpg",
+   "sheet": {
+    "key_ideas": [
+     "The peking is the smallest saron; its style is called nacah, 'chopping'.",
+     "Nacah lamba: every balungan note twice. Nacah rangkep: four notes per beat, taking the notes in pairs.",
+     "Solo style follows the beat; Yogya style anticipates it. This course follows Solo style.",
+     "Interlocking: pinjalan (demung and slenthem) and imbal (two instruments of the same kind)."
+    ],
+    "words": [
+     {
+      "word": "peking",
+      "meaning": "smallest saron"
+     },
+     {
+      "word": "nacah",
+      "meaning": "the peking style"
+     },
+     {
+      "word": "pinjalan",
+      "meaning": "demung and slenthem interlocking"
+     },
+     {
+      "word": "imbal",
+      "meaning": "interlocking of two equal instruments"
+     }
+    ],
+    "practice": "Play the practice loop on the peking: every note twice, Solo style.",
+    "quiz": [
+     {
+      "question": "In nacah lamba, the peking plays each balungan note...",
+      "options": [
+       "twice",
+       "once",
+       "four times"
+      ],
+      "correct": 0,
+      "explanation": "For 2 1 2 6: 22 11 22 66."
+     },
+     {
+      "question": "Which style does this course follow?",
+      "options": [
+       "Yogya",
+       "Solo",
+       "Bali"
+      ],
+      "correct": 1,
+      "explanation": "In Solo style the pair starts with the balungan note."
+     },
+     {
+      "question": "What is pinjalan?",
+      "options": [
+       "A drum stroke",
+       "A singing style",
+       "Demung and slenthem interlocking"
+      ],
+      "correct": 2,
+      "explanation": "The slenthem plays the same notes half a beat later."
+     },
+     {
+      "question": "What is the peking mallet made of?",
+      "options": [
+       "Horn",
+       "Wood",
+       "Rubber"
+      ],
+      "correct": 0,
+      "explanation": "A mallet made of horn."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 7,
+   "title": "The bonang",
+   "summary_nl": "De bonang barung en panerus en drie technieken: gembyangan, mipil en imbal, plus de sekaran.",
+   "summary_en": "The bonang barung and panerus, and three techniques: gembyangan, mipil and imbal, with sekaran at the end of a phrase.",
+   "oefening_nl": "Zing het mipil-patroon: ro lu ro, ro ji ro.",
+   "youtube_id": "UBkCrjyxC8I",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les7.jpg",
+   "sheet": {
+    "key_ideas": [
+     "Bonang barung and bonang panerus (an octave higher); played with two padded sticks.",
+     "The bonang anticipates the melody and so guides the sarons.",
+     "Gembyangan: two kettles an octave apart. Mipil: single tones in pairs. Imbal: barung and panerus interlock.",
+     "A sekaran ('flowering') is an ornament that leads into the goal tone."
+    ],
+    "words": [
+     {
+      "word": "gembyangan",
+      "meaning": "octaves played together"
+     },
+     {
+      "word": "mipil",
+      "meaning": "'picking off one by one'"
+     },
+     {
+      "word": "imbal-imbalan",
+      "meaning": "interlocking bonang"
+     },
+     {
+      "word": "sekaran",
+      "meaning": "ornamental phrase ending"
+     }
+    ],
+    "practice": "Sing the mipil pattern: ro lu ro, ro lu ro, ro ji ro, ro ji ro. Then tap it on two cups.",
+    "quiz": [
+     {
+      "question": "Why must a bonang player know the piece well?",
+      "options": [
+       "Because it plays the gong part",
+       "Because the bonang anticipates and guides the sarons",
+       "Because it sings"
+      ],
+      "correct": 1,
+      "explanation": "It plays ahead of the balungan."
+     },
+     {
+      "question": "What is gembyangan?",
+      "options": [
+       "A fast run",
+       "A drum pattern",
+       "Two kettles an octave apart at the same time"
+      ],
+      "correct": 2,
+      "explanation": "Used on the off-beats in a lancaran."
+     },
+     {
+      "question": "What does mipil mean?",
+      "options": [
+       "To pick off one by one",
+       "Flowering",
+       "To restrain"
+      ],
+      "correct": 0,
+      "explanation": "Single tones, in pairs."
+     },
+     {
+      "question": "In imbal, does the bonang still lead the sarons?",
+      "options": [
+       "Yes",
+       "No, it creates a lively background",
+       "Only in pélog"
+      ],
+      "correct": 1,
+      "explanation": "Imbal is for exciting sections."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 8,
+   "title": "Ladrang Wilujeng",
+   "summary_nl": "De vormen ketawang en ladrang, en de ngelik van Ladrang Wilujeng (sléndro manyura) om mee te spelen.",
+   "summary_en": "The ketawang and ladrang forms, one ladrang cycle, and the ngelik of Ladrang Wilujeng (sléndro manyura) to play along with.",
+   "oefening_nl": "Speel Ladrang Wilujeng mee, eerst langzaam, dan met peking.",
+   "youtube_id": "bSPHZsepvNg",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les8.jpg",
+   "sheet": {
+    "key_ideas": [
+     "In ketawang and ladrang the kethuk and kempyang play a gentle pattern in every gatra.",
+     "Ketawang: two kenongan of 8 beats (16 in total). Ladrang: four kenongan (32 beats).",
+     "In a ladrang the kempul plays in the 2nd, 3rd and 4th kenongan, not in the 1st.",
+     "Ladrang Wilujeng (sléndro manyura): wilujeng means safety, well-being. We played its ngelik."
+    ],
+    "words": [
+     {
+      "word": "ketawang",
+      "meaning": "16-beat form, 2 kenongan"
+     },
+     {
+      "word": "ladrang",
+      "meaning": "32-beat form, 4 kenongan"
+     },
+     {
+      "word": "ngelik",
+      "meaning": "the higher section"
+     },
+     {
+      "word": "gérongan",
+      "meaning": "the male chorus part"
+     }
+    ],
+    "practice": "Play the ngelik of Ladrang Wilujeng slowly on a saron; then again with the peking.",
+    "quiz": [
+     {
+      "question": "How many beats does a ladrang gongan have?",
+      "options": [
+       "16",
+       "64",
+       "32"
+      ],
+      "correct": 2,
+      "explanation": "Four kenongan of eight beats."
+     },
+     {
+      "question": "In which kenongan of a ladrang does the kempul NOT play?",
+      "options": [
+       "The first",
+       "The third",
+       "The fourth"
+      ],
+      "correct": 0,
+      "explanation": "It plays in the 2nd, 3rd and 4th."
+     },
+     {
+      "question": "What does wilujeng mean?",
+      "options": [
+       "Farewell",
+       "Safety, well-being",
+       "Morning"
+      ],
+      "correct": 1,
+      "explanation": "One of the best-known pieces."
+     },
+     {
+      "question": "In Ladrang Wilujeng, where does the gong fall?",
+      "options": [
+       "On high 1",
+       "On 3",
+       "On low 6"
+      ],
+      "correct": 2,
+      "explanation": "A dot below the six means low six."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 9,
+   "title": "The kendhang",
+   "summary_nl": "De vier soorten kendhang, de vijf basisslagen (dhah, thung, ket, tong, tak) en hoe de trommelaar tempo en irama leidt.",
+   "summary_en": "The four kinds of kendhang, the five basic drum strokes (dhah, thung, ket, tong, tak), and how the drummer leads tempo and irama.",
+   "oefening_nl": "Zeg de vijf lettergrepen hardop en tik ze op tafel.",
+   "youtube_id": "MueQtbOOYZ8",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les9.jpg",
+   "sheet": {
+    "key_ideas": [
+     "The kendhang is a two-headed drum, played with bare hands.",
+     "Four kinds: kendhang ageng, ketipung, wayangan and ciblon. Ageng + ketipung together = kendhang kalih.",
+     "Five basic strokes: dhah, thung, ket, tong, tak.",
+     "The drummer sets the irama, leads the tempo and signals the end."
+    ],
+    "words": [
+     {
+      "word": "kendhang kalih",
+      "meaning": "two drums together"
+     },
+     {
+      "word": "dhah",
+      "meaning": "open stroke, edge of the large head"
+     },
+     {
+      "word": "thung",
+      "meaning": "open stroke, middle of the large head"
+     },
+     {
+      "word": "ket",
+      "meaning": "muted stroke, large head"
+     },
+     {
+      "word": "tong",
+      "meaning": "open stroke, small head"
+     },
+     {
+      "word": "tak",
+      "meaning": "closed slap on the small head"
+     }
+    ],
+    "practice": "Say the five syllables out loud with the drum, then tap them: right hand for the first three, left hand for the last two.",
+    "quiz": [
+     {
+      "question": "Which drums together form kendhang kalih?",
+      "options": [
+       "Ageng and ketipung",
+       "Ciblon and wayangan",
+       "Two ciblon"
+      ],
+      "correct": 0,
+      "explanation": "Kalih means two."
+     },
+     {
+      "question": "Which stroke is a closed slap on the small head?",
+      "options": [
+       "Dhah",
+       "Tak",
+       "Thung"
+      ],
+      "correct": 1,
+      "explanation": "Tak uses the fingers and part of the palm."
+     },
+     {
+      "question": "Does the drum have to match the gamelan's tuning?",
+      "options": [
+       "Yes",
+       "Only in pélog",
+       "No"
+      ],
+      "correct": 2,
+      "explanation": "It is tuned to suit the drum and the style."
+     },
+     {
+      "question": "Which drum has lively patterns from the dance?",
+      "options": [
+       "Ciblon",
+       "Ketipung",
+       "Ageng"
+      ],
+      "correct": 0,
+      "explanation": "The kendhang ciblon."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 10,
+   "title": "Pathet",
+   "summary_nl": "De zes pathet, drie frases die op hun sterke toon eindigen, de volgorde door de nacht en pathet in de gongpartij.",
+   "summary_en": "The six pathet of sléndro and pélog, three phrases that come to rest on their strong tone, the order of pathet through the night, and pathet in the gong part.",
+   "oefening_nl": "Zoek bij een stuk de toon waarop de gong valt: twee, vijf of zes?",
+   "youtube_id": "LtzRsGfoLuA",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les10.jpg",
+   "sheet": {
+    "key_ideas": [
+     "Pathet literally means 'to restrain': some tones matter more, the melody stays in a range.",
+     "Sléndro: nem, sanga, manyura. Pélog: lima, nem, barang.",
+     "A first clue: the tone where the gong falls (often 2 in nem, 5 in sanga, 6 in manyura).",
+     "In a wayang night: nem before midnight, sanga in the middle of the night, manyura towards dawn."
+    ],
+    "words": [
+     {
+      "word": "pathet",
+      "meaning": "mode"
+     },
+     {
+      "word": "kempyung",
+      "meaning": "interval of about a fifth"
+     }
+    ],
+    "practice": "Listen to a piece and find the tone where the gong falls. Two, five or six? That is your first guess at the pathet.",
+    "quiz": [
+     {
+      "question": "What does pathet literally mean?",
+      "options": [
+       "To sing",
+       "To restrain",
+       "To hammer"
+      ],
+      "correct": 1,
+      "explanation": "It organises the tones."
+     },
+     {
+      "question": "Which sléndro pathet closes the night, towards dawn?",
+      "options": [
+       "Nem",
+       "Sanga",
+       "Manyura"
+      ],
+      "correct": 2,
+      "explanation": "Manyura has the highest range."
+     },
+     {
+      "question": "A sléndro phrase ends on low 5. Which pathet is a good first guess?",
+      "options": [
+       "Sanga",
+       "Manyura",
+       "Nem"
+      ],
+      "correct": 0,
+      "explanation": "In sanga, 5 and 1 stand out."
+     },
+     {
+      "question": "How many pathet are there in total?",
+      "options": [
+       "Three",
+       "Six",
+       "Seven"
+      ],
+      "correct": 1,
+      "explanation": "Three in sléndro and three in pélog."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 11,
+   "title": "Soft instruments and voices",
+   "summary_nl": "De drie groepen van Sumarsam en de 'inner melody', rebab, gendèr, gambang, siter en suling, pesindhen en gérong, en luid tegenover zacht spelen.",
+   "summary_en": "Sumarsam's three groups of instruments and the inner melody, the rebab, gendèr, gambang, siter and suling, the pesindhen and gérong, and loud versus soft playing.",
+   "oefening_nl": "Probeer bij zacht spel elke stem apart te horen.",
+   "youtube_id": "8Kpwp0UK9zA",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les11.jpg",
+   "sheet": {
+    "key_ideas": [
+     "Sumarsam's three groups: melody (elaborate, balungan, in between), time (kendhang), structure (gongs).",
+     "No instrument plays 'the' melody; each expresses a shared inner melody in its own way.",
+     "Rebab: melodic leader in soft playing. Gendèr: two mallets, damping. Gambang: wooden, octaves. Suling: free rhythm.",
+     "Voices: pesindhen (female soloist, free across the beat) and gérong (male chorus, in tempo)."
+    ],
+    "words": [
+     {
+      "word": "rebab",
+      "meaning": "bowed fiddle, plays the introduction"
+     },
+     {
+      "word": "gendèr",
+      "meaning": "thin bronze keys over tubes"
+     },
+     {
+      "word": "gambang",
+      "meaning": "wooden xylophone"
+     },
+     {
+      "word": "siter, celempung",
+      "meaning": "plucked zithers"
+     },
+     {
+      "word": "suling",
+      "meaning": "bamboo flute"
+     },
+     {
+      "word": "pesindhen",
+      "meaning": "female soloist"
+     },
+     {
+      "word": "gérong",
+      "meaning": "male chorus"
+     }
+    ],
+    "practice": "Listen to soft playing and try to pick out each voice: rebab, gendèr, gambang, suling, pesindhen.",
+    "quiz": [
+     {
+      "question": "Which instrument is the melodic leader in soft playing?",
+      "options": [
+       "Saron",
+       "Kempul",
+       "Rebab"
+      ],
+      "correct": 2,
+      "explanation": "It often plays the introduction."
+     },
+     {
+      "question": "How does the pesindhen sing?",
+      "options": [
+       "Ornamented, floating freely across the beat",
+       "Strictly on the beat",
+       "Only at the gong"
+      ],
+      "correct": 0,
+      "explanation": "The gérong sings in fixed tempo."
+     },
+     {
+      "question": "What is the gambang made of?",
+      "options": [
+       "Bronze",
+       "Wood",
+       "Bamboo"
+      ],
+      "correct": 1,
+      "explanation": "A wooden xylophone, mostly in octaves."
+     },
+     {
+      "question": "In loud playing, which instruments lead?",
+      "options": [
+       "Rebab and suling",
+       "The voices",
+       "Bonang and sarons"
+      ],
+      "correct": 2,
+      "explanation": "The soft instruments are silent."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 12,
+   "title": "From buka to suwuk",
+   "summary_nl": "Hoe een stuk begint (buka, senggrengan), de delen (ompak, ngelik), het einde (suwuk) en srepegan om mee te spelen.",
+   "summary_en": "How a piece begins (buka, senggrengan), its sections (ompak, ngelik), how it ends (suwuk), and the srepegan form to play along with.",
+   "oefening_nl": "Speel de srepegan mee op saron of kenong.",
+   "youtube_id": "yPYvOsc-_0M",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les12.jpg",
+   "sheet": {
+    "key_ideas": [
+     "Buka: one instrument plays the introduction; the ensemble joins on the gong.",
+     "Senggrengan: a short rebab melody before a soft piece, showing tuning and pathet.",
+     "Ompak (repeated first section) and ngelik (higher section). Suwuk: the ending.",
+     "Srepegan (wayang): kenong on every beat, kempul on every second kenong, kethuk between the beats."
+    ],
+    "words": [
+     {
+      "word": "buka",
+      "meaning": "introduction"
+     },
+     {
+      "word": "senggrengan",
+      "meaning": "short rebab prelude"
+     },
+     {
+      "word": "ompak",
+      "meaning": "first, repeated section"
+     },
+     {
+      "word": "suwuk",
+      "meaning": "ending"
+     },
+     {
+      "word": "srepegan",
+      "meaning": "wayang form"
+     },
+     {
+      "word": "dhalang",
+      "meaning": "puppeteer"
+     }
+    ],
+    "practice": "Play the srepegan on a saron, or play the kenong part: one stroke on every note.",
+    "quiz": [
+     {
+      "question": "What is the buka?",
+      "options": [
+       "An introduction by one instrument",
+       "The ending",
+       "A drum stroke"
+      ],
+      "correct": 0,
+      "explanation": "Usually rebab or bonang; the ensemble joins on the gong."
+     },
+     {
+      "question": "In srepegan, how often does the kenong play?",
+      "options": [
+       "Once per gongan",
+       "On every beat",
+       "Every eight beats"
+      ],
+      "correct": 1,
+      "explanation": "That gives srepegan its tension."
+     },
+     {
+      "question": "What is the suwuk?",
+      "options": [
+       "The higher section",
+       "A kind of gong",
+       "The end of a piece"
+      ],
+      "correct": 2,
+      "explanation": "The drummer slows down, the gong closes."
+     },
+     {
+      "question": "Who decides when srepegan moves on in a real performance?",
+      "options": [
+       "The dhalang and the drummer",
+       "The peking",
+       "The gérong"
+      ],
+      "correct": 0,
+      "explanation": "The number of notes is not fixed."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 13,
+   "title": "Pélog",
+   "summary_nl": "De zeven tonen van pélog en de drie vijftoonsladders, de pélog-pathet, de pélog-bonang en de gedeelde toon (tumbuk).",
+   "summary_en": "Pélog's seven tones and three five-tone scales, the pélog pathet, the pélog bonang, and the shared tone (tumbuk) between sléndro and pélog.",
+   "oefening_nl": "Speel de zeven tonen langzaam op en neer, en demp elke toon.",
+   "youtube_id": "Hf6Z8m_lfI0",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les13.jpg",
+   "sheet": {
+    "key_ideas": [
+     "Pélog has seven tones with clearly unequal steps.",
+     "Sumarsam: pélog is built from three five-tone scales (1 2 3 5 6 / 1 2 4 5 6 / 2 3 5 6 7).",
+     "Pélog pathet: lima, nem, barang. Barang uses 7 and avoids 1.",
+     "Sléndro and pélog sets usually share one tone, the tumbuk (6 or 5)."
+    ],
+    "words": [
+     {
+      "word": "tumbuk",
+      "meaning": "shared tone of the sléndro and pélog sets"
+     },
+     {
+      "word": "pathet barang",
+      "meaning": "pélog pathet with tone 7"
+     }
+    ],
+    "practice": "If you can reach a pélog saron, play the seven tones slowly up and down, damping each one.",
+    "quiz": [
+     {
+      "question": "How many tones does pélog have per octave?",
+      "options": [
+       "5",
+       "7",
+       "12"
+      ],
+      "correct": 1,
+      "explanation": "One to seven."
+     },
+     {
+      "question": "Which pélog pathet uses tone 7 and avoids tone 1?",
+      "options": [
+       "Lima",
+       "Nem",
+       "Barang"
+      ],
+      "correct": 2,
+      "explanation": "On the pélog bonang, 7 takes the place of 1."
+     },
+     {
+      "question": "What is the tumbuk?",
+      "options": [
+       "The tone shared by the sléndro and pélog sets",
+       "A drum",
+       "A pélog scale"
+      ],
+      "correct": 0,
+      "explanation": "Usually tone 6 or 5."
+     },
+     {
+      "question": "Which five tones make the third pélog scale?",
+      "options": [
+       "1 2 3 5 6",
+       "2 3 5 6 7",
+       "1 2 4 5 6"
+      ],
+      "correct": 1,
+      "explanation": "It uses 7 instead of 1."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 14,
+   "title": "The bubaran",
+   "summary_nl": "De bubaran-vorm, balungan mlaku, en een bubaran in pélog om naar te luisteren en mee te spelen.",
+   "summary_en": "The bubaran form, balungan mlaku, and a bubaran in pélog to listen to and play along with.",
+   "oefening_nl": "Speel de bubaran mee, en probeer hem ook in sléndro.",
+   "youtube_id": "zNH5I2fuQEc",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les14.jpg",
+   "sheet": {
+    "key_ideas": [
+     "Bubar means to break up: a bubaran is often played as guests leave.",
+     "Same gong structure as the lancaran: 16 beats, four kenongan.",
+     "But: balungan mlaku (a note on every beat), in irama tanggung or dadi.",
+     "Example (Drummond): 6532 6532 .323 6532."
+    ],
+    "words": [
+     {
+      "word": "bubaran",
+      "meaning": "short closing form"
+     },
+     {
+      "word": "bubar",
+      "meaning": "to disperse"
+     }
+    ],
+    "practice": "Play the bubaran on a saron. It only uses 2 3 5 6, so try it in sléndro too and hear the difference.",
+    "quiz": [
+     {
+      "question": "When is a bubaran often played?",
+      "options": [
+       "At the start",
+       "During the wayang battle",
+       "At the end of an event"
+      ],
+      "correct": 2,
+      "explanation": "Bubar: to disperse."
+     },
+     {
+      "question": "How does a bubaran differ from the lancaran in lesson 4?",
+      "options": [
+       "Balungan mlaku instead of nibani",
+       "Different gong structure",
+       "No gong"
+      ],
+      "correct": 0,
+      "explanation": "The gong structure is the same."
+     },
+     {
+      "question": "How many beats in a bubaran gongan?",
+      "options": [
+       "32",
+       "16",
+       "64"
+      ],
+      "correct": 1,
+      "explanation": "Four kenongan of four beats."
+     },
+     {
+      "question": "Why can you also play this bubaran in sléndro?",
+      "options": [
+       "Pélog and sléndro are the same",
+       "It has no melody",
+       "It only uses 2, 3, 5 and 6"
+      ],
+      "correct": 2,
+      "explanation": "Those tones exist in both tunings."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 15,
+   "title": "First steps on the gendèr",
+   "summary_nl": "Hoe gendèr-spelers leren, de slagstokken vasthouden, twee manieren van dempen en vier oefeningen van Sumarsam.",
+   "summary_en": "How gendèr players learn, holding the mallets, two damping techniques, and four exercises from Sumarsam for right hand, left hand and both hands.",
+   "oefening_nl": "Doe de vier oefeningen langzaam, elke dag een paar minuten.",
+   "youtube_id": "vbsE82XVIak",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les15.jpg",
+   "sheet": {
+    "key_ideas": [
+     "Gendèr is learned pattern by pattern (cèngkok), but listening and ensemble playing make the player.",
+     "Right hand: loose fist, palm down. Left hand: palm faces right, thumb around the end of the handle.",
+     "Damping 1: damp just after the next stroke (smooth). Damping 2: damp at the exact moment (only when fast).",
+     "Four exercises: right hand, left hand, both together (gembyangan), and alternating."
+    ],
+    "words": [
+     {
+      "word": "cèngkok",
+      "meaning": "melodic pattern"
+     },
+     {
+      "word": "gendèr barung, panerus",
+      "meaning": "middle and high gendèr"
+     }
+    ],
+    "practice": "Do the four exercises slowly, a few minutes every day.",
+    "quiz": [
+     {
+      "question": "What makes a good gendèr player, according to Sumarsam?",
+      "options": [
+       "Listening a lot and playing in the ensemble",
+       "Only learning patterns",
+       "Playing fast"
+      ],
+      "correct": 0,
+      "explanation": "The patterns help, but listening comes first."
+     },
+     {
+      "question": "In the first kind of damping, when do you damp?",
+      "options": [
+       "Before the next stroke",
+       "Just after the next stroke",
+       "Never"
+      ],
+      "correct": 1,
+      "explanation": "So the tones join smoothly."
+     },
+     {
+      "question": "When do you use the second kind of damping?",
+      "options": [
+       "Always",
+       "In pélog only",
+       "Only when the playing is too fast"
+      ],
+      "correct": 2,
+      "explanation": "Damp at the exact moment."
+     },
+     {
+      "question": "Which pieces does Sumarsam suggest to start on the gendèr?",
+      "options": [
+       "Ketawang Subakastawa and Ladrang Gonjang-Ganjing",
+       "Lancaran only",
+       "Any gendhing"
+      ],
+      "correct": 0,
+      "explanation": "Their patterns repeat."
+     }
+    ]
+   },
+   "video": ""
+  },
+  {
+   "nr": 16,
+   "title": "Gendhing, and how to keep learning",
+   "summary_nl": "De grote vorm gendhing (mérong, ompak, inggah), kethuk 2 kerep, gamelan in het Javaanse leven, hoe je verder leert, en een terugblik.",
+   "summary_en": "The large gendhing form (mérong, ompak, inggah), kethuk 2 kerep, gamelan in Javanese life, and how to keep learning, with a look back at all sixteen lessons.",
+   "oefening_nl": "Zoek een groep en speel samen.",
+   "youtube_id": "syIDK5Zvb-I",
+   "thumbnail": "/assets/gamelan-cursus/thumb_les16.jpg",
+   "sheet": {
+    "key_ideas": [
+     "Gendhing: both the word for a composition and a large form with mérong and inggah.",
+     "Mérong: calm, irama dadi. Ompak: short transition, signalled by the drummer. Inggah: melody often from the mérong.",
+     "Kethuk 2 kerep: 16-beat kenongan, 64 beats per gongan. Kethuk arang: kethuk every 16 beats.",
+     "Keep learning: listen, play in a group, try every instrument, sing the balungan, ask experienced players."
+    ],
+    "words": [
+     {
+      "word": "gendhing",
+      "meaning": "composition; large form"
+     },
+     {
+      "word": "mérong",
+      "meaning": "first main section"
+     },
+     {
+      "word": "inggah",
+      "meaning": "second main section"
+     },
+     {
+      "word": "kethuk kerep / arang",
+      "meaning": "kethuk often / seldom"
+     }
+    ],
+    "practice": "Find a group near you and play together.",
+    "quiz": [
+     {
+      "question": "What are the two main sections of a gendhing?",
+      "options": [
+       "Buka and suwuk",
+       "Mérong and inggah",
+       "Ompak and ngelik"
+      ],
+      "correct": 1,
+      "explanation": "With an ompak between them."
+     },
+     {
+      "question": "How many beats in a gongan of a mérong kethuk 2 kerep?",
+      "options": [
+       "32",
+       "16",
+       "64"
+      ],
+      "correct": 2,
+      "explanation": "Four kenongan of 16 beats."
+     },
+     {
+      "question": "Who signals the transition (ompak) to the inggah?",
+      "options": [
+       "The drummer",
+       "The gong player",
+       "The pesindhen"
+      ],
+      "correct": 0,
+      "explanation": "With a change of tempo and irama."
+     },
+     {
+      "question": "Where is gamelan mainly heard in Java?",
+      "options": [
+       "Only in concert halls",
+       "At weddings, ceremonies and celebrations",
+       "Only on the radio"
+      ],
+      "correct": 1,
+      "explanation": "It is enjoyed as part of the occasion."
+     }
+    ]
+   },
+   "video": ""
+  }
+ ]
+}
