@@ -22,3 +22,8 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Losse afbeeldingen die hier tijdens het werken belanden (social posts en
+# dergelijke). Ze horen niet bij de site en zouden anders bij een
+# "git add -A" per ongeluk meegaan.
+Claude outputs/

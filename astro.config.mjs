@@ -11,6 +11,23 @@ const SITE = 'https://stichtinggemarasa.com';
 // https://astro.build/config
 export default defineConfig({
   site: SITE,
+
+  /**
+   * De gamelancursus is verhuisd naar het ledenportaal.
+   *
+   * Hij stond hier als testpagina met de inhoud in een json-bestand en de
+   * voortgang in de browser van de bezoeker. Nu staat hij in de cursusmodule,
+   * waar de voortgang bij de persoon hoort en de lessen in de Studio te
+   * bewerken zijn.
+   *
+   * De pagina is weg maar het adres niet: de link is gedeeld om te testen, en
+   * een gedeelde link hoort niet dood te lopen.
+   */
+  redirects: {
+    '/gamelan-cursus': 'https://www.suwarajawa.nl/cursussen/gamelan-vanaf-de-basis',
+    '/en/gamelan-cursus': 'https://www.suwarajawa.nl/cursussen/gamelan-vanaf-de-basis',
+    '/id/gamelan-cursus': 'https://www.suwarajawa.nl/cursussen/gamelan-vanaf-de-basis',
+  },
   integrations: [
     sanity({
       projectId: '6q1rydes',
@@ -43,9 +60,8 @@ export default defineConfig({
     }),
     react(),
     sitemap({
-      // De Studio en API-routes horen niet in de sitemap, de gamelancursus
-      // (nog) ook niet: die wordt eerst binnen de stichting getest.
-      filter: (page) => !page.includes('/studio') && !page.includes('/gamelan-cursus'),
+      // De Studio en API-routes horen niet in de sitemap
+      filter: (page) => !page.includes('/studio'),
       i18n: {
         defaultLocale: 'nl',
         locales: { nl: 'nl-NL', en: 'en-GB', id: 'id-ID' },
