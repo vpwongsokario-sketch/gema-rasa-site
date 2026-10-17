@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!--
+    Het merkteken van de stichting, voor een tabblad.
+
+    Dezelfde vorm als het teken van het magazine (app/icon.svg), en met opzet:
+    het zijn twee gezichten van dezelfde organisatie, en dan horen de iconen
+    op elkaar te lijken. Alleen de kleuren en de letters verschillen: het
+    groen en goud van Stichting Gema Rasa in plaats van het zwart en goud van
+    Suwara Jawa.
+
+    In de kop op de site is het teken een cirkel met een dunne gouden rand.
+    Hier niet: die rand valt op 16 pixels weg en maakt de letters kleiner. Een
+    gevuld vlak met de letters groot erop blijft leesbaar tot op het formaat
+    van een favicon.
+  -->
+  <rect width="64" height="64" rx="12" fill="#09351F"/>
+  <text x="32" y="42" text-anchor="middle"
+        font-family="Georgia, 'DM Serif Display', serif"
+        font-size="30" font-weight="700" fill="#EFC83E">GR</text>
+</svg>

@@ -115,7 +115,23 @@ const actief = (u) => huidigPad === u || huidigPad.startsWith(u + '/');
   {/* Structured data: wie we zijn (voor Google + AI-zoekmachines) */}
   <script type="application/ld+json" is:inline set:html={JSON.stringify(organisatie)} />
   {jsonld && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonld)} />}
-  <link rel="icon" type="image/png" href="/assets/icon.png" />
+  {/*
+    Het tabbladicoon.
+
+    Stond eerst alleen als png: een verkleining van het volledige logo, de
+    gunungan met de twee danseressen in een groene cirkel. Dat is een mooi
+    logo maar op 32 pixels een donkergroene vlek -- alle tekening valt weg.
+    Daarom nu het merkteken met de letters, hetzelfde als in het tabblad van
+    het ledenportaal en het beheer. Een organisatie, overal hetzelfde teken.
+    Het volledige logo blijft gewoon op de site zelf staan.
+
+    De svg eerst voor wie hem aankan, de png eronder als terugval. Op
+    /favicon.ico staat hetzelfde teken: dat adres vraagt een browser uit
+    zichzelf op, en daar stond nog de standaard-favicon van Astro.
+  */}
+  <link rel="icon" type="image/svg+xml" href="/assets/icon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
