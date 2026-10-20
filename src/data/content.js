@@ -116,8 +116,18 @@ export const contact = {
   adres: 'Aan de Botersloot 2, Ammerstol — Nederland',
   kvk: '92665381',
   btw: 'NL866133197B01',
+  /**
+   * Waar de stichting te vinden is.
+   *
+   * Hier stond ook een adres in Rotterdam. Dat klopte niet: de stichting is
+   * in Ammerstol gevestigd, en dat is ook wat er in de gegevens voor Google
+   * staat en bij de Kamer van Koophandel. Een tweede vestigingsadres op de
+   * contactpagina wekt de indruk van een kantoor dat er niet is.
+   *
+   * Leslocaties zijn iets anders: die horen bij de cursus waar ze bij horen,
+   * met hun eigen adres en routebeschrijving.
+   */
   locaties: [
     { plaats: 'Ammerstol', adres: 'Aan de Botersloot 2, Ammerstol' },
-    { plaats: 'Rotterdam', adres: 'Dempostraat 143, Rotterdam' },
   ],
 };
