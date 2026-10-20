@@ -6,7 +6,7 @@
 export const paginaNL: Record<string, string> = {
   'dn.kicker': 'Doneren',
   'dn.titel': 'Steun ons met een gift',
-  'dn.tekst': 'Elke bijdrage helpt ons om Javaanse muziek en dans levend te houden — van instrumenten en kostuums tot workshops voor jongeren.',
+  'dn.tekst': 'Elke bijdrage helpt ons om de Javaanse cultuur levend te houden — van instrumenten en kostuums tot workshops voor jongeren.',
   'dn.eenmalig': 'Eenmalige gift',
   'dn.eigenBedrag': 'Ander bedrag',
   'dn.maandelijks': 'Word maandelijkse donateur',
@@ -116,7 +116,7 @@ export const paginaNL: Record<string, string> = {
   // ---- De Stichting ----
   'st.eyebrow': 'De Stichting',
   'st.titel': 'Transformatie tot traditie',
-  'st.intro': 'Stichting Gema Rasa is een culturele organisatie die zich inzet voor de promotie van Javaanse muziek en dans.',
+  'st.intro': 'Stichting Gema Rasa is een culturele organisatie die zich inzet voor de Javaanse cultuur in Nederland.',
   'st.lead': 'De stichting ontstond uit een onverwacht keerpunt in het najaar van 2023. Een bijeenkomst op 14 oktober bracht een gedeelde visie samen: het behoud van Javaanse cultuur en kunst.',
   'st.p1': 'Op 20 oktober kreeg de organisatie haar naam en bestuursstructuur, gevolgd door de officiële inschrijving bij de Kamer van Koophandel op 17 januari 2024. De verbonden gamelangroep, Jiwa Manunggal, symboliseert het transformeren van tegenslag tot culturele rijkdom.',
   'st.naamKop': 'De naam',
@@ -354,7 +354,7 @@ export const paginaNL: Record<string, string> = {
 export const paginaEN: Record<string, string> = {
   'dn.kicker': 'Donate',
   'dn.titel': 'Support us with a gift',
-  'dn.tekst': 'Every contribution helps us keep Javanese music and dance alive — from instruments and costumes to workshops for young people.',
+  'dn.tekst': 'Every contribution helps us keep Javanese culture alive — from instruments and costumes to workshops for young people.',
   'dn.eenmalig': 'One-off gift',
   'dn.eigenBedrag': 'Other amount',
   'dn.maandelijks': 'Become a monthly donor',
@@ -462,7 +462,7 @@ export const paginaEN: Record<string, string> = {
   'gg.leden': 'members',
   'st.eyebrow': 'The Foundation',
   'st.titel': 'Transformation into tradition',
-  'st.intro': 'Stichting Gema Rasa is a cultural organisation dedicated to promoting Javanese music and dance.',
+  'st.intro': 'Stichting Gema Rasa is a cultural organisation dedicated to Javanese culture in the Netherlands.',
   'st.lead': 'The foundation grew out of an unexpected turning point in the autumn of 2023. A gathering on 14 October brought together a shared vision: preserving Javanese culture and art.',
   'st.p1': 'On 20 October the organisation received its name and board structure, followed by official registration with the Chamber of Commerce on 17 January 2024. The affiliated gamelan group, Jiwa Manunggal, symbolises transforming adversity into cultural richness.',
   'st.naamKop': 'The name',
@@ -692,7 +692,7 @@ export const paginaEN: Record<string, string> = {
 export const paginaID: Record<string, string> = {
   'dn.kicker': 'Donasi',
   'dn.titel': 'Dukung kami dengan sumbangan',
-  'dn.tekst': 'Setiap sumbangan membantu kami menjaga musik dan tari Jawa tetap hidup — dari instrumen dan kostum hingga lokakarya untuk generasi muda.',
+  'dn.tekst': 'Setiap sumbangan membantu kami menjaga budaya Jawa tetap hidup — dari instrumen dan kostum hingga lokakarya untuk generasi muda.',
   'dn.eenmalig': 'Sumbangan sekali',
   'dn.eigenBedrag': 'Jumlah lain',
   'dn.maandelijks': 'Jadi donatur bulanan',
@@ -800,7 +800,7 @@ export const paginaID: Record<string, string> = {
   'gg.leden': 'anggota',
   'st.eyebrow': 'Tentang Yayasan',
   'st.titel': 'Dari perubahan menjadi tradisi',
-  'st.intro': 'Stichting Gema Rasa adalah organisasi budaya yang berdedikasi mempromosikan musik dan tari Jawa.',
+  'st.intro': 'Stichting Gema Rasa adalah organisasi budaya yang berdedikasi untuk budaya Jawa di Belanda.',
   'st.lead': 'Yayasan ini lahir dari titik balik tak terduga pada musim gugur 2023. Sebuah pertemuan pada 14 Oktober menyatukan satu visi bersama: melestarikan budaya dan seni Jawa.',
   'st.p1': 'Pada 20 Oktober organisasi ini memperoleh nama dan struktur pengurusnya, disusul pendaftaran resmi di Kamar Dagang pada 17 Januari 2024. Grup gamelan Jiwa Manunggal melambangkan perubahan kesulitan menjadi kekayaan budaya.',
   'st.naamKop': 'Arti nama',
