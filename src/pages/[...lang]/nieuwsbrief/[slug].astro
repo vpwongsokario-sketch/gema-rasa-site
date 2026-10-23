@@ -1,0 +1,70 @@
+---
+/*
+  Eén nieuwsbrief, zoals hij verstuurd is.
+
+  De mail wordt niet nagebouwd maar getoond: dezelfde opmaak, dezelfde
+  volgorde, dezelfde beelden. Wel met de site eromheen, en met een regel
+  erboven die zegt dat dit post is van een bepaalde dag — anders leest de
+  voettekst van de mail als een voettekst van de website.
+*/
+import Base from '../../../layouts/Base.astro';
+import { talen, pad } from '../../../i18n/index.ts';
+import { getNieuwsbrieven } from '../../../lib/sanity.ts';
+
+export async function getStaticPaths() {
+  const perTaal = await Promise.all(
+    talen.map(async (taal) => ({ taal, brieven: await getNieuwsbrieven(pad(taal, '/nieuwsbrief')) })),
+  );
+  return perTaal.flatMap(({ taal, brieven }) =>
+    brieven.map((brief) => ({
+      params: { lang: taal === 'nl' ? undefined : taal, slug: brief.slug },
+      props: { brief, taal },
+    })),
+  );
+}
+
+const { brief, taal } = Astro.props;
+
+const datumLang = brief.datum
+  ? new Date(`${brief.datum}T12:00:00`).toLocaleDateString(
+      { nl: 'nl-NL', en: 'en-GB', id: 'id-ID' }[taal] || 'nl-NL',
+      { day: 'numeric', month: 'long', year: 'numeric' },
+    )
+  : '';
+---
+<Base
+  taal={taal}
+  title={`${brief.onderwerp} — Nieuwsbrief Stichting Gema Rasa`}
+  description={brief.samenvatting || `De nieuwsbrief van ${datumLang} van Stichting Gema Rasa.`}
+  ogType="article"
+>
+  <section class="block">
+    <div class="wrap">
+      <p class="briefterug"><a href={pad(taal, '/nieuwsbrief')}>← Alle nieuwsbrieven</a></p>
+      <p class="briefkop">
+        Dit is de nieuwsbrief van <strong>{datumLang}</strong>, zoals hij is verstuurd.
+        Prijzen en data die erin staan, kunnen inmiddels veranderd zijn.
+      </p>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="nieuwsbriefmail" set:html={brief.inhoud} />
+    </div>
+  </section>
+
+  {brief.stijl && <style is:inline set:html={brief.stijl} />}
+</Base>
+
+<style>
+  .briefterug { font-size: 14px; margin-bottom: 18px; }
+  .briefkop {
+    max-width: 640px; font-size: 15px; line-height: 1.7; color: var(--muted);
+    border-left: 3px solid var(--line); padding-left: 16px;
+  }
+  /* De mail staat in zijn eigen vak, met zijn eigen breedte en achtergrond. */
+  .nieuwsbriefmail { max-width: 640px; margin: 0 auto; }
+  .nieuwsbriefmail :global(table) { max-width: 100%; }
+  .nieuwsbriefmail :global(img) { max-width: 100%; height: auto; }
+</style>

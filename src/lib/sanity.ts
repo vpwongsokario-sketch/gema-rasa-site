@@ -486,3 +486,78 @@ export async function getReis() {
     }`,
   );
 }
+
+/* ---------- Nieuwsbriefarchief ---------- */
+
+/**
+ * De verstuurde nieuwsbrieven, om na te lezen op de site.
+ *
+ * Ze staan in hetzelfde Sanity als de rest, want het zijn de mailings die het
+ * platform verstuurt. Alleen wat écht verstuurd is komt hier: een concept of
+ * een halve verzending is geen nieuwsbrief.
+ *
+ * Waarom dit de moeite waard is: een nieuwsbrief leeft nu één ochtend in een
+ * postvak en is daarna weg. Op de site blijft hij vindbaar -- voor wie hem
+ * kwijt is, voor wie zich later aanmeldt, en voor zoekmachines.
+ */
+function slugVanNieuwsbrief(onderwerp: string, datum: string): string {
+  const kaal = (onderwerp || 'nieuwsbrief')
+    .toLowerCase()
+    .replace(/[’']/g, '')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 70)
+  return `${(datum || '').slice(0, 10)}-${kaal}`.replace(/^-+/, '')
+}
+
+/**
+ * Een verstuurde mail bruikbaar maken op een webpagina.
+ *
+ * Wat er in het CMS staat is een compleet e-maildocument: eigen <head>, eigen
+ * opmaak, eigen voet. Dat kun je niet zomaar in een pagina plakken -- een
+ * document in een document geeft rommel, en de regels voor `body` zouden de
+ * hele site overschrijven.
+ *
+ * Dus: de opmaak eruit halen en `body` daarin omschrijven naar het vak waar
+ * de mail in staat, en alleen de inhoud van <body> overhouden. De gaatjes die
+ * bij het versturen per persoon worden ingevuld staan er nog in; op een
+ * archiefpagina is er geen persoon, dus die vervangen we door iets neutraals.
+ */
+function mailNaarPagina(html: string, nieuwsbriefPad: string): { stijl: string; inhoud: string } {
+  const stijlen = [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((m) => m[1]).join('\n')
+  // `body` als losse kiezer wijst op een webpagina naar de hele site. Binnen
+  // dit vak moet hij alleen over de mail gaan.
+  const stijl = stijlen.replace(/(^|[,{}\s])body(?=[\s,{:])/g, '$1.nieuwsbriefmail')
+
+  const body = (html.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1] ?? html)
+    // Het onzichtbare regeltje dat alleen in een postvak iets doet.
+    .replace(/<div[^>]*display:\s*none[\s\S]*?<\/div>/i, '')
+
+  const inhoud = body
+    .replace(/\{\{\s*(afmeldlink|unsubscribe_link)\s*\}\}/gi, nieuwsbriefPad)
+    .replace(/\{\{\s*(voornaam|naam)\s*\}\}/gi, '')
+
+  return { stijl, inhoud }
+}
+
+export async function getNieuwsbrieven(nieuwsbriefPad = '/nieuwsbrief') {
+  const docs = await safe<any[]>(
+    `*[_type == "mailing" && status == "verzonden" && defined(html)]
+     | order(verzondenOp desc){ _id, onderwerp, voorbeeldtekst, verzondenOp, afzender, html }`,
+  )
+  if (!docs || docs.length === 0) return []
+  return docs.map((d) => {
+    const datum = (d.verzondenOp || '').slice(0, 10)
+    const { stijl, inhoud } = mailNaarPagina(d.html || '', nieuwsbriefPad)
+    return {
+      slug: slugVanNieuwsbrief(d.onderwerp, datum),
+      onderwerp: d.onderwerp || 'Nieuwsbrief',
+      samenvatting: d.voorbeeldtekst || '',
+      datum,
+      afzender: d.afzender === 'suwara-jawa' ? 'Suwara Jawa' : 'Stichting Gema Rasa',
+      stijl,
+      inhoud,
+    }
+  })
+}

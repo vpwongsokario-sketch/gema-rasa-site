@@ -1,0 +1,74 @@
+---
+/*
+  /nieuwsbrief — alle verstuurde nieuwsbrieven om na te lezen.
+
+  Een nieuwsbrief leeft nu één ochtend in een postvak en is daarna weg. Hier
+  blijft hij staan: voor wie hem kwijt is, voor wie zich later aanmeldt, en
+  voor zoekmachines — het is de enige plek op de site waar in gewone zinnen
+  staat wat de stichting het hele jaar door doet.
+*/
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import { taalPaden, pad } from '../../../i18n/index.ts';
+import { getNieuwsbrieven } from '../../../lib/sanity.ts';
+
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+
+const brieven = await getNieuwsbrieven(pad(taal, '/nieuwsbrief'));
+
+const datumLang = (iso: string) =>
+  iso
+    ? new Date(`${iso}T12:00:00`).toLocaleDateString(
+        { nl: 'nl-NL', en: 'en-GB', id: 'id-ID' }[taal] || 'nl-NL',
+        { day: 'numeric', month: 'long', year: 'numeric' },
+      )
+    : '';
+---
+<Base
+  taal={taal}
+  title="Nieuwsbrief — Stichting Gema Rasa"
+  description="Alle nieuwsbrieven van Stichting Gema Rasa om na te lezen: optredens, projecten, het magazine, cursussen en het Echo's van Java Festival."
+>
+  <PageHero
+    sleutel="nieuwsbrief"
+    eyebrow="Nieuwsbrief"
+    titel="Alles nog eens nalezen"
+    tekst="Elke nieuwsbrief die we verstuurd hebben, blijft hier staan."
+    foto="/assets/perf3.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      {brieven.length === 0 ? (
+        <p class="prose">Er is nog geen nieuwsbrief verstuurd. Zodra de eerste de deur uit is, staat hij hier.</p>
+      ) : (
+        <ul class="briefljst">
+          {brieven.map((b) => (
+            <li>
+              <a href={pad(taal, `/nieuwsbrief/${b.slug}`)}>
+                <span class="briefdatum">{datumLang(b.datum)}</span>
+                <h3>{b.onderwerp}</h3>
+                {b.samenvatting && <p>{b.samenvatting}</p>}
+                <span class="more">Lees deze nieuwsbrief →</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .briefljst { list-style: none; margin: 0; padding: 0; max-width: 760px; }
+  .briefljst li + li { border-top: 1px solid var(--line); }
+  .briefljst a { display: block; padding: 26px 0; text-decoration: none; color: inherit; }
+  .briefljst a:hover h3 { color: var(--terracotta); }
+  .briefdatum {
+    display: block; font-family: 'Inter', sans-serif; font-size: 12px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+  }
+  .briefljst h3 { margin: 0 0 8px; font-size: clamp(21px, 2.6vw, 27px); font-weight: 400; transition: color .2s; }
+  .briefljst p { margin: 0 0 10px; color: var(--muted); max-width: 60ch; }
+</style>
