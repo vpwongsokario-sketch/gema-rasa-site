@@ -59,6 +59,24 @@ import { contact } from '../../data/content.js';
               </div>
             ))}
           </div>
+          {/*
+            Waar we oefenen, los van het vestigingsadres hierboven. Dit is een
+            zaal die we huren en geen kantoor van de stichting -- vandaar een
+            eigen kopje, en geen telefoonnummer erbij: mensen moeten ons
+            bellen, niet de zaal.
+          */}
+          {contact.oefenlocatie && (
+            <div class="oefenkaart">
+              <h3>{t(taal, "ct.oefenKop")}</h3>
+              <p class="oefenadres">
+                <strong>{contact.oefenlocatie.naam}</strong><br />
+                {contact.oefenlocatie.adres}
+              </p>
+              <p>{t(taal, "ct.oefenTekst")}</p>
+              <a href={contact.oefenlocatie.maps} target="_blank" rel="noopener">{t(taal, "ct.oefenRoute")} →</a>
+            </div>
+          )}
+
           <p style="font-family:'Poppins';font-weight:300;font-size:13px;color:var(--gray);margin-top:16px">
             KVK: {contact.kvk} &middot; BTW: {contact.btw}
           </p>
@@ -67,4 +85,33 @@ import { contact } from '../../data/content.js';
     </div>
   </section>
 
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="zoektplek">
+        <span class="kicker">{t(taal, "ct.zoektKop")}</span>
+        <p>{t(taal, "ct.zoektTekst")}</p>
+        <a class="btn gold" href={`mailto:${contact.email}?subject=${encodeURIComponent('Een plek voor de gamelan')}`}>
+          {t(taal, "ct.zoektKnop")}
+        </a>
+      </div>
+    </div>
+  </section>
+
 </Base>
+
+<style>
+  .oefenkaart {
+    margin-top: 22px; padding: 20px 22px;
+    border: 1px solid var(--line); border-radius: 4px; background: #fff;
+  }
+  .oefenkaart h3 { margin: 0 0 10px; font-size: 19px; font-weight: 400; }
+  .oefenkaart p { font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 14.5px; color: #4a4a4a; margin: 0 0 10px; }
+  .oefenkaart .oefenadres { font-weight: 400; color: var(--ink); }
+  .oefenkaart a { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; }
+
+  .zoektplek { max-width: 760px; }
+  .zoektplek p {
+    font-family: 'Poppins', sans-serif; font-weight: 300;
+    font-size: 16px; line-height: 1.75; color: #4a4a4a; margin: 14px 0 22px;
+  }
+</style>

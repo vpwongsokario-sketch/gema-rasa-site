@@ -191,6 +191,12 @@ export const paginaNL: Record<string, string> = {
   'ct.privacy': 'We gebruiken je gegevens alleen om je vraag te beantwoorden.',
   'ct.locatiesKicker': 'Onze locaties',
   'ct.locatiesTitel': 'Waar je ons vindt',
+  'ct.oefenKop': 'Waar we oefenen',
+  'ct.oefenTekst': 'De gamelangroep repeteert bij KizzMotions in Hoogvliet. Kom je een keer kijken of meespelen? Laat het even weten via het formulier, dan vertellen we wanneer we er zijn.',
+  'ct.oefenRoute': 'Bekijk op de kaart',
+  'ct.zoektKop': 'We zoeken een eigen plek',
+  'ct.zoektTekst': 'Een gamelan is geen instrument dat je na afloop in een kast zet: een complete opstelling blijft staan. We zijn daarom op zoek naar een ruimte in de regio Rotterdam–Den Haag waar onze gamelan kan blijven staan en waar we kunnen repeteren, lesgeven en af en toe publiek ontvangen. Ken je zo’n plek, of denk je mee? We horen het graag.',
+  'ct.zoektKnop': 'Denk met ons mee',
   'ct.bedankt': 'Bedankt! We hebben je bericht ontvangen en nemen snel contact op.',
 
   // ---- Steun ----
@@ -533,6 +539,12 @@ export const paginaEN: Record<string, string> = {
   'ct.privacy': 'We only use your details to answer your question.',
   'ct.locatiesKicker': 'Our locations',
   'ct.locatiesTitel': 'Where to find us',
+  'ct.oefenKop': 'Where we rehearse',
+  'ct.oefenTekst': 'The gamelan group rehearses at KizzMotions in Hoogvliet. Would you like to come and watch, or play along? Let us know through the form and we will tell you when we are there.',
+  'ct.oefenRoute': 'View on the map',
+  'ct.zoektKop': 'We are looking for a place of our own',
+  'ct.zoektTekst': 'A gamelan is not an instrument you put away after rehearsal: a full set stays where it is. We are looking for a space in the Rotterdam–The Hague area where our gamelan can stay set up and where we can rehearse, teach and occasionally welcome an audience. Do you know such a place, or can you help us think? We would love to hear from you.',
+  'ct.zoektKnop': 'Help us think',
   'ct.bedankt': 'Thank you! We have received your message and will be in touch soon.',
 
   'sn.eyebrow': 'Support us',
@@ -871,6 +883,12 @@ export const paginaID: Record<string, string> = {
   'ct.privacy': 'Kami hanya menggunakan data Anda untuk menjawab pertanyaan Anda.',
   'ct.locatiesKicker': 'Lokasi kami',
   'ct.locatiesTitel': 'Di mana Anda menemukan kami',
+  'ct.oefenKop': 'Tempat kami berlatih',
+  'ct.oefenTekst': 'Kelompok gamelan kami berlatih di KizzMotions di Hoogvliet. Ingin datang melihat atau ikut bermain? Beri tahu kami lewat formulir, nanti kami kabari kapan kami ada di sana.',
+  'ct.oefenRoute': 'Lihat di peta',
+  'ct.zoektKop': 'Kami mencari tempat sendiri',
+  'ct.zoektTekst': 'Gamelan bukan alat musik yang bisa disimpan setelah latihan: satu set lengkap harus tetap terpasang. Karena itu kami mencari ruang di wilayah Rotterdam–Den Haag tempat gamelan kami bisa tetap berdiri dan tempat kami bisa berlatih, mengajar, dan sesekali menerima penonton. Tahu tempat seperti itu, atau punya ide? Kami senang mendengarnya.',
+  'ct.zoektKnop': 'Bantu kami berpikir',
   'ct.bedankt': 'Terima kasih! Pesan Anda telah kami terima dan kami akan segera menghubungi Anda.',
 
   'sn.eyebrow': 'Dukung Kami',

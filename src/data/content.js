@@ -130,4 +130,17 @@ export const contact = {
   locaties: [
     { plaats: 'Ammerstol', adres: 'Aan de Botersloot 2, Ammerstol' },
   ],
+  /**
+   * Waar de gamelangroep oefent.
+   *
+   * Bewust los van het vestigingsadres hierboven en met een eigen kopje:
+   * dit is een zaal die we huren, geen kantoor van de stichting. Het stond
+   * nergens op de site, terwijl het de vraag is die het vaakst gesteld
+   * wordt door mensen die een keer willen komen kijken.
+   */
+  oefenlocatie: {
+    naam: 'KizzMotions',
+    adres: 'Suikerbakkerstraat 40, 3194 AK Hoogvliet Rotterdam',
+    maps: 'https://maps.google.com/?q=Suikerbakkerstraat+40,+3194+AK+Hoogvliet+Rotterdam',
+  },
 };
