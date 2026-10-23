@@ -45,11 +45,16 @@ const edities = await getMagazines(taal);
                 : <div class="editie-cover leeg" aria-hidden="true">Suwara Jawa</div>}
               <div class="editie-body">
                 <h3>{e.titel}</h3>
-                {e.datumLabel && <span class="editie-datum">{e.datumLabel}</span>}
+                {e.datumLabel && (
+                  <span class="editie-datum">
+                    {e.datumLabel}{e.aantalPaginas ? ` · ${e.aantalPaginas} pagina's` : ''}
+                  </span>
+                )}
                 {e.omschrijving && <p>{e.omschrijving}</p>}
+                {e.prijsRegel && <p class="editie-prijs">{e.prijsRegel}</p>}
                 {e.link && (
                   <a class="btn gold" href={e.link} target="_blank" rel="noopener">
-                    {e.isPdf ? t(taal, "mg.pdf") : t(taal, "mg.lezen")}
+                    {e.opVoorraad ? 'Lezen en bestellen' : 'Bekijk deze editie'}
                   </a>
                 )}
               </div>

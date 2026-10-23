@@ -626,6 +626,10 @@ header.scrolled{box-shadow:0 6px 26px rgba(9,53,31,.13)}
   text-transform:uppercase;color:var(--orange-ink)}
 .editie-body p{font-family:'Poppins';font-weight:300;font-size:14.5px;color:#4a4a4a;flex:1}
 .editie-body .btn{align-self:flex-start;margin-top:8px}
+/* Wat een editie kost, los van de omschrijving: een prijs lees je niet mee
+   in een lopende zin. flex:0 houdt hem bij de knop in plaats van hem met de
+   omschrijving mee te laten rekken. */
+.editie-prijs{flex:0 0 auto!important;font-weight:500!important;color:var(--ink)!important;margin:0 0 4px!important}
 
 /* ---------- videopagina ---------- */
 .videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:24px}

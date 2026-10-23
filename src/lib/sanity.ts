@@ -281,21 +281,51 @@ export async function getLeden(taal: string = 'nl') {
 
 /* ---------- Magazine Suwara Jawa ---------- */
 export async function getMagazines(taal: string = 'nl') {
+  /**
+   * De edities komen van het magazineplatform.
+   *
+   * Deze pagina zocht naar documenten van de soort 'magazine', en die zijn er
+   * nooit gekomen: de edities worden op suwarajawa.nl beheerd als 'edition',
+   * in hetzelfde Sanity. Daardoor stond hier een lege pagina terwijl er twee
+   * edities klaarstonden. Nu leest hij de echte bron, dus een nieuwe editie
+   * verschijnt hier vanzelf zodra hij op het platform wordt gezet.
+   */
   const docs = await safe<any[]>(
-    '*[_type == "magazine"] | order(nummer desc){ titel, nummer, datum, cover, omschrijving, leesUrl, "pdfUrl": pdf.asset->url }',
+    `*[_type == "edition" && defined(slug.current)] | order(editionNumber desc){
+      editionNumber, title, "slug": slug.current, publicationDate, shortPitch,
+      pageCount, status, pricing, cover
+    }`,
   );
   if (!docs) return [];
-  return docs.map((d) => ({
-    titel: d.titel ?? '',
-    nummer: d.nummer ?? null,
-    datum: d.datum ?? '',
-    datumLabel: d.datum ? datumLabel(d.datum, taal) : '',
-    cover: img(d.cover, ''),
-    omschrijving: d.omschrijving ?? '',
-    // Voorkeur voor de online-leeslink; anders de geüploade PDF
-    link: d.leesUrl || d.pdfUrl || '',
-    isPdf: !d.leesUrl && !!d.pdfUrl,
-  }));
+
+  const euro = (n: number) => `\u20ac\u00a0${n.toFixed(2).replace('.', ',')}`;
+
+  return docs.map((d) => {
+    const nr = typeof d.editionNumber === 'number' ? String(d.editionNumber).padStart(2, '0') : '';
+    const p = d.pricing || {};
+    // Wat het kost, in één regel. Gratis is ook een prijs en hoort er te staan.
+    const prijs = p.isFree
+      ? 'Gratis te lezen'
+      : [
+          typeof p.digital === 'number' ? `digitaal ${euro(p.digital)}` : '',
+          typeof p.print === 'number' ? `op papier ${euro(p.print)}` : '',
+        ].filter(Boolean).join(' \u00b7 ');
+
+    return {
+      titel: nr ? `Editie ${nr} \u2014 ${d.title ?? ''}` : (d.title ?? ''),
+      nummer: d.editionNumber ?? null,
+      datum: d.publicationDate ?? '',
+      datumLabel: d.publicationDate ? datumLabel(d.publicationDate, taal) : '',
+      cover: img(d.cover, ''),
+      omschrijving: d.shortPitch ?? '',
+      aantalPaginas: d.pageCount ?? null,
+      prijsRegel: prijs,
+      // Elke editie heeft een eigen pagina op het magazineplatform.
+      link: `https://www.suwarajawa.nl/edities/${d.slug}`,
+      isPdf: false,
+      opVoorraad: d.status !== 'archived',
+    };
+  });
 }
 
 /* ---------- Fotoalbums ---------- */
