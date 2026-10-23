@@ -1,0 +1,54 @@
+---
+/*
+  De pagina voor een adres dat niet bestaat.
+
+  Hij stond er niet, en zonder deze pagina gaf elk onbekend adres de
+  homepage terug mét statuscode 200 -- /dansles, /gamelan-boeken, zelfs
+  /onzin-pagina-bestaat-niet. Voor een bezoeker verwarrend, en voor een
+  zoekmachine erger: die mag dan aannemen dat al die adressen echte
+  pagina's zijn en gaat ze indexeren als kopieën van de voorpagina.
+
+  Cloudflare Pages serveert /404.html vanzelf met de juiste statuscode
+  zodra het bestand er is.
+
+  Eén taal, want een statisch 404-bestand weet niet via welke taalroute
+  iemand binnenkwam. De Engelse regel staat eronder.
+*/
+import Base from '../layouts/Base.astro';
+---
+<Base
+  taal="nl"
+  title="Pagina niet gevonden — Stichting Gema Rasa"
+  description="Deze pagina bestaat niet of is verhuisd."
+  noindex={true}
+>
+  <section class="block">
+    <div class="wrap">
+      <div class="vierentwintig">
+        <span class="kicker">404</span>
+        <h1>Deze pagina bestaat niet</h1>
+        <p>
+          Misschien is de link verouderd, of staat er een typefout in het adres.
+          <span lang="en">This page does not exist — try one of the links below.</span>
+        </p>
+        <div class="vierknoppen">
+          <a class="btn gold" href="/">Naar de voorpagina</a>
+          <a class="btn" href="/nieuws">Nieuws</a>
+          <a class="btn" href="/menukaart">Ons aanbod</a>
+          <a class="btn" href="/contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .vierentwintig { max-width: 620px; }
+  .vierentwintig h1 { margin: 10px 0 14px; font-size: clamp(30px, 5vw, 46px); font-weight: 400; }
+  .vierentwintig p {
+    font-family: 'Poppins', sans-serif; font-weight: 300;
+    font-size: 16px; line-height: 1.75; color: #4a4a4a; margin: 0 0 26px;
+  }
+  .vierentwintig p span { display: block; margin-top: 6px; color: var(--gray); font-size: 15px; }
+  .vierknoppen { display: flex; flex-wrap: wrap; gap: 12px; }
+</style>
