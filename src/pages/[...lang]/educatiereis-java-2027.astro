@@ -159,7 +159,15 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
     <div class="wrap">
       <div><b>{reisperiode}</b> · {t(taal, 'jv.dagen')}</div>
       <div><b>{t(taal, 'jv.plaats')}</b> · Java, Indonesië</div>
-      <div>{t(taal, 'jv.reserverenTot')} <b>{datum(REIS.reserverenTot)}</b></div>
+      {/*
+        Hier stond "Reserveren kan t/m 31 oktober 2026", met de datum vet.
+        Dat leest als een sluitingsdatum, en dat is het niet: die datum staat
+        er alleen omdat wie zich dit najaar aanmeldt de betaling het ruimst
+        kan spreiden. Later aanmelden mag, zolang er plek is. Een harde
+        deadline die geen deadline is, kost je juist aanmeldingen van mensen
+        die denken dat ze te laat zijn.
+      */}
+      <div><b>{t(taal, 'jv.plekVrij')}</b> · {t(taal, 'jv.plekUitleg')}</div>
     </div>
   </div>
 
@@ -310,6 +318,7 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
         ))}
       </div>
 
+      <p class="jv-soepel">{t(taal, 'jv.betDatums')}</p>
       <p class="jv-soepel">{t(taal, 'jv.betSoepel')}</p>
     </div>
   </section>

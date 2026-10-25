@@ -14,6 +14,9 @@ export const javaNL: Record<string, string> = {
   'jv.dagen': '15 dagen, zondag tot zondag',
   'jv.plaats': 'Yogyakarta & omstreken',
   'jv.reserverenTot': 'Reserveren kan t/m',
+  'jv.plekVrij': 'Er is nog plek',
+  'jv.plekUitleg': 'aanmelden kan zolang de groep niet vol is',
+  'jv.betDatums': 'De data hierboven horen bij wie zich dit najaar aanmeldt — zo staat het bedrag het ruimst verspreid. Meld je je later aan, dan schuiven de termijnen mee: je betaalt de reservering bij aanmelding en de rest ruim voor vertrek.',
 
   'jv.progKicker': 'Het programma',
   'jv.progTitel': 'Je bezoekt Java niet als toerist, je doet mee',
@@ -159,6 +162,9 @@ export const javaEN: Record<string, string> = {
   'jv.dagen': '15 days, Sunday to Sunday',
   'jv.plaats': 'Yogyakarta & surroundings',
   'jv.reserverenTot': 'Reservations until',
+  'jv.plekVrij': 'Places still available',
+  'jv.plekUitleg': 'you can sign up as long as the group is not full',
+  'jv.betDatums': 'The dates above apply if you sign up this autumn — that spreads the amount out the most. If you join later, the instalments move with you: you pay the reservation when you sign up and the rest well before departure.',
 
   'jv.progKicker': 'The programme',
   'jv.progTitel': "You don't visit Java as a tourist, you take part",
@@ -304,6 +310,9 @@ export const javaID: Record<string, string> = {
   'jv.dagen': '15 hari, Minggu sampai Minggu',
   'jv.plaats': 'Yogyakarta & sekitarnya',
   'jv.reserverenTot': 'Pemesanan sampai',
+  'jv.plekVrij': 'Masih ada tempat',
+  'jv.plekUitleg': 'Anda bisa mendaftar selama rombongan belum penuh',
+  'jv.betDatums': 'Tanggal di atas berlaku bila Anda mendaftar musim gugur ini — dengan begitu pembayaran paling tersebar. Bila mendaftar lebih lambat, angsuran ikut bergeser: Anda membayar pemesanan saat mendaftar dan sisanya jauh sebelum keberangkatan.',
 
   'jv.progKicker': 'Programnya',
   'jv.progTitel': 'Anda bukan datang sebagai turis, Anda ikut serta',
