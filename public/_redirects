@@ -14,3 +14,57 @@
 /beheer/*    https://beheer.stichtinggemarasa.com/beheer/:splat 302
 /studio      https://beheer.stichtinggemarasa.com/studio      302
 /studio/*    https://beheer.stichtinggemarasa.com/studio/:splat 302
+
+# ---------------------------------------------------------------------------
+# Adressen uit de Webflow-tijd.
+#
+# Uit Search Console, periode 25 juli t/m 24 oktober 2026: 52 oude adressen
+# kregen samen zo'n 900 vertoningen en 17 kliks, en gaven alle 52 een 404.
+# Dat was niet altijd zichtbaar -- zolang er geen 404-pagina was, kreeg je
+# de voorpagina met code 200 terug. Nu er wel een is, zijn het echte 404's,
+# en die gooien de waarde weg die die adressen in drie jaar hebben opgebouwd.
+#
+# Dus doorverwijzen naar wat ervoor in de plaats is gekomen. Per taal apart,
+# want Cloudflare Pages kent geen voorvoegsel-patroon.
+#
+# 301 en niet 302: deze adressen komen niet terug.
+
+# De oude evenementpagina's. Echo's van Java heeft inmiddels een eigen site;
+# de rest waren voorstellingen en projecten en horen bij het nieuwsarchief.
+/event/echos-van-java-*            https://echosvanjava.nl/   301
+/en/event/echos-van-java-*         https://echosvanjava.nl/   301
+/id/event/echos-van-java-*         https://echosvanjava.nl/   301
+/event/cara-jawa                   /nieuws/cara-jawa-javaans-leren/   301
+/event/*                           /nieuws/   301
+/en/event/*                        /en/nieuws/   301
+/id/event/*                        /id/nieuws/   301
+
+# De oude nieuwsberichten. Waar de slug nog bestaat gaat hij naar het
+# bericht zelf; de rest naar het archief.
+/blog-posts/stichting-gema-rasa-start-project-onzichtbare-verhalen-in-den-haag   /nieuws/stichting-gema-rasa-start-project-onzichtbare-verhalen-in-den-haag/   301
+/blog-posts/cultural-homecoming                                                  /nieuws/cultural-homecoming/   301
+/blog-posts/een-gedenkwaardige-ontmoeting-bij-de-indonesische-ambassade          /nieuws/een-gedenkwaardige-ontmoeting-bij-de-indonesische-ambassade/   301
+/blog-posts/de-reis-van-ference-*                                                /nieuws/reis-van-ference/   301
+/blog-posts/stichting-gema-rasa-een-nieuw-begin-*                                /nieuws/een-nieuw-begin-en-spannende-toekomstplannen/   301
+/blog-posts/project-verrijking-javaanse-podiumkunst-*                            /nieuws/project-verrijking-javaanse-podiumkunst-gaat-officieel-van-start/   301
+/blog-posts/*                      /nieuws/   301
+/en/blog-posts/*                   /en/nieuws/   301
+/id/blog-posts/*                   /id/nieuws/   301
+
+# Categoriepagina's van het oude blog.
+/posts-categories/*                /nieuws/   301
+/en/posts-categories/*             /en/nieuws/   301
+/id/posts-categories/*             /id/nieuws/   301
+
+# De profielpagina's per lid. Die zijn er niet meer; de ledenpagina wel.
+/sgr-leden/*                       /leden/   301
+/en/sgr-leden/*                    /en/leden/   301
+/id/sgr-leden/*                    /id/leden/   301
+/leadership                        /leden/   301
+/en/leadership                     /en/leden/   301
+/id/leadership                     /id/leden/   301
+
+# De pagina's per vriend of partner.
+/vrienden/*                        /de-vrienden-van/   301
+/en/vrienden/*                     /en/de-vrienden-van/   301
+/id/vrienden/*                     /id/de-vrienden-van/   301
