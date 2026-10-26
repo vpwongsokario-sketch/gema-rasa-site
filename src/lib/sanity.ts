@@ -567,6 +567,15 @@ function mailNaarPagina(html: string, nieuwsbriefPad: string): { stijl: string; 
   const inhoud = body
     .replace(/\{\{\s*(afmeldlink|unsubscribe_link)\s*\}\}/gi, nieuwsbriefPad)
     .replace(/\{\{\s*(voornaam|naam)\s*\}\}/gi, '')
+    /**
+     * Een h1 uit de mail wordt hier een h2.
+     *
+     * Op de pagina is het onderwerp van de nieuwsbrief de kop; wat daarbinnen
+     * staat is een onderdeel daarvan. Lieten we de mail zijn eigen h1 houden,
+     * dan stonden er twee bovenste koppen op één pagina -- en de ene mail die
+     * geen h1 had, had er helemaal geen. Nu is het voor alle brieven gelijk.
+     */
+    .replace(/<(\/?)h1(\s|>)/gi, '<$1h2$2')
 
   return { stijl, inhoud }
 }

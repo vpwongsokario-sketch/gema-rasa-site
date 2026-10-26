@@ -41,6 +41,7 @@ const datumLang = brief.datum
   <section class="block">
     <div class="wrap">
       <p class="briefterug"><a href={pad(taal, '/nieuwsbrief')}>← Alle nieuwsbrieven</a></p>
+      <h1 class="briefonderwerp">{brief.onderwerp}</h1>
       <p class="briefkop">
         Dit is de nieuwsbrief van <strong>{datumLang}</strong>, zoals hij is verstuurd.
         Prijzen en data die erin staan, kunnen inmiddels veranderd zijn.
@@ -59,6 +60,12 @@ const datumLang = brief.datum
 
 <style>
   .briefterug { font-size: 14px; margin-bottom: 18px; }
+  /* Het onderwerp is de kop van de pagina; de mail eronder heeft alleen nog
+     tussenkoppen. */
+  .briefonderwerp {
+    max-width: 640px; font-size: clamp(26px, 4vw, 38px); line-height: 1.2;
+    margin: 0 0 18px;
+  }
   .briefkop {
     max-width: 640px; font-size: 15px; line-height: 1.7; color: var(--muted);
     border-left: 3px solid var(--line); padding-left: 16px;

@@ -14,9 +14,40 @@ const {
   seo,               // CMS-override {titel, beschrijving, afbeelding} — leeg = gewone tekst
 } = Astro.props;
 
-// Een ingevuld SEO-veld in het CMS wint altijd van de standaardtekst.
-const paginaTitel = seo?.titel || title || t(taal, 'home.titel');
-const paginaOmschrijving = seo?.beschrijving || description || t(taal, 'home.omschrijving');
+/**
+ * Een ingevuld SEO-veld in het CMS wint van de standaardtekst — maar alleen
+ * op het Nederlands.
+ *
+ * Het CMS heeft per pagina één titel en één omschrijving, en die zijn in het
+ * Nederlands geschreven. Lieten we ze ook op /en/ en /id/ gelden, dan stond
+ * er een Nederlandse regel in Google boven een Engelse pagina. Dat gebeurde
+ * ook: 92 van de 100 vertaalde pagina's hadden een Nederlandse titel, samen
+ * goed voor 2.394 vertoningen met een doorklik van 2,4% tegen 9,4% op het
+ * Nederlands.
+ *
+ * De vertalingen bestonden al in src/i18n/paginas.ts; ze werden alleen
+ * overschreven. Vandaar deze regel en niet 28 losse reparaties. Komt er ooit
+ * een vertaald SEO-veld in de Studio, dan kan dat hier erbij.
+ */
+const cmsSeo = taal === 'nl' ? seo : null;
+const ruweTitel = cmsSeo?.titel || title || t(taal, 'home.titel');
+const paginaOmschrijving = cmsSeo?.beschrijving || description || t(taal, 'home.omschrijving');
+
+/**
+ * Bij een lange kop valt de naam van de stichting weg.
+ *
+ * Google toont ongeveer 65 tekens. Een nieuwsbericht als "De Reis van
+ * Ference Jenilee Wongsokario-Nojotaroeno, Voorzitter van Stichting Gema
+ * Rasa — Stichting Gema Rasa" is 109 tekens: wat de lezer te zien krijgt
+ * houdt op in de kop, en het staartje staat er twee keer. Negentien
+ * Nederlandse pagina's zaten er overheen.
+ *
+ * Bij een korte kop blijft de naam staan; die helpt mensen herkennen van wie
+ * het resultaat is. Past hij niet, dan wint de kop zelf — afkappen doet
+ * Google toch al, en dan liever zonder dat de naam de inhoud wegdrukt.
+ */
+const STAART = /\s*[—|-]\s*(Nieuwsbrief\s+)?Stichting Gema Rasa\s*$/;
+const paginaTitel = ruweTitel.length > 65 ? ruweTitel.replace(STAART, '') : ruweTitel;
 const deelBron = seo?.afbeelding || ogImage;
 
 // Het huidige pad zonder taalvoorvoegsel, zodat de taalwisselaar naar

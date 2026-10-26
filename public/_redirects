@@ -68,3 +68,14 @@
 /vrienden/*                        /de-vrienden-van/   301
 /en/vrienden/*                     /en/de-vrienden-van/   301
 /id/vrienden/*                     /id/de-vrienden-van/   301
+
+# www naar het adres zonder www.
+#
+# Beide adressen gaven een 200, dus Google zag de site twee keer. In de
+# Search Console-uitdraai van 26 oktober 2026 staan 89 www-adressen met 1.813
+# vertoningen -- meer dan de gewone adressen. De canonical wees al naar het
+# adres zonder www, maar dat is een hint; dit is een afslag.
+#
+# Absolute adressen, want een regel met alleen een pad geldt voor elk domein
+# dat op deze site uitkomt en zou dan een eindeloze lus maken.
+https://www.stichtinggemarasa.com/*  https://stichtinggemarasa.com/:splat  301!
