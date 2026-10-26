@@ -148,8 +148,17 @@ export async function getNieuwsArtikelen(taal: string = 'nl') {
     datumLabel: d.datum ? datumLabel(d.datum, taal) : '',
     afbeelding: img(d.afbeelding, '/assets/perf-gamelan.jpg'),
     body: vertaald(d, 'body', taal) ?? null,
-    seoTitel: d.seo?.titel ?? '',
-    seoBeschrijving: d.seo?.beschrijving ?? '',
+    /**
+     * Het SEO-veld geldt alleen op het Nederlands.
+     *
+     * Er is per artikel één titel en één omschrijving in de Studio, in het
+     * Nederlands, en die won van de vertaalde kop die er wél is (titel_en,
+     * titel_id). Daardoor stond er in Google een Nederlandse regel boven een
+     * Engels artikel. Zelfde reden als in layouts/Base.astro; het beeld mag
+     * wel overal gelden, want een foto heeft geen taal.
+     */
+    seoTitel: taal === 'nl' ? (d.seo?.titel ?? '') : '',
+    seoBeschrijving: taal === 'nl' ? (d.seo?.beschrijving ?? '') : '',
     seoAfbeelding: beeldOfLeeg(d.seo?.afbeelding),
   }));
 }
