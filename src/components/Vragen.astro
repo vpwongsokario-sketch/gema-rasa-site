@@ -1,0 +1,69 @@
+---
+/*
+  Vragen met hun antwoord, en dezelfde vragen als gestructureerde gegevens.
+
+  Waarom dit meer is dan een uitklaplijstje: een zoekmachine of een
+  AI-dienst die iemands vraag beantwoordt, zoekt naar een pagina waar die
+  vraag létterlijk staat met een antwoord eronder. Staat het antwoord
+  verstopt in een lopende alinea, dan wordt onze pagina niet gekozen —
+  ook al staat het er gewoon.
+
+  Alleen antwoorden die ergens op de site te controleren zijn. Een verzonnen
+  prijs of een verzonnen looptijd is erger dan geen antwoord: die haalt
+  iemand aan en dan klopt het niet.
+*/
+interface Vraag {
+  v: string;
+  a: string;
+}
+const { kicker, titel, vragen, open = 0 } = Astro.props as {
+  kicker?: string;
+  titel?: string;
+  vragen: Vraag[];
+  open?: number;
+};
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: vragen.map((q) => ({
+    '@type': 'Question',
+    name: q.v,
+    acceptedAnswer: { '@type': 'Answer', text: q.a },
+  })),
+};
+---
+<section class="block" id="vragen">
+  <div class="wrap">
+    {(kicker || titel) && (
+      <div class="section-head">
+        {kicker && <span class="kicker">{kicker}</span>}
+        {titel && <h2>{titel}</h2>}
+      </div>
+    )}
+    <div class="vragenlijst">
+      {vragen.map((q, i) => (
+        <details open={i === open}>
+          <summary>{q.v}</summary>
+          <p set:html={q.a} />
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+
+<style>
+  .vragenlijst { max-width: 780px; margin-top: 34px; }
+  .vragenlijst details { border-bottom: 1px solid var(--line); padding: 16px 0; }
+  .vragenlijst summary { cursor: pointer; font-size: 17.5px; list-style: none; }
+  .vragenlijst summary::-webkit-details-marker { display: none; }
+  .vragenlijst summary::after { content: ' +'; color: var(--orange-ink); font-weight: 600; }
+  .vragenlijst details[open] summary::after { content: ' –'; }
+  .vragenlijst p {
+    margin: 12px 0 0; font-family: 'Poppins', sans-serif; font-weight: 300;
+    font-size: 15.5px; line-height: 1.75; color: #4a4a4a; max-width: 64ch;
+  }
+  .vragenlijst a { border-bottom: 1px solid var(--line); }
+</style>

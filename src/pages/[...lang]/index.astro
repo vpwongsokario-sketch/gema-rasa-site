@@ -3,6 +3,7 @@ import { taalPaden, t, pad } from '../../i18n/index.ts';
 export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
 import Base from '../../layouts/Base.astro';
+import Vragen from '../../components/Vragen.astro';
 import { getHomepage, getNieuws, getAgenda, getGalerij, getInitiatieven, getAanbod } from '../../lib/sanity.ts';
 
 const { hero, productie, merch, seo: paginaSeo } = await getHomepage(taal);
@@ -237,6 +238,27 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
       </div>
     </div>
   </section>
+
+  {/*
+    Vragen met hun antwoord, vlak voor het einde van de pagina.
+
+    Alles wat hier staat is elders op de site te controleren: de prijzen
+    komen van de menukaart, de oefenlocatie van de contactpagina, de
+    festivaldatum van echosvanjava.nl. Geen enkel antwoord is hier bedacht.
+  */}
+  <Vragen
+    kicker={t(taal, 'home.vraagKicker')}
+    titel={t(taal, 'home.vraagTitel')}
+    vragen={[
+      { v: t(taal, 'vraag.wieV'), a: t(taal, 'vraag.wieA') },
+      { v: t(taal, 'vraag.boekenV'), a: t(taal, 'vraag.boekenA') },
+      { v: t(taal, 'vraag.kostenV'), a: t(taal, 'vraag.kostenA') },
+      { v: t(taal, 'vraag.oefenenV'), a: t(taal, 'vraag.oefenenA') },
+      { v: t(taal, 'vraag.lerenV'), a: t(taal, 'vraag.lerenA') },
+      { v: t(taal, 'vraag.festivalV'), a: t(taal, 'vraag.festivalA') },
+      { v: t(taal, 'vraag.steunV'), a: t(taal, 'vraag.steunA') },
+    ]}
+  />
 
   <!-- ONZE INITIATIEVEN -->
   {initiatieven.length > 0 && (
