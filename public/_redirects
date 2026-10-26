@@ -31,9 +31,9 @@
 
 # De oude evenementpagina's. Echo's van Java heeft inmiddels een eigen site;
 # de rest waren voorstellingen en projecten en horen bij het nieuwsarchief.
-/event/echos-van-java-*            https://echosvanjava.nl/   301
-/en/event/echos-van-java-*         https://echosvanjava.nl/   301
-/id/event/echos-van-java-*         https://echosvanjava.nl/   301
+/event/echos-van-java-*            /echos-van-java/      301
+/en/event/echos-van-java-*         /en/echos-van-java/   301
+/id/event/echos-van-java-*         /id/echos-van-java/   301
 /event/cara-jawa                   /nieuws/cara-jawa-javaans-leren/   301
 /event/*                           /nieuws/   301
 /en/event/*                        /en/nieuws/   301
