@@ -591,3 +591,94 @@ export async function getNieuwsbrieven(nieuwsbriefPad = '/nieuwsbrief') {
     }
   })
 }
+
+/* ---------- Wat we aanbieden ---------- */
+
+/**
+ * De vier dingen die je van de stichting kunt krijgen, voor de homepage.
+ *
+ * De prijzen komen uit dezelfde bronnen als de pagina's waar je ze koopt:
+ * de kalender en het magazine uit hun eigen documenten, de reis uit die van
+ * de reis. Zo staat er op de voorpagina nooit een ander bedrag dan bij het
+ * afrekenen -- en dat is precies het soort verschil waar mensen op afhaken.
+ *
+ * Cara Jawa heeft geen document in dit Sanity: dat is een losse app. Die
+ * staat daarom in de terugval hieronder, zonder bedrag, want een prijs die
+ * nergens vandaan komt gaat ooit afwijken.
+ *
+ * Valt er iets weg, dan valt dat ene blok weg en blijven de andere staan.
+ */
+export async function getAanbod(taal: string = 'nl') {
+  const euro = (n: number) => `\u20ac\u00a0${n.toFixed(2).replace('.', ',')}`;
+
+  const [kalender, edities, reis] = await Promise.all([
+    safe<any>(
+      `*[_type == "kalender" && teKoop == true] | order(jaar desc)[0]{
+        titel, jaar, ondertitel, prijs, bureauPrijs, digitalePrijs, bestellenTot,
+        "beeld": coalesce(mockups[formaat == "beide"][0].asset->url, beelden[0].asset->url)
+      }`,
+    ),
+    getMagazines(taal),
+    getReis(),
+  ]);
+
+  const uit: Array<Record<string, unknown>> = [];
+
+  if (kalender) {
+    const vanaf = Math.min(
+      ...[kalender.prijs, kalender.bureauPrijs, kalender.digitalePrijs].filter(
+        (n: unknown): n is number => typeof n === 'number' && n > 0,
+      ),
+    );
+    uit.push({
+      sleutel: 'kalender',
+      naam: `${kalender.titel} ${kalender.jaar}`,
+      regel: kalender.ondertitel || 'Javaanse kalender met je weton bij elke dag',
+      prijs: Number.isFinite(vanaf) ? `vanaf ${euro(vanaf)}` : '',
+      beeld: kalender.beeld || '',
+      url: 'https://winkel.stichtinggemarasa.com/kalender',
+      extern: true,
+    });
+  }
+
+  const editie = (edities || [])[0];
+  if (editie) {
+    uit.push({
+      sleutel: 'magazine',
+      naam: editie.titel,
+      regel: 'Ons eigen cultureel magazine — verhalen uit de gemeenschap',
+      prijs: editie.prijsRegel || '',
+      beeld: editie.cover || '',
+      url: '/suwara-jawa',
+      extern: false,
+    });
+  }
+
+  uit.push({
+    sleutel: 'carajawa',
+    naam: 'Cara Jawa',
+    regel: 'Javaans leren, woord voor woord — met de uitspraak erbij',
+    prijs: '',
+    // Cara Jawa is een losse app zonder document hier; dit beeld staat al in
+    // de mediatheek en wordt ook bij het nieuws over het woordenboek gebruikt.
+    beeld:
+      'https://cdn.sanity.io/images/6q1rydes/production/9ce8c03ef5c7109a7c3e330f70c0d6508ed0a67d-2048x652.jpg',
+    url: 'https://dictionary.carajawa.nl/',
+    extern: true,
+  });
+
+  if (reis) {
+    const vanaf = typeof reis.prijsKind === 'number' ? reis.prijsKind : reis.prijsVolwassene;
+    uit.push({
+      sleutel: 'reis',
+      naam: reis.titel || 'Educatiereis naar Java',
+      regel: 'Vijftien dagen Yogyakarta — dans, gamelan, tempels en je eigen optreden',
+      prijs: typeof vanaf === 'number' ? `vanaf ${euro(vanaf)}` : '',
+      beeld: '/assets/java2027/ramayana.jpg',
+      url: '/educatiereis-java-2027',
+      extern: false,
+    });
+  }
+
+  return uit;
+}

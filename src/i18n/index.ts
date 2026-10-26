@@ -43,6 +43,10 @@ const nl: Woordenboek = {
   'nav.home': 'Home',
   'nav.nieuws': 'Nieuws',
   'nav.nieuwsbrief': 'Nieuwsbrief',
+  'home.aanbodKicker': 'Van ons',
+  'home.aanbodTitel': 'Mee naar huis',
+  'home.aanbodTekst': 'Een kalender, een magazine, een woordenboek en een reis. Alles wat we maken komt uit dezelfde bron, en wat het opbrengt gaat terug naar het doorgeven van de Javaanse cultuur.',
+  'home.aanbodBekijk': 'Bekijken →',
   'nav.cursus': 'Cursus',
 
   // footer
@@ -117,6 +121,10 @@ const en: Woordenboek = {
   'nav.home': 'Home',
   'nav.nieuws': 'News',
   'nav.nieuwsbrief': 'Newsletter',
+  'home.aanbodKicker': 'From us',
+  'home.aanbodTitel': 'Take something home',
+  'home.aanbodTekst': 'A calendar, a magazine, a dictionary and a journey. Everything we make comes from the same source, and what it earns goes back into passing on Javanese culture.',
+  'home.aanbodBekijk': 'Take a look →',
   'nav.cursus': 'Course',
 
   'footer.over': 'A cultural organisation dedicated to Javanese culture in the Netherlands. With passion and commitment we bring the rich traditions of Java to a wide audience.',
@@ -187,6 +195,10 @@ const id: Woordenboek = {
   'nav.home': 'Beranda',
   'nav.nieuws': 'Berita',
   'nav.nieuwsbrief': 'Buletin',
+  'home.aanbodKicker': 'Dari kami',
+  'home.aanbodTitel': 'Bawa pulang',
+  'home.aanbodTekst': 'Kalender, majalah, kamus dan perjalanan. Semua yang kami buat berasal dari sumber yang sama, dan hasilnya kembali untuk mewariskan budaya Jawa.',
+  'home.aanbodBekijk': 'Lihat →',
   'nav.cursus': 'Kursus',
 
   'footer.over': 'Sebuah organisasi budaya yang berdedikasi untuk budaya Jawa di Belanda. Dengan penuh semangat kami menghadirkan kekayaan tradisi Jawa kepada khalayak luas.',

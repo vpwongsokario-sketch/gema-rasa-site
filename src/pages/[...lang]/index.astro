@@ -3,13 +3,14 @@ import { taalPaden, t, pad } from '../../i18n/index.ts';
 export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
 import Base from '../../layouts/Base.astro';
-import { getHomepage, getNieuws, getAgenda, getGalerij, getInitiatieven } from '../../lib/sanity.ts';
+import { getHomepage, getNieuws, getAgenda, getGalerij, getInitiatieven, getAanbod } from '../../lib/sanity.ts';
 
 const { hero, productie, merch, seo: paginaSeo } = await getHomepage(taal);
 const nieuws = await getNieuws(taal);
 const agenda = await getAgenda(taal);
 const galerij = await getGalerij();
 const initiatieven = await getInitiatieven();
+const aanbod = await getAanbod(taal);
 
 // Titel met accent-woord in goud (uit CMS)
 const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.titelAccent)
@@ -40,6 +41,47 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
       <span>{t(taal, "home.strip4")}</span>
     </div>
   </div>
+
+  {/*
+    WAT WE AANBIEDEN
+
+    Vier dingen die je van de stichting kunt krijgen, hoog op de pagina.
+    Ze stonden verspreid over de site -- de kalender in een andere winkel,
+    het magazine op een eigen domein, het woordenboek in een losse app, de
+    reis op een diepe pagina -- en wie op de voorpagina kwam, zag er geen
+    van allen. Hier staan ze naast elkaar, met de prijs erbij.
+
+    De bedragen komen uit dezelfde bron als de pagina's waar je afrekent,
+    dus er kan op de voorpagina niets anders staan dan bij het betalen.
+  */}
+  {aanbod.length > 0 && (
+    <section class="block" id="aanbod">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="kicker">{t(taal, 'home.aanbodKicker')}</span>
+          <h2>{t(taal, 'home.aanbodTitel')}</h2>
+          <p>{t(taal, 'home.aanbodTekst')}</p>
+        </div>
+        <div class="aanbodgrid">
+          {aanbod.map((a: any) => (
+            <a
+              class="aanbodkaart"
+              href={a.extern ? a.url : pad(taal, a.url)}
+              target={a.extern ? '_blank' : undefined}
+              rel={a.extern ? 'noopener' : undefined}
+            >
+              <div class="aanbodbeeld" style={a.beeld ? `background-image:url('${a.beeld}')` : undefined}></div>
+              <div class="aanbodtekst">
+                <h3>{a.naam}</h3>
+                <p>{a.regel}</p>
+                <span class="aanbodprijs">{a.prijs || t(taal, 'home.aanbodBekijk')}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- UITGELICHTE PRODUCTIE (via CMS) -->
   {productie.actief && (
