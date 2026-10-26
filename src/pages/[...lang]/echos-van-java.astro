@@ -1,146 +1,68 @@
 ---
 /*
-  Echo's van Java op de site van de stichting.
+  Echo's van Java op de site van de stichting — bewust kort.
 
-  Uit Search Console: "echo's van java" en varianten daarop zijn samen goed
-  voor 444 vertoningen in drie maanden -- verreweg de grootste zoekvraag die
-  niet onze eigen naam is. Daar kwamen 7 kliks uit, op positie 6 tot 7.
+  Uit Search Console: "echo's van java" en varianten zijn samen goed voor 444
+  vertoningen in drie maanden, verreweg de grootste zoekvraag die niet onze
+  eigen naam is. Daar kwamen 7 kliks uit, op positie 6 tot 7, want er was
+  geen pagina over: Google toonde de voorpagina of een oud evenementadres.
 
-  De reden was simpel: er wás geen pagina over. Google toonde de voorpagina
-  of een oud evenementadres, en dat ziet er niet uit als het festival waar
-  iemand naar zoekt.
+  Het festival heeft een eigen domein. Deze pagina probeert dat niet te
+  evenaren en herhaalt bewust niet het programma, de prijzen of de
+  veelgestelde vragen — dan gaan twee sites om dezelfde zoekvraag vechten en
+  verliezen ze allebei. Hij doet één ding: de zoeker opvangen op het domein
+  dat al gevonden wordt, vertellen wat het is, en doorsturen.
 
-  Het festival heeft een eigen site. Deze pagina probeert die niet te
-  vervangen: hij beantwoordt de vraag en wijst door. Dat is beter dan twee
-  sites die om dezelfde zoekvraag vechten.
+  Om dezelfde reden staat hier geen Festival- of FAQPage-schema. Die hoort
+  bij echosvanjava.nl.
 */
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
-import Vragen from '../../components/Vragen.astro';
 import { taalPaden, t, pad } from '../../i18n/index.ts';
 
 export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
 
 const SITE = 'https://echosvanjava.nl/';
-const KAARTEN = 'https://winkel.stichtinggemarasa.com/tickets/echos-2027';
 const AFTERMOVIE = 'https://www.youtube.com/watch?v=kSetxVogBBU';
-
-const schema = {
-  '@context': 'https://schema.org',
-  '@type': 'Festival',
-  name: "Echo's van Java Festival 2027",
-  description:
-    "Festival over Javaanse en Surinaams-Javaanse cultuur: gamelan, dans, verhalen, ambacht en eten. Zaterdag 19 juni 2027 op Landgoed Vidaa in Bergschenhoek.",
-  startDate: '2027-06-19',
-  eventStatus: 'https://schema.org/EventScheduled',
-  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-  url: SITE,
-  location: {
-    '@type': 'Place',
-    name: 'Landgoed Vidaa',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'Hoeksekade 162',
-      postalCode: '2661 JL',
-      addressLocality: 'Bergschenhoek',
-      addressCountry: 'NL',
-    },
-  },
-  organizer: { '@type': 'Organization', name: 'Stichting Gema Rasa', url: 'https://stichtinggemarasa.com/' },
-  offers: {
-    '@type': 'Offer',
-    url: KAARTEN,
-    price: '6.50',
-    priceCurrency: 'EUR',
-    availability: 'https://schema.org/InStock',
-    validThrough: '2027-02-28',
-  },
-};
 ---
 <Base
   taal={taal}
   title="Echo's van Java Festival — 19 juni 2027 | Stichting Gema Rasa"
-  description="Echo's van Java is het festival over Javaanse en Surinaams-Javaanse cultuur: gamelan, dans, verhalen, ambacht en eten. Zaterdag 19 juni 2027 op Landgoed Vidaa in Bergschenhoek. Kaarten vanaf € 6,50, kinderen t/m 12 gratis."
-  jsonld={schema}
+  description="Echo's van Java is het festival van Stichting Gema Rasa over Javaanse en Surinaams-Javaanse cultuur. Zaterdag 19 juni 2027 op Landgoed Vidaa in Bergschenhoek. Alles over het programma en de kaarten staat op echosvanjava.nl."
 >
   <PageHero
     sleutel="echos-van-java"
-    eyebrow="Festival · zaterdag 19 juni 2027"
+    eyebrow="Ons festival · zaterdag 19 juni 2027"
     titel="Echo's van Java"
     tekst="Een dag Javaanse en Surinaams-Javaanse cultuur op Landgoed Vidaa — gamelan, dans, verhalen, ambacht en eten."
     foto="/assets/perf3.jpg"
   />
 
-  <div class="ejv-strook">
-    <div class="wrap">
-      <div><b>Zaterdag 19 juni 2027</b> · 12.00 – 19.00 uur (onder voorbehoud)</div>
-      <div><b>Landgoed Vidaa</b> · Hoeksekade 162, Bergschenhoek</div>
-      <div><b>Vanaf € 6,50</b> · kinderen t/m 12 jaar gratis</div>
-    </div>
-  </div>
-
   <section class="block">
     <div class="wrap">
       <div class="prose">
-        <h2>Wat het is</h2>
         <p class="lead">
-          Echo's van Java is ons eigen festival: één dag waarop Javaanse cultuur uit Nederland,
-          Suriname en Indonesië samenkomt. Gamelan en dans op het podium, verhalen in het
-          verhalenhuis, workshops waarin je zelf batik maakt of leert vlechten, een expositie,
-          een kindertuin — en Javaans eten van makers uit de gemeenschap.
+          Echo's van Java is het festival van Stichting Gema Rasa: één dag waarop Javaanse cultuur
+          uit Nederland, Suriname en Indonesië samenkomt. Gamelan en dans op het podium, verhalen in
+          het verhalenhuis, workshops, een expositie, een kindertuin en Javaans eten van makers uit
+          de gemeenschap.
         </p>
         <p>
-          Het festival is een initiatief van Stichting Gema Rasa. De editie van 2026 had als thema
-          <em>Roots in Resonance</em>; er staat een aftermovie online die laat zien hoe zo'n dag eruitziet.
+          De volgende editie is op <strong>zaterdag 19 juni 2027</strong>, op Landgoed Vidaa in
+          Bergschenhoek. Het festival heeft een eigen site: daar staat het programma, daar koop je
+          je kaarten, en daar meld je je aan als standhouder.
         </p>
       </div>
 
-      <p style="margin-top:30px;display:flex;flex-wrap:wrap;gap:12px">
-        <a class="btn gold" href={KAARTEN} target="_blank" rel="noopener">Kaarten bestellen</a>
-        <a class="btn" href={SITE} target="_blank" rel="noopener">Naar echosvanjava.nl →</a>
-        <a class="btn btn-outline" href={AFTERMOVIE} target="_blank" rel="noopener">Bekijk de aftermovie</a>
+      <p class="ejv-knoppen">
+        <a class="btn gold" href={SITE} target="_blank" rel="noopener">Naar echosvanjava.nl →</a>
+        <a class="btn" href={AFTERMOVIE} target="_blank" rel="noopener">Bekijk de aftermovie van 2026</a>
       </p>
     </div>
   </section>
-
-  <Vragen
-    kicker="Veelgestelde vragen"
-    titel="Wat je wilt weten"
-    vragen={[
-      {
-        v: "Wanneer is Echo's van Java 2027?",
-        a: 'Zaterdag 19 juni 2027, van 12.00 tot 19.00 uur. Die tijden staan nog onder voorbehoud.',
-      },
-      {
-        v: 'Waar is het festival?',
-        a: 'Op Landgoed Vidaa, Hoeksekade 162 in Bergschenhoek. Parkeren is gratis, direct naast het terrein.',
-      },
-      {
-        v: 'Wat kost een kaartje?',
-        a: 'Tot en met 28 februari 2027 betaal je de early birdprijs van € 6,50; daarna is een dagticket € 7,50. Kinderen tot en met 12 jaar zijn gratis — bestel wel een gratis kinderkaart mee, dan weten we op hoeveel mensen we rekenen.',
-      },
-      {
-        v: 'Wat is er te doen?',
-        a: 'Gamelan en dans op het podium, verhalen in het verhalenhuis, workshops zoals batik en janur, een expositie, een kindertuin en standhouders met eten, ambacht en culturele initiatieven. Het programma voor 2027 maken we de komende maanden bekend.',
-      },
-      {
-        v: 'Kan ik standhouder worden?',
-        a: 'Ja, we zoeken ze nog. Kook je, maak je iets met je handen, of vertegenwoordig je een organisatie die hier thuishoort? Meld je aan via <a href="https://echosvanjava.nl/standhouders/" target="_blank" rel="noopener">echosvanjava.nl/standhouders</a>.',
-      },
-      {
-        v: 'Hoe kom ik er met het openbaar vervoer?',
-        a: 'Het dichtstbijzijnde station is Rotterdam Meijersplein, aan metrolijn E. Bij de vorige editie reed daarvandaan een gratis pendelbus; of dat in 2027 weer zo is laten we ruim van tevoren weten.',
-      },
-    ]}
-  />
 </Base>
 
 <style>
-  .ejv-strook { background: var(--indigo, #1f2a44); color: #fff; }
-  .ejv-strook .wrap {
-    display: flex; flex-wrap: wrap; gap: 8px 36px; padding: 18px 0;
-    font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 14.5px;
-  }
-  .ejv-strook b { font-weight: 600; }
+  .ejv-knoppen { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 </style>
