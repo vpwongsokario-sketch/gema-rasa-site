@@ -1,0 +1,225 @@
+---
+/*
+  De gamelancursus, publiek vindbaar.
+
+  De cursus zelf staat in het ledenportaal, achter een inlog. Dat is prima
+  voor wie al lid is, maar onvindbaar voor wie zoekt op "Javaanse gamelan
+  leren" -- en dat is precies het publiek dat we zoeken. Deze pagina staat op
+  de gewone site, vertelt wat de cursus is en wijst door.
+
+  De lessenlijst staat er voluit. Dat is geen opvulling: het is het antwoord
+  op de vraag die iedereen heeft ("wat leer ik dan?"), en het is het enige
+  deel van de cursus dat een zoekmachine kan lezen.
+
+  De vragen onderaan staan ook als gestructureerde gegevens in de pagina,
+  zodat een zoekmachine of een AI-dienst het antwoord kan overnemen in plaats
+  van alleen een link te tonen.
+*/
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { taalPaden, t, pad } from '../../i18n/index.ts';
+
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+
+const PORTAAL = 'https://leden.stichtinggemarasa.com/cursussen';
+
+const lessen = [
+  'What is gamelan?',
+  'The instruments and their roles',
+  'Tuning and notation',
+  'Your first piece',
+  'Irama: time that breathes',
+  'The peking and interlocking',
+  'The bonang',
+  'Ladrang Wilujeng',
+  'The kendhang',
+  'Pathet',
+  'Soft instruments and voices',
+  'From buka to suwuk',
+  'Pélog',
+  'The bubaran',
+  'First steps on the gendèr',
+  'Gendhing, and how to keep learning',
+];
+
+const vragen = [
+  {
+    v: 'Wat kost de gamelancursus?',
+    a: 'Niets. De cursus is gratis te volgen; je maakt alleen een account aan met je e-mailadres.',
+  },
+  {
+    v: 'Moet ik al gamelan kunnen spelen?',
+    a: 'Nee. De cursus begint bij het begin: wat gamelan is, welke instrumenten er zijn en wat ze doen. Je hebt geen voorkennis en geen instrument nodig.',
+  },
+  {
+    v: 'In welke taal is de cursus?',
+    a: 'De video’s en het lesmateriaal zijn in het Engels. Het portaal eromheen is Nederlands.',
+  },
+  {
+    v: 'Hoe lang duurt de cursus?',
+    a: 'Zestien korte lessen die je in je eigen tempo volgt. Er is geen begindatum en geen einddatum; je kunt op elk moment beginnen en stoppen waar je wilt.',
+  },
+  {
+    v: 'Heb ik een instrument nodig?',
+    a: 'Nee. Dit is een cursus over hoe de gamelan in elkaar zit en hoe je hem leest en hoort. Wil je daarna echt spelen, dan ben je welkom bij onze gamelangroep die bij KizzMotions in Hoogvliet oefent.',
+  },
+  {
+    v: 'Hoe krijg ik toegang?',
+    a: 'Je gaat naar het ledenportaal en vult je e-mailadres in. Je krijgt een link in je mail waarmee je binnenkomt — een wachtwoord heb je niet nodig.',
+  },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Course',
+      name: 'Javaanse gamelan (Solo Style) in vogelvlucht',
+      description:
+        'Zestien korte lessen over de Centraal-Javaanse gamelan: de instrumenten, de stemmingen, de notatie en je eerste stukken. Gratis, in je eigen tempo.',
+      inLanguage: 'en',
+      isAccessibleForFree: true,
+      url: 'https://stichtinggemarasa.com/gamelancursus',
+      provider: { '@type': 'Organization', name: 'Stichting Gema Rasa', url: 'https://stichtinggemarasa.com/' },
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR', category: 'Free' },
+      hasCourseInstance: {
+        '@type': 'CourseInstance',
+        courseMode: 'online',
+        courseWorkload: 'PT8H',
+      },
+      numberOfCredits: undefined,
+      syllabusSections: lessen.map((naam, i) => ({
+        '@type': 'Syllabus',
+        name: `Lesson ${i + 1} — ${naam}`,
+        position: i + 1,
+      })),
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: vragen.map((q) => ({
+        '@type': 'Question',
+        name: q.v,
+        acceptedAnswer: { '@type': 'Answer', text: q.a },
+      })),
+    },
+  ],
+};
+---
+<Base
+  taal={taal}
+  title="Gamelancursus — Javaanse gamelan leren | Stichting Gema Rasa"
+  description="Gratis online cursus Javaanse gamelan: zestien korte lessen over de instrumenten, de stemmingen sléndro en pélog, de notatie en je eerste stukken. In je eigen tempo, geen voorkennis nodig."
+  jsonld={schema}
+>
+  <PageHero
+    sleutel="gamelancursus"
+    eyebrow="Cursus · gratis"
+    titel="Javaanse gamelan leren"
+    tekst="Zestien korte lessen over de gamelan van Midden-Java — van de eerste gongslag tot je eerste stukken."
+    foto="/assets/perf-gamelan.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      <div class="prose">
+        <h2>Wat je leert</h2>
+        <p class="lead">
+          Een gamelanorkest klinkt als één instrument, maar het zijn er tientallen die elk hun eigen
+          taak hebben. Deze cursus laat je horen wat er gebeurt: welk instrument de tijd aangeeft,
+          welk de melodie draagt, en waarom hetzelfde stuk twee keer anders kan klinken.
+        </p>
+        <p>
+          Je hebt geen voorkennis nodig en geen instrument. De video’s en het lesmateriaal zijn in
+          het Engels; het portaal eromheen is Nederlands. Bij elke les hoort een lesblad met de
+          kernpunten, de Javaanse woorden die voorbijkomen en vier vragen om jezelf te testen.
+        </p>
+      </div>
+
+      <div class="gc-feiten">
+        <div><b>16</b><span>korte lessen</span></div>
+        <div><b>Gratis</b><span>alleen een e-mailadres</span></div>
+        <div><b>Engels</b><span>video en lesmateriaal</span></div>
+        <div><b>Eigen tempo</b><span>geen begin- of einddatum</span></div>
+      </div>
+
+      <p style="margin-top:34px">
+        <a class="btn gold" href={PORTAAL} target="_blank" rel="noopener">Begin met de cursus →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="block batik">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">De lessen</span>
+        <h2>Zestien lessen, van gong tot gendhing</h2>
+      </div>
+      <ol class="gc-lessen">
+        {lessen.map((naam, i) => (
+          <li><span class="gc-nr">{String(i + 1).padStart(2, '0')}</span>{naam}</li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Veelgestelde vragen</span>
+        <h2>Wat je wilt weten</h2>
+      </div>
+      <div class="gc-vragen">
+        {vragen.map((q) => (
+          <details>
+            <summary>{q.v}</summary>
+            <p>{q.a}</p>
+          </details>
+        ))}
+      </div>
+      <p style="margin-top:30px">
+        <a class="btn gold" href={PORTAAL} target="_blank" rel="noopener">Naar het ledenportaal →</a>
+        <a class="btn" href={pad(taal, '/contact')} style="margin-left:10px">Een vraag stellen</a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .gc-feiten {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 40px;
+  }
+  .gc-feiten > div {
+    border: 1px solid var(--line); border-radius: 4px; padding: 20px 18px; background: #fff;
+  }
+  .gc-feiten b { display: block; font-size: 26px; font-weight: 400; line-height: 1.1; }
+  .gc-feiten span {
+    display: block; margin-top: 6px; font-family: 'Poppins', sans-serif;
+    font-weight: 300; font-size: 13.5px; color: var(--gray);
+  }
+  @media (max-width: 760px) { .gc-feiten { grid-template-columns: repeat(2, 1fr); } }
+
+  .gc-lessen { list-style: none; margin: 40px 0 0; padding: 0; columns: 2; column-gap: 46px; }
+  .gc-lessen li {
+    break-inside: avoid; padding: 11px 0; border-bottom: 1px solid var(--line);
+    font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 15px;
+  }
+  .gc-nr {
+    display: inline-block; min-width: 34px; font-weight: 600;
+    color: var(--orange-ink); font-size: 13px;
+  }
+  @media (max-width: 760px) { .gc-lessen { columns: 1; } }
+
+  .gc-vragen { max-width: 760px; margin-top: 34px; }
+  .gc-vragen details { border-bottom: 1px solid var(--line); padding: 16px 0; }
+  .gc-vragen summary {
+    cursor: pointer; font-size: 17px; list-style: none;
+  }
+  .gc-vragen summary::-webkit-details-marker { display: none; }
+  .gc-vragen summary::after { content: ' +'; color: var(--orange-ink); font-weight: 600; }
+  .gc-vragen details[open] summary::after { content: ' –'; }
+  .gc-vragen p {
+    margin: 12px 0 0; font-family: 'Poppins', sans-serif; font-weight: 300;
+    font-size: 15px; line-height: 1.7; color: #4a4a4a; max-width: 62ch;
+  }
+</style>

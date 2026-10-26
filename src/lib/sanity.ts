@@ -676,12 +676,21 @@ export async function getAanbod(taal: string = 'nl') {
   });
 
   if (reis) {
-    const vanaf = typeof reis.prijsKind === 'number' ? reis.prijsKind : reis.prijsVolwassene;
+    /*
+      Allebei de bedragen, niet alleen het laagste.
+      "vanaf 750" is het kindertarief en leest als de prijs van de reis;
+      wie dan op de pagina 1.000 ziet staan, voelt zich aan het lijntje
+      gehouden. Twee bedragen is eerlijker en nog steeds één regel.
+    */
+    const volwassen = typeof reis.prijsVolwassene === 'number' ? reis.prijsVolwassene : null;
+    const kind = typeof reis.prijsKind === 'number' ? reis.prijsKind : null;
     uit.push({
       sleutel: 'reis',
       naam: reis.titel || 'Educatiereis naar Java',
       regel: 'Vijftien dagen Yogyakarta — dans, gamelan, tempels en je eigen optreden',
-      prijs: typeof vanaf === 'number' ? `vanaf ${euro(vanaf)}` : '',
+      prijs: volwassen
+        ? `${euro(volwassen)} p.p.${kind ? ` \u00b7 kinderen ${euro(kind)}` : ''}`
+        : '',
       beeld: '/assets/java2027/ramayana.jpg',
       url: '/educatiereis-java-2027',
       extern: false,
