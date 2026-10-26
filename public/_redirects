@@ -69,13 +69,15 @@
 /en/vrienden/*                     /en/de-vrienden-van/   301
 /id/vrienden/*                     /id/de-vrienden-van/   301
 
-# www naar het adres zonder www.
+# www naar het adres zonder www: KAN HIER NIET.
 #
-# Beide adressen gaven een 200, dus Google zag de site twee keer. In de
-# Search Console-uitdraai van 26 oktober 2026 staan 89 www-adressen met 1.813
-# vertoningen -- meer dan de gewone adressen. De canonical wees al naar het
-# adres zonder www, maar dat is een hint; dit is een afslag.
+# Beide adressen geven een 200, dus Google ziet de site twee keer; in de
+# Search Console-uitdraai van 26 oktober 2026 staan 89 www-adressen met
+# 1.813 vertoningen. De canonical wijst al naar het adres zonder www, maar
+# dat is een hint en geen afslag.
 #
-# Absolute adressen, want een regel met alleen een pad geldt voor elk domein
-# dat op deze site uitkomt en zou dan een eindeloze lus maken.
-https://www.stichtinggemarasa.com/*  https://stichtinggemarasa.com/:splat  301!
+# Een regel met "https://www.../*" aan de linkerkant doet hier niets: in
+# Cloudflare Pages is het bronveld een pad, geen volledig adres. Geprobeerd
+# op 26 oktober 2026, www bleef 200 geven. Dit hoort thuis in een Redirect
+# Rule in het Cloudflare-dashboard (Rules -> Redirect Rules), op de zone
+# zelf en niet bij Pages.
