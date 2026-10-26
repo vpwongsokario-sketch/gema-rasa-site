@@ -13,6 +13,20 @@ const hero = '/assets/cursus-hero.jpg';
 const ttDans = 'https://www.tickettailor.com/events/stichtinggemarasa/2397435';
 const ttKendang = 'https://www.tickettailor.com/events/stichtinggemarasa/2397461';
 
+/*
+  Deze editie liep van 15 tot en met 25 september 2026.
+
+  De pagina bleef hem daarna aanbieden: "Aanmelden", "Reserveer je plek" en
+  in de gegevens voor zoekmachines zelfs availability: InStock. Wie er een
+  maand later op kwam, kreeg een cursus te koop die niet bestond.
+
+  Hij blijft staan -- het programma is het beste wat we hebben om te laten
+  zien wat zo'n cursus inhoudt -- maar als archief. De omslag gebeurt vanzelf
+  op de einddatum, zodat niemand eraan hoeft te denken.
+*/
+const LAATSTE_DAG = '2026-09-25';
+const geweest = new Date() > new Date(`${LAATSTE_DAG}T23:59:59`);
+
 const locatie = 'KizzMotions, Suikerbakkerstraat 40, 3194 AK Hoogvliet Rotterdam';
 const routeUrl = 'https://maps.google.com/?q=Suikerbakkerstraat+40,+3194+AK+Hoogvliet+Rotterdam';
 
@@ -117,7 +131,11 @@ const cursusSchema = [
       address: { '@type': 'PostalAddress', streetAddress: 'Suikerbakkerstraat 40', postalCode: '3194 AK', addressLocality: 'Hoogvliet Rotterdam', addressCountry: 'NL' },
     },
   },
-  offers: { '@type': 'Offer', price: '140', priceCurrency: 'EUR', url: c.url, availability: 'https://schema.org/InStock' },
+  // Een voorbije cursus heeft geen aanbod. Laat je dit staan, dan blijft
+  // Google hem tonen als iets wat je kunt kopen.
+  ...(geweest
+    ? { hasCourseInstance: undefined }
+    : { offers: { '@type': 'Offer', price: '140', priceCurrency: 'EUR', url: c.url, availability: 'https://schema.org/InStock' } }),
 }));
 ---
 <Base
@@ -136,10 +154,28 @@ const cursusSchema = [
     foto={hero}
   >
     <div class="hero-cta">
-      <a class="btn gold" href="#reserveren">{t(taal, 'cur.reserveerKicker')}</a>
-      <a class="btn ghost" href="#programma">{t(taal, 'cur.programmaKicker')}</a>
+      {geweest ? (
+        <>
+          <a class="btn gold" href={pad(taal, '/gamelancursus')}>{t(taal, 'cur.naarGamelan')}</a>
+          <a class="btn ghost" href="#programma">{t(taal, 'cur.programmaKicker')}</a>
+        </>
+      ) : (
+        <>
+          <a class="btn gold" href="#reserveren">{t(taal, 'cur.reserveerKicker')}</a>
+          <a class="btn ghost" href="#programma">{t(taal, 'cur.programmaKicker')}</a>
+        </>
+      )}
     </div>
   </PageHero>
+
+  {geweest && (
+    <div class="cur-geweest">
+      <div class="wrap">
+        <strong>{t(taal, 'cur.geweestKop')}</strong>
+        <span>{t(taal, 'cur.geweestTekst')}</span>
+      </div>
+    </div>
+  )}
 
   <!-- FEITENSTROOK -->
   <div class="cur-strook">
@@ -169,7 +205,9 @@ const cursusSchema = [
             <p class="cur-wie">{t(taal, 'cur.docentLabel')}: <strong>Mas Damar</strong></p>
             <p class="cur-tijd">17.00 – 18.30 uur<small>{t(taal, 'cur.elkeLesdag')}</small></p>
             <ul>{dansPunten.map((p) => <li>{p}</li>)}</ul>
-            <a class="cur-track-cta" href={ttDans} target="_blank" rel="noopener">{t(taal, 'cur.reserveerVanaf')} →</a>
+            {!geweest && (
+              <a class="cur-track-cta" href={ttDans} target="_blank" rel="noopener">{t(taal, 'cur.reserveerVanaf')} →</a>
+            )}
           </div>
         </article>
 
@@ -185,7 +223,9 @@ const cursusSchema = [
               <span class="cur-klank-kop">{t(taal, 'cur.klanksymbolen')}</span>
               <div class="cur-klank-rij">{klanken.map((k) => <span>{k}</span>)}</div>
             </div>
-            <a class="cur-track-cta" href={ttKendang} target="_blank" rel="noopener">{t(taal, 'cur.reserveerVanaf')} →</a>
+            {!geweest && (
+              <a class="cur-track-cta" href={ttKendang} target="_blank" rel="noopener">{t(taal, 'cur.reserveerVanaf')} →</a>
+            )}
           </div>
         </article>
       </div>
@@ -304,11 +344,23 @@ const cursusSchema = [
         <span class="kicker">{t(taal, 'cur.reserveerKicker')}</span>
         <h2>{t(taal, 'cur.reserveerKop')}</h2>
         <p>{t(taal, 'cur.reserveerTekst')}</p>
-        <div class="cur-knoppen">
-          <a class="btn gold" href={ttDans} target="_blank" rel="noopener">{t(taal, 'cur.reserveerDans')}</a>
-          <a class="btn gold" href={ttKendang} target="_blank" rel="noopener">{t(taal, 'cur.reserveerKendang')}</a>
-        </div>
-        <p class="cur-plaatsen">{t(taal, 'cur.plaatsen')}</p>
+        {geweest ? (
+          <>
+            <div class="cur-knoppen">
+              <a class="btn gold" href={pad(taal, '/contact')}>{t(taal, 'cur.interesse')}</a>
+              <a class="btn ghost" href={pad(taal, '/gamelancursus')}>{t(taal, 'cur.naarGamelan')}</a>
+            </div>
+            <p class="cur-plaatsen">{t(taal, 'cur.geweestTekst')}</p>
+          </>
+        ) : (
+          <>
+            <div class="cur-knoppen">
+              <a class="btn gold" href={ttDans} target="_blank" rel="noopener">{t(taal, 'cur.reserveerDans')}</a>
+              <a class="btn gold" href={ttKendang} target="_blank" rel="noopener">{t(taal, 'cur.reserveerKendang')}</a>
+            </div>
+            <p class="cur-plaatsen">{t(taal, 'cur.plaatsen')}</p>
+          </>
+        )}
       </div>
     </div>
   </section>

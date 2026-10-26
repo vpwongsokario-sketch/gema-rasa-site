@@ -631,6 +631,16 @@ header.scrolled{box-shadow:0 6px 26px rgba(9,53,31,.13)}
    omschrijving mee te laten rekken. */
 .editie-prijs{flex:0 0 auto!important;font-weight:500!important;color:var(--ink)!important;margin:0 0 4px!important}
 
+/* Melding boven een cursus die geweest is. Opvallend maar niet alarmerend:
+   de pagina is niet stuk, hij gaat alleen over het verleden. */
+.cur-geweest { background: var(--indigo, #1f2a44); color: #fff; }
+.cur-geweest .wrap {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; padding: 16px 0;
+  font-family: 'Poppins', sans-serif; font-size: 14.5px; line-height: 1.6;
+}
+.cur-geweest strong { font-weight: 600; }
+.cur-geweest span { font-weight: 300; opacity: .88; }
+
 /* ---------- wat we aanbieden (homepage) ---------- */
 /* Vier kaarten naast elkaar op een breed scherm, twee op een tablet, één op
    een telefoon. Het beeld heeft een vaste verhouding zodat de rijen gelijk
