@@ -648,7 +648,9 @@ export async function getAanbod(taal: string = 'nl') {
       naam: editie.titel,
       regel: 'Ons eigen cultureel magazine — verhalen uit de gemeenschap',
       prijs: editie.prijsRegel || '',
-      beeld: editie.cover || '',
+      // Een staande omslag in een liggend vak: van bovenaf snijden, anders
+      // valt de titel van het magazine buiten beeld.
+      beeld: editie.cover ? `${editie.cover}?w=900&h=675&fit=crop&crop=top` : '',
       url: '/suwara-jawa',
       extern: false,
     });
@@ -659,10 +661,10 @@ export async function getAanbod(taal: string = 'nl') {
     naam: 'Cara Jawa',
     regel: 'Javaans leren, woord voor woord — met de uitspraak erbij',
     prijs: '',
-    // Cara Jawa is een losse app zonder document hier; dit beeld staat al in
-    // de mediatheek en wordt ook bij het nieuws over het woordenboek gebruikt.
-    beeld:
-      'https://cdn.sanity.io/images/6q1rydes/production/9ce8c03ef5c7109a7c3e330f70c0d6508ed0a67d-2048x652.jpg',
+    // Cara Jawa is een losse app zonder document hier. Het nieuwsbeeld dat we
+    // elders gebruiken is 2048 bij 652 en wordt in dit vak een onherkenbare
+    // streep; deze foto van de kaartenset laat zien waar het over gaat.
+    beeld: 'https://dictionary.carajawa.nl/mockups/19-fanned5-realcards.jpg',
     url: 'https://dictionary.carajawa.nl/',
     extern: true,
   });
