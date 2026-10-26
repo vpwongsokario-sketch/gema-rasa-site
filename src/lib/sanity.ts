@@ -648,9 +648,15 @@ export async function getAanbod(taal: string = 'nl') {
       naam: editie.titel,
       regel: 'Ons eigen cultureel magazine — verhalen uit de gemeenschap',
       prijs: editie.prijsRegel || '',
-      // Een staande omslag in een liggend vak: van bovenaf snijden, anders
-      // valt de titel van het magazine buiten beeld.
-      beeld: editie.cover ? `${editie.cover}?w=900&h=675&fit=crop&crop=top` : '',
+      /*
+        Een staande omslag in een liggend vak: van bovenaf snijden, anders
+        valt de titel van het magazine buiten beeld.
+
+        Eerst de bestaande parameters eraf. getMagazines levert de omslag al
+        met ?w=1400&fit=max; daar nog een vraagteken achter plakken geeft een
+        adres met twee vraagtekens, en dan laadt het beeld helemaal niet.
+      */
+      beeld: editie.cover ? `${String(editie.cover).split('?')[0]}?w=900&h=675&fit=crop&crop=top` : '',
       url: '/suwara-jawa',
       extern: false,
     });
