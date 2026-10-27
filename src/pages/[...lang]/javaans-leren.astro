@@ -1,0 +1,275 @@
+---
+/*
+  Javaans leren.
+
+  Stap 3 uit het vindbaarheidsplan. "javaans leren", "javaans leren praten",
+  "javaanse taal leren", "cursus javaanse taal" en "surinaams javaans leren"
+  zijn zinnen die Google zelf voorstelt. De site had er geen pagina voor,
+  terwijl Cara Jawa gewoon bestaat en werkt.
+
+  De cijfers komen uit data.json van dictionary.carajawa.nl zelf, opgehaald
+  op 27 oktober 2026: 889 woorden, negen niveaus, 887 opnames, en tien
+  woorden met een krama-vorm erbij. Verandert de app, dan kloppen deze
+  getallen niet meer -- bij het bijwerken opnieuw ophalen en niet gokken.
+
+  Over Surinaams-Javaans staat hier bewust wat er wél klopt: Cara Jawa leert
+  het Javaans van Java, en in de 889 woorden komt Suriname niet voor. Dat
+  verzwijgen zou iemand met Surinaams-Javaanse wortels op het verkeerde been
+  zetten, en juist die mensen zoeken hierop.
+
+  Het woordenboek uit 1936 staat er bewust NIET bij: dat is een MVP op de
+  laptop, niet openbaar, en het auteursrecht is nog niet nagekeken. Zodra
+  dat wel zo is hoort het hier thuis.
+*/
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Vragen from '../../components/Vragen.astro';
+import { taalPaden, pad } from '../../i18n/index.ts';
+
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+
+const APP = 'https://dictionary.carajawa.nl/';
+
+/* Tot en met deze dag is Cara Jawa gratis; daarna € 3 per maand. Na die
+   datum verdwijnt de gratis-regel vanzelf, zodat er niets blijft staan dat
+   niet meer waar is. */
+const GRATIS_TOT = '2026-10-31';
+const nogGratis = new Date() <= new Date(`${GRATIS_TOT}T23:59:59`);
+
+/* Uit data.json van de app, 27 oktober 2026. */
+const niveaus = [
+  { nr: 1, naam: 'De basis',                   woorden: 102 },
+  { nr: 2, naam: 'Dagelijks leven',            woorden: 100 },
+  { nr: 3, naam: 'Communicatie',               woorden: 100 },
+  { nr: 4, naam: 'Activiteiten',               woorden: 98 },
+  { nr: 5, naam: 'Natuur, cultuur & gesprek',  woorden: 99 },
+  { nr: 6, naam: 'Gesprekken & zinnetjes',     woorden: 100 },
+  { nr: 7, naam: 'Werk & maatschappij',        woorden: 100 },
+  { nr: 8, naam: 'Natuur & omgeving',          woorden: 94 },
+  { nr: 9, naam: 'Grammatica & spreekwoorden', woorden: 96 },
+];
+
+/* De tien woorden in Cara Jawa die een krama-vorm meekrijgen. */
+const beleefd = [
+  { nl: 'eten',    ngoko: 'mangan',  krama: 'dhahar' },
+  { nl: 'drinken', ngoko: 'ngombe',  krama: 'ngunjuk' },
+  { nl: 'slapen',  ngoko: 'turu',    krama: 'sare' },
+  { nl: 'komen',   ngoko: 'teka',    krama: 'rawuh' },
+  { nl: 'gaan',    ngoko: 'lunga',   krama: 'kesah' },
+  { nl: 'zeggen',  ngoko: 'kandha',  krama: 'matur' },
+];
+
+const vragen = [
+  {
+    v: 'Waar kun je Javaans leren in Nederland?',
+    a: 'Stichting Gema Rasa heeft Cara Jawa, een Javaans woordenboek met lessen dat je in je browser opent op dictionary.carajawa.nl. Er staan 889 woorden in, verdeeld over negen niveaus van elk tien lessen, met opnames van een Javaanse taaldocent.',
+  },
+  {
+    v: 'Wat kost Cara Jawa?',
+    a: `Cara Jawa kost € 3 per maand. Tot en met 31 oktober 2026 is het gratis te gebruiken.`,
+  },
+  {
+    v: 'Moet ik iets installeren?',
+    a: 'Nee. Cara Jawa opent in je browser, op je telefoon net zo goed als op je laptop.',
+  },
+  {
+    v: 'Kan ik horen hoe de woorden klinken?',
+    a: 'Ja. Bij 887 van de 889 woorden zit een opname, ingesproken door onze eigen taaldocent Mas Jadmiko. Dat is geen computerstem: die legde de klemtoon verkeerd en maakte van een Javaanse klank een Nederlandse.',
+  },
+  {
+    v: 'Wat is het verschil tussen ngoko en krama?',
+    a: 'Javaans heeft spreekniveaus. Ngoko gebruik je onder elkaar, tegen vrienden en kinderen; krama is de beleefde vorm, tegen ouderen en mensen die je met respect aanspreekt. Het zijn vaak compleet andere woorden: eten is mangan in ngoko en dhahar in krama.',
+  },
+  {
+    v: 'Leer ik hiermee Surinaams-Javaans?',
+    a: 'Niet precies. Cara Jawa leert het Javaans zoals het op Java gesproken wordt. Surinaams-Javaans komt daarvandaan — het ging in 1890 mee met de eerste contractarbeiders — maar heeft zich sindsdien apart ontwikkeld, met woorden uit het Nederlands en het Sranantongo. Wie met Surinaams-Javaans is opgegroeid herkent veel, maar niet alles.',
+  },
+  {
+    v: 'Hoeveel woorden moet ik kennen om iets te kunnen zeggen?',
+    a: 'Niveau 1 is daarvoor gemaakt: ruim honderd woorden met begroetingen, getallen, familie, tijd en eten. Daarmee kun je een gesprek openen en afsluiten.',
+  },
+];
+---
+<Base
+  taal={taal}
+  title="Javaans leren — woordenboek met uitspraak en lessen | Stichting Gema Rasa"
+  description="Javaans leren, woord voor woord. Cara Jawa heeft 889 Javaanse woorden in negen niveaus, met opnames van een Javaanse taaldocent, flashcards en een quiz. In je browser, zonder installeren."
+>
+  <PageHero
+    sleutel="javaans-leren"
+    eyebrow="Cara Jawa"
+    titel="Javaans leren"
+    tekst="Woord voor woord terug naar de taal van je oma en opa."
+    foto="/assets/perf3.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      <div class="prose">
+        <p class="lead">
+          Veel mensen met Javaanse wortels kennen het gevoel: je hoort de taal van je oma en opa,
+          je begrijpt er stukjes van, maar zelf spreken lukt niet meer. Het zijn losse woorden
+          geworden.
+        </p>
+        <p>
+          Daar begint het ook weer. Wij maakten <strong>Cara Jawa</strong>, een Javaans
+          woordenboek met lessen dat je gewoon in je browser opent — op je telefoon net zo goed
+          als op je laptop. Niets installeren. Elk woord staat er in het Nederlands, het Engels en
+          het Javaans, en je kunt in alle drie zoeken.
+        </p>
+      </div>
+      <p class="jlknoppen">
+        <a class="btn gold" href={APP} rel="noopener" target="_blank">Open Cara Jawa →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">De opbouw</span>
+        <h2>Negen niveaus, tien woorden per les</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Elk niveau heeft tien lessen en elke les tien woorden. Je begint bij begroetingen,
+          getallen en familie, en eindigt bij grammatica en spreekwoorden. Op dit moment staan er
+          <strong>889 woorden</strong> in, en elke maand komen er bij.
+        </p>
+      </div>
+      <div class="tabelwrap">
+        <table class="jltabel">
+          <thead><tr><th>Niveau</th><th>Waarover</th><th>Woorden</th></tr></thead>
+          <tbody>
+            {niveaus.map((n) => (
+              <tr><td>{n.nr}</td><td><strong>{n.naam}</strong></td><td>{n.woorden}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div class="prose">
+        <p>
+          Bij <strong>887 van de 889 woorden</strong> zit een opname. Die zijn ingesproken door
+          onze eigen taaldocent Mas Jadmiko, niveau voor niveau, en daarna woord voor woord
+          uitgeknipt en nagelopen. Daarvoor stond er een computerstem, en die legde de klemtoon
+          net verkeerd en maakte van een Javaanse klank een Nederlandse.
+        </p>
+        <p>
+          Heb je een les doorgenomen, dan overhoor je hem met kaartjes of met een quiz. Een balk
+          bovenaan laat zien hoever je bent.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Wat Javaans anders maakt</span>
+        <h2>Ngoko en krama</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Dit verrast bijna iedereen die begint. Javaans heeft <strong>spreekniveaus</strong>: met
+          wie je praat bepaalt welk woord je kiest. <em>Ngoko</em> gebruik je onder elkaar, tegen
+          vrienden en kinderen. <em>Krama</em> is de beleefde vorm, tegen ouderen en tegen mensen
+          die je met respect aanspreekt.
+        </p>
+        <p>
+          Het gaat niet om een uitgang of een beleefd woordje erbij. Het zijn vaak compleet andere
+          woorden:
+        </p>
+      </div>
+      <div class="tabelwrap">
+        <table class="jltabel">
+          <thead><tr><th>Nederlands</th><th>Ngoko</th><th>Krama</th></tr></thead>
+          <tbody>
+            {beleefd.map((b) => (
+              <tr><td>{b.nl}</td><td class="jw">{b.ngoko}</td><td><strong>{b.krama}</strong></td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Eerlijk antwoord</span>
+        <h2>En Surinaams-Javaans?</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Hierop wordt veel gezocht, dus het verdient een duidelijk antwoord: Cara Jawa leert het
+          Javaans <strong>zoals het op Java gesproken wordt</strong>.
+        </p>
+        <p>
+          Surinaams-Javaans komt daarvandaan. Het ging in 1890 mee met de eerste contractarbeiders
+          die vanuit Batavia naar Suriname vertrokken, en heeft zich daarna ruim honderddertig
+          jaar apart ontwikkeld — met woorden uit het Nederlands en het Sranantongo, en met een
+          eigen klank. Wie met Surinaams-Javaans is opgegroeid herkent in Cara Jawa veel, maar
+          niet alles.
+        </p>
+        <p>
+          Dat verschil is geen probleem om weg te poetsen; het is een deel van het verhaal. Voor
+          ons allebei: wij zijn een Surinaams-Javaanse gemeenschap die de taal van Java terugleert.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Wat het kost</span>
+        <h2>Prijs</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Cara Jawa kost <strong>€ 3 per maand</strong>.
+          {nogGratis && (
+            <span data-tot={GRATIS_TOT}> Tot en met 31 oktober 2026 is het gratis te gebruiken,
+            dus je kunt eerst kijken of het bij je past.</span>
+          )}
+        </p>
+        <p>
+          De woorden worden aangedragen door de Javaanse taaldocent waarmee we samenwerken en door
+          cursisten die tijdens de lessen vragen wat iets ook alweer was. Zo groeit de lijst elke
+          maand.
+        </p>
+      </div>
+      <p class="jlknoppen">
+        <a class="btn gold" href={APP} rel="noopener" target="_blank">Open Cara Jawa →</a>
+        <a class="btn" href={pad(taal, '/contact')}>Vraag naar de lessen</a>
+      </p>
+    </div>
+  </section>
+
+  <Vragen kicker="Veelgestelde vragen" titel="Over Javaans leren" vragen={vragen} />
+
+  {/*
+    De gratis-regel weghalen zodra de dag voorbij is.
+
+    De pagina is statisch: `nogGratis` wordt bepaald op het moment van
+    bouwen, en er wordt pas opnieuw gebouwd als er iets verandert. Zonder
+    dit zou er op 1 november nog "tot en met 31 oktober gratis" staan,
+    afhankelijk van wanneer er toevallig is uitgerold. Dit kijkt in de
+    browser van de bezoeker, dus het klopt altijd.
+  */}
+  <script is:inline>
+    document.querySelectorAll('[data-tot]').forEach(function (el) {
+      if (new Date() > new Date(el.dataset.tot + 'T23:59:59')) el.remove();
+    });
+  </script>
+</Base>
+
+<style>
+  .tabelwrap { overflow-x: auto; margin-top: 8px; }
+  .jltabel { border-collapse: collapse; width: 100%; max-width: 620px; font-size: 15px; }
+  .jltabel th, .jltabel td { text-align: left; padding: 11px 16px 11px 0; border-bottom: 1px solid var(--line); }
+  .jltabel th { font-weight: 600; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .jltabel .jw { color: var(--muted); }
+  .jlknoppen { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+</style>
