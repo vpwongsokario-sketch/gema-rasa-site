@@ -70,6 +70,8 @@ const nl: Woordenboek = {
   'vraag.steunA': 'Je kunt <a href="/steun">doneren</a>, iets kopen dat we maken — de kalender, het magazine — of adverteren in Suwara Jawa. En we zoeken een ruimte in de regio Rotterdam\u2013Den Haag waar onze gamelan kan blijven staan; ken je zo\u2019n plek, dan horen we het graag.',
   'nav.cursus': 'Cursus',
   'nav.kalender': 'Javaanse kalender',
+  'nav.cultuur': 'Javaanse cultuur',
+  'nav.watisgamelan': 'Wat is gamelan?',
 
   // footer
   'footer.over': 'Een culturele organisatie die zich inzet voor de Javaanse cultuur in Nederland. Met passie en toewijding brengen wij de rijke tradities van Java naar een breed publiek.',
@@ -170,6 +172,8 @@ const en: Woordenboek = {
   'vraag.steunA': 'You can <a href="/en/steun">donate</a>, buy something we make — the calendar, the magazine — or advertise in Suwara Jawa. And we are looking for a space in the Rotterdam\u2013The Hague area where our gamelan can stay set up; if you know of one, we would love to hear.',
   'nav.cursus': 'Course',
   'nav.kalender': 'Javanese calendar',
+  'nav.cultuur': 'Javanese culture',
+  'nav.watisgamelan': 'What is gamelan?',
 
   'footer.over': 'A cultural organisation dedicated to Javanese culture in the Netherlands. With passion and commitment we bring the rich traditions of Java to a wide audience.',
   'footer.nieuwsbrief': 'Subscribe to our newsletter',
@@ -266,6 +270,8 @@ const id: Woordenboek = {
   'vraag.steunA': 'Anda bisa <a href="/id/steun">berdonasi</a>, membeli hasil karya kami — kalender, majalah — atau memasang iklan di Suwara Jawa. Kami juga mencari ruang di wilayah Rotterdam\u2013Den Haag tempat gamelan kami bisa tetap terpasang; bila tahu, kabari kami.',
   'nav.cursus': 'Kursus',
   'nav.kalender': 'Kalender Jawa',
+  'nav.cultuur': 'Budaya Jawa',
+  'nav.watisgamelan': 'Apa itu gamelan?',
 
   'footer.over': 'Sebuah organisasi budaya yang berdedikasi untuk budaya Jawa di Belanda. Dengan penuh semangat kami menghadirkan kekayaan tradisi Jawa kepada khalayak luas.',
   'footer.nieuwsbrief': 'Berlangganan buletin kami',
