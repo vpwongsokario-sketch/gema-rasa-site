@@ -30,6 +30,11 @@ export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
 
 const APP = 'https://dictionary.carajawa.nl/';
+/* De gratis woordenlijst van niveau 1: echte pagina's met de woorden, de
+   vertaling en de opnames erin. De app zelf is een SPA en voor een
+   zoekmachine zo goed als leeg; hiernaartoe linken we omdat hier iets te
+   lezen valt -- en omdat iemand die twijfelt eerst wil zien wat hij krijgt. */
+const WOORDEN = 'https://dictionary.carajawa.nl/woorden/';
 
 /* Tot en met deze dag is Cara Jawa gratis; daarna € 3 per maand. Na die
    datum verdwijnt de gratis-regel vanzelf, zodat er niets blijft staan dat
@@ -72,6 +77,10 @@ const vragen = [
   {
     v: 'Moet ik iets installeren?',
     a: 'Nee. Cara Jawa opent in je browser, op je telefoon net zo goed als op je laptop.',
+  },
+  {
+    v: 'Kan ik Javaanse woorden gratis bekijken?',
+    a: 'Ja. De 102 woorden van niveau 1 staan vrij te lezen op dictionary.carajawa.nl/woorden, met de Nederlandse en Engelse vertaling en een opname van de uitspraak. Daar heb je geen account voor nodig.',
   },
   {
     v: 'Kan ik horen hoe de woorden klinken?',
@@ -159,7 +168,15 @@ const vragen = [
           Heb je een les doorgenomen, dan overhoor je hem met kaartjes of met een quiz. Een balk
           bovenaan laat zien hoever je bent.
         </p>
+        <p>
+          Wil je eerst zien wat je krijgt? De <a href={WOORDEN} rel="noopener" target="_blank">102
+          woorden van niveau 1</a> staan gratis online, met de uitspraak erbij — van begroetingen
+          en getallen tot eten en drinken.
+        </p>
       </div>
+      <p class="jlknoppen">
+        <a class="btn" href={WOORDEN} rel="noopener" target="_blank">Bekijk de gratis woordenlijst →</a>
+      </p>
     </div>
   </section>
 
