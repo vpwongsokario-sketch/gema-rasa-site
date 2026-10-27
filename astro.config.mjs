@@ -4,6 +4,36 @@ import react from '@astrojs/react';
 import sanity from '@sanity/astro';
 import sitemap from '@astrojs/sitemap';
 
+/**
+ * Welke nieuwsberichten niet in Google horen.
+ *
+ * Een bericht met 'Niet in Google tonen' aangevinkt krijgt een noindex mee,
+ * maar als hij ook in de sitemap blijft staan geef je twee tegengestelde
+ * signalen af: "neem hem op" en "neem hem niet op". Daarom haalt dit de
+ * aangevinkte berichten hier weg.
+ *
+ * Bij het bouwen opgehaald, want de sitemap wordt bij het bouwen gemaakt.
+ * Lukt het ophalen niet, dan blijft de sitemap gewoon compleet -- liever een
+ * bericht te veel erin dan een kapotte uitrol.
+ */
+async function nietIndexerenSlugs() {
+  const q = encodeURIComponent('*[_type == "nieuws" && nietIndexeren == true].slug.current');
+  const sleutel = process.env.SANITY_API_READ_TOKEN;
+  try {
+    const res = await fetch(
+      `https://6q1rydes.apicdn.sanity.io/v2023-05-03/data/query/production?query=${q}`,
+      sleutel ? { headers: { Authorization: `Bearer ${sleutel}` } } : undefined,
+    );
+    if (!res.ok) return [];
+    const { result } = await res.json();
+    return Array.isArray(result) ? result.filter(Boolean) : [];
+  } catch {
+    return [];
+  }
+}
+
+const UIT_SITEMAP = await nietIndexerenSlugs();
+
 // De live-URL. Nodig voor canonical-links, sitemap en Open Graph.
 // Wijzig dit naar https://www.stichtinggemarasa.com zodra het domein gekoppeld is.
 const SITE = 'https://stichtinggemarasa.com';
@@ -71,8 +101,10 @@ export default defineConfig({
     }),
     react(),
     sitemap({
-      // De Studio en API-routes horen niet in de sitemap
-      filter: (page) => !page.includes('/studio'),
+      // De Studio, API-routes en berichten op 'Niet in Google tonen'
+      filter: (page) =>
+        !page.includes('/studio') &&
+        !UIT_SITEMAP.some((slug) => page.includes(`/nieuws/${slug}`)),
       i18n: {
         defaultLocale: 'nl',
         locales: { nl: 'nl-NL', en: 'en-GB', id: 'id-ID' },

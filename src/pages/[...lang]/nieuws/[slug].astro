@@ -76,7 +76,7 @@ const artikelSchema = {
   },
 };
 ---
-<Base taal={taal} title={seoTitel} description={seoBeschrijving} ogImage={deelBeeld} ogType="article" jsonld={artikelSchema}>
+<Base taal={taal} title={seoTitel} description={seoBeschrijving} ogImage={deelBeeld} ogType="article" jsonld={artikelSchema} noindex={artikel.nietIndexeren}>
   <section class="pagehead artikel-kop" style={`--hero-img:url('${artikel.afbeelding}')`}>
     <div class="wrap">
       <span class="eyebrow">{artikel.categorie}</span>

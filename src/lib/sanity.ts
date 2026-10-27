@@ -133,7 +133,7 @@ export async function getNieuws(taal: string = 'nl') {
 /* ---------- Nieuws: volledige artikelen (voor de detailpagina's) ---------- */
 export async function getNieuwsArtikelen(taal: string = 'nl') {
   const docs = await safe<any[]>(
-    '*[_type == "nieuws" && defined(slug.current)] | order(datum desc){ "slug": slug.current, categorie, titel, titel_en, titel_id, intro, intro_en, intro_id, datum, afbeelding, body, body_en, body_id, seo }',
+    '*[_type == "nieuws" && defined(slug.current)] | order(datum desc){ "slug": slug.current, categorie, titel, titel_en, titel_id, intro, intro_en, intro_id, datum, afbeelding, body, body_en, body_id, seo, nietIndexeren }',
   );
   if (!docs || docs.length === 0) {
     // Terugval: de artikelen die we lokaal kennen (nog zonder volledige tekst)
@@ -160,6 +160,7 @@ export async function getNieuwsArtikelen(taal: string = 'nl') {
     seoTitel: taal === 'nl' ? (d.seo?.titel ?? '') : '',
     seoBeschrijving: taal === 'nl' ? (d.seo?.beschrijving ?? '') : '',
     seoAfbeelding: beeldOfLeeg(d.seo?.afbeelding),
+    nietIndexeren: d.nietIndexeren === true,
   }));
 }
 
