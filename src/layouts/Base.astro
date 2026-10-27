@@ -304,6 +304,11 @@ const actief = (u) => huidigPad === u || huidigPad.startsWith(u + '/');
           <a href={pad(taal, '/videos')}>{t(taal, 'nav.videos')}</a>
           <a href={pad(taal, '/suwara-jawa')}>{t(taal, 'nav.magazine')}</a>
           <a href={pad(taal, '/de-vrienden-van')}>{t(taal, 'nav.vrienden')}</a>
+          {/* Eigen platform op een eigen domein. Staat hier omdat het nieuwe
+              domein nog geen gezag heeft en dit het sterkste signaal is dat
+              we kunnen geven: een link vanaf elke pagina van een site die
+              wél gevonden wordt. */}
+          <a href="https://echosvanjava.com/mensen">{t(taal, 'footer.makers')}</a>
         </div>
         <div>
           <h4>{t(taal, 'footer.contactgegevens')}</h4>
