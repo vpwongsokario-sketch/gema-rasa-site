@@ -32,7 +32,25 @@ const alleMusici = gamelan;
     foto="/assets/perf2.jpg"
   />
 
+  {/* Zelfde reden als op de dansgroep-pagina: eerst wat we doen, dan de naam. */}
   <section class="block">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, "gg.watKicker")}</span>
+        <h2>{t(taal, "gg.watTitel")}</h2>
+      </div>
+      <div class="prose">
+        <p class="lead">{t(taal, "gg.watTekst1")}</p>
+        <p>{t(taal, "gg.watTekst2")}</p>
+      </div>
+      <p class="groepknoppen">
+        <a class="btn gold" href={pad(taal, "/menukaart")}>{t(taal, "gg.ctaKnop")}</a>
+        <a class="btn" href={pad(taal, "/wat-is-gamelan")}>{t(taal, "nav.watisgamelan")}</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="block vervolg">
     <div class="wrap">
       <div class="prose">
         <h2>{t(taal, "gg.naamKop")}</h2>
@@ -105,6 +123,10 @@ const alleMusici = gamelan;
     </div>
   </section>
 </Base>
+
+<style>
+  .groepknoppen { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+</style>
 
 <script>
   // Filter de musici op ensemble

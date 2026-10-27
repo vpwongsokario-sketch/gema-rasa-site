@@ -17,7 +17,33 @@ import PageHero from '../../components/PageHero.astro';
   />
 
   <!-- DE NAAM ONTLEED -->
+  {/*
+    Eerst wat de groep doet, dan pas waar de naam vandaan komt.
+
+    Deze pagina bestond vrijwel helemaal uit de herkomst van de naam. Dat is
+    mooi en het blijft staan, maar het is niet waar iemand voor komt die
+    "javaanse dansgroep" zoekt: die wil weten wat we doen, waar we oefenen,
+    of hij mee kan doen en of hij ons kan boeken. Google en de bezoeker
+    lezen allebei van boven naar beneden, en dit stond onderaan.
+  */}
   <section class="block">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, "dg.watKicker")}</span>
+        <h2>{t(taal, "dg.watTitel")}</h2>
+      </div>
+      <div class="prose">
+        <p class="lead">{t(taal, "dg.watTekst1")}</p>
+        <p>{t(taal, "dg.watTekst2")}</p>
+      </div>
+      <p class="groepknoppen">
+        <a class="btn gold" href={pad(taal, "/menukaart")}>{t(taal, "dg.ctaKnop")}</a>
+        <a class="btn" href={pad(taal, "/steun#aanmelden")}>{t(taal, "dg.meedoenKnop")}</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="block vervolg">
     <div class="wrap">
       <div class="prose">
         <h2>{t(taal, "dg.naamKop")}</h2>
@@ -93,3 +119,7 @@ import PageHero from '../../components/PageHero.astro';
     </div>
   </section>
 </Base>
+
+<style>
+  .groepknoppen { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+</style>
