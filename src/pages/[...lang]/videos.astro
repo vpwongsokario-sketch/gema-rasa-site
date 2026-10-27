@@ -10,8 +10,38 @@ import { getVideos, YT_KANAAL_URL } from '../../lib/youtube.ts';
 import { socials } from '../../data/content.js';
 
 const videos = await getVideos(taal, 12);
+
+/*
+  Videomarkering.
+
+  Zonder dit ziet Google op deze pagina tekst met daarin toevallig wat
+  titels; het weet niet dat het video's zijn en kan ze niet als video tonen.
+  Elk blok heeft de vier dingen die daarvoor nodig zijn: naam, omschrijving,
+  miniatuur en publicatiedatum.
+
+  Alleen als er video's zijn — een leeg blok markering is erger dan geen.
+*/
+const videoSchema = videos.length
+  ? {
+      '@context': 'https://schema.org',
+      '@graph': videos.map((v) => ({
+        '@type': 'VideoObject',
+        name: v.titel,
+        description: v.beschrijving || v.titel,
+        thumbnailUrl: v.thumb,
+        uploadDate: v.datum,
+        contentUrl: v.url,
+        embedUrl: `https://www.youtube.com/embed/${v.id}`,
+        publisher: {
+          '@type': 'Organization',
+          name: 'Stichting Gema Rasa',
+          url: 'https://stichtinggemarasa.com',
+        },
+      })),
+    }
+  : null;
 ---
-<Base taal={taal} seo={paginaSeo} description={t(taal, "vd.intro")} title={`${t(taal, "vd.titel")} — Stichting Gema Rasa`}>
+<Base taal={taal} seo={paginaSeo} description={t(taal, "vd.intro")} title={`${t(taal, "vd.titel")} — Stichting Gema Rasa`} jsonld={videoSchema}>
   <PageHero
     sleutel="videos"
     eyebrow={t(taal, "vd.eyebrow")}
@@ -31,15 +61,33 @@ const videos = await getVideos(taal, 12);
 
       {videos.length > 0 ? (
         <div class="videos">
+          {/*
+           Een link en een echte <img>, geen klikbare div met een
+           achtergrondplaatje.
+
+           Zo stond het eerder: de miniatuur was een CSS-achtergrond en de
+           video-id zat in data-yt, waar JavaScript hem oppakte. Voor een
+           bezoeker werkte dat, maar Google kan een CSS-achtergrond niet als
+           videominiatuur gebruiken en zag hier dus wel titels en geen
+           video's. Een <a> geeft hem bovendien een adres om naartoe te
+           wijzen, en wie met het toetsenbord of een schermlezer werkt kan er
+           nu ook bij.
+
+           Het script dat de video in de kaart afspeelt blijft werken: dat
+           leest data-yt op het artikel en onderschept de klik.
+          */}
           {videos.map((v) => (
             <article class="video" data-yt={v.id}>
-              <div class="video-thumb" style={`background-image:url('${v.thumb}')`}>
-                <span class="play" aria-hidden="true"></span>
-              </div>
-              <div class="video-body">
-                <h3>{v.titel}</h3>
-                {v.datumLabel && <span class="video-datum">{v.datumLabel}</span>}
-              </div>
+              <a class="video-link" href={v.url} target="_blank" rel="noopener">
+                <div class="video-thumb">
+                  <img src={v.thumb} alt="" loading="lazy" width="480" height="360" />
+                  <span class="play" aria-hidden="true"></span>
+                </div>
+                <div class="video-body">
+                  <h3>{v.titel}</h3>
+                  {v.datumLabel && <span class="video-datum">{v.datumLabel}</span>}
+                </div>
+              </a>
             </article>
           ))}
         </div>

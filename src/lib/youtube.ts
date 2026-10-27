@@ -16,6 +16,8 @@ export type Video = {
   titel: string;
   datum: string;
   datumLabel: string;
+  /** Uit media:description. Google wil bij een video een omschrijving. */
+  beschrijving: string;
   thumb: string;
   url: string;
 };
@@ -51,6 +53,8 @@ export async function getVideos(taal: string = 'nl', max = 12): Promise<Video[]>
         titel: pak('media:title') || pak('title'),
         datum,
         datumLabel: datum ? opmaak.format(new Date(datum)) : '',
+        // Eén alinea is genoeg; de hele YouTube-omschrijving staat vol links.
+        beschrijving: (pak('media:description').split('\n')[0] || '').slice(0, 300),
         // maxresdefault bestaat niet altijd; hqdefault is er altijd
         thumb: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
         url: `https://www.youtube.com/watch?v=${id}`,
