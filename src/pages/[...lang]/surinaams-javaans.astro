@@ -1,0 +1,254 @@
+---
+/*
+  Surinaams-Javaans.
+
+  Stap 5 uit het vindbaarheidsplan, en de belangrijkste. "surinaams javaanse
+  cultuur", "javaanse cultuur in suriname", "surinaams javaanse muziek" en
+  "javaanse taal in suriname" worden gezocht, en hier zit wereldwijd geen
+  partij met gezag. Niet omdat wij er beter in zijn, maar omdat de stichting
+  deze gemeenschap ís.
+
+  Dit is ook de pagina waar verzinnen het meeste kwaad doet: het gaat over
+  echte geschiedenis en over echte families. Daarom:
+
+  - Alleen jaartallen en aantallen die ik bij meerdere bronnen heb
+    teruggevonden, en met een bronnenlijst onderaan.
+  - Waar bronnen van elkaar verschillen staat er een schatting of een marge,
+    geen vals precies getal. De naam van het eerste schip staat er NIET bij:
+    bronnen noemen de Koningin Emma, de Prins Willem II én de Prins
+    Alexander, dus dat is niet uitgezocht genoeg om op te schrijven.
+  - Het expositieconcept staat er bewust niet in: dat is nog niet
+    aangekondigd.
+
+  Schrijfwijze: altijd "Surinaams-Javaans", nooit "Javaans-Surinaams".
+*/
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Vragen from '../../components/Vragen.astro';
+import { taalPaden, pad } from '../../i18n/index.ts';
+
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+
+/* De drie etappes. Jaartallen nagekeken; zie de bronnen onderaan de pagina. */
+const etappes = [
+  {
+    jaar: '1890',
+    kop: 'Van Java naar Suriname',
+    tekst:
+      'Op 21 mei 1890 vertrekt uit Batavia een schip met 94 Javaanse contractarbeiders. Op 9 augustus komen ze aan in Paramaribo, en gaan ze aan het werk op plantage Mariënburg.',
+  },
+  {
+    jaar: '1890–1939',
+    kop: 'Bijna 33.000 mensen',
+    tekst:
+      'In bijna vijftig jaar worden er zo’n 33.000 Javanen naar Suriname gebracht. Ze komen met een contract, met de belofte van terugkeer. De meesten keren nooit terug.',
+  },
+  {
+    jaar: '1975',
+    kop: 'Van Suriname naar Nederland',
+    tekst:
+      'Rond de onafhankelijkheid van Suriname vertrekken naar schatting 20.000 tot 22.000 Javaanse Surinamers naar Nederland. Vandaag wonen er naar schatting zo’n 25.000 mensen met Surinaams-Javaanse wortels.',
+  },
+];
+
+const vragen = [
+  {
+    v: 'Wat is Surinaams-Javaans?',
+    a: 'Surinaams-Javaans is de cultuur en de taal van de Javaanse gemeenschap in Suriname en, sinds de jaren zeventig, in Nederland. Het gaat terug op de Javaanse contractarbeiders die vanaf 1890 naar Suriname werden gebracht, en het heeft zich daarna meer dan honderddertig jaar apart ontwikkeld.',
+  },
+  {
+    v: 'Wanneer kwamen de Javanen naar Suriname?',
+    a: 'De eerste groep van 94 contractarbeiders vertrok op 21 mei 1890 uit Batavia en kwam op 9 augustus 1890 aan in Paramaribo. De werving ging door tot 1939; in totaal zijn er ongeveer 33.000 mensen naar Suriname gebracht.',
+  },
+  {
+    v: 'Is Surinaams-Javaans hetzelfde als het Javaans van Java?',
+    a: 'Nee. Het komt daarvandaan, maar het heeft woorden opgenomen uit het Nederlands en het Sranantongo, en de woordenschat en grammatica wijken af van het Javaans dat in Indonesië wordt gesproken. Wie met Surinaams-Javaans is opgegroeid herkent veel van het Javaans van Java, maar niet alles.',
+  },
+  {
+    v: 'Hoeveel Javaanse Surinamers wonen er in Nederland?',
+    a: 'Daar bestaat geen precies cijfer van. Rond de onafhankelijkheid van Suriname in 1975 vertrokken naar schatting 20.000 tot 22.000 mensen naar Nederland; schattingen van het aantal mensen met Surinaams-Javaanse wortels in Nederland vandaag komen uit rond de 25.000.',
+  },
+  {
+    v: 'Wordt Surinaams-Javaans nog gesproken?',
+    a: 'Ja, maar het staat onder druk. In Nederland spreken jongere generaties het minder vloeiend dan hun ouders en grootouders; het is een thuistaal geworden die je hoort maar steeds minder zelf spreekt.',
+  },
+  {
+    v: 'Waar kan ik Surinaams-Javaanse cultuur meemaken in Nederland?',
+    a: 'Stichting Gema Rasa houdt deze cultuur levend met een gamelanorkest, een dansgroep, een tijdschrift, cursussen en het festival Echo’s van Java. Je bent welkom om te komen kijken of mee te doen.',
+  },
+];
+---
+<Base
+  taal={taal}
+  title="Surinaams-Javaans — van Java naar Suriname naar Nederland | Stichting Gema Rasa"
+  description="De Surinaams-Javaanse gemeenschap: hoe Javaanse contractarbeiders vanaf 1890 naar Suriname kwamen, hoe hun nazaten naar Nederland trokken, en wat er onderweg veranderde aan de taal en de cultuur."
+>
+  <PageHero
+    sleutel="surinaams-javaans"
+    eyebrow="Java · Suriname · Nederland"
+    titel="Surinaams-Javaans"
+    tekst="Een cultuur die twee keer verhuisde en allebei de keren veranderde — en die nog steeds van ons is."
+    foto="/assets/perf-wayang.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      <div class="prose">
+        <p class="lead">
+          Surinaams-Javaans is wat er gebeurde toen Javaanse cultuur twee keer een oceaan
+          overstak. Eerst van Java naar Suriname, vanaf 1890. Daarna van Suriname naar Nederland,
+          rond 1975. Op allebei de reizen veranderde er iets — aan de taal, aan het eten, aan de
+          muziek — en wat overbleef is niet het Javaans van Java en ook niet iets anders.
+          Het is van ons.
+        </p>
+        <p>
+          Stichting Gema Rasa komt uit die gemeenschap. Dit is niet een onderwerp waar we
+          onderzoek naar doen; het is waar onze leden vandaan komen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">De reis</span>
+        <h2>Twee oversteken</h2>
+      </div>
+      <ol class="etappes">
+        {etappes.map((e) => (
+          <li>
+            <span class="jaar">{e.jaar}</span>
+            <div>
+              <h3>{e.kop}</h3>
+              <p>{e.tekst}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <div class="prose">
+        <p class="klein">
+          De getallen hierboven zijn schattingen waar bronnen het grotendeels over eens zijn. Over
+          de naam van het eerste schip zijn ze dat niet, dus die staat er niet bij. Onderaan deze
+          pagina staan de bronnen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">De taal</span>
+        <h2>Wat er onderweg veranderde</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Surinaams-Javaans komt uit het Javaans van Midden-Java, maar het is daar meer dan
+          honderddertig jaar van weg geweest. Het nam woorden op uit het Nederlands en uit het
+          Sranantongo, en woordenschat en grammatica liepen uiteen. Wie met Surinaams-Javaans is
+          opgegroeid en Javaans uit Indonesië hoort, herkent veel — maar niet alles.
+        </p>
+        <p>
+          In Nederland staat de taal onder druk. Jongere generaties spreken haar minder vloeiend
+          dan hun ouders en grootouders. Het is een taal geworden die je hoort en begrijpt, maar
+          steeds minder zelf spreekt.
+        </p>
+        <p>
+          Daar doen we iets aan: met <a href={pad(taal, '/javaans-leren')}>Cara Jawa</a> kun je
+          Javaans leren, woord voor woord. Dat is het Javaans van Java — wat er precies anders is
+          aan het Surinaams-Javaans staat op die pagina uitgelegd.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Wat wij doen</span>
+        <h2>De verhalen vastleggen nu het nog kan</h2>
+      </div>
+      <div class="prose">
+        <p>
+          De generatie die de overtocht nog uit de eerste hand kent, wordt kleiner. In
+          <a href={pad(taal, '/haagse-onzichtbare-verhalen')}>Onzichtbare Verhalen</a> leggen we
+          portretten vast van mensen met Javaanse roots: over identiteit, erbij horen, en wat je
+          meedraagt zonder dat anderen het zien.
+        </p>
+        <p>
+          Daarnaast houden we de cultuur levend door haar te blijven doen. Het gamelanorkest
+          <a href={pad(taal, '/de-gamelan-groep')}> Jiwa Manunggal</a> en dansgroep
+          <a href={pad(taal, '/de-dansgroep')}> Beksa Laras Ati</a> treden op, het tijdschrift
+          <a href={pad(taal, '/suwara-jawa')}> Suwara Jawa</a> publiceert wat de gemeenschap zelf
+          schrijft, en één keer per jaar komt alles samen op
+          <a href={pad(taal, '/echos-van-java')}> Echo’s van Java</a>.
+        </p>
+      </div>
+      <p class="sjknoppen">
+        <a class="btn gold" href={pad(taal, '/steun#aanmelden')}>Doe mee</a>
+        <a class="btn" href={pad(taal, '/de-stichting')}>Over de stichting</a>
+      </p>
+    </div>
+  </section>
+
+  <Vragen kicker="Veelgestelde vragen" titel="Over Surinaams-Javaans" vragen={vragen} />
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="prose bronnen">
+        <h3>Bronnen</h3>
+        <p>
+          De jaartallen en aantallen op deze pagina zijn nagekeken bij meerdere bronnen. Waar die
+          van elkaar verschillen staat er een schatting of een marge.
+        </p>
+        <ul>
+          <li>
+            <a href="https://nl.wikipedia.org/wiki/Javaanse_Surinamers" rel="noopener" target="_blank">
+              Javaanse Surinamers
+            </a> en <a href="https://nl.wikipedia.org/wiki/Geschiedenis_van_de_Surinamers_in_Nederland" rel="noopener" target="_blank">
+              Geschiedenis van de Surinamers in Nederland
+            </a> (Wikipedia)
+          </li>
+          <li>
+            <a href="https://www.hindorama.com/de-emigratie-van-javanen-van-indonesie-naar-suriname-chan-e-s-choenni/" rel="noopener" target="_blank">
+              Chan E.S. Choenni, De emigratie van Javanen van Ind(ones)ië naar Suriname
+            </a> (Hindorama)
+          </li>
+          <li>
+            <a href="https://werkgroepcaraibischeletteren.nl/beeldvorming-en-feiten-over-de-contractarbeid-van-javanen-in-suriname/" rel="noopener" target="_blank">
+              Beeldvorming en feiten over de contractarbeid van Javanen in Suriname
+            </a> (Werkgroep Caraïbische Letteren)
+          </li>
+          <li>
+            <a href="https://www.dbnl.org/tekst/_gid001199001_01/_gid001199001_01_0147.php" rel="noopener" target="_blank">
+              G.D. van Wengen, 1890–1990: honderd jaar Javanen in Suriname
+            </a> (De Gids, via DBNL)
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .etappes { list-style: none; padding: 0; margin: 8px 0 0; max-width: 760px; }
+  .etappes li { display: flex; gap: 22px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .etappes li:last-child { border-bottom: 0; }
+  .jaar {
+    flex: 0 0 104px; font-weight: 700; font-size: 15px; letter-spacing: .02em;
+    color: var(--orange-ink, var(--primary-dark)); padding-top: 3px;
+  }
+  .etappes h3 { margin: 0 0 6px; font-size: 19px; }
+  .etappes p { margin: 0; }
+  .klein { font-size: 14px; color: var(--muted); margin-top: 18px; }
+  .sjknoppen { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .bronnen { font-size: 15px; color: var(--muted); }
+  .bronnen h3 { font-size: 13px; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 8px; }
+  .bronnen li { margin-bottom: 6px; }
+  @media (max-width: 640px) {
+    .etappes li { flex-direction: column; gap: 6px; }
+    .jaar { flex: none; }
+  }
+</style>

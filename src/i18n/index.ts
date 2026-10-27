@@ -73,6 +73,7 @@ const nl: Woordenboek = {
   'nav.cultuur': 'Javaanse cultuur',
   'nav.watisgamelan': 'Wat is gamelan?',
   'nav.javaansleren': 'Javaans leren',
+  'nav.surjav': 'Surinaams-Javaans',
 
   // footer
   'footer.over': 'Een culturele organisatie die zich inzet voor de Javaanse cultuur in Nederland. Met passie en toewijding brengen wij de rijke tradities van Java naar een breed publiek.',
@@ -176,6 +177,7 @@ const en: Woordenboek = {
   'nav.cultuur': 'Javanese culture',
   'nav.watisgamelan': 'What is gamelan?',
   'nav.javaansleren': 'Learn Javanese',
+  'nav.surjav': 'Surinamese Javanese',
 
   'footer.over': 'A cultural organisation dedicated to Javanese culture in the Netherlands. With passion and commitment we bring the rich traditions of Java to a wide audience.',
   'footer.nieuwsbrief': 'Subscribe to our newsletter',
@@ -275,6 +277,7 @@ const id: Woordenboek = {
   'nav.cultuur': 'Budaya Jawa',
   'nav.watisgamelan': 'Apa itu gamelan?',
   'nav.javaansleren': 'Belajar bahasa Jawa',
+  'nav.surjav': 'Jawa-Suriname',
 
   'footer.over': 'Sebuah organisasi budaya yang berdedikasi untuk budaya Jawa di Belanda. Dengan penuh semangat kami menghadirkan kekayaan tradisi Jawa kepada khalayak luas.',
   'footer.nieuwsbrief': 'Berlangganan buletin kami',
