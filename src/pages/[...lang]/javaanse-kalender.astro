@@ -1,0 +1,236 @@
+---
+/*
+  De Javaanse kalender uitgelegd.
+
+  Waarom deze pagina bestaat: "javaanse kalender 2027" en "javaanse kalender
+  weton" zijn zinnen die Google zelf voorstelt zodra je begint te typen, en
+  de maandvarianten ("javaanse kalender oktober 2026") laten zien dat de
+  vraag elke maand terugkomt. Op 27 oktober 2026 kwamen de woorden "javaanse
+  kalender" op geen enkele pagina van deze site voor, terwijl de stichting
+  er een uitgeeft.
+
+  De pagina verkoopt niet, hij legt uit. Wie wil kopen vindt de knop
+  onderaan; wie alleen zijn weton wil weten krijgt hier het antwoord en
+  gaat weg, en dat is goed. Een pagina die de vraag beantwoordt wordt
+  aangehaald, een pagina die om de vraag heen praat niet.
+
+  De cijfers hieronder zijn niet uit het hoofd opgeschreven maar overgenomen
+  uit lib/weton.js in het winkelplatform -- dezelfde tabel die de weton-print
+  en de kalender zelf gebruiken. Daar staan ook de ankerpunten waarmee de
+  telling gecontroleerd is (17-08-1945 = Jumat Legi). Verandert daar iets,
+  dan hoort het hier ook te veranderen.
+
+  Nederlands op alle drie de taalpaden, net als de gamelancursus: de
+  zoekvraag is Nederlands en de Javaanse woorden zijn in elke taal gelijk.
+*/
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Vragen from '../../components/Vragen.astro';
+import { taalPaden, pad } from '../../i18n/index.ts';
+
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+
+const WINKEL = 'https://winkel.stichtinggemarasa.com/kalender';
+const WETONTOOL = 'https://winkel.stichtinggemarasa.com/weton';
+
+/* Uit lib/weton.js: keblat papat lima pancer -- vier richtingen, de vijfde in het midden. */
+const pasaran = [
+  { naam: 'Legi',   neptu: 5, richting: 'oost',   arah: 'wetan',  kleur: 'wit' },
+  { naam: 'Pahing', neptu: 9, richting: 'zuid',   arah: 'kidul',  kleur: 'rood' },
+  { naam: 'Pon',    neptu: 7, richting: 'west',   arah: 'kulon',  kleur: 'geel' },
+  { naam: 'Wage',   neptu: 4, richting: 'noord',  arah: 'lor',    kleur: 'zwart' },
+  { naam: 'Kliwon', neptu: 8, richting: 'midden', arah: 'tengah', kleur: 'veelkleurig' },
+];
+
+const dagen = [
+  { naam: 'Minggu', jawa: 'Radite',  neptu: 5, nl: 'zondag' },
+  { naam: 'Senin',  jawa: 'Soma',    neptu: 4, nl: 'maandag' },
+  { naam: 'Selasa', jawa: 'Anggara', neptu: 3, nl: 'dinsdag' },
+  { naam: 'Rabu',   jawa: 'Buda',    neptu: 7, nl: 'woensdag' },
+  { naam: 'Kamis',  jawa: 'Respati', neptu: 8, nl: 'donderdag' },
+  { naam: 'Jumat',  jawa: 'Sukra',   neptu: 6, nl: 'vrijdag' },
+  { naam: 'Sabtu',  jawa: 'Tumpak',  neptu: 9, nl: 'zaterdag' },
+];
+
+/*
+  Alleen vragen waarvan het antwoord op deze pagina of in de weton-rekenaar
+  te controleren is. Geen duidingen van karakter of geluk: die staan niet in
+  onze eigen berekening, dus wij zeggen er niets over.
+*/
+const vragen = [
+  {
+    v: 'Wat is een weton?',
+    a: 'Je weton is de combinatie van de gewone weekdag en de pasaran-dag waarop je geboren bent, bijvoorbeeld Jumat Legi. Omdat de week van zeven en de week van vijf naast elkaar lopen, keert die combinatie elke 35 dagen terug. Die terugkeer heet de wetonan.',
+  },
+  {
+    v: 'Wat zijn de vijf pasaran?',
+    a: 'Legi, Pahing, Pon, Wage en Kliwon. Samen vormen ze de pasaran, de Javaanse marktweek van vijf dagen, die naast de gewone week van zeven dagen doorloopt.',
+  },
+  {
+    v: 'Wat betekent neptu?',
+    a: 'Elke weekdag en elke pasaran heeft een eigen getal. De neptu van een dag is de som van die twee. 17 augustus 1945 was Jumat Legi: Jumat is 6 en Legi is 5, dus de neptu is 11.',
+  },
+  {
+    v: 'Wanneer begint een Javaanse dag?',
+    a: 'Bij zonsondergang, niet om middernacht. Wie op donderdagavond na zonsondergang geboren is, heeft daarom de weton van vrijdag — malam Jumat. Onze rekenaar gebruikt de echte zonsondergang op je geboorteplaats, omdat die in Nederland tussen ongeveer 16.30 en 22.00 ligt.',
+  },
+  {
+    v: 'Hoe reken ik mijn eigen weton uit?',
+    a: 'Dat kan op stichtinggemarasa.com: vul je geboortedatum, -tijd en -plaats in en je ziet direct je dag, pasaran en neptu.',
+  },
+  {
+    v: 'Staat de weton op de kalender van Stichting Gema Rasa?',
+    a: 'Ja. Op Pananggalan Jawa 2027 staat bij elke dag de weton, met de Javaanse maandnamen en de feestdagen. Achterin staat uitgelegd hoe de telling werkt.',
+  },
+];
+---
+<Base
+  taal={taal}
+  title="Javaanse kalender — weton, pasaran en neptu uitgelegd | Stichting Gema Rasa"
+  description="Hoe de Javaanse kalender werkt: de week van zeven dagen en de pasaran van vijf lopen naast elkaar. Met de vijf pasaran, hun neptu, en hoe je je eigen weton uitrekent."
+>
+  <PageHero
+    sleutel="javaanse-kalender"
+    eyebrow="Pananggalan Jawa"
+    titel="De Javaanse kalender"
+    tekst="Twee weken die naast elkaar lopen — en de dagcombinatie die daaruit volgt: je weton."
+    foto="/assets/perf-gamelan.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      <div class="prose">
+        <p class="lead">
+          In de Javaanse kalender lopen twee weken tegelijk: de week van zeven dagen die wij
+          kennen, en de <strong>pasaran</strong>, de marktweek van vijf. Elke dag heeft dus twee
+          namen. Samen vormen ze je <strong>weton</strong>.
+        </p>
+        <p>
+          Omdat vijf en zeven pas na vijfendertig dagen weer samenvallen, keert jouw combinatie
+          elke vijfendertig dagen terug. Die terugkeer heet de <em>wetonan</em>, en voor veel
+          Javaanse families is dat een dag om bij stil te staan.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">De marktweek</span>
+        <h2>De vijf pasaran</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Elke pasaran hoort bij een windrichting en een kleur — <em>keblat papat lima pancer</em>:
+          vier richtingen, de vijfde in het midden. En bij een getal, de neptu.
+        </p>
+      </div>
+      <div class="tabelwrap">
+        <table class="kaltabel">
+          <thead>
+            <tr><th>Pasaran</th><th>Neptu</th><th>Richting</th><th>Kleur</th></tr>
+          </thead>
+          <tbody>
+            {pasaran.map((p) => (
+              <tr>
+                <td><strong>{p.naam}</strong></td>
+                <td>{p.neptu}</td>
+                <td>{p.richting} <span class="jw">({p.arah})</span></td>
+                <td>{p.kleur}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">De gewone week</span>
+        <h2>De zeven dagen en hun neptu</h2>
+      </div>
+      <div class="tabelwrap">
+        <table class="kaltabel">
+          <thead>
+            <tr><th>Dag</th><th>Javaanse naam</th><th>Neptu</th><th>In het Nederlands</th></tr>
+          </thead>
+          <tbody>
+            {dagen.map((d) => (
+              <tr>
+                <td><strong>{d.naam}</strong></td>
+                <td class="jw">{d.jawa}</td>
+                <td>{d.neptu}</td>
+                <td>{d.nl}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Rekenen</span>
+        <h2>Wat je neptu is</h2>
+      </div>
+      <div class="prose">
+        <p>
+          De neptu van een dag is de som van de twee getallen. Een voorbeeld dat iedereen kan
+          nazoeken: <strong>17 augustus 1945</strong>, de dag van de Proklamasi, was
+          <strong>Jumat Legi</strong>. Jumat is 6 en Legi is 5, dus de neptu is 11.
+        </p>
+        <p>
+          Nog twee, met dezelfde telling: Soekarno werd geboren op 6 juni 1901, Kamis Pon.
+          Soeharto op 8 juni 1921, Rabu Kliwon. Allebei neptu 15.
+        </p>
+        <h3>De dag begint bij zonsondergang</h3>
+        <p>
+          Dit is het stuk dat vaak misgaat. Een Javaanse dag begint niet om middernacht maar bij
+          zonsondergang. Wie op donderdagavond ná zonsondergang geboren is, heeft dus de weton van
+          vrijdag — <em>malam Jumat</em>. In Nederland gaat de zon tussen ongeveer 16.30 en 22.00
+          onder, afhankelijk van het seizoen, dus een vaste grens van zes uur klopt hier niet.
+        </p>
+      </div>
+      <p class="kalknoppen">
+        <a class="btn gold" href={WETONTOOL}>Reken je eigen weton uit →</a>
+      </p>
+    </div>
+  </section>
+
+  <Vragen kicker="Veelgestelde vragen" titel="Over de Javaanse kalender" vragen={vragen} />
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Van de stichting</span>
+        <h2>Pananggalan Jawa 2027</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Wij geven elk jaar een Javaanse kalender uit. Bij elke dag staat de weton, met de
+          Javaanse maandnamen en de feestdagen, en achterin staat uitgelegd hoe de telling werkt.
+          Wat we eraan overhouden gaat naar het doorgeven van de Javaanse cultuur.
+        </p>
+      </div>
+      <p class="kalknoppen">
+        <a class="btn gold" href={WINKEL}>Bekijk de kalender →</a>
+        <a class="btn" href={pad(taal, '/gamelancursus')}>Gamelan leren</a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tabelwrap { overflow-x: auto; margin-top: 8px; }
+  .kaltabel { border-collapse: collapse; width: 100%; max-width: 680px; font-size: 15px; }
+  .kaltabel th, .kaltabel td { text-align: left; padding: 11px 16px 11px 0; border-bottom: 1px solid var(--line); }
+  .kaltabel th { font-weight: 600; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .kaltabel .jw { color: var(--muted); }
+  .kalknoppen { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+</style>
