@@ -1,0 +1,34 @@
+---
+/*
+  Eén persoon in een ledenraster.
+
+  Stond eerder driemaal bijna gelijk in leden.astro. Nu één plek, zodat de
+  bestuurs-, gamelan-, dans- en vrijwilligersblokken er hetzelfde uitzien.
+
+  De toevoeging "· Vrijwilliger" verschijnt alleen bij iemand die naast zijn
+  groep ook meehelpt, en alleen als dat nog niet in zijn rol staat -- anders
+  kreeg "Vrijwilliger" er "· Vrijwilliger" achter.
+*/
+import { t } from '../i18n/index.ts';
+
+const { m, taal } = Astro.props;
+
+const initialen = (naam = '') =>
+  naam.split(/[\s-]+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+
+const ookVrijwilliger =
+  m.rollen?.includes('vrijwilliger') &&
+  !m.rollen?.includes('bestuur') &&
+  !/vrijwillig/i.test(m.rol || '');
+
+const rolTekst = [m.rol, ookVrijwilliger ? t(taal, 'ld.vrijwilliger') : null]
+  .filter(Boolean)
+  .join(' · ');
+---
+<div class="member">
+  {m.foto
+    ? <img class="avatar" src={m.foto} alt={m.naam} loading="lazy" />
+    : <div class="avatar-fallback" aria-hidden="true">{initialen(m.naam)}</div>}
+  <div class="naam">{m.naam}</div>
+  <div class="rol">{rolTekst}</div>
+</div>

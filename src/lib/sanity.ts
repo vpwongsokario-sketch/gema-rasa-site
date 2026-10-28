@@ -254,6 +254,10 @@ export async function getLeden(taal: string = 'nl') {
       bestuur: local.bestuur.map(leeg),
       leden: local.leden.map(leeg),
       gamelan: gamelanLokaal,
+      // De terugval kent geen rollen, dus deze twee blijven leeg. De pagina
+      // laat een leeg blok weg, dus dan staat er niets halfs.
+      dans: [],
+      vrijwilligers: [],
       ensembles: { young: [], silver: [], mix: [], overig: gamelanLokaal },
     };
   }
@@ -268,16 +272,31 @@ export async function getLeden(taal: string = 'nl') {
     ensembles: Array.isArray(d.ensembles) ? d.ensembles : [],
   });
   const alle = docs.map(map);
-  // Speelt in de gamelangroep als de rol dat zegt, óf als er een ensemble is
-  // aangevinkt. Dat laatste is immers óók een uitspraak dat iemand meespeelt —
-  // anders zou wie als 'vrijwilliger' staat maar wel in Young Generation speelt
-  // onbedoeld van de pagina verdwijnen.
-  const gamelan = alle.filter((m) => m.rollen.includes('gamelan') || m.ensembles.length > 0);
+  /**
+   * Speelt in de gamelangroep als de rol dat zegt, óf als er een ensemble is
+   * aangevinkt — dat laatste is immers ook een uitspraak dat iemand meespeelt,
+   * en zonder die terugval zou wie nog geen rol heeft van de pagina verdwijnen.
+   *
+   * Behalve als iemand danser is. Tot 28 oktober 2026 stonden de vier dansers
+   * als 'vrijwilliger' met een gamelan-ensemble aangevinkt, en belandden ze
+   * daardoor tussen de musici. De rol gaat voor: wie danst hoort bij de
+   * dansgroep, ook als er nog een ensemble van vroeger aan hangt.
+   */
+  const danst = (m) => m.rollen.includes('dans');
+  const gamelan = alle.filter(
+    (m) => m.rollen.includes('gamelan') || (m.ensembles.length > 0 && !danst(m)),
+  );
   return {
     bestuur: alle.filter((m) => m.rollen.includes('bestuur')),
     // iedereen buiten het bestuur — iemand kan hier zowel speler als vrijwilliger zijn
     leden: alle.filter((m) => !m.rollen.includes('bestuur')),
     gamelan,
+    dans: alle.filter(danst),
+    // Alleen wie helpt en niet meespeelt of danst; wie allebei doet staat al
+    // bij zijn groep, met 'Vrijwilliger' achter zijn rol.
+    vrijwilligers: alle.filter(
+      (m) => m.rollen.includes('vrijwilliger') && !m.rollen.includes('gamelan') && !danst(m),
+    ),
     // De drie ensembles binnen Jiwa Manunggal. Wie nog niet is ingedeeld,
     // verschijnt onder 'overig', zodat niemand van de pagina verdwijnt.
     ensembles: {

@@ -15,6 +15,20 @@ const json = (data: unknown, status = 200) =>
     headers: { 'content-type': 'application/json; charset=utf-8' },
   });
 
+/**
+ * Het afzenderadres.
+ *
+ * Moet op een domein staan dat bij Resend is geverifieerd, anders weigert
+ * Resend het met een 403 en gaat er niets weg. Hier stond
+ * contact@stichtinggemarasa.com, en dat domein is níet geverifieerd --
+ * alleen send.stichtinggemarasa.com en carajawa.nl zijn dat. Omdat de
+ * verzendfout stil wordt opgevangen (het bericht staat immers al in het
+ * CMS) zag niemand ooit dat er niets uitging.
+ *
+ * Nagekeken op 28 oktober 2026 via de Resend-API.
+ */
+const AFZENDER = 'Stichting Gema Rasa <contact@send.stichtinggemarasa.com>';
+
 const geldigEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 const kort = (v: unknown, max: number) => String(v ?? '').trim().slice(0, max);
 const isWaar = (v: unknown) => v === true || v === 'true' || v === 'on' || v === '1';
@@ -215,7 +229,7 @@ export const onRequestPost = async (context: any): Promise<Response> => {
           'content-type': 'application/json',
         },
         body: JSON.stringify({
-          from: String(env.RESEND_FROM || 'Stichting Gema Rasa <contact@stichtinggemarasa.com>'),
+          from: String(env.RESEND_FROM || AFZENDER),
           to: [meldAan],
           reply_to: email,
           subject: onderwerp,
@@ -251,7 +265,7 @@ export const onRequestPost = async (context: any): Promise<Response> => {
             'content-type': 'application/json',
           },
           body: JSON.stringify({
-            from: String(env.RESEND_FROM || 'Stichting Gema Rasa <contact@stichtinggemarasa.com>'),
+            from: String(env.RESEND_FROM || AFZENDER),
             to: [repEmail],
             reply_to: email,
             subject: `Nieuw bericht via de website${team ? ' — ' + team : ''}`,

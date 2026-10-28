@@ -163,6 +163,12 @@ export const paginaNL: Record<string, string> = {
   'ld.faq2V': 'Wanneer oefent de gamelangroep Jiwa Manunggal?',
   'ld.faq2A': 'De repetities vinden plaats op vrijdagavond (19:30–21:30) of zondagmiddag (14:00–16:00), met ruimte voor flexibiliteit. Neem contact op voor de actuele data.',
   'ld.vrijwilliger': 'Vrijwilliger',
+  'ld.dansKicker': 'Dansgroep Beksa Laras Ati',
+  'ld.dansTitel': 'De dansers',
+  'ld.dansTekst': 'Zij brengen de Javaanse dans op het podium, vaak op muziek van Jiwa Manunggal.',
+  'ld.vrijKicker': 'Achter de schermen',
+  'ld.vrijTitel': 'De vrijwilligers',
+  'ld.vrijTekst': 'Zonder hen geen festival, geen voorstelling en geen les. Zij spelen niet mee, maar het gebeurt dankzij hen.',
 
   // ---- De Gamelangroep ----
   'gg.eyebrow': 'De Gamelangroep',
@@ -527,6 +533,12 @@ export const paginaEN: Record<string, string> = {
   'ld.faq2V': 'When does the gamelan group Jiwa Manunggal rehearse?',
   'ld.faq2A': 'Rehearsals take place on Friday evenings (19:30–21:30) or Sunday afternoons (14:00–16:00), with room for flexibility. Contact us for current dates.',
   'ld.vrijwilliger': 'Volunteer',
+  'ld.dansKicker': 'Dance group Beksa Laras Ati',
+  'ld.dansTitel': 'The dancers',
+  'ld.dansTekst': 'They bring Javanese dance to the stage, often to music by Jiwa Manunggal.',
+  'ld.vrijKicker': 'Behind the scenes',
+  'ld.vrijTitel': 'The volunteers',
+  'ld.vrijTekst': 'Without them there would be no festival, no performance and no lessons. They do not play, but it happens because of them.',
 
   'gg.eyebrow': 'The Gamelan Group',
   'gg.titel': 'Jiwa Manunggal',
@@ -884,6 +896,12 @@ export const paginaID: Record<string, string> = {
   'ld.faq2V': 'Kapan grup gamelan Jiwa Manunggal berlatih?',
   'ld.faq2A': 'Latihan diadakan Jumat malam (19:30–21:30) atau Minggu siang (14:00–16:00), dengan waktu yang fleksibel. Hubungi kami untuk tanggal terkini.',
   'ld.vrijwilliger': 'Relawan',
+  'ld.dansKicker': 'Kelompok tari Beksa Laras Ati',
+  'ld.dansTitel': 'Para penari',
+  'ld.dansTekst': 'Mereka membawakan tari Jawa di panggung, sering diiringi Jiwa Manunggal.',
+  'ld.vrijKicker': 'Di balik layar',
+  'ld.vrijTitel': 'Para relawan',
+  'ld.vrijTekst': 'Tanpa mereka tidak ada festival, pertunjukan atau pelajaran. Mereka tidak ikut bermain, tetapi semuanya terjadi berkat mereka.',
 
   'gg.eyebrow': 'Grup Gamelan',
   'gg.titel': 'Jiwa Manunggal',

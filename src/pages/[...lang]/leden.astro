@@ -1,12 +1,13 @@
 ---
 import { taalPaden, t, pad } from '../../i18n/index.ts';
+import Persoon from '../../components/Persoon.astro';
 export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
 const paginaSeo = await getPaginaSeo('leden');
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import { getLeden , getPaginaSeo} from '../../lib/sanity.ts';
-const { bestuur, leden } = await getLeden(taal);
+const { bestuur, gamelan, dans, vrijwilligers } = await getLeden(taal);
 
 // Initialen als er nog geen foto is geüpload
 const initialen = (naam = '') =>
@@ -49,21 +50,7 @@ const initialen = (naam = '') =>
         <p>{t(taal, "ld.groepTekst")}</p>
       </div>
       <div class="team-grid">
-        {leden.map((m) => {
-          // Iemand kan meerdere rollen hebben, bijv. gamelanspeler én vrijwilliger
-          const extra = m.rollen?.includes('vrijwilliger') && !/vrijwillig/i.test(m.rol || '')
-            ? t(taal, "ld.vrijwilliger") : null;
-          const rolTekst = [m.rol, extra].filter(Boolean).join(' · ');
-          return (
-            <div class="member">
-              {m.foto
-                ? <img class="avatar" src={m.foto} alt={m.naam} loading="lazy" />
-                : <div class="avatar-fallback" aria-hidden="true">{initialen(m.naam)}</div>}
-              <div class="naam">{m.naam}</div>
-              <div class="rol">{rolTekst}</div>
-            </div>
-          );
-        })}
+        {gamelan.map((m) => <Persoon m={m} taal={taal} />)}
         <div class="member" style="border-style:dashed;display:flex;flex-direction:column;justify-content:center">
           <div class="naam">{t(taal, "ld.jij")}</div>
           <div class="rol">{t(taal, "ld.jijRol")}</div>
@@ -71,6 +58,44 @@ const initialen = (naam = '') =>
       </div>
     </div>
   </section>
+
+  {/*
+    Dansgroep en vrijwilligers apart.
+
+    Stonden eerder in één lijst onder de kop van het orkest, met "De musici &
+    vrijwilligers" erboven. Vier dansers werden daardoor gepresenteerd als
+    leden van de gamelangroep, en wie alleen meehelpt stond tussen de musici.
+    Drie groepen die iets anders doen horen ook drie koppen te hebben.
+  */}
+  {dans.length > 0 && (
+    <section class="block vervolg">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="kicker">{t(taal, "ld.dansKicker")}</span>
+          <h2>{t(taal, "ld.dansTitel")}</h2>
+          <p>{t(taal, "ld.dansTekst")}</p>
+        </div>
+        <div class="team-grid">
+          {dans.map((m) => <Persoon m={m} taal={taal} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {vrijwilligers.length > 0 && (
+    <section class="block vervolg">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="kicker">{t(taal, "ld.vrijKicker")}</span>
+          <h2>{t(taal, "ld.vrijTitel")}</h2>
+          <p>{t(taal, "ld.vrijTekst")}</p>
+        </div>
+        <div class="team-grid">
+          {vrijwilligers.map((m) => <Persoon m={m} taal={taal} />)}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- FAQ -->
   <section class="block vervolg">
