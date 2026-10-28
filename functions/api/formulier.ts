@@ -180,6 +180,59 @@ export const onRequestPost = async (context: any): Promise<Response> => {
     }
   }
 
+  /**
+   * Melden dat er post is.
+   *
+   * Hier ging het mis: een bericht via het contactformulier kwam wél in het
+   * CMS maar er ging geen mail uit, dus niemand wist dat het er was. Op 27
+   * oktober 2026 stonden er negen berichten, allemaal onbeantwoord, waarvan
+   * de oudste van juli — met daarbij een vraag over een optreden en een over
+   * een standplaats. Voor berichten via de wereldwijd-pagina bestond deze
+   * melding al; voor gewone berichten niet.
+   *
+   * De afzender staat als reply-to. Daardoor is antwoorden gewoon op Beantwoorden
+   * drukken in je eigen mailprogramma — niets overtypen, en het antwoord komt
+   * van de stichting en niet uit een CMS.
+   *
+   * Nieuwsbriefaanmeldingen krijgen geen melding: die regelen zichzelf en
+   * zouden dit alleen maar vol laten lopen. Wie zich als vrijwilliger meldt
+   * juist wel: daar wacht iemand op antwoord.
+   */
+  const meldAan = (env?.CONTACT_EMAIL as string) || 'info@stichtinggemarasa.com';
+  const meldenOver = soort === 'contact' || soort === 'vrijwilliger';
+  if (meldenOver && env?.RESEND_API_KEY && geldigEmail(meldAan)) {
+    const naam = kort(data.naam, 120) || 'Onbekend';
+    const tekst = kort(data.bericht, 5000) || kort(data.toelichting, 2000);
+    const onderwerp =
+      soort === 'vrijwilliger'
+        ? `Nieuwe aanmelding als vrijwilliger — ${naam}`
+        : `Nieuw bericht via de website — ${kort(data.onderwerp, 120) || naam}`;
+    try {
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${env.RESEND_API_KEY}`,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: String(env.RESEND_FROM || 'Stichting Gema Rasa <contact@stichtinggemarasa.com>'),
+          to: [meldAan],
+          reply_to: email,
+          subject: onderwerp,
+          text:
+            `Van: ${naam} <${email}>\n` +
+            (kort(data.onderwerp, 200) ? `Onderwerp: ${kort(data.onderwerp, 200)}\n` : '') +
+            `\n${tekst}\n\n` +
+            `— Druk op Beantwoorden om ${naam} rechtstreeks te antwoorden.\n` +
+            `Het bericht staat ook in de Studio onder Berichten; vink het daar af als het klaar is.`,
+        }),
+      });
+    } catch {
+      // Stil: het bericht staat al in het CMS. Een mislukte melding mag nooit
+      // betekenen dat de bezoeker een foutmelding ziet.
+    }
+  }
+
   // Bericht voor een vertegenwoordiger ook rechtstreeks naar diens inbox mailen
   // (via Resend). De bezoeker staat als reply-to, zodat de vertegenwoordiger
   // meteen kan antwoorden. Lukt dit niet, dan staat het bericht al in het CMS
