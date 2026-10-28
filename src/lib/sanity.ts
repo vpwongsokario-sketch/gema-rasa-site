@@ -283,8 +283,17 @@ export async function getLeden(taal: string = 'nl') {
    * dansgroep, ook als er nog een ensemble van vroeger aan hangt.
    */
   const danst = (m) => m.rollen.includes('dans');
+  /**
+   * Een ingevulde rol gaat vóór het ensemble.
+   *
+   * Het ensemble telt alleen mee bij iemand die nog helemaal geen rol heeft;
+   * dan is het het enige aanknopingspunt dat we hebben. Stond die terugval
+   * ruimer, dan belandde wie als vrijwilliger of danser staat maar nog een
+   * ensemble van vroeger aan heeft hangen alsnog tussen de musici -- en dan
+   * staat dezelfde persoon twee keer op de pagina.
+   */
   const gamelan = alle.filter(
-    (m) => m.rollen.includes('gamelan') || (m.ensembles.length > 0 && !danst(m)),
+    (m) => m.rollen.includes('gamelan') || (m.rollen.length === 0 && m.ensembles.length > 0),
   );
   return {
     bestuur: alle.filter((m) => m.rollen.includes('bestuur')),
