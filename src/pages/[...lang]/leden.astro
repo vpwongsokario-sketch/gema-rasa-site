@@ -50,7 +50,10 @@ const initialen = (naam = '') =>
         <p>{t(taal, "ld.groepTekst")}</p>
       </div>
       <div class="team-grid">
-        {gamelan.map((m) => <Persoon m={m} taal={taal} />)}
+        {/* Zonder het bestuur: die drie spelen ook mee, maar staan al in het
+            blok hierboven. Twee keer dezelfde persoon op één pagina leest
+            als een fout. Dat ze meespelen staat in hun rol. */}
+        {gamelan.filter((m) => !m.rollen?.includes('bestuur')).map((m) => <Persoon m={m} taal={taal} />)}
         <div class="member" style="border-style:dashed;display:flex;flex-direction:column;justify-content:center">
           <div class="naam">{t(taal, "ld.jij")}</div>
           <div class="rol">{t(taal, "ld.jijRol")}</div>
