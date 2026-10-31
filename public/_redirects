@@ -15,6 +15,12 @@
 /studio      https://beheer.stichtinggemarasa.com/studio      302
 /studio/*    https://beheer.stichtinggemarasa.com/studio/:splat 302
 
+# Het declaratieformulier, om dezelfde reden en met hetzelfde doel: het
+# draait bij Vercel, maar dit is het adres dat je aan iemand geeft. Een
+# artiest of vrijwilliger een link sturen die met 'beheer.' begint leest
+# alsof hij ergens hoort te zijn waar hij niets te zoeken heeft.
+/declareren  https://beheer.stichtinggemarasa.com/declareren  302
+
 # ---------------------------------------------------------------------------
 # Adressen uit de Webflow-tijd.
 #
