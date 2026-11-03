@@ -1,0 +1,244 @@
+---
+/*
+  Javaanse verhalen -- de verhalen zelf, naast /wat-is-wayang.
+
+  Uit het vindbaarheidsplan. Wayang gaat over de vórm: de poppen, het
+  scherm, de dalang. Deze pagina gaat over wat er verteld wordt, en dat
+  is een andere vraag met een ander antwoord. Ze linken naar elkaar, en
+  er staat met opzet geen uitleg over poppen op deze pagina -- twee
+  pagina's die hetzelfde zeggen eten elkaar op.
+
+  Het eigen deel is hier belangrijker dan bij gamelan en wayang. Over de
+  Ramayana kan iedereen schrijven; over de verhalen die tussen 1890 en
+  1939 meegingen naar Suriname en daarna naar Nederland, en die nooit
+  zijn opgeschreven, kunnen wij schrijven. Daarom staat het verteldeel
+  van de stichting -- Andhe Andhe Lumut, Onzichtbare Verhalen, de
+  keynotes van de menukaart -- niet onderaan als reclame maar middenin,
+  want het is het antwoord op de vraag.
+
+  Alle bedragen en tijden komen van de menukaart; staan die daar anders,
+  pas ze hier ook aan. De jaartallen 1890-1939 staan in het nieuwsbericht
+  over Onzichtbare Verhalen.
+
+  Nederlands op alle drie de taalpaden.
+*/
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Vragen from '../../components/Vragen.astro';
+import { taalPaden, pad } from '../../i18n/index.ts';
+
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+
+/*
+  De verhalen die wij zelf vertellen, met de duur en de prijs van de
+  menukaart. Niet alle keynotes: deze vier zijn de verhalen: de vijfde en
+  zesde op de menukaart zijn lezing en workshop.
+*/
+const eigen = [
+  {
+    titel: 'De Overtocht',
+    waarover: 'De reis van Java naar Suriname naar Nederland, en hoe die geschiedenis doorwerkt in identiteit en familie.',
+    duur: '30–45 min',
+  },
+  {
+    titel: 'De Stille Kracht van de Javaan',
+    waarover: 'Over bescheidenheid en harmonie als kracht — en de keerzijde: jezelf onzichtbaar maken.',
+    duur: '30–45 min',
+  },
+  {
+    titel: 'Van Stilte naar Stem',
+    waarover: 'Hoe de nieuwe generatie haar stem vindt en zich opnieuw verbindt met haar roots.',
+    duur: '30–45 min',
+  },
+  {
+    titel: 'Rituelen & Erfenis',
+    waarover: 'Over doorgegeven rituelen zoals sadjen, en wat een voorwerp met zich meedraagt.',
+    duur: '30–45 min',
+  },
+];
+
+const vragen = [
+  {
+    v: 'Wat zijn Javaanse verhalen?',
+    a: 'Een verzamelnaam voor drie dingen die door elkaar lopen. De grote epen die uit India kwamen en op Java een eigen vorm kregen, de Ramayana en de Mahabharata. De Javaanse volksverhalen, zoals Andhe Andhe Lumut. En de familieverhalen die mondeling worden doorgegeven en zelden zijn opgeschreven — bij Surinaams-Javaanse families de verhalen over de overtocht en het contract.',
+  },
+  {
+    v: 'Wat is Andhe Andhe Lumut?',
+    a: 'Een Javaans volksverhaal. Andhe Andhe Lumut is de naam waaronder een prins leeft terwijl hij een vrouw zoekt. Vier zussen gaan naar hem op weg, maar onderweg ligt een rivier zonder veerpont, bewaakt door de reuzenkrab Yuyu Kangkang, die hen wil overzetten in ruil voor een kus. Drie zussen stemmen toe; de jongste, Klething Kuning, weigert en komt daardoor als laatste en onooglijk aan. Juist haar kiest hij. Stichting Gema Rasa bracht het verhaal in 2026 als voorstelling, samen met Javaanse leermeesters uit Indonesië.',
+  },
+  {
+    v: 'Zijn Javaanse verhalen opgeschreven?',
+    a: 'De grote epen wel, die bestaan in talloze versies. De familieverhalen vaak niet. Van de Javaanse contractarbeiders die tussen 1890 en 1939 naar Suriname vertrokken is nauwkeurig bijgehouden op welk schip ze stonden, maar wat ze meemaakten en doorvertelden staat nergens. Daarom legt Stichting Gema Rasa ze vast, onder meer in de documentairereeks Onzichtbare Verhalen.',
+  },
+  {
+    v: 'Wat is het verschil tussen een Javaans verhaal en wayang?',
+    a: 'Wayang is de vorm waarin verhalen worden gespeeld: poppentheater met een dalang en een gamelanorkest. De verhalen zelf zijn ouder dan die vorm en worden ook zonder poppen verteld, gedanst of gezongen.',
+  },
+  {
+    v: 'Kun je een verteller boeken?',
+    a: 'Ja. Wij vertellen vier verhalen van dertig tot vijfenveertig minuten, elk vanaf € 440: De Overtocht, De Stille Kracht van de Javaan, Van Stilte naar Stem, en Rituelen & Erfenis. Ze zijn te boeken voor herdenkingen, scholen, musea en organisaties, los of in combinatie met muziek of een workshop.',
+  },
+];
+---
+
+<Base
+  taal={taal}
+  title="Javaanse verhalen — van de Ramayana tot de verhalen die nooit werden opgeschreven | Stichting Gema Rasa"
+  description="Welke verhalen vertellen Javanen, en welke zijn er nooit opgeschreven? Over de Ramayana en de Mahabharata, volksverhalen als Andhe Andhe Lumut, en de familieverhalen van de overtocht naar Suriname."
+>
+  <PageHero
+    sleutel="javaanse-verhalen"
+    eyebrow="Javaanse cultuur"
+    titel="Javaanse verhalen"
+    tekst="De verhalen die eeuwen meegingen, en de verhalen die bijna verdwenen omdat niemand ze opschreef."
+    foto="/assets/perf-expo.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      <div class="prose">
+        <p class="lead">
+          Javaanse verhalen komen uit drie lagen die door elkaar lopen. De grote epen die uit
+          India kwamen en op Java een eigen gezicht kregen — de <em>Ramayana</em> en de{' '}
+          <em>Mahabharata</em>. De volksverhalen, zoals <em>Andhe Andhe Lumut</em>. En de
+          familieverhalen die van mond tot mond gingen en bijna nooit zijn opgeschreven.
+        </p>
+        <p>
+          Die derde laag is de kwetsbaarste, en voor Surinaams-Javaanse families de
+          belangrijkste. Wat eeuwenlang doorverteld werd, stopt bij de generatie die er niet
+          meer naar vraagt.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">De epen</span>
+        <h2>Ramayana en Mahabharata, maar Javaans</h2>
+      </div>
+      <div class="prose">
+        <p>
+          De twee grote Indiase epen reizen al meer dan duizend jaar mee met Java, en zijn
+          onderweg iets anders geworden. Dezelfde helden, dezelfde oorlogen — maar met figuren
+          erbij die in de Indiase versies niet voorkomen, en met een moraal die vaker over
+          evenwicht gaat dan over overwinning.
+        </p>
+        <p>
+          Die toegevoegde figuren zijn geen bijrol. Het zijn de knechten en de clowns, de gewone
+          mensen tussen de vorsten, en zij zeggen in een voorstelling wat niemand anders mag
+          zeggen. Wie wil zien hoe dat op het toneel werkt, leest verder op{' '}
+          <a href={pad(taal, '/wat-is-wayang')}>Wat is wayang</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Volksverhalen</span>
+        <h2>Andhe Andhe Lumut</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Naast de epen staan de volksverhalen, en <em>Andhe Andhe Lumut</em> is er daar één van.
+          Andhe Andhe Lumut is de naam waaronder een prins leeft terwijl hij een vrouw zoekt.
+          Vier zussen gaan naar hem op weg, maar onderweg ligt een rivier zonder veerpont.
+          <em>Yuyu Kangkang</em>, een reuzenkrab, wil hen wel overzetten — in ruil voor een kus.
+        </p>
+        <p>
+          Drie zussen stemmen toe. De jongste, Klething Kuning, weigert, en komt daardoor als
+          laatste aan, te voet en onooglijk. En juist haar kiest hij, want zij is de enige die
+          zich niet heeft laten overhalen. Er bestaan veel versies van, maar die rivier staat er
+          in allemaal.
+        </p>
+        <p>
+          Stichting Gema Rasa bracht het in 2026 als voorstelling, samen met Javaanse vrienden en
+          leermeesters uit Indonesië. Dat was net zo goed een zoektocht naar de eigen roots als
+          een productie: cultuur blijft niet levend in archieven, maar doordat mensen haar samen
+          beleven en doorgeven.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Wat niet is opgeschreven</span>
+        <h2>De verhalen van de overtocht</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Tussen 1890 en 1939 vertrokken Javaanse contractarbeiders naar Suriname. Van die reis
+          is precies bijgehouden wie op welk schip stond — namen, nummers, data. Wat die mensen
+          meemaakten, waar ze bang voor waren en wat ze hun kinderen vertelden, staat nergens.
+        </p>
+        <p>
+          Dat is geen toeval maar een patroon: wie het zwaar heeft schrijft zelden op. En in veel
+          Javaanse families komt daar iets bij — je klaagt niet, je valt niemand lastig, je houdt
+          het binnen. Zo verdwijnt een geschiedenis zonder dat iemand hem weggooit.
+        </p>
+        <p>
+          Daarom legt de stichting ze vast. In <strong>Onzichtbare Verhalen</strong> staan zes
+          korte documentaires over Hagenaars met Javaanse roots; in het magazine{' '}
+          <a href={pad(taal, '/suwara-jawa')}>Suwara Jawa</a> staan de verhalen op papier.
+        </p>
+      </div>
+      <p class="gamknoppen">
+        <a class="btn" href={pad(taal, '/surinaams-javaans')}>Over Surinaams-Javaans →</a>
+        <a class="btn" href={pad(taal, '/videos')}>Bekijk Onzichtbare Verhalen</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Laten vertellen</span>
+        <h2>Vier verhalen die wij vertellen</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Niet als lezing met een presentatie erbij, maar als verhaal: één verteller, dertig tot
+          vijfenveertig minuten, vanaf € 440. Te boeken voor herdenkingen, scholen, musea en
+          organisaties, los of met muziek of een workshop erbij.
+        </p>
+      </div>
+      <div class="tabelwrap">
+        <table class="gamtabel">
+          <thead>
+            <tr><th>Verhaal</th><th>Waarover</th><th>Duur</th></tr>
+          </thead>
+          <tbody>
+            {eigen.map((e) => (
+              <tr>
+                <td><strong>{e.titel}</strong></td>
+                <td class="jw">{e.waarover}</td>
+                <td>{e.duur}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="gamknoppen">
+        <a class="btn gold" href={pad(taal, '/menukaart')}>Een verteller boeken →</a>
+        <a class="btn" href={pad(taal, '/wat-is-wayang')}>Wat is wayang?</a>
+      </p>
+    </div>
+  </section>
+
+  <Vragen kicker="Veelgestelde vragen" titel="Over Javaanse verhalen" vragen={vragen} />
+</Base>
+
+<style>
+  .tabelwrap { overflow-x: auto; margin-top: 8px; }
+  .gamtabel { border-collapse: collapse; width: 100%; max-width: 760px; font-size: 15px; }
+  .gamtabel th, .gamtabel td { text-align: left; padding: 11px 16px 11px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .gamtabel th { font-weight: 600; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .gamtabel .jw { color: var(--muted); }
+  .gamknoppen { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+</style>
