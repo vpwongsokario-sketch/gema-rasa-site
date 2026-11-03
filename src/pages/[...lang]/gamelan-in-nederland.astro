@@ -1,0 +1,278 @@
+---
+/*
+  Gamelan in Nederland -- waar het hier gespeeld wordt en hoe je meedoet.
+
+  Volgende stap uit het vindbaarheidsplan. Op 3 november 2026 kwam de site
+  niet naar voren op "gamelan in nederland" en op "gamelan spelen", en de
+  reden was simpel: die woorden stonden nergens. Er waren drie gamelan-
+  pagina's, maar elk beantwoordt een andere vraag -- wat gamelan ís
+  (/wat-is-gamelan), wie je kunt boeken (/de-gamelan-groep) en hoe je het
+  online leert (/gamelancursus). Wie "gamelan in Nederland" intikt vraagt
+  geen van die drie. Die vraagt: waar wordt dit hier gespeeld, door wie, en
+  kan ik erbij.
+
+  Deze pagina noemt met opzet ook de orkesten in Amsterdam, en niet alleen
+  ons eigen orkest. Dat is het idee achter "de bron worden": wie de vraag
+  eerlijk beantwoordt wordt het antwoord, wie alleen zichzelf aanprijst
+  wordt een folder. Iemand die in Amsterdam woont heeft niets aan Hoogvliet.
+
+  Over de feiten. Alles wat hier over anderen staat komt van henzelf
+  (gamelanhuis.nl) of uit een bron die eronder genoemd staat. Wat er NIET
+  staat is even belangrijk: er staat niet dat de gamelan van 1883 de eerste
+  in Nederland was. Dat wordt vaak beweerd, maar ik heb het nergens bevestigd
+  gekregen, en een jaartal dat door een AI-dienst wordt overgenomen moet
+  kloppen. Er staat dus wat er wél vaststaat.
+
+  Nederlands op alle drie de taalpaden, net als /wat-is-gamelan: de zoekvraag
+  is Nederlands.
+*/
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Vragen from '../../components/Vragen.astro';
+import { taalPaden, pad } from '../../i18n/index.ts';
+
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+
+const GAMELANHUIS = 'https://www.gamelanhuis.nl/';
+
+/*
+  Waar je in Nederland terechtkunt.
+
+  Bewust kort gehouden per regel: zodra je per orkest gaat beschrijven wat ze
+  doen, veroudert het en ga je namens anderen praten. De link gaat naar hun
+  eigen pagina, want daar staat wat zij erover te zeggen hebben.
+*/
+const plekken = [
+  {
+    waar: 'Amsterdam',
+    wie: 'Het Gamelanhuis',
+    wat: 'Een collectief in Pakhuis Wilhelmina waar sinds 1990 zeven gamelanorkesten onderdak hebben, met twee zalen voor repetities en voorstellingen. Onder meer Widosari, Wiludyeng, Gong Tirta, Mugi Rahayu, Global Gongs, Multifoon en Babar Layar repeteren er.',
+  },
+  {
+    waar: 'Rotterdam',
+    wie: 'Jiwa Manunggal',
+    wat: 'Ons eigen orkest, in drie groepen naar leeftijd. We repeteren bij KizzMotions in Hoogvliet. Kom een keer kijken of meespelen.',
+  },
+  {
+    waar: 'In de musea',
+    wie: 'Wereldmuseum Leiden en Amsterdam',
+    wat: 'In de collecties van het Nationaal Museum van Wereldculturen liggen Javaanse instrumenten die in de koloniale tijd naar Nederland kwamen. Niet om op te spelen, wel om te zien waar dit vandaan komt.',
+  },
+];
+
+const vragen = [
+  {
+    v: 'Waar kan ik in Nederland gamelan spelen?',
+    a: 'Er zijn twee plekken waar je zonder ervaring kunt aanschuiven. In Amsterdam zit Het Gamelanhuis in Pakhuis Wilhelmina, een collectief waar sinds 1990 zeven gamelanorkesten onderdak hebben. In Rotterdam repeteert ons eigen orkest Jiwa Manunggal bij KizzMotions in Hoogvliet; kom gerust een keer kijken of meespelen.',
+  },
+  {
+    v: 'Moet ik noten kunnen lezen om gamelan te spelen?',
+    a: 'Nee. Gamelan is een orale traditie: je leert door te luisteren en na te doen, naast iemand die het al kan. Er bestaat wel notatie — kepatihan, een cijferschrift — maar dat is een geheugensteun, geen partituur die je uitvoert.',
+  },
+  {
+    v: 'Heb ik een eigen instrument nodig?',
+    a: 'Nee, en je kunt er ook geen kopen voor thuis. Een gamelan is één instrument dat als geheel gebouwd en gestemd wordt en door een groep tegelijk bespeeld wordt. Je speelt dus altijd op de set van de groep waar je bij komt.',
+  },
+  {
+    v: 'Hoe is de gamelan in Nederland terechtgekomen?',
+    a: 'Via de koloniale band met Indonesië. Op de Internationale Koloniale en Uitvoerhandel Tentoonstelling in Amsterdam, van 1 mei tot 1 oktober 1883, stond op het Museumplein een Javaanse kampong met een compleet gamelanorkest; de ongeveer achtendertig mensen die daarvoor waren overgebracht speelden er gamelan en wayang voor publiek. In diezelfde periode kwamen Javaanse instrumenten in de museumcollecties terecht die nu bij het Nationaal Museum van Wereldculturen horen.',
+  },
+  {
+    v: 'Wat is Surinaams-Javaanse gamelan?',
+    a: 'Vanaf 1890 kwamen Javaanse contractarbeiders naar Suriname, en zij namen hun muziek mee. Na 1975 verhuisde een groot deel van hun nakomelingen naar Nederland. Die gamelan heeft dus een andere weg afgelegd dan de instrumenten die rechtstreeks uit Java kwamen, en klinkt op onderdelen ook anders. Stichting Gema Rasa komt uit die traditie.',
+  },
+  {
+    v: 'Kost het geld om mee te spelen?',
+    a: 'Bij ons betaal je een bijdrage per jaar; wat dat is hoor je als je contact opneemt. Wil je eerst thuis kijken of het iets voor je is, dan is onze online cursus gratis — zestien korte lessen, zonder account en zonder instrument.',
+  },
+];
+---
+
+<Base
+  taal={taal}
+  title="Gamelan in Nederland — waar je het hoort en zelf kunt spelen | Stichting Gema Rasa"
+  description="Waar in Nederland gamelan gespeeld wordt, hoe de instrumenten hier terechtkwamen en hoe je zelf meespeelt — bij een orkest in Amsterdam of bij ons in Rotterdam. Geen noten lezen, geen eigen instrument nodig."
+>
+  <PageHero
+    sleutel="gamelan-in-nederland"
+    eyebrow="Gamelan hier"
+    titel="Gamelan in Nederland"
+    tekst="Waar het gespeeld wordt, hoe het hier kwam, en hoe je zelf aanschuift."
+    foto="/assets/perf-gamelan.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      <div class="prose">
+        <p class="lead">
+          In Nederland wordt al meer dan een eeuw gamelan gespeeld. De twee plekken waar je als
+          beginner kunt aanschuiven zijn <strong>Het Gamelanhuis in Amsterdam</strong>, waar sinds
+          1990 zeven orkesten onderdak hebben, en <strong>ons eigen orkest Jiwa Manunggal</strong>,
+          dat in Hoogvliet in Rotterdam repeteert. Je hoeft geen noten te kunnen lezen en je hebt
+          geen eigen instrument nodig.
+        </p>
+        <p>
+          Dat laatste verrast de meeste mensen. Een gamelan is geen verzameling losse instrumenten
+          die je los koopt: de hele set wordt samen gebouwd en samen gestemd en geldt als één
+          instrument. Gamelan spelen betekent dus altijd: bij een groep gaan spelen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Waar</span>
+        <h2>Waar je gamelan kunt spelen en horen</h2>
+      </div>
+      <div class="tabelwrap">
+        <table class="gamtabel">
+          <thead>
+            <tr><th>Plaats</th><th>Wie</th><th>Wat je er vindt</th></tr>
+          </thead>
+          <tbody>
+            {plekken.map((p) => (
+              <tr>
+                <td><strong>{p.waar}</strong></td>
+                <td>{p.wie}</td>
+                <td class="jw">{p.wat}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div class="prose">
+        <p>
+          Woon je in of bij Amsterdam, ga dan naar
+          <a href={GAMELANHUIS} rel="noopener" target="_blank">Het Gamelanhuis</a>. Daar staan de
+          meeste orkesten van het land onder één dak en ze spelen van klassiek Javaans tot nieuwe
+          muziek. Wij zitten in Rotterdam; het heeft weinig zin om daarvoor het land door te
+          reizen als het om de hoek ook kan.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Geschiedenis</span>
+        <h2>Hoe de gamelan hier terechtkwam</h2>
+      </div>
+      <div class="prose">
+        <p>
+          De gamelan kwam mee met de koloniale band met Indonesië, en de bekendste keer dat
+          Nederlanders hem hoorden was geen concert maar een tentoonstelling. Van 1 mei tot
+          1 oktober 1883 stond op het Museumplein in Amsterdam de
+          <strong>Internationale Koloniale en Uitvoerhandel Tentoonstelling</strong>, met daarop
+          een Javaanse kampong: acht huizen van hout en bamboe, en een compleet gamelanorkest.
+          De ongeveer achtendertig mensen die daarvoor waren overgebracht speelden er gamelan,
+          gaven wayangvoorstellingen en lieten ambachten zien.
+        </p>
+        <p>
+          Het is goed om te benoemen wat dat was. Die mensen stonden daar niet als musici op een
+          podium maar als onderdeel van de expositie, naast de producten uit de kolonie. Dezelfde
+          jaren waarin de instrumenten hierheen kwamen zijn de jaren waarin ze als bezienswaardigheid
+          werden getoond, en een deel van wat nu in de museumcollecties van het
+          <strong>Nationaal Museum van Wereldculturen</strong> ligt — Wereldmuseum Leiden,
+          Wereldmuseum Amsterdam — is in die periode verzameld.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Twee wegen</span>
+        <h2>Niet alle gamelan hier komt rechtstreeks uit Java</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Er is een tweede weg die veel minder bekend is. Vanaf 1890 vertrokken Javaanse
+          contractarbeiders naar Suriname, aan de andere kant van de wereld, en zij namen hun
+          muziek mee. Daar ging die een eigen kant op: andere stukken, andere gelegenheden, een
+          eigen klank. Na 1975 verhuisde een groot deel van hun nakomelingen naar Nederland, en
+          die gamelan kwam dus niet uit Java hierheen maar uit Paramaribo.
+        </p>
+        <p>
+          Dat is de traditie waar wij uit komen. Het is dezelfde muziek en het is het niet
+          helemaal: honderdvijfendertig jaar apart hoor je terug. Daarom noemen we onszelf
+          Surinaams-Javaans en niet alleen Javaans.
+        </p>
+      </div>
+      <p class="gamknoppen">
+        <a class="btn" href={pad(taal, '/surinaams-javaans')}>Over Surinaams-Javaans →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Meedoen</span>
+        <h2>Zelf gamelan spelen</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Je kunt beginnen zonder iets. Geen muzikale opleiding, geen noten, geen instrument, en
+          ook geen Javaanse achtergrond. Gamelan is een orale traditie: je zit naast iemand die
+          het al kan en je doet na wat hij doet. De eerste avond speel je mee op de saron, het
+          instrument met de rechte toetsen, en dat is met opzet — daar zit de kale melodie, en
+          daaromheen leer je de rest horen.
+        </p>
+        <p>
+          Bij ons speelt Jiwa Manunggal in drie groepen naar leeftijd, van de jongste tot de
+          Silver Generation vanaf dertig jaar. We repeteren bij KizzMotions in Hoogvliet. Kom
+          een keer kijken of meteen meespelen; laat het even weten, dan vertellen we wanneer we
+          er zijn.
+        </p>
+        <p>
+          Wil je eerst thuis uitvinden of het iets voor je is, dan kan dat ook. Onze online
+          cursus over de Javaanse gamelan in de stijl van Solo is gratis: zestien korte lessen,
+          met een lesblad en een quiz, in je eigen tempo.
+        </p>
+      </div>
+      <p class="gamknoppen">
+        <a class="btn gold" href={pad(taal, '/contact')}>Kom een keer meespelen →</a>
+        <a class="btn" href={pad(taal, '/gamelancursus')}>Begin met de gratis cursus</a>
+        <a class="btn" href={pad(taal, '/de-gamelan-groep')}>Over Jiwa Manunggal</a>
+      </p>
+    </div>
+  </section>
+
+  <Vragen kicker="Veelgestelde vragen" titel="Gamelan in Nederland" vragen={vragen} />
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="prose bronnen">
+        <h3>Bronnen</h3>
+        <p>
+          De gegevens over Het Gamelanhuis en de orkesten die daar repeteren komen van
+          <a href={GAMELANHUIS} rel="noopener" target="_blank">gamelanhuis.nl</a>. De
+          tentoonstelling van 1883 en de Javaanse kampong op het Museumplein zijn beschreven in
+          <a
+            href="https://www.dbnl.org/tekst/_boe022201601_01/_boe022201601_01_0068.php"
+            rel="noopener"
+            target="_blank">Liesbeth Ouwehand, &lsquo;Indië in Amsterdam&rsquo;, De Boekenwereld 32</a>.
+          Wat hier staat over de instrumenten zelf volgt Sumarsam,
+          <em>Introduction, Theory, and Analysis: Javanese Gamelan</em> (Middletown CT, 2023);
+          dat staat uitgebreider op <a href={pad(taal, '/wat-is-gamelan')}>Wat is gamelan</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tabelwrap { overflow-x: auto; margin-top: 8px; }
+  .gamtabel { border-collapse: collapse; width: 100%; max-width: 760px; font-size: 15px; }
+  .gamtabel th, .gamtabel td { text-align: left; padding: 11px 16px 11px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .gamtabel th { font-weight: 600; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .gamtabel .jw { color: var(--muted); }
+  .gamknoppen { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .bronnen { font-size: 15px; color: var(--muted); }
+  .bronnen h3 { font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+</style>
