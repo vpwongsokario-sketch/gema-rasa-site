@@ -20,7 +20,10 @@
   pas ze hier ook aan. De jaartallen 1890-1939 staan in het nieuwsbericht
   over Onzichtbare Verhalen.
 
-  Nederlands op alle drie de taalpaden.
+  Sinds 4 november 2026 ook echt in het Engels en Indonesisch. Deze pagina
+  is van de vier de belangrijkste om te vertalen: over de Ramayana schrijft
+  iedereen, over wat er tussen Java, Suriname en Nederland verloren ging
+  schrijft bijna niemand. Juist dat deel is in het Engels nergens te vinden.
 */
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
@@ -31,84 +34,338 @@ export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
 
 /*
-  De verhalen die wij zelf vertellen, met de duur en de prijs van de
-  menukaart. Niet alle keynotes: deze vier zijn de verhalen: de vijfde en
-  zesde op de menukaart zijn lezing en workshop.
-*/
-const eigen = [
-  {
-    titel: 'De Overtocht',
-    waarover: 'De reis van Java naar Suriname naar Nederland, en hoe die geschiedenis doorwerkt in identiteit en familie.',
-    duur: '30–45 min',
-  },
-  {
-    titel: 'De Stille Kracht van de Javaan',
-    waarover: 'Over bescheidenheid en harmonie als kracht — en de keerzijde: jezelf onzichtbaar maken.',
-    duur: '30–45 min',
-  },
-  {
-    titel: 'Van Stilte naar Stem',
-    waarover: 'Hoe de nieuwe generatie haar stem vindt en zich opnieuw verbindt met haar roots.',
-    duur: '30–45 min',
-  },
-  {
-    titel: 'Rituelen & Erfenis',
-    waarover: 'Over doorgegeven rituelen zoals sadjen, en wat een voorwerp met zich meedraagt.',
-    duur: '30–45 min',
-  },
-];
+  Alle tekst van deze pagina, per taal. Zie wat-is-wayang.astro voor waarom
+  dit hier staat en niet in i18n/index.ts.
 
-const vragen = [
-  {
-    v: 'Wat zijn Javaanse verhalen?',
-    a: 'Een verzamelnaam voor drie dingen die door elkaar lopen. De grote epen die uit India kwamen en op Java een eigen vorm kregen, de Ramayana en de Mahabharata. De Javaanse volksverhalen, zoals Andhe Andhe Lumut. En de familieverhalen die mondeling worden doorgegeven en zelden zijn opgeschreven — bij Surinaams-Javaanse families de verhalen over de overtocht en het contract.',
+  De titels van de vier keynotes blijven Nederlands, in elke taal, met de
+  vertaling erachter tussen haakjes. Ze staan zo op de menukaart en worden
+  zo geboekt; een los vertaalde titel is daarna niet terug te vinden.
+*/
+const INHOUD = {
+  nl: {
+    titel:
+      'Javaanse verhalen — van de Ramayana tot de verhalen die nooit werden opgeschreven | Stichting Gema Rasa',
+    omschrijving:
+      'Welke verhalen vertellen Javanen, en welke zijn er nooit opgeschreven? Over de Ramayana en de Mahabharata, volksverhalen als Andhe Andhe Lumut, en de familieverhalen van de overtocht naar Suriname.',
+    eyebrow: 'Javaanse cultuur',
+    kop: 'Javaanse verhalen',
+    heroTekst:
+      'De verhalen die eeuwen meegingen, en de verhalen die bijna verdwenen omdat niemand ze opschreef.',
+    lead:
+      'Javaanse verhalen komen uit drie lagen die door elkaar lopen. De grote epen die uit India kwamen en op Java een eigen gezicht kregen — de <em>Ramayana</em> en de <em>Mahabharata</em>. De volksverhalen, zoals <em>Andhe Andhe Lumut</em>. En de familieverhalen die van mond tot mond gingen en bijna nooit zijn opgeschreven.',
+    intro2:
+      'Die derde laag is de kwetsbaarste, en voor Surinaams-Javaanse families de belangrijkste. Wat eeuwenlang doorverteld werd, stopt bij de generatie die er niet meer naar vraagt.',
+
+    epenKicker: 'De epen',
+    epenKop: 'Ramayana en Mahabharata, maar Javaans',
+    epen1:
+      'De twee grote Indiase epen reizen al meer dan duizend jaar mee met Java, en zijn onderweg iets anders geworden. Dezelfde helden, dezelfde oorlogen — maar met figuren erbij die in de Indiase versies niet voorkomen, en met een moraal die vaker over evenwicht gaat dan over overwinning.',
+    epen2:
+      'Die toegevoegde figuren zijn geen bijrol. Het zijn de knechten en de clowns, de gewone mensen tussen de vorsten, en zij zeggen in een voorstelling wat niemand anders mag zeggen. Wie wil zien hoe dat op het toneel werkt, leest verder op <a href="%WAYANG%">Wat is wayang</a>.',
+
+    volksKicker: 'Volksverhalen',
+    volksKop: 'Andhe Andhe Lumut',
+    volks1:
+      'Naast de epen staan de volksverhalen, en <em>Andhe Andhe Lumut</em> is er daar één van. Andhe Andhe Lumut is de naam waaronder een prins leeft terwijl hij een vrouw zoekt. Vier zussen gaan naar hem op weg, maar onderweg ligt een rivier zonder veerpont. <em>Yuyu Kangkang</em>, een reuzenkrab, wil hen wel overzetten — in ruil voor een kus.',
+    volks2:
+      'Drie zussen stemmen toe. De jongste, Klething Kuning, weigert, en komt daardoor als laatste aan, te voet en onooglijk. En juist haar kiest hij, want zij is de enige die zich niet heeft laten overhalen. Er bestaan veel versies van, maar die rivier staat er in allemaal.',
+    volks3:
+      'Stichting Gema Rasa bracht het in 2026 als voorstelling, samen met Javaanse vrienden en leermeesters uit Indonesië. Dat was net zo goed een zoektocht naar de eigen roots als een productie: cultuur blijft niet levend in archieven, maar doordat mensen haar samen beleven en doorgeven.',
+
+    stilKicker: 'Wat niet is opgeschreven',
+    stilKop: 'De verhalen van de overtocht',
+    stil1:
+      'Tussen 1890 en 1939 vertrokken Javaanse contractarbeiders naar Suriname. Van die reis is precies bijgehouden wie op welk schip stond — namen, nummers, data. Wat die mensen meemaakten, waar ze bang voor waren en wat ze hun kinderen vertelden, staat nergens.',
+    stil2:
+      'Dat is geen toeval maar een patroon: wie het zwaar heeft schrijft zelden op. En in veel Javaanse families komt daar iets bij — je klaagt niet, je valt niemand lastig, je houdt het binnen. Zo verdwijnt een geschiedenis zonder dat iemand hem weggooit.',
+    stil3:
+      'Daarom legt de stichting ze vast. In <strong>Onzichtbare Verhalen</strong> staan zes korte documentaires over Hagenaars met Javaanse roots; in het magazine <a href="%MAGAZINE%">Suwara Jawa</a> staan de verhalen op papier.',
+    knopSurjav: 'Over Surinaams-Javaans →',
+    knopVideos: 'Bekijk Onzichtbare Verhalen',
+
+    boekenKicker: 'Laten vertellen',
+    boekenKop: 'Vier verhalen die wij vertellen',
+    boekenIntro:
+      'Niet als lezing met een presentatie erbij, maar als verhaal: één verteller, dertig tot vijfenveertig minuten, vanaf € 440. Te boeken voor herdenkingen, scholen, musea en organisaties, los of met muziek of een workshop erbij.',
+    tabelVerhaal: 'Verhaal',
+    tabelWaarover: 'Waarover',
+    tabelDuur: 'Duur',
+    knopBoeken: 'Een verteller boeken →',
+    knopWayang: 'Wat is wayang?',
+
+    vragenKicker: 'Veelgestelde vragen',
+    vragenKop: 'Over Javaanse verhalen',
+
+    eigen: [
+      {
+        titel: 'De Overtocht',
+        waarover:
+          'De reis van Java naar Suriname naar Nederland, en hoe die geschiedenis doorwerkt in identiteit en familie.',
+        duur: '30–45 min',
+      },
+      {
+        titel: 'De Stille Kracht van de Javaan',
+        waarover: 'Over bescheidenheid en harmonie als kracht — en de keerzijde: jezelf onzichtbaar maken.',
+        duur: '30–45 min',
+      },
+      {
+        titel: 'Van Stilte naar Stem',
+        waarover: 'Hoe de nieuwe generatie haar stem vindt en zich opnieuw verbindt met haar roots.',
+        duur: '30–45 min',
+      },
+      {
+        titel: 'Rituelen & Erfenis',
+        waarover: 'Over doorgegeven rituelen zoals sadjen, en wat een voorwerp met zich meedraagt.',
+        duur: '30–45 min',
+      },
+    ],
+
+    vragen: [
+      {
+        v: 'Wat zijn Javaanse verhalen?',
+        a: 'Een verzamelnaam voor drie dingen die door elkaar lopen. De grote epen die uit India kwamen en op Java een eigen vorm kregen, de Ramayana en de Mahabharata. De Javaanse volksverhalen, zoals Andhe Andhe Lumut. En de familieverhalen die mondeling worden doorgegeven en zelden zijn opgeschreven — bij Surinaams-Javaanse families de verhalen over de overtocht en het contract.',
+      },
+      {
+        v: 'Wat is Andhe Andhe Lumut?',
+        a: 'Een Javaans volksverhaal. Andhe Andhe Lumut is de naam waaronder een prins leeft terwijl hij een vrouw zoekt. Vier zussen gaan naar hem op weg, maar onderweg ligt een rivier zonder veerpont, bewaakt door de reuzenkrab Yuyu Kangkang, die hen wil overzetten in ruil voor een kus. Drie zussen stemmen toe; de jongste, Klething Kuning, weigert en komt daardoor als laatste en onooglijk aan. Juist haar kiest hij. Stichting Gema Rasa bracht het verhaal in 2026 als voorstelling, samen met Javaanse leermeesters uit Indonesië.',
+      },
+      {
+        v: 'Zijn Javaanse verhalen opgeschreven?',
+        a: 'De grote epen wel, die bestaan in talloze versies. De familieverhalen vaak niet. Van de Javaanse contractarbeiders die tussen 1890 en 1939 naar Suriname vertrokken is nauwkeurig bijgehouden op welk schip ze stonden, maar wat ze meemaakten en doorvertelden staat nergens. Daarom legt Stichting Gema Rasa ze vast, onder meer in de documentairereeks Onzichtbare Verhalen.',
+      },
+      {
+        v: 'Wat is het verschil tussen een Javaans verhaal en wayang?',
+        a: 'Wayang is de vorm waarin verhalen worden gespeeld: poppentheater met een dalang en een gamelanorkest. De verhalen zelf zijn ouder dan die vorm en worden ook zonder poppen verteld, gedanst of gezongen.',
+      },
+      {
+        v: 'Kun je een verteller boeken?',
+        a: 'Ja. Wij vertellen vier verhalen van dertig tot vijfenveertig minuten, elk vanaf € 440: De Overtocht, De Stille Kracht van de Javaan, Van Stilte naar Stem, en Rituelen & Erfenis. Ze zijn te boeken voor herdenkingen, scholen, musea en organisaties, los of in combinatie met muziek of een workshop.',
+      },
+    ],
   },
-  {
-    v: 'Wat is Andhe Andhe Lumut?',
-    a: 'Een Javaans volksverhaal. Andhe Andhe Lumut is de naam waaronder een prins leeft terwijl hij een vrouw zoekt. Vier zussen gaan naar hem op weg, maar onderweg ligt een rivier zonder veerpont, bewaakt door de reuzenkrab Yuyu Kangkang, die hen wil overzetten in ruil voor een kus. Drie zussen stemmen toe; de jongste, Klething Kuning, weigert en komt daardoor als laatste en onooglijk aan. Juist haar kiest hij. Stichting Gema Rasa bracht het verhaal in 2026 als voorstelling, samen met Javaanse leermeesters uit Indonesië.',
+
+  en: {
+    titel: 'Javanese stories — from the Ramayana to what was never written down | Stichting Gema Rasa',
+    omschrijving:
+      'Which stories do Javanese people tell, and which were never written down? On the Ramayana and the Mahabharata, folk tales such as Andhe Andhe Lumut, and the family stories of the crossing to Suriname.',
+    eyebrow: 'Javanese culture',
+    kop: 'Javanese stories',
+    heroTekst:
+      'The stories that lasted for centuries, and the stories that nearly vanished because nobody wrote them down.',
+    lead:
+      'Javanese stories come from three layers running through one another. The great epics that arrived from India and took on a face of their own on Java — the <em>Ramayana</em> and the <em>Mahabharata</em>. The folk tales, such as <em>Andhe Andhe Lumut</em>. And the family stories passed from mouth to mouth that were almost never written down.',
+    intro2:
+      'That third layer is the most fragile, and for Surinamese-Javanese families the most important. What was handed on for centuries stops at the generation that no longer asks.',
+
+    epenKicker: 'The epics',
+    epenKop: 'Ramayana and Mahabharata, but Javanese',
+    epen1:
+      'The two great Indian epics have travelled with Java for more than a thousand years, and became something else along the way. The same heroes, the same wars — but with figures added who appear in no Indian version, and with a moral more often about balance than about victory.',
+    epen2:
+      'Those added figures are not a side act. They are the servants and the clowns, the ordinary people among the princes, and in a performance they say what no one else may say. To see how that works on stage, read on at <a href="%WAYANG%">What is wayang</a>.',
+
+    volksKicker: 'Folk tales',
+    volksKop: 'Andhe Andhe Lumut',
+    volks1:
+      'Beside the epics stand the folk tales, and <em>Andhe Andhe Lumut</em> is one of them. Andhe Andhe Lumut is the name a prince lives under while he looks for a wife. Four sisters set out towards him, but on the way lies a river with no ferry. <em>Yuyu Kangkang</em>, a giant crab, is willing to carry them across — in return for a kiss.',
+    volks2:
+      'Three sisters agree. The youngest, Klething Kuning, refuses, and so arrives last, on foot and unsightly. And it is her he chooses, because she is the only one who did not let herself be persuaded. There are many versions, but that river is in all of them.',
+    volks3:
+      'Stichting Gema Rasa staged it in 2026, together with Javanese friends and teachers from Indonesia. That was as much a search for their own roots as a production: culture does not stay alive in archives, but because people live it together and pass it on.',
+
+    stilKicker: 'What was never written down',
+    stilKop: 'The stories of the crossing',
+    stil1:
+      'Between 1890 and 1939 Javanese indentured labourers left for Suriname. Of that voyage it was recorded precisely who stood on which ship — names, numbers, dates. What those people went through, what they feared and what they told their children is recorded nowhere.',
+    stil2:
+      'That is not chance but a pattern: those who have it hard rarely write it down. And in many Javanese families something else comes on top — you do not complain, you do not burden anyone, you keep it inside. That is how a history disappears without anyone throwing it away.',
+    stil3:
+      'So the foundation records them. <strong>Onzichtbare Verhalen</strong> (Invisible Stories) is a series of six short documentaries about residents of The Hague with Javanese roots; in the magazine <a href="%MAGAZINE%">Suwara Jawa</a> the stories are set down on paper. Both are in Dutch.',
+    knopSurjav: 'About Surinamese-Javanese →',
+    knopVideos: 'Watch Onzichtbare Verhalen',
+
+    boekenKicker: 'Have it told',
+    boekenKop: 'Four stories we tell',
+    boekenIntro:
+      'Not as a lecture with slides, but as a story: one teller, thirty to forty-five minutes, from € 440. Bookable for commemorations, schools, museums and organisations, on their own or with music or a workshop alongside. Told in Dutch.',
+    tabelVerhaal: 'Story',
+    tabelWaarover: 'About',
+    tabelDuur: 'Length',
+    knopBoeken: 'Book a storyteller →',
+    knopWayang: 'What is wayang?',
+
+    vragenKicker: 'Frequently asked questions',
+    vragenKop: 'About Javanese stories',
+
+    eigen: [
+      {
+        titel: 'De Overtocht (The Crossing)',
+        waarover:
+          'The journey from Java to Suriname to the Netherlands, and how that history works through in identity and family.',
+        duur: '30–45 min',
+      },
+      {
+        titel: 'De Stille Kracht van de Javaan (The Quiet Strength of the Javanese)',
+        waarover: 'On modesty and harmony as strength — and the other side of it: making yourself invisible.',
+        duur: '30–45 min',
+      },
+      {
+        titel: 'Van Stilte naar Stem (From Silence to Voice)',
+        waarover: 'How the new generation finds its voice and reconnects with its roots.',
+        duur: '30–45 min',
+      },
+      {
+        titel: 'Rituelen & Erfenis (Rituals and Inheritance)',
+        waarover: 'On rituals handed down such as sadjen, and what an object carries with it.',
+        duur: '30–45 min',
+      },
+    ],
+
+    vragen: [
+      {
+        v: 'What are Javanese stories?',
+        a: 'A collective name for three things that run through one another. The great epics that came from India and took their own form on Java, the Ramayana and the Mahabharata. The Javanese folk tales, such as Andhe Andhe Lumut. And the family stories passed on by word of mouth and rarely written down — in Surinamese-Javanese families, the stories of the crossing and the indenture contract.',
+      },
+      {
+        v: 'What is Andhe Andhe Lumut?',
+        a: 'A Javanese folk tale. Andhe Andhe Lumut is the name a prince lives under while he looks for a wife. Four sisters set out towards him, but on the way lies a river with no ferry, guarded by the giant crab Yuyu Kangkang, who will carry them across in return for a kiss. Three sisters agree; the youngest, Klething Kuning, refuses and so arrives last and unsightly. It is her he chooses. Stichting Gema Rasa staged the story in 2026, together with Javanese teachers from Indonesia.',
+      },
+      {
+        v: 'Have Javanese stories been written down?',
+        a: 'The great epics have, in countless versions. The family stories often have not. Of the Javanese indentured labourers who left for Suriname between 1890 and 1939 it was recorded exactly which ship they stood on, but what they went through and handed on is recorded nowhere. That is why Stichting Gema Rasa sets them down, among other things in the documentary series Onzichtbare Verhalen.',
+      },
+      {
+        v: 'What is the difference between a Javanese story and wayang?',
+        a: 'Wayang is the form in which stories are performed: puppet theatre with a dalang and a gamelan orchestra. The stories themselves are older than that form and are also told, danced or sung without puppets.',
+      },
+      {
+        v: 'Can you book a storyteller?',
+        a: 'Yes. We tell four stories of thirty to forty-five minutes, each from € 440: De Overtocht, De Stille Kracht van de Javaan, Van Stilte naar Stem, and Rituelen & Erfenis. They can be booked for commemorations, schools, museums and organisations, on their own or combined with music or a workshop. They are told in Dutch.',
+      },
+    ],
   },
-  {
-    v: 'Zijn Javaanse verhalen opgeschreven?',
-    a: 'De grote epen wel, die bestaan in talloze versies. De familieverhalen vaak niet. Van de Javaanse contractarbeiders die tussen 1890 en 1939 naar Suriname vertrokken is nauwkeurig bijgehouden op welk schip ze stonden, maar wat ze meemaakten en doorvertelden staat nergens. Daarom legt Stichting Gema Rasa ze vast, onder meer in de documentairereeks Onzichtbare Verhalen.',
+
+  id: {
+    titel: 'Cerita Jawa — dari Ramayana sampai kisah yang tak pernah dituliskan | Stichting Gema Rasa',
+    omschrijving:
+      'Cerita apa yang dituturkan orang Jawa, dan mana yang tak pernah dituliskan? Tentang Ramayana dan Mahabharata, cerita rakyat seperti Andhe Andhe Lumut, dan kisah keluarga tentang penyeberangan ke Suriname.',
+    eyebrow: 'Budaya Jawa',
+    kop: 'Cerita Jawa',
+    heroTekst:
+      'Kisah yang bertahan berabad-abad, dan kisah yang nyaris lenyap karena tak seorang pun menuliskannya.',
+    lead:
+      'Cerita Jawa berasal dari tiga lapis yang saling berjalin. Wiracarita besar yang datang dari India dan memperoleh wajahnya sendiri di Jawa — <em>Ramayana</em> dan <em>Mahabharata</em>. Cerita rakyat, seperti <em>Andhe Andhe Lumut</em>. Dan kisah keluarga yang berpindah dari mulut ke mulut dan hampir tak pernah dituliskan.',
+    intro2:
+      'Lapis ketiga itulah yang paling rapuh, dan bagi keluarga Jawa-Suriname yang paling penting. Apa yang berabad-abad dituturkan berhenti pada generasi yang tidak lagi menanyakannya.',
+
+    epenKicker: 'Wiracarita',
+    epenKop: 'Ramayana dan Mahabharata, tetapi Jawa',
+    epen1:
+      'Dua wiracarita besar India itu sudah lebih dari seribu tahun berjalan bersama Jawa, dan di tengah jalan menjadi sesuatu yang lain. Pahlawan yang sama, perang yang sama — tetapi dengan tokoh-tokoh tambahan yang tidak ada dalam versi India, dan dengan pesan yang lebih sering tentang keseimbangan daripada kemenangan.',
+    epen2:
+      'Tokoh tambahan itu bukan peran sampingan. Mereka adalah para abdi dan punakawan, orang kebanyakan di antara para raja, dan dalam pertunjukan merekalah yang mengucapkan apa yang tak boleh diucapkan orang lain. Untuk melihat bagaimana itu bekerja di atas panggung, baca lebih lanjut di <a href="%WAYANG%">Apa itu wayang</a>.',
+
+    volksKicker: 'Cerita rakyat',
+    volksKop: 'Andhe Andhe Lumut',
+    volks1:
+      'Di samping wiracarita ada cerita rakyat, dan <em>Andhe Andhe Lumut</em> salah satunya. Andhe Andhe Lumut adalah nama samaran seorang pangeran yang sedang mencari istri. Empat bersaudari berangkat menemuinya, tetapi di tengah jalan ada sungai tanpa penyeberangan. <em>Yuyu Kangkang</em>, seekor kepiting raksasa, bersedia menyeberangkan mereka — dengan imbalan sebuah ciuman.',
+    volks2:
+      'Tiga saudari menyanggupi. Yang bungsu, Klething Kuning, menolak, sehingga tiba paling akhir, berjalan kaki dan tampak lusuh. Dan justru dialah yang dipilih, sebab hanya dia yang tidak mau dibujuk. Versinya banyak, tetapi sungai itu ada dalam semuanya.',
+    volks3:
+      'Stichting Gema Rasa mementaskannya pada 2026, bersama kawan dan guru-guru Jawa dari Indonesia. Pementasan itu sekaligus merupakan pencarian akar sendiri: budaya tidak tetap hidup di dalam arsip, melainkan karena orang mengalaminya bersama dan meneruskannya.',
+
+    stilKicker: 'Yang tak pernah dituliskan',
+    stilKop: 'Kisah penyeberangan',
+    stil1:
+      'Antara 1890 dan 1939 para pekerja kontrak Jawa berangkat ke Suriname. Dari pelayaran itu tercatat dengan teliti siapa berada di kapal mana — nama, nomor, tanggal. Apa yang mereka alami, apa yang mereka takuti dan apa yang mereka ceritakan kepada anak-anaknya tidak tercatat di mana pun.',
+    stil2:
+      'Itu bukan kebetulan melainkan pola: orang yang hidupnya berat jarang menuliskannya. Dan dalam banyak keluarga Jawa ada tambahannya — jangan mengeluh, jangan merepotkan orang, simpan sendiri. Begitulah sebuah sejarah lenyap tanpa seorang pun membuangnya.',
+    stil3:
+      'Karena itu yayasan merekamnya. <strong>Onzichtbare Verhalen</strong> (Kisah-kisah Tak Terlihat) adalah enam film dokumenter pendek tentang warga Den Haag berakar Jawa; dalam majalah <a href="%MAGAZINE%">Suwara Jawa</a> kisah-kisah itu tertulis di atas kertas. Keduanya berbahasa Belanda.',
+    knopSurjav: 'Tentang Jawa-Suriname →',
+    knopVideos: 'Tonton Onzichtbare Verhalen',
+
+    boekenKicker: 'Minta dituturkan',
+    boekenKop: 'Empat kisah yang kami tuturkan',
+    boekenIntro:
+      'Bukan sebagai ceramah dengan salindia, melainkan sebagai cerita: satu pencerita, tiga puluh sampai empat puluh lima menit, mulai € 440. Bisa dipesan untuk peringatan, sekolah, museum dan organisasi, berdiri sendiri atau bersama musik atau lokakarya. Dituturkan dalam bahasa Belanda.',
+    tabelVerhaal: 'Kisah',
+    tabelWaarover: 'Tentang',
+    tabelDuur: 'Durasi',
+    knopBoeken: 'Pesan seorang pencerita →',
+    knopWayang: 'Apa itu wayang?',
+
+    vragenKicker: 'Pertanyaan yang sering diajukan',
+    vragenKop: 'Tentang cerita Jawa',
+
+    eigen: [
+      {
+        titel: 'De Overtocht (Penyeberangan)',
+        waarover:
+          'Perjalanan dari Jawa ke Suriname ke Belanda, dan bagaimana sejarah itu terus bekerja dalam jati diri dan keluarga.',
+        duur: '30–45 mnt',
+      },
+      {
+        titel: 'De Stille Kracht van de Javaan (Kekuatan Diam Orang Jawa)',
+        waarover: 'Tentang kesahajaan dan keselarasan sebagai kekuatan — dan sisi lainnya: membuat diri tak terlihat.',
+        duur: '30–45 mnt',
+      },
+      {
+        titel: 'Van Stilte naar Stem (Dari Diam ke Suara)',
+        waarover: 'Bagaimana generasi baru menemukan suaranya dan kembali terhubung dengan akarnya.',
+        duur: '30–45 mnt',
+      },
+      {
+        titel: 'Rituelen & Erfenis (Ritual dan Warisan)',
+        waarover: 'Tentang ritual yang diwariskan seperti sajen, dan apa yang dibawa serta oleh sebuah benda.',
+        duur: '30–45 mnt',
+      },
+    ],
+
+    vragen: [
+      {
+        v: 'Apa itu cerita Jawa?',
+        a: 'Sebuah nama payung untuk tiga hal yang saling berjalin. Wiracarita besar yang datang dari India dan memperoleh bentuknya sendiri di Jawa, Ramayana dan Mahabharata. Cerita rakyat Jawa, seperti Andhe Andhe Lumut. Dan kisah keluarga yang diturunkan secara lisan dan jarang dituliskan — pada keluarga Jawa-Suriname, kisah tentang penyeberangan dan kontrak kerja.',
+      },
+      {
+        v: 'Apa itu Andhe Andhe Lumut?',
+        a: 'Sebuah cerita rakyat Jawa. Andhe Andhe Lumut adalah nama samaran seorang pangeran yang sedang mencari istri. Empat bersaudari berangkat menemuinya, tetapi di tengah jalan ada sungai tanpa penyeberangan, dijaga kepiting raksasa Yuyu Kangkang, yang bersedia menyeberangkan mereka dengan imbalan sebuah ciuman. Tiga saudari menyanggupi; yang bungsu, Klething Kuning, menolak sehingga tiba paling akhir dan tampak lusuh. Justru dialah yang dipilih. Stichting Gema Rasa mementaskan kisah ini pada 2026 bersama guru-guru Jawa dari Indonesia.',
+      },
+      {
+        v: 'Apakah cerita Jawa sudah dituliskan?',
+        a: 'Wiracarita besarnya sudah, dalam versi yang tak terhitung. Kisah keluarganya sering belum. Dari para pekerja kontrak Jawa yang berangkat ke Suriname antara 1890 dan 1939 tercatat dengan teliti kapal mana yang mereka tumpangi, tetapi apa yang mereka alami dan tuturkan tidak tercatat di mana pun. Karena itu Stichting Gema Rasa merekamnya, antara lain dalam seri dokumenter Onzichtbare Verhalen.',
+      },
+      {
+        v: 'Apa beda cerita Jawa dan wayang?',
+        a: 'Wayang adalah bentuk pementasan ceritanya: teater boneka dengan dalang dan gamelan. Ceritanya sendiri lebih tua daripada bentuk itu dan juga dituturkan, ditarikan atau ditembangkan tanpa boneka.',
+      },
+      {
+        v: 'Bisakah memesan seorang pencerita?',
+        a: 'Bisa. Kami menuturkan empat kisah berdurasi tiga puluh sampai empat puluh lima menit, masing-masing mulai € 440: De Overtocht, De Stille Kracht van de Javaan, Van Stilte naar Stem, dan Rituelen & Erfenis. Semuanya bisa dipesan untuk peringatan, sekolah, museum dan organisasi, berdiri sendiri atau digabung dengan musik atau lokakarya. Penuturannya dalam bahasa Belanda.',
+      },
+    ],
   },
-  {
-    v: 'Wat is het verschil tussen een Javaans verhaal en wayang?',
-    a: 'Wayang is de vorm waarin verhalen worden gespeeld: poppentheater met een dalang en een gamelanorkest. De verhalen zelf zijn ouder dan die vorm en worden ook zonder poppen verteld, gedanst of gezongen.',
-  },
-  {
-    v: 'Kun je een verteller boeken?',
-    a: 'Ja. Wij vertellen vier verhalen van dertig tot vijfenveertig minuten, elk vanaf € 440: De Overtocht, De Stille Kracht van de Javaan, Van Stilte naar Stem, en Rituelen & Erfenis. Ze zijn te boeken voor herdenkingen, scholen, musea en organisaties, los of in combinatie met muziek of een workshop.',
-  },
-];
+};
+
+const c = INHOUD[taal] ?? INHOUD.nl;
+const epen2Html = c.epen2.replace('%WAYANG%', pad(taal, '/wat-is-wayang'));
+const stil3Html = c.stil3.replace('%MAGAZINE%', pad(taal, '/suwara-jawa'));
 ---
 
-<Base
-  taal={taal}
-  title="Javaanse verhalen — van de Ramayana tot de verhalen die nooit werden opgeschreven | Stichting Gema Rasa"
-  description="Welke verhalen vertellen Javanen, en welke zijn er nooit opgeschreven? Over de Ramayana en de Mahabharata, volksverhalen als Andhe Andhe Lumut, en de familieverhalen van de overtocht naar Suriname."
->
+<Base taal={taal} title={c.titel} description={c.omschrijving}>
   <PageHero
     sleutel="javaanse-verhalen"
-    eyebrow="Javaanse cultuur"
-    titel="Javaanse verhalen"
-    tekst="De verhalen die eeuwen meegingen, en de verhalen die bijna verdwenen omdat niemand ze opschreef."
+    eyebrow={c.eyebrow}
+    titel={c.kop}
+    tekst={c.heroTekst}
     foto="/assets/perf-expo.jpg"
   />
 
   <section class="block">
     <div class="wrap">
       <div class="prose">
-        <p class="lead">
-          Javaanse verhalen komen uit drie lagen die door elkaar lopen. De grote epen die uit
-          India kwamen en op Java een eigen gezicht kregen — de <em>Ramayana</em> en de{' '}
-          <em>Mahabharata</em>. De volksverhalen, zoals <em>Andhe Andhe Lumut</em>. En de
-          familieverhalen die van mond tot mond gingen en bijna nooit zijn opgeschreven.
-        </p>
-        <p>
-          Die derde laag is de kwetsbaarste, en voor Surinaams-Javaanse families de
-          belangrijkste. Wat eeuwenlang doorverteld werd, stopt bij de generatie die er niet
-          meer naar vraagt.
-        </p>
+        <p class="lead" set:html={c.lead} />
+        <p>{c.intro2}</p>
       </div>
     </div>
   </section>
@@ -116,22 +373,12 @@ const vragen = [
   <section class="block vervolg">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">De epen</span>
-        <h2>Ramayana en Mahabharata, maar Javaans</h2>
+        <span class="kicker">{c.epenKicker}</span>
+        <h2>{c.epenKop}</h2>
       </div>
       <div class="prose">
-        <p>
-          De twee grote Indiase epen reizen al meer dan duizend jaar mee met Java, en zijn
-          onderweg iets anders geworden. Dezelfde helden, dezelfde oorlogen — maar met figuren
-          erbij die in de Indiase versies niet voorkomen, en met een moraal die vaker over
-          evenwicht gaat dan over overwinning.
-        </p>
-        <p>
-          Die toegevoegde figuren zijn geen bijrol. Het zijn de knechten en de clowns, de gewone
-          mensen tussen de vorsten, en zij zeggen in een voorstelling wat niemand anders mag
-          zeggen. Wie wil zien hoe dat op het toneel werkt, leest verder op{' '}
-          <a href={pad(taal, '/wat-is-wayang')}>Wat is wayang</a>.
-        </p>
+        <p>{c.epen1}</p>
+        <p set:html={epen2Html} />
       </div>
     </div>
   </section>
@@ -139,28 +386,13 @@ const vragen = [
   <section class="block vervolg">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Volksverhalen</span>
-        <h2>Andhe Andhe Lumut</h2>
+        <span class="kicker">{c.volksKicker}</span>
+        <h2>{c.volksKop}</h2>
       </div>
       <div class="prose">
-        <p>
-          Naast de epen staan de volksverhalen, en <em>Andhe Andhe Lumut</em> is er daar één van.
-          Andhe Andhe Lumut is de naam waaronder een prins leeft terwijl hij een vrouw zoekt.
-          Vier zussen gaan naar hem op weg, maar onderweg ligt een rivier zonder veerpont.
-          <em>Yuyu Kangkang</em>, een reuzenkrab, wil hen wel overzetten — in ruil voor een kus.
-        </p>
-        <p>
-          Drie zussen stemmen toe. De jongste, Klething Kuning, weigert, en komt daardoor als
-          laatste aan, te voet en onooglijk. En juist haar kiest hij, want zij is de enige die
-          zich niet heeft laten overhalen. Er bestaan veel versies van, maar die rivier staat er
-          in allemaal.
-        </p>
-        <p>
-          Stichting Gema Rasa bracht het in 2026 als voorstelling, samen met Javaanse vrienden en
-          leermeesters uit Indonesië. Dat was net zo goed een zoektocht naar de eigen roots als
-          een productie: cultuur blijft niet levend in archieven, maar doordat mensen haar samen
-          beleven en doorgeven.
-        </p>
+        <p set:html={c.volks1} />
+        <p>{c.volks2}</p>
+        <p>{c.volks3}</p>
       </div>
     </div>
   </section>
@@ -168,29 +400,17 @@ const vragen = [
   <section class="block vervolg">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Wat niet is opgeschreven</span>
-        <h2>De verhalen van de overtocht</h2>
+        <span class="kicker">{c.stilKicker}</span>
+        <h2>{c.stilKop}</h2>
       </div>
       <div class="prose">
-        <p>
-          Tussen 1890 en 1939 vertrokken Javaanse contractarbeiders naar Suriname. Van die reis
-          is precies bijgehouden wie op welk schip stond — namen, nummers, data. Wat die mensen
-          meemaakten, waar ze bang voor waren en wat ze hun kinderen vertelden, staat nergens.
-        </p>
-        <p>
-          Dat is geen toeval maar een patroon: wie het zwaar heeft schrijft zelden op. En in veel
-          Javaanse families komt daar iets bij — je klaagt niet, je valt niemand lastig, je houdt
-          het binnen. Zo verdwijnt een geschiedenis zonder dat iemand hem weggooit.
-        </p>
-        <p>
-          Daarom legt de stichting ze vast. In <strong>Onzichtbare Verhalen</strong> staan zes
-          korte documentaires over Hagenaars met Javaanse roots; in het magazine{' '}
-          <a href={pad(taal, '/suwara-jawa')}>Suwara Jawa</a> staan de verhalen op papier.
-        </p>
+        <p>{c.stil1}</p>
+        <p>{c.stil2}</p>
+        <p set:html={stil3Html} />
       </div>
       <p class="gamknoppen">
-        <a class="btn" href={pad(taal, '/surinaams-javaans')}>Over Surinaams-Javaans →</a>
-        <a class="btn" href={pad(taal, '/videos')}>Bekijk Onzichtbare Verhalen</a>
+        <a class="btn" href={pad(taal, '/surinaams-javaans')}>{c.knopSurjav}</a>
+        <a class="btn" href={pad(taal, '/videos')}>{c.knopVideos}</a>
       </p>
     </div>
   </section>
@@ -198,23 +418,19 @@ const vragen = [
   <section class="block vervolg">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Laten vertellen</span>
-        <h2>Vier verhalen die wij vertellen</h2>
+        <span class="kicker">{c.boekenKicker}</span>
+        <h2>{c.boekenKop}</h2>
       </div>
       <div class="prose">
-        <p>
-          Niet als lezing met een presentatie erbij, maar als verhaal: één verteller, dertig tot
-          vijfenveertig minuten, vanaf € 440. Te boeken voor herdenkingen, scholen, musea en
-          organisaties, los of met muziek of een workshop erbij.
-        </p>
+        <p>{c.boekenIntro}</p>
       </div>
       <div class="tabelwrap">
         <table class="gamtabel">
           <thead>
-            <tr><th>Verhaal</th><th>Waarover</th><th>Duur</th></tr>
+            <tr><th>{c.tabelVerhaal}</th><th>{c.tabelWaarover}</th><th>{c.tabelDuur}</th></tr>
           </thead>
           <tbody>
-            {eigen.map((e) => (
+            {c.eigen.map((e) => (
               <tr>
                 <td><strong>{e.titel}</strong></td>
                 <td class="jw">{e.waarover}</td>
@@ -225,13 +441,13 @@ const vragen = [
         </table>
       </div>
       <p class="gamknoppen">
-        <a class="btn gold" href={pad(taal, '/menukaart')}>Een verteller boeken →</a>
-        <a class="btn" href={pad(taal, '/wat-is-wayang')}>Wat is wayang?</a>
+        <a class="btn gold" href={pad(taal, '/menukaart')}>{c.knopBoeken}</a>
+        <a class="btn" href={pad(taal, '/wat-is-wayang')}>{c.knopWayang}</a>
       </p>
     </div>
   </section>
 
-  <Vragen kicker="Veelgestelde vragen" titel="Over Javaanse verhalen" vragen={vragen} />
+  <Vragen kicker={c.vragenKicker} titel={c.vragenKop} vragen={c.vragen} />
 </Base>
 
 <style>

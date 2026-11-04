@@ -16,7 +16,12 @@
   een voorstelling duurt; de hele nacht wordt vaak beweerd maar UNESCO
   zegt er niets over, dus hier staat alleen wat wij zelf spelen.
 
-  Nederlands op alle drie de taalpaden, net als /wat-is-gamelan.
+  Sinds 4 november 2026 ook echt in het Engels en Indonesisch. Daarvoor
+  stond hier Nederlands op alle drie de taalpaden: het menu was vertaald,
+  de tekst eronder niet. Dat beloofde aan Google een Engelse pagina en
+  leverde een Nederlandse -- een bezoeker die erop klikte was meteen weer
+  weg. "What is wayang" wordt bovendien veel vaker gezocht dan de
+  Nederlandse vraag.
 */
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
@@ -28,80 +33,325 @@ const { taal } = Astro.props;
 
 const UNESCO = 'https://ich.unesco.org/en/RL/wayang-puppet-theatre-00063';
 
-/* De twee hoofdvormen, zoals UNESCO ze onderscheidt. */
-const soorten = [
-  {
-    naam: 'Wayang kulit',
-    wat: 'De platte lederen schaduwpop',
-    hoe: 'Wordt achter een verlicht scherm bewogen; het publiek kan aan beide kanten zitten, bij de poppen of bij de schaduwen.',
-  },
-  {
-    naam: 'Wayang golèk',
-    wat: 'De driedimensionale houten pop',
-    hoe: 'Geen schaduw maar de pop zelf, in de rondte gesneden en aangekleed. Komt vooral uit West-Java.',
-  },
-  {
-    naam: 'Wayang klitik',
-    wat: 'De platte houten pop',
-    hoe: 'Een tussenvorm: plat als de leren pop, maar van hout en zonder scherm.',
-  },
-];
+/*
+  Alle tekst van deze pagina, per taal.
 
-const vragen = [
-  {
-    v: 'Wat is wayang?',
-    a: 'Wayang is het poppentheater van Java. Een verteller, de dalang, speelt een verhaal met poppen die hij aan dunne stokjes beweegt, begeleid door een gamelanorkest. De bekendste vorm is wayang kulit: platte poppen van leer die achter een verlicht scherm bewegen, zodat je hun schaduw ziet. UNESCO proclameerde wayang in 2003 en zette het in 2008 op de Representatieve Lijst van immaterieel erfgoed.',
+  Met opzet hier en niet in i18n/index.ts: dat bestand gaat over de dingen
+  die op élke pagina staan, zoals het menu. Een uitlegpagina van deze lengte
+  zou het onleesbaar maken, en je wilt de drie versies van dezelfde alinea
+  naast elkaar kunnen zien bij het bijwerken.
+
+  Alinea's met vet of cursief erin gaan via set:html. Dat is hier veilig:
+  het is onze eigen tekst, er komt niets van een bezoeker in.
+*/
+const INHOUD = {
+  nl: {
+    titel: 'Wat is wayang? Het Javaanse poppen- en schaduwtheater uitgelegd | Stichting Gema Rasa',
+    omschrijving:
+      'Wayang is het poppentheater van Java: een dalang speelt met leren of houten poppen, begeleid door gamelan. Het verschil tussen wayang kulit en golèk, wat een dalang doet, en welke verhalen er gespeeld worden.',
+    eyebrow: 'Javaanse cultuur',
+    kop: 'Wat is wayang?',
+    heroTekst:
+      'Eén verteller, een scherm, een lamp en een gamelanorkest — en een verhaal dat al eeuwen meegaat.',
+    lead:
+      'Wayang is het poppentheater van Java. Eén verteller, de <strong>dalang</strong>, speelt een heel verhaal met poppen die hij aan dunne stokjes beweegt: hij spreekt alle stemmen, zingt, vertelt, en stuurt tegelijk het gamelanorkest aan. In de bekendste vorm — <strong>wayang kulit</strong> — zijn de poppen plat en van leer, en bewegen ze achter een verlicht scherm, zodat je hun schaduw ziet.',
+    unesco:
+      'UNESCO proclameerde wayang in 2003 en plaatste het in 2008 op de Representatieve Lijst van immaterieel cultureel erfgoed van de mensheid.',
+
+    poppenKicker: 'De poppen',
+    poppenKop: 'Kulit, golèk en klitik',
+    poppenIntro: 'Niet alle wayang is schaduwspel. Er zijn drie vormen, en het verschil zit in de pop:',
+    tabelVorm: 'Vorm',
+    tabelWat: 'Wat het is',
+    tabelHoe: 'Hoe je het ziet',
+
+    dalangKicker: 'De verteller',
+    dalangKop: 'De dalang doet alles tegelijk',
+    dalang1:
+      'Bij wayang staat niet de pop centraal maar de man of vrouw erachter. De dalang beweegt de draaibare armen van de poppen met dunne stokjes, spreekt elk personage met een eigen stem, vertelt de verbindende passages en zingt de liederen. Daarbovenop geeft hij het orkest zijn aanwijzingen — vaak met klopsignalen tegen de poppenkist — zodat de muziek precies op het verhaal valt.',
+    dalang2:
+      'Dat is geen rol die je in een paar maanden leert. Een meesterdalang kent een groot repertoire uit het hoofd en moet oude verhalende passages en poëtische liederen op een gevatte, eigen manier kunnen voordragen. Vroeger werden dalangs dan ook gezien als geleerden, die met hun voorstellingen morele en esthetische waarden doorgaven.',
+
+    verhalenKicker: 'De verhalen',
+    verhalenKop: 'Waar de verhalen vandaan komen',
+    verhalen1:
+      'De personages komen uit drie richtingen tegelijk: inheemse Javaanse mythen, de Indiase epen <em>Ramayana</em> en <em>Mahabharata</em>, en helden uit Perzische verhalen. Java heeft ze niet overgenomen maar ingelijfd — dezelfde namen, een eigen wereld.',
+    verhalen2:
+      'Het duidelijkst zie je dat aan de komische figuren, die in de Indiase epen niet voorkomen. Zij stellen de gewone man voor, en juist zij zeggen wat anderen niet kunnen zeggen: in hun scènes worden gevoelige maatschappelijke en politieke onderwerpen aangesneden. Een wayangvoorstelling is daarom zelden alleen een oud verhaal.',
+    knopVerhalen: 'Over Javaanse verhalen →',
+
+    hierKicker: 'Hier',
+    hierKop: 'Wayang zien in Nederland',
+    hier1:
+      'Wij spelen wayang kulit op festivals, in musea en op culturele dagen — onder meer op Pasar Budaya in Rotterdam Ahoy. Bij ons duurt een voorstelling ongeveer twintig minuten en wordt hij live begeleid door onze eigen gamelanspelers, want zonder dat orkest mist het verhaal zijn helft.',
+    hier2:
+      'Dat is korter dan op Java, waar een voorstelling een hele avond of nacht kan vullen. Twintig minuten is wat past op een festivalprogramma, en genoeg om te zien hoe het werkt: het scherm, de lamp, de schaduwen en de dalang die alles tegelijk doet.',
+    knopBoeken: 'Een wayangvoorstelling boeken →',
+    knopGamelan: 'Wat is gamelan?',
+
+    vragenKicker: 'Veelgestelde vragen',
+    vragenKop: 'Over wayang',
+    bronKop: 'Bron',
+    bron:
+      'De beschrijving van de vormen, de rol van de dalang en de herkomst van de personages volgt <a href="%URL%" rel="noopener" target="_blank">UNESCO, Wayang puppet theatre</a>, geproclameerd in 2003 en in 2008 opgenomen op de Representatieve Lijst van immaterieel cultureel erfgoed van de mensheid.',
+
+    soorten: [
+      {
+        naam: 'Wayang kulit',
+        wat: 'De platte lederen schaduwpop',
+        hoe: 'Wordt achter een verlicht scherm bewogen; het publiek kan aan beide kanten zitten, bij de poppen of bij de schaduwen.',
+      },
+      {
+        naam: 'Wayang golèk',
+        wat: 'De driedimensionale houten pop',
+        hoe: 'Geen schaduw maar de pop zelf, in de rondte gesneden en aangekleed. Komt vooral uit West-Java.',
+      },
+      {
+        naam: 'Wayang klitik',
+        wat: 'De platte houten pop',
+        hoe: 'Een tussenvorm: plat als de leren pop, maar van hout en zonder scherm.',
+      },
+    ],
+
+    vragen: [
+      {
+        v: 'Wat is wayang?',
+        a: 'Wayang is het poppentheater van Java. Een verteller, de dalang, speelt een verhaal met poppen die hij aan dunne stokjes beweegt, begeleid door een gamelanorkest. De bekendste vorm is wayang kulit: platte poppen van leer die achter een verlicht scherm bewegen, zodat je hun schaduw ziet. UNESCO proclameerde wayang in 2003 en zette het in 2008 op de Representatieve Lijst van immaterieel erfgoed.',
+      },
+      {
+        v: 'Wat is het verschil tussen wayang kulit en wayang golèk?',
+        a: 'Wayang kulit is de platte lederen schaduwpop, die achter een verlicht scherm wordt bewogen. Wayang golèk is een driedimensionale houten pop die je gewoon ziet staan, zonder scherm en zonder schaduw. Daarnaast bestaat de wayang klitik, plat maar van hout.',
+      },
+      {
+        v: 'Wat doet een dalang?',
+        a: 'Alles tegelijk. De dalang beweegt de poppen, spreekt alle stemmen, vertelt het verhaal, zingt de poëtische liederen en geeft het gamelanorkest zijn aanwijzingen. Een meesterdalang kent een groot repertoire uit het hoofd en draagt oude passages op een gevatte, eigen manier voor. Vroeger golden dalangs als geleerden die morele en esthetische waarden doorgaven.',
+      },
+      {
+        v: 'Welke verhalen worden er gespeeld?',
+        a: 'De personages komen uit drie hoeken: inheemse Javaanse mythen, de Indiase epen Ramayana en Mahabharata, en helden uit Perzische verhalen. Daar komt een eigen Javaanse laag overheen — de komische figuren die de gewone man voorstellen, en die juist de gevoelige maatschappelijke en politieke onderwerpen aansnijden.',
+      },
+      {
+        v: 'Hoort er muziek bij wayang?',
+        a: 'Ja, op Java speelt er een gamelanorkest bij. Dat begeleidt niet alleen; de muziek volgt de dalang, die met klopsignalen aangeeft wat er moet gebeuren. Wayang en gamelan zijn daarom moeilijk los van elkaar te zien.',
+      },
+      {
+        v: 'Kun je wayang in Nederland zien?',
+        a: 'Ja. Wij spelen wayang kulit op festivals, in musea en op culturele dagen — onder meer op Pasar Budaya in Rotterdam Ahoy. Een voorstelling van ons duurt ongeveer twintig minuten en wordt live begeleid door gamelan; hij is te boeken via onze culturele menukaart.',
+      },
+    ],
   },
-  {
-    v: 'Wat is het verschil tussen wayang kulit en wayang golèk?',
-    a: 'Wayang kulit is de platte lederen schaduwpop, die achter een verlicht scherm wordt bewogen. Wayang golèk is een driedimensionale houten pop die je gewoon ziet staan, zonder scherm en zonder schaduw. Daarnaast bestaat de wayang klitik, plat maar van hout.',
+
+  en: {
+    titel: 'What is wayang? Javanese puppet and shadow theatre explained | Stichting Gema Rasa',
+    omschrijving:
+      'Wayang is the puppet theatre of Java: a dalang performs with leather or wooden puppets, accompanied by gamelan. The difference between wayang kulit and golèk, what a dalang does, and which stories are played.',
+    eyebrow: 'Javanese culture',
+    kop: 'What is wayang?',
+    heroTekst:
+      'One storyteller, a screen, a lamp and a gamelan orchestra — and a story that has lasted for centuries.',
+    lead:
+      'Wayang is the puppet theatre of Java. A single storyteller, the <strong>dalang</strong>, performs an entire story with puppets moved by thin rods: he speaks every voice, sings, narrates, and directs the gamelan orchestra at the same time. In its best-known form — <strong>wayang kulit</strong> — the puppets are flat and made of leather, and they move behind a lit screen, so that what you watch is their shadow.',
+    unesco:
+      'UNESCO proclaimed wayang in 2003 and inscribed it in 2008 on the Representative List of the Intangible Cultural Heritage of Humanity.',
+
+    poppenKicker: 'The puppets',
+    poppenKop: 'Kulit, golèk and klitik',
+    poppenIntro: 'Not all wayang is shadow play. There are three forms, and the difference is in the puppet:',
+    tabelVorm: 'Form',
+    tabelWat: 'What it is',
+    tabelHoe: 'How you see it',
+
+    dalangKicker: 'The storyteller',
+    dalangKop: 'The dalang does everything at once',
+    dalang1:
+      'In wayang the puppet is not the centre of things — the person behind it is. The dalang moves the puppets’ hinged arms with thin rods, gives every character its own voice, narrates the passages in between and sings the songs. On top of that he cues the orchestra, often by knocking against the puppet chest, so that the music lands exactly on the story.',
+    dalang2:
+      'This is not a role you learn in a few months. A master dalang knows a large repertoire by heart and must be able to deliver old narrative passages and poetic songs in a witty voice of his own. Dalangs were once regarded as scholars, passing on moral and aesthetic values through their performances.',
+
+    verhalenKicker: 'The stories',
+    verhalenKop: 'Where the stories come from',
+    verhalen1:
+      'The characters arrive from three directions at once: indigenous Javanese myth, the Indian epics <em>Ramayana</em> and <em>Mahabharata</em>, and heroes from Persian tales. Java did not simply adopt them, it absorbed them — the same names, a world of its own.',
+    verhalen2:
+      'You see that most clearly in the clown figures, who appear nowhere in the Indian epics. They stand for the ordinary person, and it is they who say what others cannot: their scenes are where sensitive social and political subjects get raised. A wayang performance is rarely only an old story.',
+    knopVerhalen: 'About Javanese stories →',
+
+    hierKicker: 'Here',
+    hierKop: 'Seeing wayang in the Netherlands',
+    hier1:
+      'We perform wayang kulit at festivals, in museums and on cultural days — among them Pasar Budaya at Rotterdam Ahoy. With us a performance runs about twenty minutes and is accompanied live by our own gamelan players, because without that orchestra the story is missing half of itself.',
+    hier2:
+      'That is shorter than on Java, where a performance can fill an entire evening or night. Twenty minutes is what fits a festival programme, and it is enough to see how it works: the screen, the lamp, the shadows, and the dalang doing everything at once.',
+    knopBoeken: 'Book a wayang performance →',
+    knopGamelan: 'What is gamelan?',
+
+    vragenKicker: 'Frequently asked questions',
+    vragenKop: 'About wayang',
+    bronKop: 'Source',
+    bron:
+      'The description of the forms, the role of the dalang and the origin of the characters follows <a href="%URL%" rel="noopener" target="_blank">UNESCO, Wayang puppet theatre</a>, proclaimed in 2003 and inscribed in 2008 on the Representative List of the Intangible Cultural Heritage of Humanity.',
+
+    soorten: [
+      {
+        naam: 'Wayang kulit',
+        wat: 'The flat leather shadow puppet',
+        hoe: 'Moved behind a lit screen; the audience may sit on either side, with the puppets or with the shadows.',
+      },
+      {
+        naam: 'Wayang golèk',
+        wat: 'The three-dimensional wooden puppet',
+        hoe: 'No shadow but the puppet itself, carved in the round and dressed. Comes mainly from West Java.',
+      },
+      {
+        naam: 'Wayang klitik',
+        wat: 'The flat wooden puppet',
+        hoe: 'A form in between: flat like the leather puppet, but wooden and used without a screen.',
+      },
+    ],
+
+    vragen: [
+      {
+        v: 'What is wayang?',
+        a: 'Wayang is the puppet theatre of Java. A storyteller, the dalang, performs a story with puppets moved by thin rods, accompanied by a gamelan orchestra. The best-known form is wayang kulit: flat leather puppets moving behind a lit screen, so that you watch their shadow. UNESCO proclaimed wayang in 2003 and inscribed it in 2008 on the Representative List of intangible heritage.',
+      },
+      {
+        v: 'What is the difference between wayang kulit and wayang golèk?',
+        a: 'Wayang kulit is the flat leather shadow puppet, moved behind a lit screen. Wayang golèk is a three-dimensional wooden puppet that you simply see standing there, with no screen and no shadow. There is also wayang klitik, flat but made of wood.',
+      },
+      {
+        v: 'What does a dalang do?',
+        a: 'Everything at once. The dalang moves the puppets, speaks every voice, narrates the story, sings the poetic songs and cues the gamelan orchestra. A master dalang knows a large repertoire by heart and delivers old passages in a witty voice of his own. Dalangs were once regarded as scholars who passed on moral and aesthetic values.',
+      },
+      {
+        v: 'Which stories are performed?',
+        a: 'The characters come from three directions: indigenous Javanese myth, the Indian epics Ramayana and Mahabharata, and heroes from Persian tales. Over that lies a Javanese layer of its own — the clown figures who stand for the ordinary person, and who raise the sensitive social and political subjects.',
+      },
+      {
+        v: 'Is there music with wayang?',
+        a: 'Yes, on Java a gamelan orchestra plays along. It does more than accompany; the music follows the dalang, who signals by knocking what should happen next. Wayang and gamelan are hard to think of separately.',
+      },
+      {
+        v: 'Can you see wayang in the Netherlands?',
+        a: 'Yes. We perform wayang kulit at festivals, in museums and on cultural days — among them Pasar Budaya at Rotterdam Ahoy. A performance of ours runs about twenty minutes and is accompanied live by gamelan; it can be booked through our cultural menu.',
+      },
+    ],
   },
-  {
-    v: 'Wat doet een dalang?',
-    a: 'Alles tegelijk. De dalang beweegt de poppen, spreekt alle stemmen, vertelt het verhaal, zingt de poëtische liederen en geeft het gamelanorkest zijn aanwijzingen. Een meesterdalang kent een groot repertoire uit het hoofd en draagt oude passages op een gevatte, eigen manier voor. Vroeger golden dalangs als geleerden die morele en esthetische waarden doorgaven.',
+
+  id: {
+    titel: 'Apa itu wayang? Teater boneka dan bayangan Jawa dijelaskan | Stichting Gema Rasa',
+    omschrijving:
+      'Wayang adalah teater boneka dari Jawa: seorang dalang memainkan boneka kulit atau kayu, diiringi gamelan. Beda wayang kulit dan golèk, apa yang dilakukan dalang, dan cerita apa saja yang dimainkan.',
+    eyebrow: 'Budaya Jawa',
+    kop: 'Apa itu wayang?',
+    heroTekst:
+      'Satu pencerita, sebuah kelir, sebuah lampu dan seperangkat gamelan — dan cerita yang sudah berabad-abad bertahan.',
+    lead:
+      'Wayang adalah teater boneka dari Jawa. Satu pencerita, sang <strong>dalang</strong>, memainkan seluruh cerita dengan boneka yang digerakkan lewat tangkai tipis: ia menyuarakan semua tokoh, menembang, bercerita, sekaligus memberi aba-aba kepada gamelan. Dalam bentuk yang paling dikenal — <strong>wayang kulit</strong> — bonekanya pipih dan terbuat dari kulit, bergerak di balik kelir yang disinari, sehingga yang ditonton adalah bayangannya.',
+    unesco:
+      'UNESCO memproklamasikan wayang pada 2003 dan memasukkannya pada 2008 ke dalam Daftar Representatif Warisan Budaya Takbenda Umat Manusia.',
+
+    poppenKicker: 'Bonekanya',
+    poppenKop: 'Kulit, golèk dan klitik',
+    poppenIntro: 'Tidak semua wayang adalah permainan bayangan. Ada tiga bentuk, dan bedanya terletak pada bonekanya:',
+    tabelVorm: 'Bentuk',
+    tabelWat: 'Apa itu',
+    tabelHoe: 'Cara menontonnya',
+
+    dalangKicker: 'Sang pencerita',
+    dalangKop: 'Dalang melakukan semuanya sekaligus',
+    dalang1:
+      'Dalam wayang yang menjadi pusat bukanlah bonekanya, melainkan orang di baliknya. Dalang menggerakkan lengan boneka dengan tangkai tipis, memberi setiap tokoh suaranya sendiri, menceritakan bagian penghubung dan menembangkan lagu-lagunya. Di atas itu semua ia memberi aba-aba kepada gamelan — sering dengan ketukan pada kotak wayang — agar musiknya jatuh tepat pada ceritanya.',
+    dalang2:
+      'Peran ini tidak dipelajari dalam beberapa bulan. Seorang dalang ulung hafal repertoar yang luas dan harus mampu membawakan narasi lama serta tembang dengan cara yang cerdas dan khas dirinya. Dahulu dalang dipandang sebagai orang terpelajar, yang lewat pertunjukannya mewariskan nilai moral dan estetika.',
+
+    verhalenKicker: 'Ceritanya',
+    verhalenKop: 'Dari mana cerita-cerita itu datang',
+    verhalen1:
+      'Tokoh-tokohnya datang dari tiga arah sekaligus: mitos asli Jawa, wiracarita India <em>Ramayana</em> dan <em>Mahabharata</em>, serta pahlawan dari kisah Persia. Jawa tidak sekadar mengambil alih, melainkan menyerapnya — nama yang sama, dunia yang berbeda.',
+    verhalen2:
+      'Hal itu paling jelas terlihat pada tokoh punakawan, yang tidak ada dalam wiracarita India. Mereka mewakili orang kebanyakan, dan justru merekalah yang mengatakan apa yang tak bisa diucapkan orang lain: dalam adegan mereka, persoalan sosial dan politik yang peka diangkat. Karena itu pertunjukan wayang jarang hanya berupa cerita lama.',
+    knopVerhalen: 'Tentang cerita-cerita Jawa →',
+
+    hierKicker: 'Di sini',
+    hierKop: 'Menonton wayang di Belanda',
+    hier1:
+      'Kami memainkan wayang kulit di festival, di museum dan pada hari-hari budaya — antara lain di Pasar Budaya, Rotterdam Ahoy. Di tempat kami satu pertunjukan berlangsung sekitar dua puluh menit dan diiringi langsung oleh pemain gamelan kami sendiri, sebab tanpa gamelan ceritanya kehilangan separuh dirinya.',
+    hier2:
+      'Itu lebih singkat daripada di Jawa, di mana satu pertunjukan bisa mengisi semalam suntuk. Dua puluh menit adalah yang muat dalam acara festival, dan cukup untuk melihat cara kerjanya: kelir, lampu, bayangan, dan dalang yang mengerjakan semuanya sekaligus.',
+    knopBoeken: 'Pesan pertunjukan wayang →',
+    knopGamelan: 'Apa itu gamelan?',
+
+    vragenKicker: 'Pertanyaan yang sering diajukan',
+    vragenKop: 'Tentang wayang',
+    bronKop: 'Sumber',
+    bron:
+      'Uraian tentang bentuk-bentuknya, peran dalang dan asal-usul tokohnya mengikuti <a href="%URL%" rel="noopener" target="_blank">UNESCO, Wayang puppet theatre</a>, diproklamasikan pada 2003 dan dimasukkan pada 2008 ke dalam Daftar Representatif Warisan Budaya Takbenda Umat Manusia.',
+
+    soorten: [
+      {
+        naam: 'Wayang kulit',
+        wat: 'Boneka bayangan pipih dari kulit',
+        hoe: 'Digerakkan di balik kelir yang disinari; penonton boleh duduk di kedua sisi, di sisi boneka atau di sisi bayangan.',
+      },
+      {
+        naam: 'Wayang golèk',
+        wat: 'Boneka kayu tiga dimensi',
+        hoe: 'Bukan bayangan melainkan bonekanya sendiri, dipahat utuh dan didandani. Terutama berasal dari Jawa Barat.',
+      },
+      {
+        naam: 'Wayang klitik',
+        wat: 'Boneka kayu yang pipih',
+        hoe: 'Bentuk antara: pipih seperti boneka kulit, tetapi dari kayu dan dimainkan tanpa kelir.',
+      },
+    ],
+
+    vragen: [
+      {
+        v: 'Apa itu wayang?',
+        a: 'Wayang adalah teater boneka dari Jawa. Seorang pencerita, dalang, memainkan cerita dengan boneka yang digerakkan lewat tangkai tipis, diiringi gamelan. Bentuk yang paling dikenal adalah wayang kulit: boneka kulit pipih yang bergerak di balik kelir bercahaya, sehingga yang terlihat adalah bayangannya. UNESCO memproklamasikan wayang pada 2003 dan memasukkannya pada 2008 ke dalam Daftar Representatif warisan budaya takbenda.',
+      },
+      {
+        v: 'Apa beda wayang kulit dan wayang golèk?',
+        a: 'Wayang kulit adalah boneka bayangan pipih dari kulit, digerakkan di balik kelir bercahaya. Wayang golèk adalah boneka kayu tiga dimensi yang terlihat langsung, tanpa kelir dan tanpa bayangan. Selain itu ada wayang klitik, pipih tetapi dari kayu.',
+      },
+      {
+        v: 'Apa yang dikerjakan seorang dalang?',
+        a: 'Semuanya sekaligus. Dalang menggerakkan boneka, menyuarakan semua tokoh, menceritakan jalan cerita, menembangkan lagu dan memberi aba-aba kepada gamelan. Dalang ulung hafal repertoar yang luas dan membawakan narasi lama dengan cara yang cerdas dan khas dirinya. Dahulu dalang dipandang sebagai orang terpelajar yang mewariskan nilai moral dan estetika.',
+      },
+      {
+        v: 'Cerita apa saja yang dimainkan?',
+        a: 'Tokoh-tokohnya datang dari tiga arah: mitos asli Jawa, wiracarita India Ramayana dan Mahabharata, serta pahlawan dari kisah Persia. Di atasnya ada lapisan Jawa tersendiri — para punakawan yang mewakili orang kebanyakan, dan yang justru mengangkat persoalan sosial dan politik yang peka.',
+      },
+      {
+        v: 'Apakah wayang selalu disertai musik?',
+        a: 'Ya, di Jawa gamelan ikut bermain. Gamelan tidak sekadar mengiringi; musiknya mengikuti dalang, yang lewat ketukan menandakan apa yang harus terjadi. Karena itu wayang dan gamelan sulit dipisahkan.',
+      },
+      {
+        v: 'Bisakah menonton wayang di Belanda?',
+        a: 'Bisa. Kami memainkan wayang kulit di festival, di museum dan pada hari-hari budaya — antara lain di Pasar Budaya, Rotterdam Ahoy. Satu pertunjukan kami berlangsung sekitar dua puluh menit dan diiringi gamelan secara langsung; pertunjukan ini bisa dipesan lewat menu budaya kami.',
+      },
+    ],
   },
-  {
-    v: 'Welke verhalen worden er gespeeld?',
-    a: 'De personages komen uit drie hoeken: inheemse Javaanse mythen, de Indiase epen Ramayana en Mahabharata, en helden uit Perzische verhalen. Daar komt een eigen Javaanse laag overheen — de komische figuren die de gewone man voorstellen, en die juist de gevoelige maatschappelijke en politieke onderwerpen aansnijden.',
-  },
-  {
-    v: 'Hoort er muziek bij wayang?',
-    a: 'Ja, op Java speelt er een gamelanorkest bij. Dat begeleidt niet alleen; de muziek volgt de dalang, die met klopsignalen aangeeft wat er moet gebeuren. Wayang en gamelan zijn daarom moeilijk los van elkaar te zien.',
-  },
-  {
-    v: 'Kun je wayang in Nederland zien?',
-    a: 'Ja. Wij spelen wayang kulit op festivals, in musea en op culturele dagen — onder meer op Pasar Budaya in Rotterdam Ahoy. Een voorstelling van ons duurt ongeveer twintig minuten en wordt live begeleid door gamelan; hij is te boeken via onze culturele menukaart.',
-  },
-];
+};
+
+const c = INHOUD[taal] ?? INHOUD.nl;
+const bronHtml = c.bron.replace('%URL%', UNESCO);
 ---
 
-<Base
-  taal={taal}
-  title="Wat is wayang? Het Javaanse poppen- en schaduwtheater uitgelegd | Stichting Gema Rasa"
-  description="Wayang is het poppentheater van Java: een dalang speelt met leren of houten poppen, begeleid door gamelan. Het verschil tussen wayang kulit en golèk, wat een dalang doet, en welke verhalen er gespeeld worden."
->
+<Base taal={taal} title={c.titel} description={c.omschrijving}>
   <PageHero
     sleutel="wat-is-wayang"
-    eyebrow="Javaanse cultuur"
-    titel="Wat is wayang?"
-    tekst="Eén verteller, een scherm, een lamp en een gamelanorkest — en een verhaal dat al eeuwen meegaat."
+    eyebrow={c.eyebrow}
+    titel={c.kop}
+    tekst={c.heroTekst}
     foto="/assets/perf-wayang.jpg"
   />
 
   <section class="block">
     <div class="wrap">
       <div class="prose">
-        <p class="lead">
-          Wayang is het poppentheater van Java. Eén verteller, de <strong>dalang</strong>, speelt
-          een heel verhaal met poppen die hij aan dunne stokjes beweegt: hij spreekt alle stemmen,
-          zingt, vertelt, en stuurt tegelijk het gamelanorkest aan. In de bekendste vorm —{' '}
-          <strong>wayang kulit</strong> — zijn de poppen plat en van leer, en bewegen ze achter een
-          verlicht scherm, zodat je hun schaduw ziet.
-        </p>
-        <p>
-          UNESCO proclameerde wayang in 2003 en plaatste het in 2008 op de Representatieve Lijst
-          van immaterieel cultureel erfgoed van de mensheid.
-        </p>
+        <p class="lead" set:html={c.lead} />
+        <p>{c.unesco}</p>
       </div>
     </div>
   </section>
@@ -109,21 +359,19 @@ const vragen = [
   <section class="block vervolg">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">De poppen</span>
-        <h2>Kulit, golèk en klitik</h2>
+        <span class="kicker">{c.poppenKicker}</span>
+        <h2>{c.poppenKop}</h2>
       </div>
       <div class="prose">
-        <p>
-          Niet alle wayang is schaduwspel. Er zijn drie vormen, en het verschil zit in de pop:
-        </p>
+        <p>{c.poppenIntro}</p>
       </div>
       <div class="tabelwrap">
         <table class="gamtabel">
           <thead>
-            <tr><th>Vorm</th><th>Wat het is</th><th>Hoe je het ziet</th></tr>
+            <tr><th>{c.tabelVorm}</th><th>{c.tabelWat}</th><th>{c.tabelHoe}</th></tr>
           </thead>
           <tbody>
-            {soorten.map((s) => (
+            {c.soorten.map((s) => (
               <tr>
                 <td><strong>{s.naam}</strong></td>
                 <td>{s.wat}</td>
@@ -139,23 +387,12 @@ const vragen = [
   <section class="block vervolg">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">De verteller</span>
-        <h2>De dalang doet alles tegelijk</h2>
+        <span class="kicker">{c.dalangKicker}</span>
+        <h2>{c.dalangKop}</h2>
       </div>
       <div class="prose">
-        <p>
-          Bij wayang staat niet de pop centraal maar de man of vrouw erachter. De dalang beweegt
-          de draaibare armen van de poppen met dunne stokjes, spreekt elk personage met een eigen
-          stem, vertelt de verbindende passages en zingt de liederen. Daarbovenop geeft hij het
-          orkest zijn aanwijzingen — vaak met klopsignalen tegen de poppenkist — zodat de muziek
-          precies op het verhaal valt.
-        </p>
-        <p>
-          Dat is geen rol die je in een paar maanden leert. Een meesterdalang kent een groot
-          repertoire uit het hoofd en moet oude verhalende passages en poëtische liederen op een
-          gevatte, eigen manier kunnen voordragen. Vroeger werden dalangs dan ook gezien als
-          geleerden, die met hun voorstellingen morele en esthetische waarden doorgaven.
-        </p>
+        <p>{c.dalang1}</p>
+        <p>{c.dalang2}</p>
       </div>
     </div>
   </section>
@@ -163,24 +400,15 @@ const vragen = [
   <section class="block vervolg">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">De verhalen</span>
-        <h2>Waar de verhalen vandaan komen</h2>
+        <span class="kicker">{c.verhalenKicker}</span>
+        <h2>{c.verhalenKop}</h2>
       </div>
       <div class="prose">
-        <p>
-          De personages komen uit drie richtingen tegelijk: inheemse Javaanse mythen, de Indiase
-          epen <em>Ramayana</em> en <em>Mahabharata</em>, en helden uit Perzische verhalen. Java
-          heeft ze niet overgenomen maar ingelijfd — dezelfde namen, een eigen wereld.
-        </p>
-        <p>
-          Het duidelijkst zie je dat aan de komische figuren, die in de Indiase epen niet
-          voorkomen. Zij stellen de gewone man voor, en juist zij zeggen wat anderen niet kunnen
-          zeggen: in hun scènes worden gevoelige maatschappelijke en politieke onderwerpen
-          aangesneden. Een wayangvoorstelling is daarom zelden alleen een oud verhaal.
-        </p>
+        <p set:html={c.verhalen1} />
+        <p>{c.verhalen2}</p>
       </div>
       <p class="gamknoppen">
-        <a class="btn" href={pad(taal, '/javaanse-verhalen')}>Over Javaanse verhalen →</a>
+        <a class="btn" href={pad(taal, '/javaanse-verhalen')}>{c.knopVerhalen}</a>
       </p>
     </div>
   </section>
@@ -188,41 +416,27 @@ const vragen = [
   <section class="block vervolg">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Hier</span>
-        <h2>Wayang zien in Nederland</h2>
+        <span class="kicker">{c.hierKicker}</span>
+        <h2>{c.hierKop}</h2>
       </div>
       <div class="prose">
-        <p>
-          Wij spelen wayang kulit op festivals, in musea en op culturele dagen — onder meer op
-          Pasar Budaya in Rotterdam Ahoy. Bij ons duurt een voorstelling ongeveer twintig minuten
-          en wordt hij live begeleid door onze eigen gamelanspelers, want zonder dat orkest mist
-          het verhaal zijn helft.
-        </p>
-        <p>
-          Dat is korter dan op Java, waar een voorstelling een hele avond of nacht kan vullen.
-          Twintig minuten is wat past op een festivalprogramma, en genoeg om te zien hoe het
-          werkt: het scherm, de lamp, de schaduwen en de dalang die alles tegelijk doet.
-        </p>
+        <p>{c.hier1}</p>
+        <p>{c.hier2}</p>
       </div>
       <p class="gamknoppen">
-        <a class="btn gold" href={pad(taal, '/menukaart')}>Een wayangvoorstelling boeken →</a>
-        <a class="btn" href={pad(taal, '/wat-is-gamelan')}>Wat is gamelan?</a>
+        <a class="btn gold" href={pad(taal, '/menukaart')}>{c.knopBoeken}</a>
+        <a class="btn" href={pad(taal, '/wat-is-gamelan')}>{c.knopGamelan}</a>
       </p>
     </div>
   </section>
 
-  <Vragen kicker="Veelgestelde vragen" titel="Over wayang" vragen={vragen} />
+  <Vragen kicker={c.vragenKicker} titel={c.vragenKop} vragen={c.vragen} />
 
   <section class="block vervolg">
     <div class="wrap">
       <div class="prose bronnen">
-        <h3>Bron</h3>
-        <p>
-          De beschrijving van de vormen, de rol van de dalang en de herkomst van de personages
-          volgt <a href={UNESCO} rel="noopener" target="_blank">UNESCO, Wayang puppet theatre</a>,
-          geproclameerd in 2003 en in 2008 opgenomen op de Representatieve Lijst van immaterieel
-          cultureel erfgoed van de mensheid.
-        </p>
+        <h3>{c.bronKop}</h3>
+        <p set:html={bronHtml} />
       </div>
     </div>
   </section>

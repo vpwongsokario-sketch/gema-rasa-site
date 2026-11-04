@@ -15,9 +15,15 @@
   zelf uitgegeven (Middletown CT, 2023). Hieronder staat de juiste
   vermelding.
 
-  Nederlands op alle drie de taalpaden, net als de gamelancursus en de
-  kalenderpagina: de zoekvraag is Nederlands en de Javaanse termen zijn in
-  elke taal gelijk.
+  Sinds 4 november 2026 ook echt in het Engels en Indonesisch. Daarvoor
+  stond hier Nederlands op alle drie de taalpaden. "What is gamelan" wordt
+  wereldwijd veel vaker gezocht dan de Nederlandse vraag, en wij hebben als
+  enige in Nederland zowel het verhaal als de instrumenten.
+
+  Eén ding om in de gaten te houden bij het bijwerken: de online cursus is
+  Nederlandstalig. Dat staat er in de Engelse en Indonesische versie met
+  zoveel woorden bij, zodat niemand zich inschrijft voor iets wat hij niet
+  kan volgen.
 */
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
@@ -29,26 +35,373 @@ const { taal } = Astro.props;
 
 const BRON = 'https://sumarsam.faculty.wesleyan.edu/files/2023/01/INTRO_THEORY_ANALYSIS-.pdf';
 
-/* De drie functiegroepen waarin een Javaans gamelanorkest is ingedeeld. */
-const groepen = [
-  {
-    rol: 'Melodie',
-    wat: 'Dragen en versieren de melodie',
-    instrumenten: 'slenthem, demung, saron, peking, bonang, rebab, gendèr, gambang, suling',
-  },
-  {
-    rol: 'Tijd',
-    wat: 'Bepaalt tempo, overgangen en het einde',
-    instrumenten: 'kendhang (de trommels)',
-  },
-  {
-    rol: 'Structuur',
-    wat: 'Markeren waar je in de cyclus bent',
-    instrumenten: 'gong ageng, kenong, kempul, kethuk, kempyang',
-  },
-];
+/*
+  Alle tekst van deze pagina, per taal. Zie wat-is-wayang.astro voor waarom
+  dit hier staat en niet in i18n/index.ts.
 
-/* Irama: de vijf niveaus van dichtheid. */
+  De Javaanse termen -- sléndro, pélog, irama, balungan, embat, kendhang --
+  blijven in elke taal gelijk. Dat is geen slordigheid: het zijn eigennamen
+  van begrippen die in het Engels en Indonesisch net zo heten.
+*/
+const INHOUD = {
+  nl: {
+    titel: 'Wat is gamelan? Het Javaanse orkest uitgelegd | Stichting Gema Rasa',
+    omschrijving:
+      'Gamelan is het orkest van Java: bronzen gongs, metallofonen en trommels, gestemd als één geheel. Wat het woord betekent, hoe een orkest in elkaar zit, en wat sléndro, pélog en irama zijn.',
+    eyebrow: 'Karawitan',
+    kop: 'Wat is gamelan?',
+    heroTekst:
+      'Het orkest van Java: brons dat als één instrument is gestemd, en door een groep tegelijk bespeeld wordt.',
+    lead:
+      'Gamelan is het orkest van Java en Bali: een vast ensemble van vooral bronzen slaginstrumenten — gongs, metallofonen en trommels — aangevuld met een strijkinstrument, een fluit en zang. Het woord komt van het Javaanse <em>gamel</em>, slaan.',
+    intro2:
+      'Het belangrijkste om te begrijpen: een gamelan is geen verzameling losse instrumenten. De hele set wordt samen gebouwd en samen gestemd, en geldt als één instrument dat door een groep tegelijk wordt bespeeld. De muziek zelf heet in het Javaans <strong>karawitan</strong>.',
+
+    opbouwKicker: 'De opbouw',
+    opbouwKop: 'Hoe een gamelanorkest in elkaar zit',
+    opbouwIntro: 'De instrumenten zijn niet ingedeeld naar hoe ze klinken maar naar wat ze doen. Drie functies:',
+    tabelFunctie: 'Functie',
+    tabelWat: 'Wat het doet',
+    tabelInstrumenten: 'Instrumenten',
+    kendhang:
+      'De <strong>kendhang</strong>, de trommel, is de verkeersleider. De speler bepaalt het tempo, geeft de overgangen aan en beslist wanneer het stuk eindigt — de <em>suwuk</em>. De grote gong, de <em>gong ageng</em>, sluit elke cyclus af.',
+
+    stemmingKicker: 'Stemming',
+    stemmingKop: 'Sléndro en pélog',
+    stemming1:
+      'De Javaanse gamelan kent twee stemmingen. <strong>Sléndro</strong> heeft vijf tonen met vrijwel gelijke afstanden ertussen. <strong>Pélog</strong> heeft er zeven, met ongelijke afstanden, waaruit in de praktijk drie vijftoonsschalen worden gebruikt. Een complete gamelanset bestaat daarom vaak uit twee orkesten naast elkaar, één in elke stemming.',
+    stemming2:
+      'En dan het deel dat westerse musici het meest verrast: <strong>er is geen standaardstemming</strong>. Geen 440 hertz. Elke gamelan heeft zijn eigen stemming en klankkleur, <em>embat</em> genoemd. Twee orkesten die hetzelfde stuk spelen klinken hoorbaar anders, en je kunt instrumenten uit twee verschillende sets niet door elkaar gebruiken.',
+
+    kernKicker: 'Het kernidee',
+    kernKop: 'De melodie die nergens staat',
+    kern1:
+      'Als je naar de notatie van een gamelanstuk kijkt, zie je de <em>balungan</em>: het skelet, een kale reeks tonen. Dat is niet de melodie. De versierende instrumenten spelen er allemaal iets anders overheen, en geen van die lijnen is de melodie óók.',
+    kern2:
+      'De musicoloog Sumarsam noemt dit de <strong>innerlijke melodie</strong>: de echte melodie staat op geen enkel instrument. De muzikanten dragen hem in hun hoofd en vertalen hem elk naar wat hun eigen instrument kan. Wat je hoort is het resultaat van die vertalingen bij elkaar.',
+
+    iramaKicker: 'Muzikale tijd',
+    iramaKop: 'Irama is geen ritme',
+    iramaTekst:
+      '<em>Irama</em> wordt vaak vertaald als ritme, en dat klopt niet. Irama gaat over dichtheid: hoeveel noten de versierende instrumenten spelen op één noot van de basismelodie. Gaat een stuk een niveau omlaag, dan verdubbelt dat aantal — het wordt langzamer én voller tegelijk.',
+    tabelNiveau: 'Niveau',
+    tabelSlagen: 'Slagen per toon van de basismelodie',
+
+    stijlKicker: 'Niet hetzelfde',
+    stijlKop: 'Javaans, Balinees, Solo, Yogya',
+    stijl1:
+      'Javaanse en Balinese gamelan worden vaak door elkaar gehaald, maar het zijn verschillende tradities met een eigen repertoire en een eigen manier van spelen. Balinese gamelan staat bekend om snelle, felle wisselingen; de Javaanse hofmuziek is doorgaans rustiger en meer gelaagd.',
+    stijl2:
+      'Ook binnen Java zijn er stijlen. De bekendste tweedeling is die tussen <strong>Solo</strong> (Surakarta) en <strong>Yogyakarta</strong>, die teruggaat op de splitsing van het rijk Mataram in 1755. Onze eigen online cursus gaat over de Solonese stijl.',
+
+    lerenKicker: 'Leren',
+    lerenKop: 'Hoe je gamelan leert',
+    leren1:
+      'Gamelan is een orale traditie. Je leert door te luisteren en na te doen, naast iemand die het al kan. Er bestaat wel notatie — <em>kepatihan</em>, een cijferschrift — maar dat is een geheugensteun, geen partituur die je uitvoert.',
+    leren2:
+      'Dat betekent ook dat je geen noten hoeft te kunnen lezen om te beginnen. Wij geven een gratis online cursus over de Javaanse gamelan in de stijl van Solo, in zestien korte lessen.',
+    leren3:
+      'Liever in een echte zaal, naast andere mensen? Dat kan ook: <a href="%GAMELANNL%">waar je in Nederland gamelan kunt spelen</a> staat op een eigen pagina.',
+    knopCursus: 'Bekijk de gamelancursus →',
+    knopNederland: 'Gamelan in Nederland',
+    knopOrkest: 'Ons gamelanorkest',
+
+    vragenKicker: 'Veelgestelde vragen',
+    vragenKop: 'Over gamelan',
+    bronKop: 'Bron',
+    bron:
+      'De theorie op deze pagina volgt Sumarsam, <em>Introduction, Theory, and Analysis: Javanese Gamelan</em> (Middletown CT, 2023), dat de auteur zelf vrij beschikbaar heeft gesteld. <a href="%BRON%" rel="noopener" target="_blank">Het boek is hier te lezen</a>. De begrippen innerlijke melodie, irama en embat komen daaruit.',
+
+    groepen: [
+      {
+        rol: 'Melodie',
+        wat: 'Dragen en versieren de melodie',
+        instrumenten: 'slenthem, demung, saron, peking, bonang, rebab, gendèr, gambang, suling',
+      },
+      { rol: 'Tijd', wat: 'Bepaalt tempo, overgangen en het einde', instrumenten: 'kendhang (de trommels)' },
+      {
+        rol: 'Structuur',
+        wat: 'Markeren waar je in de cyclus bent',
+        instrumenten: 'gong ageng, kenong, kempul, kethuk, kempyang',
+      },
+    ],
+
+    vragen: [
+      {
+        v: 'Wat is gamelan?',
+        a: 'Gamelan is het orkest van Java en Bali: een vast ensemble van vooral bronzen slaginstrumenten — gongs, metallofonen en trommels — aangevuld met strijk-, blaas- en zanginstrumenten. De instrumenten worden als één geheel gestemd en gebouwd, dus een gamelan is één instrument dat door een groep tegelijk bespeeld wordt.',
+      },
+      {
+        v: 'Wat betekent het woord gamelan?',
+        a: 'Het komt van het Javaanse "gamel", slaan. De muziek zelf heet in het Javaans karawitan.',
+      },
+      {
+        v: 'Hoeveel mensen spelen er in een gamelanorkest?',
+        a: 'Dat hangt af van het stuk en van de set. De instrumenten zijn verdeeld over drie functies: instrumenten die de melodie dragen en versieren, de kendhang die de tijd bepaalt, en de gongs die de structuur van de cyclus markeren.',
+      },
+      {
+        v: 'Wat zijn sléndro en pélog?',
+        a: 'De twee stemmingen van de Javaanse gamelan. Sléndro heeft vijf tonen met vrijwel gelijke afstanden; pélog heeft zeven tonen met ongelijke afstanden, waaruit in de praktijk drie vijftoonsschalen worden gebruikt. Veel gamelansets bestaan uit twee complete orkesten, één in elke stemming.',
+      },
+      {
+        v: 'Klinken twee gamelans hetzelfde?',
+        a: 'Nee. Er is geen standaardstemming zoals de westerse 440 hertz. Elke gamelan heeft zijn eigen stemming en klankkleur, embat genoemd. Daarom kun je instrumenten uit twee verschillende gamelans niet door elkaar gebruiken.',
+      },
+      {
+        v: 'Wat is irama?',
+        a: 'Irama is geen ritme maar dichtheid: hoeveel noten de versierende instrumenten spelen op één noot van de basismelodie. Bij elk niveau verdubbelt dat aantal, van 1 bij lancar tot 16 bij rangkep. Het stuk wordt daardoor niet alleen langzamer maar ook voller.',
+      },
+      {
+        v: 'Wat is het verschil tussen Javaanse en Balinese gamelan?',
+        a: 'Het zijn verschillende tradities. Balinese gamelan staat bekend om snelle, felle wisselingen; de Javaanse hofmuziek is doorgaans rustiger en meer gelaagd. Binnen Java zijn er ook verschillen, vooral tussen de stijlen van Solo en Yogyakarta, die teruggaan op de splitsing van het rijk Mataram in 1755.',
+      },
+      {
+        v: 'Kun je gamelan leren zonder noten te kunnen lezen?',
+        a: 'Ja. Gamelan is een orale traditie: luisteren en nadoen zijn de kern van het leren. Er bestaat wel een cijfernotatie, kepatihan, maar die is een geheugensteun en niet de muziek zelf.',
+      },
+    ],
+  },
+
+  en: {
+    titel: 'What is gamelan? The Javanese orchestra explained | Stichting Gema Rasa',
+    omschrijving:
+      'Gamelan is the orchestra of Java: bronze gongs, metallophones and drums, tuned as a single whole. What the word means, how an orchestra is put together, and what sléndro, pélog and irama are.',
+    eyebrow: 'Karawitan',
+    kop: 'What is gamelan?',
+    heroTekst:
+      'The orchestra of Java: bronze tuned as one instrument, and played by a group all at once.',
+    lead:
+      'Gamelan is the orchestra of Java and Bali: a fixed ensemble of mostly bronze percussion — gongs, metallophones and drums — joined by a bowed string instrument, a flute and voice. The word comes from the Javanese <em>gamel</em>, to strike.',
+    intro2:
+      'The thing to grasp first: a gamelan is not a collection of separate instruments. The whole set is built together and tuned together, and counts as one instrument played by a group at the same time. The music itself is called <strong>karawitan</strong> in Javanese.',
+
+    opbouwKicker: 'The make-up',
+    opbouwKop: 'How a gamelan orchestra is put together',
+    opbouwIntro: 'The instruments are grouped not by how they sound but by what they do. Three functions:',
+    tabelFunctie: 'Function',
+    tabelWat: 'What it does',
+    tabelInstrumenten: 'Instruments',
+    kendhang:
+      'The <strong>kendhang</strong>, the drum, is the traffic controller. Its player sets the tempo, signals the transitions and decides when the piece ends — the <em>suwuk</em>. The great gong, the <em>gong ageng</em>, closes every cycle.',
+
+    stemmingKicker: 'Tuning',
+    stemmingKop: 'Sléndro and pélog',
+    stemming1:
+      'Javanese gamelan has two tuning systems. <strong>Sléndro</strong> has five tones with near-equal intervals between them. <strong>Pélog</strong> has seven, with unequal intervals, from which three five-tone scales are used in practice. A complete gamelan set therefore often consists of two orchestras side by side, one in each tuning.',
+    stemming2:
+      'And then the part that surprises Western musicians most: <strong>there is no standard pitch</strong>. No 440 hertz. Every gamelan has its own tuning and timbre, called <em>embat</em>. Two orchestras playing the same piece sound audibly different, and you cannot mix instruments from two different sets.',
+
+    kernKicker: 'The core idea',
+    kernKop: 'The melody that is written nowhere',
+    kern1:
+      'Look at the notation of a gamelan piece and you see the <em>balungan</em>: the skeleton, a bare row of tones. That is not the melody. The elaborating instruments each play something different over it, and none of those lines is the melody either.',
+    kern2:
+      'The musicologist Sumarsam calls this the <strong>inner melody</strong>: the real melody is on no instrument at all. The musicians carry it in their heads and each translates it into what their own instrument can do. What you hear is the sum of those translations.',
+
+    iramaKicker: 'Musical time',
+    iramaKop: 'Irama is not rhythm',
+    iramaTekst:
+      '<em>Irama</em> is often translated as rhythm, and that is wrong. Irama is about density: how many notes the elaborating instruments play to one note of the underlying melody. Drop a piece one level and that number doubles — it becomes slower and fuller at the same time.',
+    tabelNiveau: 'Level',
+    tabelSlagen: 'Beats per tone of the underlying melody',
+
+    stijlKicker: 'Not the same thing',
+    stijlKop: 'Javanese, Balinese, Solo, Yogya',
+    stijl1:
+      'Javanese and Balinese gamelan are often confused, but they are different traditions with their own repertoire and their own way of playing. Balinese gamelan is known for fast, fierce shifts; the Javanese court music is generally calmer and more layered.',
+    stijl2:
+      'Within Java too there are styles. The best-known division is between <strong>Solo</strong> (Surakarta) and <strong>Yogyakarta</strong>, going back to the splitting of the Mataram kingdom in 1755. Our own online course is about the Solonese style.',
+
+    lerenKicker: 'Learning',
+    lerenKop: 'How you learn gamelan',
+    leren1:
+      'Gamelan is an oral tradition. You learn by listening and imitating, sitting beside someone who can already do it. There is notation — <em>kepatihan</em>, a cipher system — but it is an aid to memory, not a score you perform.',
+    leren2:
+      'That also means you need not read music to begin. We run a free online course on Javanese gamelan in the Solonese style, in sixteen short lessons. It is taught in Dutch.',
+    leren3:
+      'Rather be in a real hall, next to other people? That is possible too: <a href="%GAMELANNL%">where you can play gamelan in the Netherlands</a> has a page of its own.',
+    knopCursus: 'See the gamelan course →',
+    knopNederland: 'Gamelan in the Netherlands',
+    knopOrkest: 'Our gamelan orchestra',
+
+    vragenKicker: 'Frequently asked questions',
+    vragenKop: 'About gamelan',
+    bronKop: 'Source',
+    bron:
+      'The theory on this page follows Sumarsam, <em>Introduction, Theory, and Analysis: Javanese Gamelan</em> (Middletown CT, 2023), which the author has made freely available. <a href="%BRON%" rel="noopener" target="_blank">The book can be read here</a>. The terms inner melody, irama and embat come from it.',
+
+    groepen: [
+      {
+        rol: 'Melody',
+        wat: 'Carry and elaborate the melody',
+        instrumenten: 'slenthem, demung, saron, peking, bonang, rebab, gendèr, gambang, suling',
+      },
+      { rol: 'Time', wat: 'Sets tempo, transitions and the ending', instrumenten: 'kendhang (the drums)' },
+      {
+        rol: 'Structure',
+        wat: 'Mark where you are in the cycle',
+        instrumenten: 'gong ageng, kenong, kempul, kethuk, kempyang',
+      },
+    ],
+
+    vragen: [
+      {
+        v: 'What is gamelan?',
+        a: 'Gamelan is the orchestra of Java and Bali: a fixed ensemble of mostly bronze percussion — gongs, metallophones and drums — joined by string, wind and vocal parts. The instruments are built and tuned as one whole, so a gamelan is a single instrument played by a group at the same time.',
+      },
+      {
+        v: 'What does the word gamelan mean?',
+        a: 'It comes from the Javanese "gamel", to strike. The music itself is called karawitan in Javanese.',
+      },
+      {
+        v: 'How many people play in a gamelan orchestra?',
+        a: 'That depends on the piece and on the set. The instruments are divided over three functions: those that carry and elaborate the melody, the kendhang that governs time, and the gongs that mark the structure of the cycle.',
+      },
+      {
+        v: 'What are sléndro and pélog?',
+        a: 'The two tuning systems of Javanese gamelan. Sléndro has five tones with near-equal intervals; pélog has seven tones with unequal intervals, from which three five-tone scales are used in practice. Many gamelan sets consist of two complete orchestras, one in each tuning.',
+      },
+      {
+        v: 'Do two gamelans sound the same?',
+        a: 'No. There is no standard pitch such as the Western 440 hertz. Every gamelan has its own tuning and timbre, called embat. That is why you cannot mix instruments from two different gamelans.',
+      },
+      {
+        v: 'What is irama?',
+        a: 'Irama is not rhythm but density: how many notes the elaborating instruments play to one note of the underlying melody. At each level that number doubles, from 1 at lancar to 16 at rangkep. The piece becomes not only slower but also fuller.',
+      },
+      {
+        v: 'What is the difference between Javanese and Balinese gamelan?',
+        a: 'They are different traditions. Balinese gamelan is known for fast, fierce shifts; the Javanese court music is generally calmer and more layered. Within Java there are differences too, above all between the styles of Solo and Yogyakarta, going back to the splitting of the Mataram kingdom in 1755.',
+      },
+      {
+        v: 'Can you learn gamelan without reading music?',
+        a: 'Yes. Gamelan is an oral tradition: listening and imitating are the heart of learning it. A cipher notation, kepatihan, does exist, but it is an aid to memory and not the music itself.',
+      },
+    ],
+  },
+
+  id: {
+    titel: 'Apa itu gamelan? Orkes Jawa dijelaskan | Stichting Gema Rasa',
+    omschrijving:
+      'Gamelan adalah orkes dari Jawa: gong perunggu, metalofon dan kendhang, dilaras sebagai satu kesatuan. Arti katanya, susunan sebuah orkes, serta apa itu sléndro, pélog dan irama.',
+    eyebrow: 'Karawitan',
+    kop: 'Apa itu gamelan?',
+    heroTekst:
+      'Orkes dari Jawa: perunggu yang dilaras sebagai satu instrumen, dan dimainkan bersama oleh sekelompok orang.',
+    lead:
+      'Gamelan adalah orkes dari Jawa dan Bali: satu perangkat tetap yang sebagian besar terdiri atas instrumen pukul perunggu — gong, metalofon dan kendhang — dilengkapi alat gesek, suling dan vokal. Katanya berasal dari bahasa Jawa <em>gamel</em>, memukul.',
+    intro2:
+      'Yang terpenting untuk dipahami: gamelan bukan kumpulan instrumen yang berdiri sendiri-sendiri. Seluruh perangkat dibuat bersama dan dilaras bersama, dan dianggap sebagai satu instrumen yang dimainkan oleh sekelompok orang sekaligus. Musiknya sendiri dalam bahasa Jawa disebut <strong>karawitan</strong>.',
+
+    opbouwKicker: 'Susunannya',
+    opbouwKop: 'Bagaimana sebuah orkes gamelan tersusun',
+    opbouwIntro: 'Instrumennya dikelompokkan bukan menurut bunyinya, melainkan menurut tugasnya. Tiga fungsi:',
+    tabelFunctie: 'Fungsi',
+    tabelWat: 'Tugasnya',
+    tabelInstrumenten: 'Instrumen',
+    kendhang:
+      '<strong>Kendhang</strong> adalah pengatur lalu lintasnya. Pengendhang menentukan tempo, memberi tanda peralihan dan memutuskan kapan gendhing berakhir — <em>suwuk</em>. Gong besar, <em>gong ageng</em>, menutup setiap siklus.',
+
+    stemmingKicker: 'Laras',
+    stemmingKop: 'Sléndro dan pélog',
+    stemming1:
+      'Gamelan Jawa mengenal dua laras. <strong>Sléndro</strong> memiliki lima nada dengan jarak yang hampir sama. <strong>Pélog</strong> memiliki tujuh nada dengan jarak yang tidak sama, dan dalam praktiknya tiga tangga nada lima nada dipakai darinya. Karena itu satu perangkat gamelan lengkap sering terdiri atas dua orkes berdampingan, satu untuk tiap laras.',
+    stemming2:
+      'Lalu bagian yang paling mengejutkan musisi Barat: <strong>tidak ada laras baku</strong>. Tidak ada 440 hertz. Setiap gamelan punya laras dan warna bunyinya sendiri, yang disebut <em>embat</em>. Dua orkes yang memainkan gendhing yang sama terdengar jelas berbeda, dan instrumen dari dua perangkat berbeda tidak bisa dipertukarkan.',
+
+    kernKicker: 'Gagasan intinya',
+    kernKop: 'Melodi yang tidak tertulis di mana pun',
+    kern1:
+      'Bila melihat notasi sebuah gendhing, yang tampak adalah <em>balungan</em>: kerangkanya, deretan nada yang polos. Itu bukan melodinya. Instrumen-instrumen garap memainkan sesuatu yang berbeda di atasnya, dan tak satu pun dari garis itu adalah melodinya juga.',
+    kern2:
+      'Musikolog Sumarsam menyebutnya <strong>melodi batin</strong>: melodi yang sesungguhnya tidak ada pada satu instrumen pun. Para pengrawit menyimpannya dalam kepala dan masing-masing menerjemahkannya ke dalam kemampuan instrumennya. Yang terdengar adalah jumlah dari semua terjemahan itu.',
+
+    iramaKicker: 'Waktu musikal',
+    iramaKop: 'Irama bukan ritme',
+    iramaTekst:
+      '<em>Irama</em> sering diterjemahkan sebagai ritme, dan itu keliru. Irama menyangkut kerapatan: berapa banyak nada yang dimainkan instrumen garap untuk satu nada balungan. Bila gendhing turun satu tingkat, jumlah itu berlipat dua — menjadi lebih lambat sekaligus lebih padat.',
+    tabelNiveau: 'Tingkat',
+    tabelSlagen: 'Pukulan per nada balungan',
+
+    stijlKicker: 'Tidak sama',
+    stijlKop: 'Jawa, Bali, Solo, Yogya',
+    stijl1:
+      'Gamelan Jawa dan Bali kerap tertukar, padahal keduanya tradisi yang berbeda dengan repertoar dan cara bermain masing-masing. Gamelan Bali dikenal karena peralihannya yang cepat dan tajam; musik keraton Jawa umumnya lebih tenang dan berlapis.',
+    stijl2:
+      'Di dalam Jawa sendiri pun ada gaya. Pembagian yang paling dikenal adalah antara <strong>Solo</strong> (Surakarta) dan <strong>Yogyakarta</strong>, yang berakar pada terbelahnya Kerajaan Mataram pada 1755. Kursus daring kami membahas gaya Solo.',
+
+    lerenKicker: 'Belajar',
+    lerenKop: 'Cara belajar gamelan',
+    leren1:
+      'Gamelan adalah tradisi lisan. Orang belajar dengan mendengarkan dan menirukan, duduk di samping orang yang sudah bisa. Notasi memang ada — <em>kepatihan</em>, notasi angka — tetapi itu alat bantu ingatan, bukan partitur yang dimainkan.',
+    leren2:
+      'Artinya, untuk memulai tidak perlu bisa membaca not. Kami menyediakan kursus daring gratis tentang gamelan Jawa gaya Solo dalam enam belas pelajaran singkat. Kursus ini berbahasa Belanda.',
+    leren3:
+      'Lebih suka di ruang sungguhan, bersama orang lain? Itu juga bisa: <a href="%GAMELANNL%">di mana Anda bisa bermain gamelan di Belanda</a> ada halamannya sendiri.',
+    knopCursus: 'Lihat kursus gamelan →',
+    knopNederland: 'Gamelan di Belanda',
+    knopOrkest: 'Orkes gamelan kami',
+
+    vragenKicker: 'Pertanyaan yang sering diajukan',
+    vragenKop: 'Tentang gamelan',
+    bronKop: 'Sumber',
+    bron:
+      'Teori pada halaman ini mengikuti Sumarsam, <em>Introduction, Theory, and Analysis: Javanese Gamelan</em> (Middletown CT, 2023), yang disediakan cuma-cuma oleh penulisnya sendiri. <a href="%BRON%" rel="noopener" target="_blank">Bukunya bisa dibaca di sini</a>. Istilah melodi batin, irama dan embat berasal dari sana.',
+
+    groepen: [
+      {
+        rol: 'Melodi',
+        wat: 'Membawa dan menggarap melodi',
+        instrumenten: 'slenthem, demung, saron, peking, bonang, rebab, gendèr, gambang, suling',
+      },
+      { rol: 'Waktu', wat: 'Menentukan tempo, peralihan dan akhir', instrumenten: 'kendhang' },
+      {
+        rol: 'Struktur',
+        wat: 'Menandai posisi dalam siklus',
+        instrumenten: 'gong ageng, kenong, kempul, kethuk, kempyang',
+      },
+    ],
+
+    vragen: [
+      {
+        v: 'Apa itu gamelan?',
+        a: 'Gamelan adalah orkes dari Jawa dan Bali: satu perangkat tetap yang sebagian besar terdiri atas instrumen pukul perunggu — gong, metalofon dan kendhang — dilengkapi alat gesek, tiup dan vokal. Instrumennya dibuat dan dilaras sebagai satu kesatuan, jadi sebuah gamelan adalah satu instrumen yang dimainkan bersama oleh sekelompok orang.',
+      },
+      {
+        v: 'Apa arti kata gamelan?',
+        a: 'Berasal dari kata Jawa "gamel", memukul. Musiknya sendiri dalam bahasa Jawa disebut karawitan.',
+      },
+      {
+        v: 'Berapa orang bermain dalam satu orkes gamelan?',
+        a: 'Tergantung gendhing dan perangkatnya. Instrumennya terbagi atas tiga fungsi: yang membawa dan menggarap melodi, kendhang yang mengatur waktu, dan gong-gong yang menandai struktur siklus.',
+      },
+      {
+        v: 'Apa itu sléndro dan pélog?',
+        a: 'Dua laras gamelan Jawa. Sléndro memiliki lima nada dengan jarak yang hampir sama; pélog memiliki tujuh nada dengan jarak tidak sama, dan dalam praktiknya tiga tangga nada lima nada dipakai darinya. Banyak perangkat gamelan terdiri atas dua orkes lengkap, satu untuk tiap laras.',
+      },
+      {
+        v: 'Apakah dua gamelan terdengar sama?',
+        a: 'Tidak. Tidak ada laras baku seperti 440 hertz di Barat. Setiap gamelan punya laras dan warna bunyinya sendiri, disebut embat. Karena itu instrumen dari dua gamelan berbeda tidak bisa dipertukarkan.',
+      },
+      {
+        v: 'Apa itu irama?',
+        a: 'Irama bukan ritme melainkan kerapatan: berapa banyak nada yang dimainkan instrumen garap untuk satu nada balungan. Pada setiap tingkat jumlah itu berlipat dua, dari 1 pada lancar sampai 16 pada rangkep. Gendhingnya menjadi bukan hanya lebih lambat, tetapi juga lebih padat.',
+      },
+      {
+        v: 'Apa beda gamelan Jawa dan gamelan Bali?',
+        a: 'Keduanya tradisi yang berbeda. Gamelan Bali dikenal karena peralihannya yang cepat dan tajam; musik keraton Jawa umumnya lebih tenang dan berlapis. Di dalam Jawa pun ada perbedaan, terutama antara gaya Solo dan Yogyakarta, yang berakar pada terbelahnya Kerajaan Mataram pada 1755.',
+      },
+      {
+        v: 'Bisakah belajar gamelan tanpa bisa membaca not?',
+        a: 'Bisa. Gamelan adalah tradisi lisan: mendengarkan dan menirukan adalah inti belajarnya. Notasi angka kepatihan memang ada, tetapi itu alat bantu ingatan, bukan musiknya sendiri.',
+      },
+    ],
+  },
+};
+
+const c = INHOUD[taal] ?? INHOUD.nl;
+
+/* Irama: de vijf niveaus van dichtheid. De namen zijn Javaans en blijven gelijk. */
 const irama = [
   { naam: 'Lancar',   slagen: '1' },
   { naam: 'Tanggung', slagen: '2' },
@@ -57,68 +410,23 @@ const irama = [
   { naam: 'Rangkep',  slagen: '16' },
 ];
 
-const vragen = [
-  {
-    v: 'Wat is gamelan?',
-    a: 'Gamelan is het orkest van Java en Bali: een vast ensemble van vooral bronzen slaginstrumenten — gongs, metallofonen en trommels — aangevuld met strijk-, blaas- en zanginstrumenten. De instrumenten worden als één geheel gestemd en gebouwd, dus een gamelan is één instrument dat door een groep tegelijk bespeeld wordt.',
-  },
-  {
-    v: 'Wat betekent het woord gamelan?',
-    a: 'Het komt van het Javaanse "gamel", slaan. De muziek zelf heet in het Javaans karawitan.',
-  },
-  {
-    v: 'Hoeveel mensen spelen er in een gamelanorkest?',
-    a: 'Dat hangt af van het stuk en van de set. De instrumenten zijn verdeeld over drie functies: instrumenten die de melodie dragen en versieren, de kendhang die de tijd bepaalt, en de gongs die de structuur van de cyclus markeren.',
-  },
-  {
-    v: 'Wat zijn sléndro en pélog?',
-    a: 'De twee stemmingen van de Javaanse gamelan. Sléndro heeft vijf tonen met vrijwel gelijke afstanden; pélog heeft zeven tonen met ongelijke afstanden, waaruit in de praktijk drie vijftoonsschalen worden gebruikt. Veel gamelansets bestaan uit twee complete orkesten, één in elke stemming.',
-  },
-  {
-    v: 'Klinken twee gamelans hetzelfde?',
-    a: 'Nee. Er is geen standaardstemming zoals de westerse 440 hertz. Elke gamelan heeft zijn eigen stemming en klankkleur, embat genoemd. Daarom kun je instrumenten uit twee verschillende gamelans niet door elkaar gebruiken.',
-  },
-  {
-    v: 'Wat is irama?',
-    a: 'Irama is geen ritme maar dichtheid: hoeveel noten de versierende instrumenten spelen op één noot van de basismelodie. Bij elk niveau verdubbelt dat aantal, van 1 bij lancar tot 16 bij rangkep. Het stuk wordt daardoor niet alleen langzamer maar ook voller.',
-  },
-  {
-    v: 'Wat is het verschil tussen Javaanse en Balinese gamelan?',
-    a: 'Het zijn verschillende tradities. Balinese gamelan staat bekend om snelle, felle wisselingen; de Javaanse hofmuziek is doorgaans rustiger en meer gelaagd. Binnen Java zijn er ook verschillen, vooral tussen de stijlen van Solo en Yogyakarta, die teruggaan op de splitsing van het rijk Mataram in 1755.',
-  },
-  {
-    v: 'Kun je gamelan leren zonder noten te kunnen lezen?',
-    a: 'Ja. Gamelan is een orale traditie: luisteren en nadoen zijn de kern van het leren. Er bestaat wel een cijfernotatie, kepatihan, maar die is een geheugensteun en niet de muziek zelf.',
-  },
-];
+const lerenHtml = c.leren3.replace('%GAMELANNL%', pad(taal, '/gamelan-in-nederland'));
+const bronHtml = c.bron.replace('%BRON%', BRON);
 ---
-<Base
-  taal={taal}
-  title="Wat is gamelan? Het Javaanse orkest uitgelegd | Stichting Gema Rasa"
-  description="Gamelan is het orkest van Java: bronzen gongs, metallofonen en trommels, gestemd als één geheel. Wat het woord betekent, hoe een orkest in elkaar zit, en wat sléndro, pélog en irama zijn."
->
+<Base taal={taal} title={c.titel} description={c.omschrijving}>
   <PageHero
     sleutel="wat-is-gamelan"
-    eyebrow="Karawitan"
-    titel="Wat is gamelan?"
-    tekst="Het orkest van Java: brons dat als één instrument is gestemd, en door een groep tegelijk bespeeld wordt."
+    eyebrow={c.eyebrow}
+    titel={c.kop}
+    tekst={c.heroTekst}
     foto="/assets/perf-gamelan.jpg"
   />
 
   <section class="block">
     <div class="wrap">
       <div class="prose">
-        <p class="lead">
-          Gamelan is het orkest van Java en Bali: een vast ensemble van vooral bronzen
-          slaginstrumenten — gongs, metallofonen en trommels — aangevuld met een strijkinstrument,
-          een fluit en zang. Het woord komt van het Javaanse <em>gamel</em>, slaan.
-        </p>
-        <p>
-          Het belangrijkste om te begrijpen: een gamelan is geen verzameling losse instrumenten.
-          De hele set wordt samen gebouwd en samen gestemd, en geldt als één instrument dat door
-          een groep tegelijk wordt bespeeld. De muziek zelf heet in het Javaans
-          <strong>karawitan</strong>.
-        </p>
+        <p class="lead" set:html={c.lead} />
+        <p set:html={c.intro2} />
       </div>
     </div>
   </section>
@@ -126,22 +434,19 @@ const vragen = [
   <section class="block vervolg">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">De opbouw</span>
-        <h2>Hoe een gamelanorkest in elkaar zit</h2>
+        <span class="kicker">{c.opbouwKicker}</span>
+        <h2>{c.opbouwKop}</h2>
       </div>
       <div class="prose">
-        <p>
-          De instrumenten zijn niet ingedeeld naar hoe ze klinken maar naar wat ze doen. Drie
-          functies:
-        </p>
+        <p>{c.opbouwIntro}</p>
       </div>
       <div class="tabelwrap">
         <table class="gamtabel">
           <thead>
-            <tr><th>Functie</th><th>Wat het doet</th><th>Instrumenten</th></tr>
+            <tr><th>{c.tabelFunctie}</th><th>{c.tabelWat}</th><th>{c.tabelInstrumenten}</th></tr>
           </thead>
           <tbody>
-            {groepen.map((g) => (
+            {c.groepen.map((g) => (
               <tr>
                 <td><strong>{g.rol}</strong></td>
                 <td>{g.wat}</td>
@@ -152,11 +457,7 @@ const vragen = [
         </table>
       </div>
       <div class="prose">
-        <p>
-          De <strong>kendhang</strong>, de trommel, is de verkeersleider. De speler bepaalt het
-          tempo, geeft de overgangen aan en beslist wanneer het stuk eindigt — de
-          <em>suwuk</em>. De grote gong, de <em>gong ageng</em>, sluit elke cyclus af.
-        </p>
+        <p set:html={c.kendhang} />
       </div>
     </div>
   </section>
@@ -164,23 +465,12 @@ const vragen = [
   <section class="block vervolg">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Stemming</span>
-        <h2>Sléndro en pélog</h2>
+        <span class="kicker">{c.stemmingKicker}</span>
+        <h2>{c.stemmingKop}</h2>
       </div>
       <div class="prose">
-        <p>
-          De Javaanse gamelan kent twee stemmingen. <strong>Sléndro</strong> heeft vijf tonen met
-          vrijwel gelijke afstanden ertussen. <strong>Pélog</strong> heeft er zeven, met ongelijke
-          afstanden, waaruit in de praktijk drie vijftoonsschalen worden gebruikt. Een complete
-          gamelanset bestaat daarom vaak uit twee orkesten naast elkaar, één in elke stemming.
-        </p>
-        <p>
-          En dan het deel dat westerse musici het meest verrast: <strong>er is geen
-          standaardstemming</strong>. Geen 440 hertz. Elke gamelan heeft zijn eigen stemming en
-          klankkleur, <em>embat</em> genoemd. Twee orkesten die hetzelfde stuk spelen klinken
-          hoorbaar anders, en je kunt instrumenten uit twee verschillende sets niet door elkaar
-          gebruiken.
-        </p>
+        <p set:html={c.stemming1} />
+        <p set:html={c.stemming2} />
       </div>
     </div>
   </section>
@@ -188,21 +478,12 @@ const vragen = [
   <section class="block vervolg">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Het kernidee</span>
-        <h2>De melodie die nergens staat</h2>
+        <span class="kicker">{c.kernKicker}</span>
+        <h2>{c.kernKop}</h2>
       </div>
       <div class="prose">
-        <p>
-          Als je naar de notatie van een gamelanstuk kijkt, zie je de <em>balungan</em>: het
-          skelet, een kale reeks tonen. Dat is niet de melodie. De versierende instrumenten spelen
-          er allemaal iets anders overheen, en geen van die lijnen is de melodie óók.
-        </p>
-        <p>
-          De musicoloog Sumarsam noemt dit de <strong>innerlijke melodie</strong>: de echte melodie
-          staat op geen enkel instrument. De muzikanten dragen hem in hun hoofd en vertalen hem elk
-          naar wat hun eigen instrument kan. Wat je hoort is het resultaat van die vertalingen bij
-          elkaar.
-        </p>
+        <p set:html={c.kern1} />
+        <p set:html={c.kern2} />
       </div>
     </div>
   </section>
@@ -210,21 +491,16 @@ const vragen = [
   <section class="block vervolg">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Muzikale tijd</span>
-        <h2>Irama is geen ritme</h2>
+        <span class="kicker">{c.iramaKicker}</span>
+        <h2>{c.iramaKop}</h2>
       </div>
       <div class="prose">
-        <p>
-          <em>Irama</em> wordt vaak vertaald als ritme, en dat klopt niet. Irama gaat over
-          dichtheid: hoeveel noten de versierende instrumenten spelen op één noot van de
-          basismelodie. Gaat een stuk een niveau omlaag, dan verdubbelt dat aantal — het wordt
-          langzamer én voller tegelijk.
-        </p>
+        <p set:html={c.iramaTekst} />
       </div>
       <div class="tabelwrap">
         <table class="gamtabel">
           <thead>
-            <tr><th>Niveau</th><th>Slagen per toon van de basismelodie</th></tr>
+            <tr><th>{c.tabelNiveau}</th><th>{c.tabelSlagen}</th></tr>
           </thead>
           <tbody>
             {irama.map((i) => (
@@ -239,22 +515,12 @@ const vragen = [
   <section class="block vervolg">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Niet hetzelfde</span>
-        <h2>Javaans, Balinees, Solo, Yogya</h2>
+        <span class="kicker">{c.stijlKicker}</span>
+        <h2>{c.stijlKop}</h2>
       </div>
       <div class="prose">
-        <p>
-          Javaanse en Balinese gamelan worden vaak door elkaar gehaald, maar het zijn
-          verschillende tradities met een eigen repertoire en een eigen manier van spelen.
-          Balinese gamelan staat bekend om snelle, felle wisselingen; de Javaanse hofmuziek is
-          doorgaans rustiger en meer gelaagd.
-        </p>
-        <p>
-          Ook binnen Java zijn er stijlen. De bekendste tweedeling is die tussen
-          <strong>Solo</strong> (Surakarta) en <strong>Yogyakarta</strong>, die teruggaat op de
-          splitsing van het rijk Mataram in 1755. Onze eigen online cursus gaat over de
-          Solonese stijl.
-        </p>
+        <p>{c.stijl1}</p>
+        <p set:html={c.stijl2} />
       </div>
     </div>
   </section>
@@ -262,46 +528,29 @@ const vragen = [
   <section class="block vervolg">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Leren</span>
-        <h2>Hoe je gamelan leert</h2>
+        <span class="kicker">{c.lerenKicker}</span>
+        <h2>{c.lerenKop}</h2>
       </div>
       <div class="prose">
-        <p>
-          Gamelan is een orale traditie. Je leert door te luisteren en na te doen, naast iemand die
-          het al kan. Er bestaat wel notatie — <em>kepatihan</em>, een cijferschrift — maar dat is
-          een geheugensteun, geen partituur die je uitvoert.
-        </p>
-        <p>
-          Dat betekent ook dat je geen noten hoeft te kunnen lezen om te beginnen. Wij geven een
-          gratis online cursus over de Javaanse gamelan in de stijl van Solo, in zestien korte
-          lessen.
-        </p>
-        <p>
-          Liever in een echte zaal, naast andere mensen? Dat kan ook:
-          <a href={pad(taal, '/gamelan-in-nederland')}>waar je in Nederland gamelan kunt
-          spelen</a> staat op een eigen pagina.
-        </p>
+        <p set:html={c.leren1} />
+        <p>{c.leren2}</p>
+        <p set:html={lerenHtml} />
       </div>
       <p class="gamknoppen">
-        <a class="btn gold" href={pad(taal, '/gamelancursus')}>Bekijk de gamelancursus →</a>
-        <a class="btn" href={pad(taal, '/gamelan-in-nederland')}>Gamelan in Nederland</a>
-        <a class="btn" href={pad(taal, '/de-gamelan-groep')}>Ons gamelanorkest</a>
+        <a class="btn gold" href={pad(taal, '/gamelancursus')}>{c.knopCursus}</a>
+        <a class="btn" href={pad(taal, '/gamelan-in-nederland')}>{c.knopNederland}</a>
+        <a class="btn" href={pad(taal, '/de-gamelan-groep')}>{c.knopOrkest}</a>
       </p>
     </div>
   </section>
 
-  <Vragen kicker="Veelgestelde vragen" titel="Over gamelan" vragen={vragen} />
+  <Vragen kicker={c.vragenKicker} titel={c.vragenKop} vragen={c.vragen} />
 
   <section class="block vervolg">
     <div class="wrap">
       <div class="prose bronnen">
-        <h3>Bron</h3>
-        <p>
-          De theorie op deze pagina volgt Sumarsam, <em>Introduction, Theory, and Analysis:
-          Javanese Gamelan</em> (Middletown CT, 2023), dat de auteur zelf vrij beschikbaar heeft
-          gesteld. <a href={BRON} rel="noopener" target="_blank">Het boek is hier te lezen</a>.
-          De begrippen innerlijke melodie, irama en embat komen daaruit.
-        </p>
+        <h3>{c.bronKop}</h3>
+        <p set:html={bronHtml} />
       </div>
     </div>
   </section>
