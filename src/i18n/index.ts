@@ -26,8 +26,39 @@ export function taalPaden() {
 /** Bouwt een pad in de juiste taal: pad('en', '/leden') -> '/en/leden' */
 export function pad(taal: Taal, doelPad: string): string {
   const schoon = doelPad.startsWith('/') ? doelPad : `/${doelPad}`;
-  if (taal === 'nl') return schoon;
-  return schoon === '/' ? `/${taal}` : `/${taal}${schoon}`;
+  const basis = taal === 'nl' ? schoon : (schoon === '/' ? `/${taal}` : `/${taal}${schoon}`);
+  return metSlash(basis);
+}
+
+/**
+ * Zorgt dat een adres op een schuine streep eindigt.
+ *
+ * De site wordt als mappen gebouwd, dus het echte adres van een pagina is
+ * /wat-is-gamelan/ met streep. Schreven we de link zonder, dan stuurde
+ * Cloudflare de bezoeker eerst door naar de versie mét -- bij elke klik een
+ * extra heen-en-weer. Google loopt die omleidingen ook allemaal af, en dat
+ * gaat af van de tijd die hij aan de site besteedt.
+ *
+ * Een adres dat al een streep heeft blijft zoals het is, zodat //
+ * nooit kan ontstaan.
+ */
+function metSlash(adres: string): string {
+  return adres.endsWith('/') ? adres : `${adres}/`;
+}
+
+/**
+ * Hetzelfde als pad(), maar voor adressen die uit het bewerk-dashboard komen.
+ *
+ * Daar kan iemand net zo goed een adres van een andere site invullen. Dat
+ * mag niet door de taal- en streepmolen: https://... zou dan /en/https://...
+ * worden. Ook een mailadres of telefoonnummer blijft zoals het is.
+ */
+export function knopPad(taal: Taal, adres?: string | null): string {
+  const a = (adres ?? '').trim();
+  if (!a) return pad(taal, '/');
+  if (/^(https?:|mailto:|tel:|#)/i.test(a)) return a;
+  if (!a.startsWith('/')) return a;
+  return pad(taal, a);
 }
 
 type Woordenboek = Record<string, string>;
@@ -53,21 +84,21 @@ const nl: Woordenboek = {
   'vraag.wieV': 'Wat doet Stichting Gema Rasa?',
   'vraag.wieA': 'We houden de Javaanse cultuur levend in Nederland: een gamelanorkest, een dansgroep, theaterproducties, workshops en lessen, het magazine Suwara Jawa en het festival Echo\u2019s van Java. We treden op bij festivals, musea, scholen en herdenkingen, en we geven de traditie door aan een volgende generatie.',
   'vraag.boekenV': 'Kan ik jullie boeken voor een optreden of workshop?',
-  'vraag.boekenA': 'Ja. Op de <a href="/menukaart">culturele menukaart</a> staat wat we aanbieden: van een ceremoni\u00eble opening met gamelan van een kwartier tot een dagprogramma van tweeënhalf uur, plus lezingen, workshops en dansoptredens. Vertel ons via <a href="/contact">contact</a> wat voor gelegenheid het is, dan denken we mee.',
+  'vraag.boekenA': 'Ja. Op de <a href="/menukaart/">culturele menukaart</a> staat wat we aanbieden: van een ceremoni\u00eble opening met gamelan van een kwartier tot een dagprogramma van tweeënhalf uur, plus lezingen, workshops en dansoptredens. Vertel ons via <a href="/contact/">contact</a> wat voor gelegenheid het is, dan denken we mee.',
   'vraag.kostenV': 'Wat kost een optreden?',
-  'vraag.kostenA': 'Dat hangt af van wat je kiest. Een verhaal of lezing van 30 tot 45 minuten is \u20ac 440. Een ceremoni\u00eble opening met live gamelan begint bij \u20ac 800. Een compleet programma van tweeënhalf uur ligt tussen \u20ac 1.100 en \u20ac 1.430. Alle bedragen en wat erbij hoort staan op de <a href="/menukaart">menukaart</a>.',
+  'vraag.kostenA': 'Dat hangt af van wat je kiest. Een verhaal of lezing van 30 tot 45 minuten is \u20ac 440. Een ceremoni\u00eble opening met live gamelan begint bij \u20ac 800. Een compleet programma van tweeënhalf uur ligt tussen \u20ac 1.100 en \u20ac 1.430. Alle bedragen en wat erbij hoort staan op de <a href="/menukaart/">menukaart</a>.',
   'vraag.standV': 'Kan ik standhouder worden op Echo\u2019s van Java?',
   'vraag.standA': 'Ja, we zoeken ze. Kook je, maak je iets met je handen, of vertegenwoordig je een organisatie die hier thuishoort? Voor de editie van 19 juni 2027 zoeken we keukens, makers en organisaties. Meld je aan via <a href="https://echosvanjava.nl/standhouders/" target="_blank" rel="noopener">echosvanjava.nl/standhouders</a> of mail naar info@stichtinggemarasa.com.',
   'vraag.meespelenV': 'Ik speel gamelan \u2014 kan ik meedoen?',
-  'vraag.meespelenA': 'Graag. Ons gamelanorkest Jiwa Manunggal repeteert bij KizzMotions in Hoogvliet Rotterdam, en er is plek voor nieuwe spelers. Ervaring is prettig maar niet nodig: we leren het je. Laat het weten via <a href="/contact">contact</a>, dan nodigen we je uit voor een repetitie.',
+  'vraag.meespelenA': 'Graag. Ons gamelanorkest Jiwa Manunggal repeteert bij KizzMotions in Hoogvliet Rotterdam, en er is plek voor nieuwe spelers. Ervaring is prettig maar niet nodig: we leren het je. Laat het weten via <a href="/contact/">contact</a>, dan nodigen we je uit voor een repetitie.',
   'vraag.oefenenV': 'Waar oefenen jullie, en kan ik komen kijken?',
-  'vraag.oefenenA': 'De gamelangroep repeteert bij KizzMotions, Suikerbakkerstraat 40 in Hoogvliet Rotterdam. Kom je een keer kijken of meespelen? Laat het weten via <a href="/contact">contact</a>, dan vertellen we wanneer we er zijn.',
+  'vraag.oefenenA': 'De gamelangroep repeteert bij KizzMotions, Suikerbakkerstraat 40 in Hoogvliet Rotterdam. Kom je een keer kijken of meespelen? Laat het weten via <a href="/contact/">contact</a>, dan vertellen we wanneer we er zijn.',
   'vraag.lerenV': 'Kan ik zelf Javaans of gamelan leren?',
-  'vraag.lerenA': 'Allebei. De <a href="/gamelancursus">gamelancursus</a> is gratis online: zestien korte lessen over de instrumenten, de stemmingen en de notatie. En met <a href="https://dictionary.carajawa.nl/">Cara Jawa</a> leer je Javaanse woorden, met de uitspraak erbij.',
+  'vraag.lerenA': 'Allebei. De <a href="/gamelancursus/">gamelancursus</a> is gratis online: zestien korte lessen over de instrumenten, de stemmingen en de notatie. En met <a href="https://dictionary.carajawa.nl/">Cara Jawa</a> leer je Javaanse woorden, met de uitspraak erbij.',
   'vraag.festivalV': 'Wanneer is het volgende Echo\u2019s van Java Festival?',
   'vraag.festivalA': 'Zaterdag 19 juni 2027 op Landgoed Vidaa in Bergschenhoek. De kaartverkoop is open: tot en met 28 februari betaal je \u20ac 6,50, daarna \u20ac 7,50, en kinderen tot en met 12 jaar zijn gratis. Alles staat op <a href="https://echosvanjava.nl/" target="_blank" rel="noopener">echosvanjava.nl</a>.',
   'vraag.steunV': 'Hoe kan ik jullie steunen?',
-  'vraag.steunA': 'Je kunt <a href="/steun">doneren</a>, iets kopen dat we maken — de kalender, het magazine — of adverteren in Suwara Jawa. En we zoeken een ruimte in de regio Rotterdam\u2013Den Haag waar onze gamelan kan blijven staan; ken je zo\u2019n plek, dan horen we het graag.',
+  'vraag.steunA': 'Je kunt <a href="/steun/">doneren</a>, iets kopen dat we maken — de kalender, het magazine — of adverteren in Suwara Jawa. En we zoeken een ruimte in de regio Rotterdam\u2013Den Haag waar onze gamelan kan blijven staan; ken je zo\u2019n plek, dan horen we het graag.',
   'nav.cursus': 'Cursus',
   'nav.kalender': 'Javaanse kalender',
   'nav.cultuur': 'Javaanse cultuur',
@@ -160,21 +191,21 @@ const en: Woordenboek = {
   'vraag.wieV': 'What does Stichting Gema Rasa do?',
   'vraag.wieA': 'We keep Javanese culture alive in the Netherlands: a gamelan orchestra, a dance group, theatre productions, workshops and classes, the magazine Suwara Jawa and the Echo\u2019s van Java festival. We perform at festivals, museums, schools and commemorations, and we pass the tradition on to a next generation.',
   'vraag.boekenV': 'Can I book you for a performance or workshop?',
-  'vraag.boekenA': 'Yes. Our <a href="/en/menukaart">cultural menu</a> lists what we offer: from a fifteen-minute ceremonial opening with gamelan to a two-and-a-half-hour programme, plus talks, workshops and dance performances. Tell us through <a href="/en/contact">contact</a> what the occasion is and we will think along.',
+  'vraag.boekenA': 'Yes. Our <a href="/en/menukaart/">cultural menu</a> lists what we offer: from a fifteen-minute ceremonial opening with gamelan to a two-and-a-half-hour programme, plus talks, workshops and dance performances. Tell us through <a href="/en/contact/">contact</a> what the occasion is and we will think along.',
   'vraag.kostenV': 'What does a performance cost?',
-  'vraag.kostenA': 'It depends on what you choose. A story or talk of 30 to 45 minutes is \u20ac 440. A ceremonial opening with live gamelan starts at \u20ac 800. A full two-and-a-half-hour programme is between \u20ac 1,100 and \u20ac 1,430. All prices and what they include are on the <a href="/en/menukaart">menu</a>.',
+  'vraag.kostenA': 'It depends on what you choose. A story or talk of 30 to 45 minutes is \u20ac 440. A ceremonial opening with live gamelan starts at \u20ac 800. A full two-and-a-half-hour programme is between \u20ac 1,100 and \u20ac 1,430. All prices and what they include are on the <a href="/en/menukaart/">menu</a>.',
   'vraag.standV': 'Can I have a stand at Echo\u2019s van Java?',
   'vraag.standA': 'Yes, we are looking for them. Do you cook, make something with your hands, or represent an organisation that belongs here? For the 19 June 2027 edition we are looking for kitchens, makers and organisations. Sign up at <a href="https://echosvanjava.nl/standhouders/" target="_blank" rel="noopener">echosvanjava.nl/standhouders</a> or email info@stichtinggemarasa.com.',
   'vraag.meespelenV': 'I play gamelan \u2014 can I join?',
-  'vraag.meespelenA': 'Please do. Our gamelan orchestra Jiwa Manunggal rehearses at KizzMotions in Hoogvliet Rotterdam, and there is room for new players. Experience is welcome but not required: we will teach you. Let us know through <a href="/en/contact">contact</a> and we will invite you to a rehearsal.',
+  'vraag.meespelenA': 'Please do. Our gamelan orchestra Jiwa Manunggal rehearses at KizzMotions in Hoogvliet Rotterdam, and there is room for new players. Experience is welcome but not required: we will teach you. Let us know through <a href="/en/contact/">contact</a> and we will invite you to a rehearsal.',
   'vraag.oefenenV': 'Where do you rehearse, and can I come and watch?',
-  'vraag.oefenenA': 'The gamelan group rehearses at KizzMotions, Suikerbakkerstraat 40 in Hoogvliet Rotterdam. Would you like to watch or play along? Let us know through <a href="/en/contact">contact</a> and we will tell you when we are there.',
+  'vraag.oefenenA': 'The gamelan group rehearses at KizzMotions, Suikerbakkerstraat 40 in Hoogvliet Rotterdam. Would you like to watch or play along? Let us know through <a href="/en/contact/">contact</a> and we will tell you when we are there.',
   'vraag.lerenV': 'Can I learn Javanese or gamelan myself?',
-  'vraag.lerenA': 'Both. The <a href="/en/gamelancursus">gamelan course</a> is free and online: sixteen short lessons on the instruments, the tunings and the notation. And with <a href="https://dictionary.carajawa.nl/">Cara Jawa</a> you learn Javanese words, with the pronunciation.',
+  'vraag.lerenA': 'Both. The <a href="/en/gamelancursus/">gamelan course</a> is free and online: sixteen short lessons on the instruments, the tunings and the notation. And with <a href="https://dictionary.carajawa.nl/">Cara Jawa</a> you learn Javanese words, with the pronunciation.',
   'vraag.festivalV': 'When is the next Echo\u2019s van Java Festival?',
   'vraag.festivalA': 'Saturday 19 June 2027 at Landgoed Vidaa in Bergschenhoek. Tickets are on sale: \u20ac 6.50 until 28 February, \u20ac 7.50 after that, and children up to and including 12 go free. Everything is at <a href="https://echosvanjava.nl/" target="_blank" rel="noopener">echosvanjava.nl</a>.',
   'vraag.steunV': 'How can I support you?',
-  'vraag.steunA': 'You can <a href="/en/steun">donate</a>, buy something we make — the calendar, the magazine — or advertise in Suwara Jawa. And we are looking for a space in the Rotterdam\u2013The Hague area where our gamelan can stay set up; if you know of one, we would love to hear.',
+  'vraag.steunA': 'You can <a href="/en/steun/">donate</a>, buy something we make — the calendar, the magazine — or advertise in Suwara Jawa. And we are looking for a space in the Rotterdam\u2013The Hague area where our gamelan can stay set up; if you know of one, we would love to hear.',
   'nav.cursus': 'Course',
   'nav.kalender': 'Javanese calendar',
   'nav.cultuur': 'Javanese culture',
@@ -263,21 +294,21 @@ const id: Woordenboek = {
   'vraag.wieV': 'Apa yang dilakukan Stichting Gema Rasa?',
   'vraag.wieA': 'Kami menjaga budaya Jawa tetap hidup di Belanda: orkes gamelan, kelompok tari, produksi teater, lokakarya dan kelas, majalah Suwara Jawa dan festival Echo\u2019s van Java. Kami tampil di festival, museum, sekolah dan peringatan, dan mewariskan tradisi kepada generasi berikutnya.',
   'vraag.boekenV': 'Bisakah saya memesan penampilan atau lokakarya?',
-  'vraag.boekenA': 'Bisa. Di <a href="/id/menukaart">menu budaya</a> kami tercantum apa yang kami tawarkan: dari pembukaan upacara dengan gamelan selama lima belas menit sampai program dua setengah jam, ditambah ceramah, lokakarya dan tari. Ceritakan acaranya lewat <a href="/id/contact">kontak</a>, nanti kami bantu pikirkan.',
+  'vraag.boekenA': 'Bisa. Di <a href="/id/menukaart/">menu budaya</a> kami tercantum apa yang kami tawarkan: dari pembukaan upacara dengan gamelan selama lima belas menit sampai program dua setengah jam, ditambah ceramah, lokakarya dan tari. Ceritakan acaranya lewat <a href="/id/contact/">kontak</a>, nanti kami bantu pikirkan.',
   'vraag.kostenV': 'Berapa biaya satu penampilan?',
-  'vraag.kostenA': 'Tergantung pilihan Anda. Cerita atau ceramah 30 sampai 45 menit \u20ac 440. Pembukaan upacara dengan gamelan langsung mulai \u20ac 800. Program lengkap dua setengah jam antara \u20ac 1.100 dan \u20ac 1.430. Semua harga ada di <a href="/id/menukaart">menu</a>.',
+  'vraag.kostenA': 'Tergantung pilihan Anda. Cerita atau ceramah 30 sampai 45 menit \u20ac 440. Pembukaan upacara dengan gamelan langsung mulai \u20ac 800. Program lengkap dua setengah jam antara \u20ac 1.100 dan \u20ac 1.430. Semua harga ada di <a href="/id/menukaart/">menu</a>.',
   'vraag.standV': 'Bisakah saya membuka stan di Echo\u2019s van Java?',
   'vraag.standA': 'Bisa, kami sedang mencari. Anda memasak, membuat sesuatu dengan tangan, atau mewakili organisasi yang cocok di sini? Untuk edisi 19 Juni 2027 kami mencari dapur, pengrajin dan organisasi. Daftar di <a href="https://echosvanjava.nl/standhouders/" target="_blank" rel="noopener">echosvanjava.nl/standhouders</a> atau email info@stichtinggemarasa.com.',
   'vraag.meespelenV': 'Saya bermain gamelan \u2014 bisakah saya ikut?',
-  'vraag.meespelenA': 'Silakan. Orkes gamelan kami Jiwa Manunggal berlatih di KizzMotions, Hoogvliet Rotterdam, dan masih ada tempat untuk pemain baru. Pengalaman bagus, tapi tidak wajib: kami ajari. Beri tahu lewat <a href="/id/contact">kontak</a>, nanti kami undang ke latihan.',
+  'vraag.meespelenA': 'Silakan. Orkes gamelan kami Jiwa Manunggal berlatih di KizzMotions, Hoogvliet Rotterdam, dan masih ada tempat untuk pemain baru. Pengalaman bagus, tapi tidak wajib: kami ajari. Beri tahu lewat <a href="/id/contact/">kontak</a>, nanti kami undang ke latihan.',
   'vraag.oefenenV': 'Di mana Anda berlatih, dan bolehkah saya menonton?',
-  'vraag.oefenenA': 'Kelompok gamelan berlatih di KizzMotions, Suikerbakkerstraat 40, Hoogvliet Rotterdam. Ingin menonton atau ikut bermain? Beri tahu lewat <a href="/id/contact">kontak</a>, nanti kami kabari kapan kami ada di sana.',
+  'vraag.oefenenA': 'Kelompok gamelan berlatih di KizzMotions, Suikerbakkerstraat 40, Hoogvliet Rotterdam. Ingin menonton atau ikut bermain? Beri tahu lewat <a href="/id/contact/">kontak</a>, nanti kami kabari kapan kami ada di sana.',
   'vraag.lerenV': 'Bisakah saya belajar bahasa Jawa atau gamelan sendiri?',
-  'vraag.lerenA': 'Keduanya bisa. <a href="/id/gamelancursus">Kursus gamelan</a> gratis dan daring: enam belas pelajaran singkat tentang instrumen, laras dan notasi. Dengan <a href="https://dictionary.carajawa.nl/">Cara Jawa</a> Anda belajar kata-kata Jawa, lengkap dengan pelafalannya.',
+  'vraag.lerenA': 'Keduanya bisa. <a href="/id/gamelancursus/">Kursus gamelan</a> gratis dan daring: enam belas pelajaran singkat tentang instrumen, laras dan notasi. Dengan <a href="https://dictionary.carajawa.nl/">Cara Jawa</a> Anda belajar kata-kata Jawa, lengkap dengan pelafalannya.',
   'vraag.festivalV': 'Kapan Echo\u2019s van Java Festival berikutnya?',
   'vraag.festivalA': 'Sabtu 19 Juni 2027 di Landgoed Vidaa, Bergschenhoek. Tiket sudah dijual: \u20ac 6,50 sampai 28 Februari, setelah itu \u20ac 7,50, dan anak sampai usia 12 tahun gratis. Selengkapnya di <a href="https://echosvanjava.nl/" target="_blank" rel="noopener">echosvanjava.nl</a>.',
   'vraag.steunV': 'Bagaimana saya bisa mendukung?',
-  'vraag.steunA': 'Anda bisa <a href="/id/steun">berdonasi</a>, membeli hasil karya kami — kalender, majalah — atau memasang iklan di Suwara Jawa. Kami juga mencari ruang di wilayah Rotterdam\u2013Den Haag tempat gamelan kami bisa tetap terpasang; bila tahu, kabari kami.',
+  'vraag.steunA': 'Anda bisa <a href="/id/steun/">berdonasi</a>, membeli hasil karya kami — kalender, majalah — atau memasang iklan di Suwara Jawa. Kami juga mencari ruang di wilayah Rotterdam\u2013Den Haag tempat gamelan kami bisa tetap terpasang; bila tahu, kabari kami.',
   'nav.cursus': 'Kursus',
   'nav.kalender': 'Kalender Jawa',
   'nav.cultuur': 'Budaya Jawa',

@@ -1,5 +1,5 @@
 ---
-import { taalPaden, t, pad } from '../../i18n/index.ts';
+import { taalPaden, t, pad, knopPad } from '../../i18n/index.ts';
 export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
 import Base from '../../layouts/Base.astro';
@@ -27,7 +27,7 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
         <h1>{voorAccent}{naAccent && <em>{hero.titelAccent}</em>}{naAccent}</h1>
         <p class="lead">{hero.tekst}</p>
         <div class="hero-cta">
-          <a class="btn gold" href={hero.knopUrl}>{hero.knopLabel}</a>
+          <a class="btn gold" href={knopPad(taal, hero.knopUrl)}>{hero.knopLabel}</a>
           <a class="btn ghost" style="color:var(--cream);border-color:rgba(239,200,62,.5)" href="#nieuws">{t(taal, "home.bekijkNieuws")}</a>
         </div>
       </div>
@@ -98,7 +98,7 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
             <p>{productie.intro}</p>
             <p>{productie.beschrijving}</p>
             {productie.citaat && <p class="quote">"{productie.citaat}"</p>}
-            <a class="btn gold" href={productie.knopUrl}>{productie.knopLabel}</a>
+            <a class="btn gold" href={knopPad(taal, productie.knopUrl)}>{productie.knopLabel}</a>
           </div>
         </div>
       </div>
@@ -118,7 +118,7 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
             {(merch.tekst2 || t(taal, "home.merchTekst2")) && (
               <p>{merch.tekst2 || t(taal, "home.merchTekst2")}</p>
             )}
-            <a class="btn" href={pad(taal, merch.knopUrl || "/shop")} style="margin-top:8px">
+            <a class="btn" href={knopPad(taal, merch.knopUrl || "/shop")} style="margin-top:8px">
               {merch.knopLabel || t(taal, "home.shop")}
             </a>
           </div>

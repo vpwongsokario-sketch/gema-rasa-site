@@ -69,7 +69,7 @@ export async function getHomepage(taal: string = 'nl') {
       citaat: vertaald(doc, 'productieCitaat', taal) ?? '',
       afbeelding: img(doc.productieAfbeelding, local.productie.afbeelding),
       knopLabel: vertaald(doc, 'productieKnopLabel', taal) ?? 'Tickets',
-      knopUrl: doc.productieKnopUrl ?? '/contact',
+      knopUrl: doc.productieKnopUrl ?? '/contact/',
     },
     // Merchandise-blok. Lege velden betekenen: gebruik de standaardtekst.
     merch: {

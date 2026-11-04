@@ -44,6 +44,9 @@ const CURSUS =
 
 // https://astro.build/config
 export default defineConfig({
+  /* De site wordt als mappen gebouwd, dus /wat-is-gamelan/ is het echte
+     adres. Dit legt vast dat links daar ook zo uit horen te zien. */
+  trailingSlash: 'always',
   site: SITE,
 
   /**
