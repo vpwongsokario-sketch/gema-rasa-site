@@ -72,6 +72,9 @@ const nl: Woordenboek = {
   'nav.kalender': 'Javaanse kalender',
   'nav.cultuur': 'Javaanse cultuur',
   'nav.watisgamelan': 'Wat is gamelan?',
+  'nav.gamelannl': 'Gamelan in Nederland',
+  'nav.watiswayang': 'Wat is wayang?',
+  'nav.verhalen': 'Javaanse verhalen',
   'nav.javaansleren': 'Javaans leren',
   'nav.surjav': 'Surinaams-Javaans',
 
@@ -176,6 +179,9 @@ const en: Woordenboek = {
   'nav.kalender': 'Javanese calendar',
   'nav.cultuur': 'Javanese culture',
   'nav.watisgamelan': 'What is gamelan?',
+  'nav.gamelannl': 'Gamelan in the Netherlands',
+  'nav.watiswayang': 'What is wayang?',
+  'nav.verhalen': 'Javanese stories',
   'nav.javaansleren': 'Learn Javanese',
   'nav.surjav': 'Surinamese Javanese',
 
@@ -276,6 +282,9 @@ const id: Woordenboek = {
   'nav.kalender': 'Kalender Jawa',
   'nav.cultuur': 'Budaya Jawa',
   'nav.watisgamelan': 'Apa itu gamelan?',
+  'nav.gamelannl': 'Gamelan di Belanda',
+  'nav.watiswayang': 'Apa itu wayang?',
+  'nav.verhalen': 'Cerita Jawa',
   'nav.javaansleren': 'Belajar bahasa Jawa',
   'nav.surjav': 'Jawa-Suriname',
 
