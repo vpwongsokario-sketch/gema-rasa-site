@@ -16,6 +16,24 @@ export function img(source: any, fallback = ''): string {
   }
 }
 
+/**
+ * Maakt een kaal CDN-adres geschikt om te tonen.
+ *
+ * Een GROQ-query met asset->url geeft het originele bestand terug, zonder
+ * enige bewerking. Dat ging mis op de voorpagina: de kalenderfoto was een
+ * PNG van 5,5 MB voor een vakje van 300 pixels breed. Met deze parameters
+ * stuurt Sanity een verkleinde WebP of AVIF van rond de 100 kB.
+ *
+ * Een adres dat al parameters heeft wordt met rust gelaten, en een adres
+ * dat niet van de Sanity-CDN komt ook -- daar werken ze niet.
+ */
+export function cdnBeeld(adres?: string | null, breedte = 900, hoogte?: number): string {
+  const a = (adres ?? '').trim();
+  if (!a || a.includes('?') || !a.includes('cdn.sanity.io')) return a;
+  const vak = hoogte ? `w=${breedte}&h=${hoogte}&fit=crop` : `w=${breedte}&fit=max`;
+  return `${a}?${vak}&auto=format&q=72`;
+}
+
 /** Voert een query veilig uit; bij fouten (bv. CMS nog niet gevuld) → null zodat we terugvallen. */
 async function safe<T>(q: string, params: Record<string, unknown> = {}): Promise<T | null> {
   try {
@@ -682,7 +700,7 @@ export async function getAanbod(taal: string = 'nl') {
       naam: `${kalender.titel} ${kalender.jaar}`,
       regel: kalender.ondertitel || 'Javaanse kalender met je weton bij elke dag',
       prijs: Number.isFinite(vanaf) ? `vanaf ${euro(vanaf)}` : '',
-      beeld: kalender.beeld || '',
+      beeld: cdnBeeld(kalender.beeld, 900, 675),
       url: 'https://winkel.stichtinggemarasa.com/kalender',
       extern: true,
     });
@@ -717,7 +735,9 @@ export async function getAanbod(taal: string = 'nl') {
     // Cara Jawa is een losse app zonder document hier. Het nieuwsbeeld dat we
     // elders gebruiken is 2048 bij 652 en wordt in dit vak een onherkenbare
     // streep; deze foto van de kaartenset laat zien waar het over gaat.
-    beeld: 'https://dictionary.carajawa.nl/mockups/19-fanned5-realcards.jpg',
+    // Eigen, verkleinde kopie: het origineel op dictionary.carajawa.nl is
+    // 480 kB voor een vakje van 300 pixels, en komt van een ander domein.
+    beeld: '/assets/carajawa-kaarten.jpg',
     url: 'https://dictionary.carajawa.nl/',
     extern: true,
   });
