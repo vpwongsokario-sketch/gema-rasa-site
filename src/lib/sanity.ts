@@ -346,8 +346,20 @@ export async function getMagazines(taal: string = 'nl') {
    * edities klaarstonden. Nu leest hij de echte bron, dus een nieuwe editie
    * verschijnt hier vanzelf zodra hij op het platform wordt gezet.
    */
+  /*
+    Alleen edities die echt bestaan.
+
+    Een editie met de status 'In voorbereiding' is een werkmap: hij wordt
+    aangemaakt zodra er advertenties aan gehangen moeten worden, en heeft dan
+    nog een werktitel, geen omslag en geen pagina om naartoe te sturen. Die
+    hoort op het beheerscherm en niet op deze pagina -- en ook niet in het
+    blokje 'Mee naar huis' op de voorpagina, dat de nieuwste editie pakt.
+
+    Dit filter stond alleen op het platform (suwarajawa.nl); deze site leest
+    dezelfde documenten met een eigen query en had het dus niet.
+  */
   const docs = await safe<any[]>(
-    `*[_type == "edition" && defined(slug.current)] | order(editionNumber desc){
+    `*[_type == "edition" && defined(slug.current) && status != "draft"] | order(editionNumber desc){
       editionNumber, title, "slug": slug.current, publicationDate, shortPitch,
       pageCount, status, pricing, cover
     }`,
