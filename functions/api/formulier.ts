@@ -85,6 +85,34 @@ export const onRequestPost = async (context: any): Promise<Response> => {
       ontvangen: new Date().toISOString(),
       afgehandeld: false,
     };
+  } else if (soort === 'verhaal') {
+    // Oproep voor het boek van Murwin (pagina /verhalen-gezocht). Opgeslagen als
+    // gewoon bericht, zodat het zonder schemawijziging in de Studio onder
+    // Berichten verschijnt; de extra velden staan bovenaan in de tekst.
+    if (!isWaar(data.toestemming)) {
+      return json({ ok: false, fout: 'Zet een vinkje bij de toestemming om door te gaan.' }, 400);
+    }
+    const verhaal = kort(data.bericht, 5000);
+    if (!verhaal) return json({ ok: false, fout: 'Vertel in een paar zinnen waar je verhaal over gaat.' }, 400);
+    const regels = [
+      ['Telefoon', kort(data.telefoon, 40)],
+      ['Woonplaats', kort(data.woonplaats, 120)],
+      ['Van wie komt het verhaal', kort(data.bron, 120)],
+      ['Benaderen via', kort(data.contactwijze, 40)],
+      ['Anoniem in het boek', isWaar(data.anoniem) || kort(data.anoniem, 5) === 'ja' ? 'ja' : 'nee'],
+    ]
+      .filter(([, v]) => v)
+      .map(([k, v]) => `${k}: ${v}`)
+      .join('\n');
+    doc = {
+      _type: 'bericht',
+      naam: kort(data.naam, 120),
+      email,
+      onderwerp: 'Verhaal voor het boek van Murwin',
+      bericht: `${regels}\n\nVerhaal:\n${verhaal}\n\n(Toestemming gegeven om gegevens te delen met Murwin voor dit boek.)`,
+      ontvangen: new Date().toISOString(),
+      afgehandeld: false,
+    };
   } else if (soort === 'nieuwsbrief' || soort === 'vrijwilliger') {
     // AVG: zonder expliciete toestemming slaan we niets op
     if (!isWaar(data.toestemming)) {
@@ -165,6 +193,7 @@ export const onRequestPost = async (context: any): Promise<Response> => {
     nieuwsbrief: 'website-nieuwsbrief',
     vrijwilliger: 'website-vrijwilliger',
     vertegenwoordiger: 'website-vertegenwoordiger',
+    verhaal: 'website-verhaal',
   };
   if (env?.GHL_API_TOKEN && env?.GHL_LOCATION_ID) {
     try {
@@ -213,14 +242,16 @@ export const onRequestPost = async (context: any): Promise<Response> => {
    * juist wel: daar wacht iemand op antwoord.
    */
   const meldAan = (env?.CONTACT_EMAIL as string) || 'info@stichtinggemarasa.com';
-  const meldenOver = soort === 'contact' || soort === 'vrijwilliger';
+  const meldenOver = soort === 'contact' || soort === 'vrijwilliger' || soort === 'verhaal';
   if (meldenOver && env?.RESEND_API_KEY && geldigEmail(meldAan)) {
     const naam = kort(data.naam, 120) || 'Onbekend';
-    const tekst = kort(data.bericht, 5000) || kort(data.toelichting, 2000);
+    const tekst = soort === 'verhaal' ? String(doc.bericht) : kort(data.bericht, 5000) || kort(data.toelichting, 2000);
     const onderwerp =
       soort === 'vrijwilliger'
         ? `Nieuwe aanmelding als vrijwilliger — ${naam}`
-        : `Nieuw bericht via de website — ${kort(data.onderwerp, 120) || naam}`;
+        : soort === 'verhaal'
+          ? `Nieuw verhaal voor het boek van Murwin — ${naam}`
+          : `Nieuw bericht via de website — ${kort(data.onderwerp, 120) || naam}`;
     try {
       await fetch('https://api.resend.com/emails', {
         method: 'POST',

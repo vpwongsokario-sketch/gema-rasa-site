@@ -1,0 +1,164 @@
+---
+/**
+ * Oproep: verhalen over de werving van Javanen naar Suriname.
+ *
+ * Voor het boek dat Murwin (partner van SGR in Suriname) schrijft over hoe
+ * collectief trauma doorwerkt in persoonlijk en publiek leiderschap. Mensen
+ * melden zich hier aan; SGR brengt ze daarna met Murwin in contact.
+ *
+ * Alleen in het Nederlands geschreven. De /en/- en /id/-versie bestaan wel
+ * (zodat de taalwisselaar niet op een 404 uitkomt), maar staan op noindex
+ * omdat er dan Nederlandse tekst onder een vreemde taal zou staan in Google.
+ *
+ * Het formulier gaat naar /api/formulier met soort "verhaal": opgeslagen als
+ * bericht in de Studio, met een mail naar info@ en tag website-verhaal in GHL.
+ */
+import { taalPaden } from '../../i18n/index.ts';
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+
+const omschrijving =
+  'Hoe kwam jouw familie in Suriname terecht? Voor een nieuw boek zoeken we verhalen over hoe Javanen werden overgehaald om naar Suriname te gaan. Deel jouw verhaal.';
+---
+<Base
+  taal={taal}
+  title="Verhalen gezocht: hoe kwam jouw familie in Suriname? — Stichting Gema Rasa"
+  description={omschrijving}
+  ogImage="/assets/perf-expo.jpg"
+  noindex={taal !== 'nl'}
+>
+  <PageHero
+    sleutel="verhalen-gezocht"
+    eyebrow="Oproep"
+    titel="Hoe kwam jouw familie in Suriname terecht?"
+    tekst="Voor een nieuw boek zoeken we verhalen over hoe Javanen werden overgehaald om naar Suriname te gaan."
+    foto="/assets/perf-expo.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      <div class="split">
+        <div class="oproep">
+          <span class="kicker">Over het boek</span>
+          <h2>Verhalen die thuis vaak niet verteld werden</h2>
+          <p>
+            Tussen 1890 en 1939 vertrokken ruim 32.000 Javanen naar Suriname. Velen werden
+            overgehaald met beloftes over werk, loon en een betere toekomst. Wat ze aantroffen
+            was vaak heel anders. Over die tijd werd in veel families lang gezwegen, maar de
+            verhalen zijn er nog: bij onze opa's en oma's, in herinneringen, in wat ons ooit
+            is verteld.
+          </p>
+          <p>
+            Murwin, onze partner in Suriname, schrijft een boek over hoe die geschiedenis nog
+            altijd doorwerkt in wie we zijn en hoe we leiden: in de politiek, in het werk en in
+            de gemeenschap. Geen wetenschappelijk boek, maar een boek om van te leren en over
+            te praten. Daarvoor zoekt hij persoonlijke verhalen.
+          </p>
+
+          <h3>Waar zijn we naar op zoek?</h3>
+          <ul class="vragenlijst">
+            <li>Hoe werd jouw (over)grootouder geworven of overgehaald?</li>
+            <li>Wat werd er beloofd, en wat werd er later over verteld?</li>
+            <li>Welke verhalen, brieven of foto's zijn in jouw familie bewaard gebleven?</li>
+          </ul>
+
+          <h3>Zo gaat het verder</h3>
+          <p>
+            Je hoeft je verhaal nu niet helemaal op te schrijven. Een paar zinnen is genoeg.
+            Wij nemen contact met je op en brengen je in contact met Murwin. Elk verhaal telt,
+            ook als het maar een fragment is. Meedoen kan ook anoniem.
+          </p>
+        </div>
+
+        <div>
+          <form class="cform" data-formulier="verhaal"
+            data-bedankt="Matur nuwun! We hebben je aanmelding ontvangen en nemen snel contact met je op.">
+            <div>
+              <label for="naam">Naam</label>
+              <input id="naam" name="naam" type="text" autocomplete="name" required />
+            </div>
+            <div>
+              <label for="email">E-mailadres</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div>
+              <label for="telefoon">Telefoon <span class="opt">(niet verplicht)</span></label>
+              <input id="telefoon" name="telefoon" type="tel" autocomplete="tel" />
+            </div>
+            <div>
+              <label for="woonplaats">Woonplaats <span class="opt">(niet verplicht)</span></label>
+              <input id="woonplaats" name="woonplaats" type="text" autocomplete="address-level2" />
+            </div>
+            <div>
+              <label for="bron">Van wie komt het verhaal?</label>
+              <select id="bron" name="bron">
+                <option value="">Kies wat het beste past</option>
+                <option>Mijn (over)grootouders</option>
+                <option>Mijn ouders</option>
+                <option>Mijn eigen herinnering</option>
+                <option>Brieven, documenten of foto's in de familie</option>
+                <option>Iets anders</option>
+              </select>
+            </div>
+            <div>
+              <label for="bericht">Vertel in een paar zinnen waar je verhaal over gaat</label>
+              <textarea id="bericht" name="bericht" required
+                placeholder="Bijvoorbeeld: mijn oma vertelde dat haar vader in 1913 in Semarang werd aangesproken door een ronselaar…"></textarea>
+            </div>
+            <div>
+              <label for="contactwijze">Hoe wil je benaderd worden?</label>
+              <select id="contactwijze" name="contactwijze">
+                <option>E-mail</option>
+                <option>Telefoon</option>
+                <option>WhatsApp</option>
+              </select>
+            </div>
+            <label class="vink">
+              <input type="checkbox" name="anoniem" value="ja" />
+              <span>Ik wil liever anoniem in het boek</span>
+            </label>
+            <label class="vink">
+              <input type="checkbox" name="toestemming" value="true" required />
+              <span>Stichting Gema Rasa mag mijn gegevens bewaren en delen met Murwin, alleen om
+              contact met mij op te nemen over dit boek.</span>
+            </label>
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true" />
+            <button class="btn gold" type="submit" style="justify-self:start">Deel mijn verhaal</button>
+            <p class="form-status" data-status role="status" aria-live="polite"></p>
+            <p class="klein">
+              Je gegevens worden niet gepubliceerd en niet voor iets anders gebruikt. Wil je ze
+              later laten verwijderen? Mail naar info@stichtinggemarasa.com.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .oproep h2 { font-size: 30px; margin: 10px 0 16px; }
+  .oproep h3 { font-size: 20px; font-weight: 500; margin: 26px 0 10px; }
+  .oproep p, .vragenlijst {
+    font-family: 'Poppins', sans-serif; font-weight: 300;
+    font-size: 16px; line-height: 1.75; color: #4a4a4a; margin: 0 0 14px;
+  }
+  .vragenlijst { padding-left: 20px; }
+  .vragenlijst li { margin-bottom: 6px; }
+  .opt { font-weight: 300; color: var(--gray); }
+  .cform select {
+    width: 100%; font-family: 'Poppins'; font-size: 15px; padding: 12px 14px;
+    border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--ink);
+  }
+  .cform select:focus { outline: none; border-color: var(--secondary); }
+  .vink {
+    display: flex !important; gap: 10px; align-items: flex-start;
+    font-family: 'Poppins'; font-weight: 300 !important; font-size: 14px !important;
+    line-height: 1.5; color: var(--ink) !important; margin: 0 !important;
+  }
+  .vink input { width: auto; margin-top: 3px; accent-color: var(--secondary); }
+  .klein { font-family: 'Poppins'; font-size: 12.5px; color: var(--gray); line-height: 1.5; }
+  @media (max-width: 860px) { .oproep h2 { font-size: 26px; } }
+</style>
