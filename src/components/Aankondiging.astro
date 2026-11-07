@@ -1,0 +1,95 @@
+---
+/*
+  Een aankondiging met een houdbaarheidsdatum.
+
+  Voor iets dat op een dag voorbij is -- een presentatie, een inschrijving
+  die sluit. Een blok dat blijft staan nadat het voorbij is, is erger dan
+  geen blok: dan lijkt de hele site niet bijgehouden.
+
+  Daarom twee sloten. Bij het bouwen wordt hij weggelaten als het moment al
+  voorbij is. En staat er een oude build op Cloudflare -- dat kan, want een
+  site wordt niet elke nacht opnieuw gebouwd -- dan haalt het scriptje hem
+  bij het openen alsnog weg. Zonder dat tweede slot zou de aankondiging
+  blijven hangen tot iemand toevallig iets anders pusht.
+
+  Het moment hoort gelijk te zijn aan wanneer het aanmeldformulier sluit
+  (PRESENTATIE.sluit in functions/api/formulier.ts). Anders stuurt dit blok
+  mensen naar een formulier dat niets meer aanneemt.
+*/
+interface Props {
+  kicker: string;
+  titel: string;
+  tekst: string;
+  knopLabel: string;
+  knopUrl: string;
+  /** Tot wanneer hij te zien is, als ISO-tijd met zone. */
+  tot: string;
+}
+const { kicker, titel, tekst, knopLabel, knopUrl, tot } = Astro.props;
+const voorbij = Number.isFinite(Date.parse(tot)) && Date.now() > Date.parse(tot);
+---
+{!voorbij && (
+  <aside class="aankondiging" data-tot={tot}>
+    <div class="wrap">
+      <div class="aank-binnen">
+        <div class="aank-tekst">
+          <span class="aank-kicker">{kicker}</span>
+          <h2>{titel}</h2>
+          <p>{tekst}</p>
+        </div>
+        <a class="btn gold aank-knop" href={knopUrl}>{knopLabel}</a>
+      </div>
+    </div>
+  </aside>
+)}
+
+<script>
+  /* Het tweede slot: weghalen als het moment voorbij is. */
+  for (const el of document.querySelectorAll<HTMLElement>('.aankondiging[data-tot]')) {
+    const tot = Date.parse(el.dataset.tot || '');
+    if (Number.isFinite(tot) && Date.now() > tot) el.remove();
+  }
+</script>
+
+<style>
+  .aankondiging {
+    background: #09351F;
+    color: var(--cream);
+    padding: 26px 0;
+  }
+  .aank-binnen {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+  }
+  .aank-tekst { flex: 1 1 420px; }
+  .aank-kicker {
+    display: block;
+    font-size: 12px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #EFC83E;
+    margin-bottom: 8px;
+  }
+  .aankondiging h2 {
+    font-size: 23px;
+    line-height: 1.25;
+    margin: 0 0 7px;
+    color: var(--cream);
+  }
+  .aankondiging p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(244, 243, 232, .82);
+    max-width: 62ch;
+  }
+  .aank-knop { flex: 0 0 auto; }
+
+  @media (max-width: 620px) {
+    .aankondiging h2 { font-size: 20px; }
+    .aank-knop { width: 100%; text-align: center; }
+  }
+</style>

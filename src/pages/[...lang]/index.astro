@@ -4,6 +4,7 @@ export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
 import Base from '../../layouts/Base.astro';
 import Vragen from '../../components/Vragen.astro';
+import Aankondiging from '../../components/Aankondiging.astro';
 import { getHomepage, getNieuws, getAgenda, getGalerij, getInitiatieven, getAanbod } from '../../lib/sanity.ts';
 
 const { hero, productie, merch, seo: paginaSeo } = await getHomepage(taal);
@@ -42,6 +43,19 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
       <span>{t(taal, "home.strip4")}</span>
     </div>
   </div>
+
+  {/*
+    De online presentatie over de reis, tot het moment waarop het formulier
+    sluit. Zelfde tijdstip als PRESENTATIE.sluit in functions/api/formulier.ts.
+  */}
+  <Aankondiging
+    kicker={t(taal, 'pres.kicker')}
+    titel={t(taal, 'pres.titel')}
+    tekst={t(taal, 'pres.tekst')}
+    knopLabel={t(taal, 'pres.knop')}
+    knopUrl={pad(taal, '/presentatie-java-2027')}
+    tot="2026-11-14T09:30:00Z"
+  />
 
   {/*
     WAT WE AANBIEDEN

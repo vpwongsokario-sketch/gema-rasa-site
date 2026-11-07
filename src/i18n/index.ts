@@ -108,6 +108,10 @@ const nl: Woordenboek = {
   'nav.verhalen': 'Javaanse verhalen',
   'nav.javaansleren': 'Javaans leren',
   'nav.weton': 'Weton en neptu',
+  'pres.kicker': 'Zaterdag 14 november · 09.00 uur',
+  'pres.titel': 'Online presentatie over de Educatiereis Java 2027',
+  'pres.tekst': 'Wati van Budaya Jivana Yasa vertelt je alles over het 15-daagse programma in Yogyakarta: dans, gamelan, batik, musea, tempels en een optreden op het Ramayana-podium bij Prambanan. Via Zoom, en je kunt live je vragen stellen.',
+  'pres.knop': 'Meld je aan',
   'nav.surjav': 'Surinaams-Javaans',
 
   // footer
@@ -216,6 +220,10 @@ const en: Woordenboek = {
   'nav.verhalen': 'Javanese stories',
   'nav.javaansleren': 'Learn Javanese',
   'nav.weton': 'Weton and neptu',
+  'pres.kicker': 'Saturday 14 November · 09.00 (Dutch time)',
+  'pres.titel': 'Online presentation about the 2027 study trip to Java',
+  'pres.tekst': 'Wati of Budaya Jivana Yasa walks you through the fifteen-day programme in Yogyakarta: dance, gamelan, batik, museums, temples and a performance on the Ramayana stage at Prambanan. On Zoom, with time for your questions. The presentation is given in Dutch.',
+  'pres.knop': 'Sign up',
   'nav.surjav': 'Surinamese Javanese',
 
   'footer.over': 'A cultural organisation dedicated to Javanese culture in the Netherlands. With passion and commitment we bring the rich traditions of Java to a wide audience.',
@@ -320,6 +328,10 @@ const id: Woordenboek = {
   'nav.verhalen': 'Cerita Jawa',
   'nav.javaansleren': 'Belajar bahasa Jawa',
   'nav.weton': 'Weton dan neptu',
+  'pres.kicker': 'Sabtu 14 November · 09.00 (waktu Belanda)',
+  'pres.titel': 'Presentasi daring tentang Educatiereis Java 2027',
+  'pres.tekst': 'Wati dari Budaya Jivana Yasa menjelaskan seluruh program lima belas hari di Yogyakarta: tari, gamelan, batik, museum, candi, dan pentas di panggung Ramayana di Prambanan. Lewat Zoom, dan Anda bisa bertanya langsung. Presentasi disampaikan dalam bahasa Belanda.',
+  'pres.knop': 'Daftar',
   'nav.surjav': 'Jawa-Suriname',
 
   'footer.over': 'Sebuah organisasi budaya yang berdedikasi untuk budaya Jawa di Belanda. Dengan penuh semangat kami menghadirkan kekayaan tradisi Jawa kepada khalayak luas.',

@@ -5,9 +5,10 @@
  * Bedragen, data en de betaallink staan hieronder in REIS: dat is de enige
  * plek waar je ze hoeft te wijzigen. De teksten staan in src/i18n/java2027.ts.
  */
-import { taalPaden, t } from '../../i18n/index.ts';
+import { taalPaden, t, pad } from '../../i18n/index.ts';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
+import Aankondiging from '../../components/Aankondiging.astro';
 import { getPaginaSeo, getReis } from '../../lib/sanity.ts';
 import { PROGRAMMA } from '../../data/java2027-programma.ts';
 
@@ -170,6 +171,19 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
       <div><b>{t(taal, 'jv.plekVrij')}</b> · {t(taal, 'jv.plekUitleg')}</div>
     </div>
   </div>
+
+  {/*
+    De online presentatie over de reis, tot het moment waarop het formulier
+    sluit. Zelfde tijdstip als PRESENTATIE.sluit in functions/api/formulier.ts.
+  */}
+  <Aankondiging
+    kicker={t(taal, 'pres.kicker')}
+    titel={t(taal, 'pres.titel')}
+    tekst={t(taal, 'pres.tekst')}
+    knopLabel={t(taal, 'pres.knop')}
+    knopUrl={pad(taal, '/presentatie-java-2027')}
+    tot="2026-11-14T09:30:00Z"
+  />
 
   <!-- PROGRAMMA -->
   <section class="block" id="programma">
