@@ -107,6 +107,7 @@ const nl: Woordenboek = {
   'nav.watiswayang': 'Wat is wayang?',
   'nav.verhalen': 'Javaanse verhalen',
   'nav.javaansleren': 'Javaans leren',
+  'nav.weton': 'Weton en neptu',
   'nav.surjav': 'Surinaams-Javaans',
 
   // footer
@@ -214,6 +215,7 @@ const en: Woordenboek = {
   'nav.watiswayang': 'What is wayang?',
   'nav.verhalen': 'Javanese stories',
   'nav.javaansleren': 'Learn Javanese',
+  'nav.weton': 'Weton and neptu',
   'nav.surjav': 'Surinamese Javanese',
 
   'footer.over': 'A cultural organisation dedicated to Javanese culture in the Netherlands. With passion and commitment we bring the rich traditions of Java to a wide audience.',
@@ -317,6 +319,7 @@ const id: Woordenboek = {
   'nav.watiswayang': 'Apa itu wayang?',
   'nav.verhalen': 'Cerita Jawa',
   'nav.javaansleren': 'Belajar bahasa Jawa',
+  'nav.weton': 'Weton dan neptu',
   'nav.surjav': 'Jawa-Suriname',
 
   'footer.over': 'Sebuah organisasi budaya yang berdedikasi untuk budaya Jawa di Belanda. Dengan penuh semangat kami menghadirkan kekayaan tradisi Jawa kepada khalayak luas.',

@@ -1,0 +1,460 @@
+---
+/*
+  Waarvoor een weton dient -- de pagina die /javaanse-kalender bewust open liet.
+
+  Die pagina legt uit WAT een weton is: twee weken naast elkaar, de vijf
+  pasaran, de neptu, en dat de dag bij zonsondergang begint. Wat er niet op
+  staat is waarvoor je die gegevens gebruikt, en juist dat is wat mensen
+  vragen zodra ze hun weton kennen. Vandaar deze pagina, met de rekenaar
+  erbij zodat je niet eerst naar de winkel hoeft.
+
+  De twee pagina's mogen elkaar niet in de weg zitten bij Google, dus ze
+  beantwoorden elk een andere vraag: /javaanse-kalender is "wat is mijn
+  weton / hoe werkt de telling", deze is "wat kan ik ermee". Ze verwijzen
+  naar elkaar in plaats van elkaars tabellen te herhalen.
+
+  BRON. Alles wat hier over het gebruik staat komt uit Clifford Geertz,
+  The Religion of Java (1960), in de Indonesische uitgave "Abangan, Santri,
+  Priyayi dalam Kebudayaan Jawa". Per stuk:
+
+  - de neptu-getallen staan woordelijk op bladzijde 68: "tiap hari mempunyai
+    sebuah angka (neptu): Senin empat, Minggu lima, Selasa tiga, Rabu tujuh,
+    Kamis delapan, Jum'at enam, Sabtu sembilan; Legi lima, Paing sembilan,
+    Pon tujuh, Wage empat, Kliwon delapan". Gelijk aan onze eigen tabel in
+    src/lib/weton.js.
+  - petungan en cocog: bladzijde 67
+  - verhuizen, richting plus dag, met Geertz' eigen huisbaas Ardjo: 68
+  - trouwdag, besnijdenis, handel, medicijn, en twee geboortedagen bij elkaar
+    optellen voor een huwelijk: 70
+  - de maand van 35 dagen, selapanan als "hari lahirnya dalam sebulan",
+    pitonan als de zevende: 77
+  - de slametans rond een geboorte: 76
+  - pitonan in detail (het laddertje, de rode en witte pap, het blad met
+    voorwerpen, 's ochtends voor twaalven, de moeder die van haar
+    voorschriften af is): 92 tot en met 94
+
+  WAT ER NIET IN STAAT, en dus ook niet op deze pagina: een tabel die zegt
+  wat jouw weton over jouw karakter zegt. Geertz schrijft juist het
+  omgekeerde op bladzijde 70 -- families en dukun rekenen met verschillende
+  stelsels, en daar ontstaat ruzie over. De rekenpagina die als voorbeeld
+  werd aangedragen (yuanyucore.com) heeft dezelfde getallen goed staan, maar
+  hangt er duidingen aan ("cosmic barcode", namen als Pegat en Ratu) die bij
+  Geertz niet voorkomen en die daar het begin van een app-abonnement zijn.
+  Wij noemen die namen wel, met de boeken erbij waar ze uit komen, en zeggen
+  er niet bij wat ze over iemand betekenen.
+
+  Nederlands op alle drie de taalpaden, zoals /javaanse-kalender: de Javaanse
+  woorden zijn in elke taal gelijk en de zoekvraag is Nederlands. De QR-code
+  op de kalender gaat hiernaartoe.
+*/
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Vragen from '../../components/Vragen.astro';
+import { taalPaden, pad } from '../../i18n/index.ts';
+
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+
+const KALENDER = 'https://winkel.stichtinggemarasa.com/kalender';
+
+/* Alleen vragen waarvan het antwoord op deze pagina staat of bij Geertz. */
+const vragen = [
+  {
+    v: 'Waar is een weton voor?',
+    a: 'Om dagen op elkaar af te stemmen. In de Javaanse traditie kies je een dag voor wat belangrijk is — verhuizen, trouwen, op reis gaan — en de weton met zijn neptu is waarmee je die keuze maakt. Dat rekenen heet petungan. Daarnaast is je weton een terugkerende datum: elke 35 dagen is het weer jouw dag.',
+  },
+  {
+    v: 'Wat is petungan?',
+    a: 'Petungan betekent letterlijk "rekening" of "telling": het stelsel waarmee dagen, richtingen en getallen op elkaar worden gelegd. Clifford Geertz beschrijft het in The Religion of Java als het middel om cocog te worden — te passen bij de orde van de dingen, zoals een sleutel in een slot past.',
+  },
+  {
+    v: 'Wat is mijn selapanan?',
+    a: 'Je selapanan is de terugkeer van je weton, elke 35 dagen. Geertz noemt het "je geboortedag binnen de maand": wie op Jumat Legi geboren is, heeft als selapanan de volgende Jumat Legi. Veel Javaanse families staan daar even bij stil, met rijst of een kleine slametan.',
+  },
+  {
+    v: 'Wat is pitonan?',
+    a: 'De zevende keer dat je weton terugkeert na je geboorte, ongeveer zeven Javaanse maanden oud. Dat is een van de vier grote slametans rond een geboorte en traditioneel de dag waarop een kind voor het eerst de grond raakt.',
+  },
+  {
+    v: 'Kun je met weton berekenen of een huwelijk goed gaat?',
+    a: 'Dat is wat er traditioneel wordt gedaan: de neptu van beide geboortedagen worden bij elkaar opgeteld, bijna altijd door een dukun. Maar Geertz tekende ook op dat families en dukun daarbij verschillende stelsels gebruiken, dat daar ruzie over ontstaat, en dat mensen soms gewoon trouwen. Wij rekenen de som voor je uit en laten de duiding aan de traditie waarin je staat.',
+  },
+  {
+    v: 'Zegt mijn weton iets over mijn karakter?',
+    a: 'Daar bestaan primbon-boeken over, en die spreken elkaar tegen. Wij zeggen er daarom niets over. Wat wij wel kunnen laten zien is wat er feitelijk uit de telling komt: je dag, je pasaran, je neptu, de windrichting en de kleur die bij je pasaran horen, en wanneer je weton terugkomt.',
+  },
+  {
+    v: 'Waar vind ik de getallen en de tabellen?',
+    a: 'Op onze pagina over de Javaanse kalender staan de vijf pasaran en de zeven dagen met hun neptu, en staat uitgelegd waarom een Javaanse dag bij zonsondergang begint.',
+  },
+];
+---
+<Base
+  taal={taal}
+  title="Wat kun je met je weton en neptu doen? — petungan uitgelegd | Stichting Gema Rasa"
+  description="Je weton is meer dan een dagnaam. Lees waarvoor neptu wordt gebruikt: een dag kiezen, je selapanan elke 35 dagen, pitonan, en twee wetons bij elkaar. Met rekenaar."
+>
+  <PageHero
+    sleutel="weton"
+    eyebrow="Petungan"
+    titel="Wat kun je met je weton doen?"
+    tekst="Je weton is niet alleen een naam voor je geboortedag. Het is een getal waarmee gerekend wordt."
+    foto="/assets/perf-gamelan.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      <div class="prose">
+        <p class="lead">
+          Je kent je weton — van de kalender, van je oma, of straks uit de rekenaar hieronder.
+          Dan komt de vraag die wij het vaakst horen: en nu? Waar is dat getal eigenlijk voor?
+        </p>
+        <p>
+          Het antwoord is dat er in de Javaanse traditie mee <em>gerekend</em> wordt. Dat rekenen
+          heeft een naam: <strong>petungan</strong>, letterlijk "telling". Het is geen
+          horoscoop waarin je leest wat je overkomt, maar een manier om een keuze te maken:
+          wanneer verhuis je, wanneer trouw je, wanneer ga je op reis.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">De gedachte eronder</span>
+        <h2>Cocog — of iets past</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Onder het hele stelsel zit één woord: <strong>cocog</strong>. Dat betekent passen, zoals
+          een sleutel in een slot past, of een medicijn bij een ziekte. Kleding die bij je werk
+          past is cocog. Een maaltijd die klopt is cocog. En twee mensen die bij elkaar horen
+          zijn cocog — en als ze dat niet zijn, gaan ze uit elkaar.
+        </p>
+        <p>
+          Petungan is het gereedschap om cocog te worden met iets groters: met de orde waarin
+          ruimte, tijd en wat mensen willen in elkaar passen. Je rekent niet om te weten wat er
+          gaat gebeuren, je rekent om niet uit de maat te lopen. Clifford Geertz, de antropoloog
+          die in de jaren vijftig een jaar in een Javaanse stad woonde, noemt het een
+          contrapuntische kijk op de wereld: zoals in muziek gaat het om de verhouding tussen
+          losse elementen, en of die samen klinken of botsen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Elke 35 dagen</span>
+        <h2>Je selapanan</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Vijf en zeven vallen pas na vijfendertig dagen weer samen. Daarom zijn er precies
+          vijfendertig verschillende wetons, en daarom keert jouw combinatie elke vijfendertig
+          dagen terug. Die vijfendertig dagen zijn de Javaanse maand — maar niet zoals onze
+          maanden, met een begin en een eind. Het is de afstand tussen jouw dag en de volgende
+          keer dat jouw dag er is.
+        </p>
+        <p>
+          Die terugkeer heet je <strong>selapanan</strong>: Geertz vertaalt het als "je
+          geboortedag binnen de maand". Wie op Jumat Legi geboren is, heeft als selapanan de
+          volgende Jumat Legi. Het is een dag om bij stil te staan — vaak met rijst, soms met een
+          kleine slametan, soms alleen met een telefoontje naar je moeder.
+        </p>
+        <p>
+          Het verklaart ook iets wat Nederlanders vaak verbaast. Vraag een Javaan wanneer hij
+          geboren is en hij noemt zijn weton: Setu Pahing. De maand en het jaar weet hij
+          misschien niet, en die doen ook niet zo veel. Wat telt is de dag die terugkomt.
+        </p>
+        <h3>Pitonan en de dagen eromheen</h3>
+        <p>
+          Rond een geboorte liggen vier grote slametans, en ze worden niet in onze maanden
+          geteld maar in Javaanse. <em>Tingkeban</em> in de zevende maand van de zwangerschap,
+          <em>babaran</em> of <em>brokohan</em> bij de geboorte zelf, <em>pasaran</em> vijf dagen
+          later, en <em>pitonan</em> na zeven Javaanse maanden — de zevende keer dat je weton
+          terugkeert. Soms komen daar nog <em>telonan</em>, <em>selapanan</em> en
+          <em>taunan</em> bij.
+        </p>
+        <p>
+          Pitonan is de uitbundigste van de vier, en de enige die 's ochtends moet, vóór twaalf
+          uur. Geertz beschrijft hoe het kind er voor het eerst met zijn voeten de grond raakt.
+          Er staat een laddertje van zeven treden — of een bananenstam — naar een bad met
+          bloemenwater, en op elke trede een kommetje pap, om en om rood en wit: rood voor de
+          vader, wit voor de moeder. Daarna krijgt het kind een blad met voorwerpen voorgehouden
+          en pakt er twee: een potlood, rijst, geld, een mes. Waar het kind later zijn brood mee
+          verdient, zou daaruit blijken — al schrijft Geertz er droog bij dat ouders die hogerop
+          willen het potlood weleens een duwtje geven. Voor de moeder betekent de dag dat de
+          zeven maanden van voorschriften en verboden voorbij zijn.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Waar het voor gebruikt wordt</span>
+        <h2>Een dag kiezen</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Dit is de grootste toepassing, en de meest praktische. Je verhuist niet zomaar: je kijkt
+          eerst naar twee dingen, de <strong>richting</strong> waarin je gaat en de
+          <strong>dag</strong> waarop. Geertz vroeg zijn eigen huisbaas hoe die de verhuisdag had
+          bepaald. Die telde de neptu van de dag bij elkaar op — Sabtu negen plus Wage vier is
+          dertien — en keek in een schrift dat hij van zijn ouders had geërfd welk getal bij welke
+          richting hoort. Hij kende het half uit zijn hoofd, maar keek het altijd na: bij een
+          rekenfout was de ellende voor zijn rekening.
+        </p>
+        <p>Op dezelfde manier wordt er gerekend voor:</p>
+        <ul class="wtlijst">
+          <li>een trouwdag, vaak tot het uur waarop de ceremonie moet beginnen</li>
+          <li>een besnijdenis</li>
+          <li>het begin van een reis</li>
+          <li>of een dag goed is om handel te drijven</li>
+          <li>welk medicijn bij een ziekte past, en wanneer je het inneemt</li>
+        </ul>
+        <p>
+          Wat daarachter zit is een ander gevoel voor tijd. Geertz noemt de Javaanse tijd
+          <em>kloppend</em> in plaats van ruimtelijk: geen lege lijn waarop je een punt kiest,
+          maar tandwielen die in elkaar grijpen. Als de raderen in een bepaalde stand klikken,
+          dan is dat het moment waarop een plechtigheid gehouden wordt, een reis begint of een
+          medicijn ingenomen hoort te worden.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Twee wetons</span>
+        <h2>Jodoh — of jullie bij elkaar passen</h2>
+      </div>
+      <div class="prose">
+        <p>
+          De bekendste toepassing buiten Java is de huwelijksrekening. Voordat er getrouwd wordt,
+          worden de neptu van beide geboortedagen bij elkaar opgeteld — bijna altijd door een
+          <em>dukun</em>. Komt er iets uit dat niet cocog is, dan gaat het huwelijk in
+          traditionele kringen niet door.
+        </p>
+        <p>
+          Hier moeten we eerlijk zijn over wat wij wel en niet weten. Dat er wordt opgeteld, staat
+          vast. Wat die som betekent, staat in <em>primbon</em>-boeken, en die spreken elkaar tegen.
+          Namen die je tegenkomt — Pegat, Ratu, Jodoh, Topo, Tinari, Padu, Sujanan, Pesthi — komen
+          uit die boeken en worden per boek en per familie anders toegepast. Geertz zag dat van
+          dichtbij: als de familie van de bruid, de familie van de bruidegom en hun dukun met
+          verschillende stelsels rekenden, liep het maanden uit op ruzie. Hij tekende ook op dat
+          de rekening soms als beleefde uitweg werd gebruikt om een aanzoek af te wijzen dat om
+          hele andere redenen niet welkom was — terwijl de datums eigenlijk wel klopten. En dat
+          paren soms gewoon trouwden.
+        </p>
+        <p>
+          Daarom doen wij hier maar één ding: we tellen voor je op. Wat die som betekent is iets
+          om in je eigen familie te vragen, bij wie het weet.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DE REKENAAR -->
+  <section class="block vervolg" id="rekenaar">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Rekenen</span>
+        <h2>Je eigen weton uitrekenen</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Vul je geboortedatum in. Weet je ook het tijdstip, vul dat er dan bij: een Javaanse dag
+          begint bij zonsondergang, dus wie 's avonds laat geboren is heeft de weton van de dag
+          erna.
+        </p>
+      </div>
+
+      <form class="wtform" id="wtform" novalidate>
+        <label class="wtveld">
+          <span>Geboortedatum</span>
+          <input type="date" name="datum" id="wt-datum" min="1900-01-01" max="2100-12-31" required />
+        </label>
+        <label class="wtveld">
+          <span>Geboortetijd <em>(mag leeg)</em></span>
+          <input type="time" name="tijd" id="wt-tijd" />
+        </label>
+        <label class="wtveld">
+          <span>Geboorteplaats</span>
+          <select name="plaats" id="wt-plaats">
+            <option value="nl">Nederland</option>
+            <option value="sr">Suriname</option>
+            <option value="jv">Java / Indonesië</option>
+            <option value="be">België</option>
+            <option value="xx">Elders</option>
+          </select>
+        </label>
+        <button class="btn gold" type="submit">Bereken mijn weton</button>
+      </form>
+
+      <p class="wtfout" id="wt-fout" role="status" aria-live="polite" hidden></p>
+
+      <div class="wtuit" id="wt-uit" hidden>
+        <p class="wtweton" id="wt-naam"></p>
+        <dl class="wtfeiten">
+          <div><dt>Neptu</dt><dd id="wt-neptu"></dd></div>
+          <div><dt>Windrichting</dt><dd id="wt-richting"></dd></div>
+          <div><dt>Kleur</dt><dd id="wt-kleur"></dd></div>
+          <div><dt>Eerstvolgende selapanan</dt><dd id="wt-selapanan"></dd></div>
+        </dl>
+        <p class="wtnoot" id="wt-noot"></p>
+      </div>
+
+      <p class="wtknoppen">
+        <a class="btn" href={pad(taal, '/javaanse-kalender')}>Hoe de telling werkt →</a>
+      </p>
+    </div>
+  </section>
+
+  <Vragen kicker="Veelgestelde vragen" titel="Over weton, neptu en petungan" vragen={vragen} />
+
+  <section class="block vervolg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Waar dit vandaan komt</span>
+        <h2>De bron</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Wat hierboven over het gebruik staat, komt uit <em>The Religion of Java</em> van
+          Clifford Geertz (1960) — in Indonesië uitgegeven als <em>Abangan, Santri, Priyayi dalam
+          Kebudayaan Jawa</em>. Geertz woonde in de jaren vijftig een jaar in een Javaanse stad en
+          schreef op wat hij zag en wat mensen hem vertelden, inclusief de plekken waar het
+          stelsel niet eenduidig is.
+        </p>
+        <p>
+          De getallen die wij gebruiken staan bij hem woordelijk in het boek, en ze zijn gelijk
+          aan de tabel waarmee onze kalender en onze weton-print rekenen. De telling is
+          nagekeken op drie dagen die iedereen kan opzoeken: 17 augustus 1945, de Proklamasi, was
+          Jumat Legi.
+        </p>
+      </div>
+      <p class="wtknoppen">
+        <a class="btn gold" href={KALENDER}>Pananggalan Jawa 2027 →</a>
+        <a class="btn" href={pad(taal, '/javaanse-kalender')}>De Javaanse kalender</a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { berekenWeton, volgendeWetonan, datumLang, uurMinuut, PLAATSEN } from '../../lib/weton.js';
+
+  const form = document.getElementById('wtform');
+  const uit = document.getElementById('wt-uit');
+  const fout = document.getElementById('wt-fout');
+
+  const zet = (id, tekst) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = tekst;
+  };
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const datum = (document.getElementById('wt-datum') as HTMLInputElement)?.value;
+    const tijd = (document.getElementById('wt-tijd') as HTMLInputElement)?.value || null;
+    const plaats = (document.getElementById('wt-plaats') as HTMLSelectElement)?.value || 'nl';
+
+    const w = berekenWeton({ datum, tijd, plaats });
+    if (!w) {
+      if (uit) uit.hidden = true;
+      if (fout) { fout.hidden = false; fout.textContent = 'Vul een geldige geboortedatum in, tussen 1900 en 2100.'; }
+      return;
+    }
+    if (fout) fout.hidden = true;
+
+    zet('wt-naam', w.naam);
+    zet('wt-neptu', `${w.neptu} — ${w.dag.naam} is ${w.dag.neptu} en ${w.pasaran.naam} is ${w.pasaran.neptu}`);
+    zet('wt-richting', `${w.pasaran.richting} (${w.pasaran.arah})`);
+    zet('wt-kleur', `${w.pasaran.kleur} (${w.pasaran.warna})`);
+    zet('wt-selapanan', datumLang(volgendeWetonan(w.javaanseDagMs)));
+
+    /*
+      Wat de uitkomst waard is, eerlijk erbij.
+
+      Zonder tijd kan de uitkomst een dag schelen, want de Javaanse dag
+      begint bij zonsondergang. Dat zwijgend weglaten zou de helft van de
+      antwoorden stiller zelfzeker maken dan ze zijn.
+    */
+    const noten = [];
+    if (w.geboorteMin === null) {
+      noten.push('Zonder geboortetijd gaan we uit van de dag zelf. Ben je na zonsondergang geboren, dan is je weton die van de dag erna.');
+    } else {
+      const plek = PLAATSEN[w.plaats];
+      const waar = plek && plek.stad ? ` in ${plek.stad}` : '';
+      noten.push(`De zon ging${waar} die dag om ${uurMinuut(w.ondergangMin)} onder, en jij bent om ${uurMinuut(w.geboorteMin)} geboren${w.naOndergang ? ' — dus na zonsondergang, en dat is al de volgende Javaanse dag.' : '.'}`);
+      if (w.dichtBijGrens) {
+        noten.push('Je bent vlak bij de grens geboren, binnen twintig minuten van de zonsondergang. Weet je het tijdstip niet zeker, dan kan je weton de dag ervoor of erna zijn.');
+      }
+    }
+    zet('wt-noot', noten.join(' '));
+
+    if (uit) uit.hidden = false;
+  });
+</script>
+
+<style>
+  .wtlijst { margin: 4px 0 0; padding-left: 20px; }
+  .wtlijst li { margin-bottom: 7px; line-height: 1.65; }
+
+  .wtform {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+    margin-top: 10px;
+    max-width: 720px;
+  }
+  .wtveld { display: flex; flex-direction: column; gap: 6px; }
+  .wtveld > span { font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .wtveld > span em { text-transform: none; letter-spacing: 0; font-style: normal; }
+  .wtveld input, .wtveld select {
+    font: inherit;
+    font-size: 16px;
+    padding: 11px 13px;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    background: #fff;
+    min-width: 190px;
+  }
+  .wtform .btn { white-space: nowrap; }
+
+  .wtfout { margin-top: 16px; color: #a3301f; font-size: 15px; }
+
+  .wtuit {
+    margin-top: 28px;
+    padding: 24px 26px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    max-width: 720px;
+  }
+  .wtweton {
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: 30px;
+    line-height: 1.2;
+    margin: 0 0 18px;
+  }
+  .wtfeiten { display: grid; gap: 14px; margin: 0; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+  .wtfeiten dt { font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+  .wtfeiten dd { margin: 0; font-size: 15px; line-height: 1.5; }
+  .wtnoot { margin: 20px 0 0; font-size: 14px; line-height: 1.65; color: var(--muted); }
+
+  .wtknoppen { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+  @media (max-width: 560px) {
+    .wtform { flex-direction: column; align-items: stretch; }
+    .wtveld input, .wtveld select { min-width: 0; width: 100%; }
+    .wtweton { font-size: 25px; }
+  }
+</style>
