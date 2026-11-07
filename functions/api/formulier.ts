@@ -29,6 +29,23 @@ const json = (data: unknown, status = 200) =>
  */
 const AFZENDER = 'Stichting Gema Rasa <contact@send.stichtinggemarasa.com>';
 
+/**
+ * De online presentatie over de Educatiereis Java 2027 (pagina
+ * /presentatie-java-2027). Wie zich aanmeldt krijgt meteen een mail met de
+ * link hieronder. Staat de link er nog niet, dan zegt de mail dat hij later
+ * komt -- en staat de aanmelding gewoon in de Studio onder Aanmeldingen.
+ *
+ * Na `sluit` neemt het formulier geen aanmeldingen meer aan.
+ */
+const PRESENTATIE = {
+  link: 'https://us06web.zoom.us/j/89465422993?pwd=TjZDb7GJ8QubLyOyulEM4ArdRzTG5j.1',
+  wanneer: 'zaterdag 14 november 2026 om 09.00 uur (Nederlandse tijd)',
+  // Voor de knop 'Zet in je agenda': begin en eind in UTC (09.00–10.30 in Nederland).
+  agendaVan: '20261114T080000Z',
+  agendaTot: '20261114T093000Z',
+  sluit: '2026-11-14T09:30:00Z',
+};
+
 const geldigEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 const kort = (v: unknown, max: number) => String(v ?? '').trim().slice(0, max);
 const isWaar = (v: unknown) => v === true || v === 'true' || v === 'on' || v === '1';
@@ -113,6 +130,26 @@ export const onRequestPost = async (context: any): Promise<Response> => {
       ontvangen: new Date().toISOString(),
       afgehandeld: false,
     };
+  } else if (soort === 'presentatie') {
+    // Online presentatie Educatiereis Java 2027. Opgeslagen als aanmelding;
+    // de bevestigingsmail met de link gaat verderop uit.
+    if (Date.now() > Date.parse(PRESENTATIE.sluit)) {
+      return json({ ok: false, fout: 'De presentatie is al geweest. Mail naar info@stichtinggemarasa.com als je meer wilt weten over de reis.' }, 400);
+    }
+    if (!isWaar(data.toestemming)) {
+      return json({ ok: false, fout: 'Zet een vinkje bij de toestemming om door te gaan.' }, 400);
+    }
+    const vraag = kort(data.bericht, 2000);
+    doc = {
+      _type: 'aanmelding',
+      naam: kort(data.naam, 120),
+      email,
+      soort: 'presentatie-java2027',
+      toelichting: `Online presentatie Educatiereis Java 2027 (14 november)${vraag ? `\n\nVraag vooraf:\n${vraag}` : ''}`,
+      toestemming: true,
+      ontvangen: new Date().toISOString(),
+      verwerkt: false,
+    };
   } else if (soort === 'nieuwsbrief' || soort === 'vrijwilliger') {
     // AVG: zonder expliciete toestemming slaan we niets op
     if (!isWaar(data.toestemming)) {
@@ -195,7 +232,7 @@ export const onRequestPost = async (context: any): Promise<Response> => {
     vertegenwoordiger: 'website-vertegenwoordiger',
     verhaal: 'website-verhaal',
   };
-  if (env?.GHL_API_TOKEN && env?.GHL_LOCATION_ID) {
+  if (soort !== 'presentatie' && env?.GHL_API_TOKEN && env?.GHL_LOCATION_ID) {
     try {
       const naam = kort(data.naam, 120);
       const delen = naam.split(/\s+/).filter(Boolean);
@@ -310,6 +347,83 @@ export const onRequestPost = async (context: any): Promise<Response> => {
         });
       } catch {
         // stil: het bericht staat al veilig in het CMS (+ GHL)
+      }
+    }
+  }
+
+  /**
+   * Bevestiging voor de online presentatie, met de link.
+   *
+   * Gaat naar de aanmelder zelf; antwoorden komt bij info@ uit. Heeft iemand
+   * vooraf een vraag gesteld, dan krijgt info@ die ook even te zien.
+   */
+  if (soort === 'presentatie' && env?.RESEND_API_KEY) {
+    const naam = kort(data.naam, 120);
+    const voornaam = naam.split(/\s+/)[0] || '';
+    const vraag = kort(data.bericht, 2000);
+    const link = PRESENTATIE.link.trim();
+    const agenda =
+      'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+      `&text=${encodeURIComponent('Online presentatie Educatiereis Java 2027')}` +
+      `&dates=${PRESENTATIE.agendaVan}/${PRESENTATIE.agendaTot}` +
+      `&details=${encodeURIComponent(link ? `Link: ${link}` : 'De link staat in de mail van Stichting Gema Rasa.')}`;
+    const esc = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+    const tekst =
+      `${voornaam ? `Hoi ${voornaam},` : 'Hoi,'}\n\n` +
+      `Fijn dat je erbij bent! Je bent aangemeld voor de online presentatie over de Educatiereis Java 2027, ${PRESENTATIE.wanneer}.\n\n` +
+      `Wati van Budaya Jivana Yasa vertelt over het programma: vijftien dagen dans, gamelan, batik, musea en tempels in Yogyakarta, van 1 t/m 15 augustus 2027. Je kunt live vragen stellen.\n\n` +
+      (link
+        ? `Deelnemen via deze link:\n${link}\n\n`
+        : `De link naar de presentatie sturen we je uiterlijk vrijdag 13 november.\n\n`) +
+      `Zet hem alvast in je agenda:\n${agenda}\n\n` +
+      `Meer lezen over de reis: https://www.stichtinggemarasa.com/educatiereis-java-2027/\n\n` +
+      `Tot zaterdag!\n\nHartelijke groet,\nStichting Gema Rasa`;
+
+    const html =
+      `<div style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#1a1a31;max-width:560px">` +
+      `<p>${voornaam ? `Hoi ${esc(voornaam)},` : 'Hoi,'}</p>` +
+      `<p>Fijn dat je erbij bent! Je bent aangemeld voor de online presentatie over de <strong>Educatiereis Java 2027</strong>, ${PRESENTATIE.wanneer}.</p>` +
+      `<p>Wati van Budaya Jivana Yasa vertelt over het programma: vijftien dagen dans, gamelan, batik, musea en tempels in Yogyakarta, van 1 t/m 15 augustus 2027. Je kunt live vragen stellen.</p>` +
+      (link
+        ? `<p style="margin:28px 0"><a href="${esc(link)}" style="background:#09351f;color:#f4f3e8;padding:14px 26px;border-radius:999px;text-decoration:none;font-weight:bold">Deelnemen aan de presentatie</a></p>` +
+          `<p style="font-size:13px;color:#56604f">Werkt de knop niet? Gebruik deze link: <a href="${esc(link)}" style="color:#13663d">${esc(link)}</a></p>`
+        : `<p><strong>De link naar de presentatie sturen we je uiterlijk vrijdag 13 november.</strong></p>`) +
+      `<p><a href="${esc(agenda)}" style="color:#13663d">Zet hem in je agenda</a> · <a href="https://www.stichtinggemarasa.com/educatiereis-java-2027/" style="color:#13663d">Meer over de reis</a></p>` +
+      `<p>Tot zaterdag!</p><p>Hartelijke groet,<br>Stichting Gema Rasa</p></div>`;
+
+    try {
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
+        body: JSON.stringify({
+          from: String(env.RESEND_FROM || AFZENDER),
+          to: [email],
+          reply_to: meldAan,
+          subject: 'Je aanmelding: online presentatie Educatiereis Java 2027',
+          text: tekst,
+          html,
+        }),
+      });
+    } catch {
+      // stil: de aanmelding staat al in de Studio onder Aanmeldingen
+    }
+
+    if (vraag && geldigEmail(meldAan)) {
+      try {
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
+          body: JSON.stringify({
+            from: String(env.RESEND_FROM || AFZENDER),
+            to: [meldAan],
+            reply_to: email,
+            subject: `Vraag voor de presentatie Java 2027 — ${naam || email}`,
+            text: `Van: ${naam || 'Onbekend'} <${email}>\n\n${vraag}\n\n— Aangemeld voor de online presentatie van 14 november. Druk op Beantwoorden om rechtstreeks te antwoorden, of bewaar de vraag voor Wati.`,
+          }),
+        });
+      } catch {
+        // stil
       }
     }
   }

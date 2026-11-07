@@ -1,0 +1,130 @@
+---
+/**
+ * Aanmelden voor de online presentatie over de Educatiereis Java 2027.
+ *
+ * Wati (Nur Indrawati) van Budaya Jivana Yasa vertelt over het programma.
+ * Wie zich aanmeldt, krijgt per mail de link naar de presentatie. Die mail
+ * gaat uit vanuit /api/formulier (soort "presentatie"); de link zelf staat
+ * daar bovenaan in PRESENTATIE. Dit vervangt het GHL-formulier.
+ *
+ * Alleen in het Nederlands. De /en/- en /id/-versie bestaan wel (zodat de
+ * taalwisselaar niet op een 404 uitkomt), maar staan op noindex.
+ */
+import { taalPaden } from '../../i18n/index.ts';
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+
+const omschrijving =
+  'Online presentatie over de Educatiereis Java 2027 van Stichting Gema Rasa: Wati van Budaya Jivana Yasa vertelt over het programma. Zaterdag 14 november, 09.00 uur. Meld je aan en ontvang de link.';
+---
+<Base
+  taal={taal}
+  title="Online presentatie Educatiereis Java 2027 — Stichting Gema Rasa"
+  description={omschrijving}
+  ogImage="/assets/java2027/ramayana.jpg"
+  noindex={taal !== 'nl'}
+>
+  <PageHero
+    sleutel="presentatie-java-2027"
+    eyebrow="Online presentatie"
+    titel="Educatiereis Java 2027: Wati neemt je mee door het programma"
+    tekst="Zaterdag 14 november, 09.00 uur. Meld je aan en je ontvangt de link per mail."
+    foto="/assets/java2027/hero.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      <div class="split">
+        <div class="oproep">
+          <span class="kicker">Over de presentatie</span>
+          <h2>Vijftien dagen Java, live toegelicht</h2>
+          <p>
+            Van 1 tot en met 15 augustus 2027 reist Stichting Gema Rasa naar Yogyakarta. Het
+            programma is samengesteld door Budaya Jivana Yasa, een cultureel bureau in
+            Yogyakarta. Wati, de oprichter en artistiek leider, vertelt je in deze online
+            presentatie zelf wat je kunt verwachten.
+          </p>
+
+          <h3>Wat je hoort</h3>
+          <ul class="vragenlijst">
+            <li>Hoe de vijftien dagen eruitzien, dag voor dag</li>
+            <li>Dans, gamelan en batik: wat je zelf gaat doen en leren</li>
+            <li>Musea, tempels en het optreden op het Ramayana-podium bij Prambanan</li>
+            <li>Verblijf, begeleiding en hoe je je inschrijft</li>
+          </ul>
+
+          <h3>Praktisch</h3>
+          <dl class="feiten">
+            <div><dt>Wanneer</dt><dd>Zaterdag 14 november 2026, 09.00 uur (Nederlandse tijd)</dd></div>
+            <div><dt>Waar</dt><dd>Online, vanaf je eigen telefoon, tablet of laptop</dd></div>
+            <div><dt>Vragen</dt><dd>Stel ze live, of zet ze alvast in het formulier</dd></div>
+          </dl>
+          <p>
+            Wil je alvast meer lezen? Het hele programma en de prijs staan op de pagina
+            <a href="/educatiereis-java-2027/">Educatiereis Java 2027</a>.
+          </p>
+        </div>
+
+        <div>
+          <form class="cform" data-formulier="presentatie"
+            data-bedankt="Matur nuwun! Je bent aangemeld. Kijk in je mail: daar staat de link naar de presentatie. Zie je niets? Kijk dan ook even bij je spam.">
+            <h3 class="formkop">Meld je aan</h3>
+            <div>
+              <label for="naam">Naam</label>
+              <input id="naam" name="naam" type="text" autocomplete="name" required />
+            </div>
+            <div>
+              <label for="email">E-mailadres</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div>
+              <label for="bericht">Heb je al een vraag voor Wati? <span class="opt">(niet verplicht)</span></label>
+              <textarea id="bericht" name="bericht"
+                placeholder="Bijvoorbeeld: kan ik ook mee als ik nog nooit gamelan heb gespeeld?"></textarea>
+            </div>
+            <label class="vink">
+              <input type="checkbox" name="toestemming" value="true" required />
+              <span>Stichting Gema Rasa mag mijn naam en e-mailadres bewaren om mij de link en
+              informatie over deze presentatie en de educatiereis te sturen.</span>
+            </label>
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true" />
+            <button class="btn gold" type="submit" style="justify-self:start">Meld me aan</button>
+            <p class="form-status" data-status role="status" aria-live="polite"></p>
+            <p class="klein">
+              Je gegevens worden niet gedeeld en niet voor iets anders gebruikt. Wil je ze
+              laten verwijderen? Mail naar info@stichtinggemarasa.com.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .oproep h2 { font-size: 30px; margin: 10px 0 16px; }
+  .oproep h3 { font-size: 20px; font-weight: 500; margin: 26px 0 10px; }
+  .oproep p, .vragenlijst {
+    font-family: 'Poppins', sans-serif; font-weight: 300;
+    font-size: 16px; line-height: 1.75; color: #4a4a4a; margin: 0 0 14px;
+  }
+  .oproep a { color: var(--secondary); }
+  .vragenlijst { padding-left: 20px; }
+  .vragenlijst li { margin-bottom: 6px; }
+  .feiten { margin: 0 0 18px; display: grid; gap: 10px; font-family: 'Poppins', sans-serif; font-size: 16px; }
+  .feiten div { display: grid; grid-template-columns: 90px 1fr; gap: 12px; }
+  .feiten dt { font-weight: 500; color: var(--ink); }
+  .feiten dd { margin: 0; font-weight: 300; color: #4a4a4a; line-height: 1.6; }
+  .formkop { font-size: 24px; margin: 0 0 4px; }
+  .opt { font-weight: 300; color: var(--gray); }
+  .vink {
+    display: flex !important; gap: 10px; align-items: flex-start;
+    font-family: 'Poppins'; font-weight: 300 !important; font-size: 14px !important;
+    line-height: 1.5; color: var(--ink) !important; margin: 0 !important;
+  }
+  .vink input { width: auto; margin-top: 3px; accent-color: var(--secondary); }
+  .klein { font-family: 'Poppins'; font-size: 12.5px; color: var(--gray); line-height: 1.5; }
+  @media (max-width: 860px) { .oproep h2 { font-size: 26px; } }
+</style>
