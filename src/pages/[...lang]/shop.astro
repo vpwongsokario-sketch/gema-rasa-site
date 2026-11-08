@@ -2,10 +2,21 @@
 import { taalPaden, t, pad } from '../../i18n/index.ts';
 export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
-const paginaSeo = await getPaginaSeo('shop');
-import { getPaginaSeo } from '../../lib/sanity.ts';
+import { getPaginaSeo, cdnBeeld } from '../../lib/sanity.ts';
+import { getWinkelProducten, euro } from '../../lib/winkel.ts';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
+
+const paginaSeo = await getPaginaSeo('shop');
+
+/**
+ * De producten komen uit de winkel zelf en niet uit deze site.
+ *
+ * Zie src/lib/winkel.ts. Komt er niets terug, dan blijft de rest van de
+ * pagina gewoon staan en wijst hij door naar de winkel.
+ */
+const producten = await getWinkelProducten();
+const WINKEL = 'https://winkel.stichtinggemarasa.com';
 ---
 <Base taal={taal} seo={paginaSeo} description={t(taal, "sh.intro")} title={`${t(taal, "sh.titel")} — Stichting Gema Rasa`}>
   <PageHero
@@ -16,34 +27,89 @@ import PageHero from '../../components/PageHero.astro';
     foto="/assets/perf4.jpg"
   />
 
-  {taal === 'nl' && (
-    <section class="block vervolg shop-product">
+  {producten.length > 0 && (
+    <section class="block">
       <div class="wrap">
-        <a class="product-kaart" href="https://winkel.stichtinggemarasa.com/weton">
-          <span class="kicker">Nieuw · persoonlijk cadeau</span>
-          <h2>Jouw weton als print</h2>
-          <p>Vul een geboortedatum, -tijd en -plaats in en zie direct je Javaanse weton: dag, pasaran en neptu. Gedrukt in Europa en thuisbezorgd, vanaf € 29,95.</p>
-          <span class="btn gold">Maak je weton-print</span>
-        </a>
+        <p class="lead shop-lead">{t(taal, "sh.lead")}</p>
+
+        <div class="grid shop-grid">
+          {producten.map((p) => (
+            <a class="card product" href={p.adres}>
+              {p.beeld && (
+                <span class="product-beeld">
+                  <img src={cdnBeeld(p.beeld, 640)} alt={p.naam} loading="lazy" width="320" height="440" />
+                </span>
+              )}
+              <h3>{p.naam}</h3>
+              {p.ondertitel && <p class="desc">{p.ondertitel}</p>}
+              {p.labels.length > 0 && (
+                <span class="product-labels">{p.labels.join(' · ')}</span>
+              )}
+              <span class="foot">
+                <span class="price">
+                  {p.vanaf && <small>{t(taal, "sh.vanaf")} </small>}{euro(p.prijs)}
+                </span>
+                <span class="dur">{t(taal, "sh.bekijk")} →</span>
+              </span>
+            </a>
+          ))}
+        </div>
+
+        <p class="shop-naar-winkel">
+          <a class="btn gold" href={`${WINKEL}/winkel`}>{t(taal, "sh.naarwinkel")}</a>
+        </p>
       </div>
     </section>
   )}
 
-  <section class="block">
+  {producten.length === 0 && (
+    <section class="block">
+      <div class="wrap">
+        <div class="prose">
+          <p class="lead">{t(taal, "sh.lead")}</p>
+          <p><a class="btn gold" href={`${WINKEL}/winkel`}>{t(taal, "sh.naarwinkel")}</a></p>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="block vervolg">
     <div class="wrap">
       <div class="prose">
-        <p class="lead">{t(taal, "sh.lead")}</p>
         <p>{t(taal, "sh.p1")}</p>
-        <p><a class="btn gold" href={pad(taal, "/contact")}>{t(taal, "sh.knop")}</a></p>
+        <p><a class="btn ghost" href={pad(taal, "/contact")}>{t(taal, "sh.knop")}</a></p>
       </div>
     </div>
   </section>
 </Base>
 
 <style>
-  .product-kaart{display:flex;flex-direction:column;gap:12px;max-width:720px;padding:32px;border-radius:16px;background:var(--primary-dark);color:var(--cream);text-decoration:none}
-  .product-kaart h2{margin:0;font-size:clamp(28px,4vw,40px);color:var(--primary)}
-  .product-kaart p{margin:0;font-family:'Poppins',sans-serif;font-weight:300;max-width:56ch}
-  .product-kaart .kicker{font-family:'Poppins';font-weight:600;letter-spacing:.13em;text-transform:uppercase;font-size:12.5px;color:var(--orange)}
-  .product-kaart .btn{align-self:flex-start}
+  .shop-lead{max-width:62ch;margin:0 0 28px}
+
+  /* De kaarten zijn links; de hele kaart is aanklikbaar. */
+  .shop-grid .product{text-decoration:none;color:inherit}
+
+  /**
+   * Het beeld bovenaan, met een vaste verhouding.
+   *
+   * De omslagen lopen uiteen -- een kalender is staand, een doosje kaarten
+   * bijna vierkant. Zonder vaste hoogte staan de titels onder elkaar op zeven
+   * verschillende hoogtes en valt het rooster uit elkaar.
+   */
+  .product-beeld{
+    display:block;margin:-28px -28px 18px;background:var(--cream);
+    border-bottom:1px solid var(--line);
+  }
+  .product-beeld img{
+    display:block;width:100%;height:230px;object-fit:contain;padding:18px 18px 14px;
+  }
+  .product h3{margin-top:0}
+  .product-labels{
+    display:block;margin-top:12px;font-family:'Poppins',sans-serif;font-size:12.5px;
+    color:var(--gray);font-weight:300;
+  }
+  .product .foot{width:100%}
+  .product .price small{font-size:13px;font-weight:500;color:var(--gray)}
+
+  .shop-naar-winkel{margin-top:32px}
 </style>

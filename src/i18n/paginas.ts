@@ -270,10 +270,13 @@ export const paginaNL: Record<string, string> = {
   // ---- Shop ----
   'sh.eyebrow': 'SGR Merchandise',
   'sh.titel': 'Onze webshop',
-  'sh.intro': 'Exclusieve merchandise, met zorg ontworpen door de jongeren van Stichting Gema Rasa. Met jouw aankoop steun je onze culturele projecten.',
-  'sh.lead': 'De webshop wordt binnenkort opgezet met een lichte winkelwagen-oplossing, zodat producten, prijzen en bestellingen makkelijk te beheren zijn.',
-  'sh.p1': 'Wil je nu al iets bestellen of meer weten over de collectie? Neem gerust contact op.',
-  'sh.knop': 'Contact over merchandise',
+  'sh.intro': 'Alles wat Stichting Gema Rasa uitgeeft en verkoopt. Met jouw aankoop steun je de gamelangroep, de dansgroep, het magazine en de cursussen.',
+  'sh.lead': 'Dit is wat er nu te koop is. Je rekent af in onze winkel; bij de pdf\u2019s krijg je de bestanden meteen na het betalen.',
+  'sh.vanaf': 'vanaf',
+  'sh.bekijk': 'Bekijken',
+  'sh.naarwinkel': 'Naar de winkel',
+  'sh.p1': 'Zoek je iets wat er niet bij staat, of wil je meerdere exemplaren voor een school of groep? Neem gerust contact op.',
+  'sh.knop': 'Contact over de winkel',
 
   // ---- Menukaart ----
   'mk.eyebrow': 'Culturele Menukaart',
@@ -635,8 +638,11 @@ export const paginaEN: Record<string, string> = {
 
   'sh.eyebrow': 'SGR Merchandise',
   'sh.titel': 'Our web shop',
-  'sh.intro': 'Exclusive merchandise, designed with care by the young people of Stichting Gema Rasa. Your purchase supports our cultural projects.',
-  'sh.lead': 'The web shop is being set up with a lightweight shopping cart, so products, prices and orders are easy to manage.',
+  'sh.intro': 'Everything Stichting Gema Rasa publishes and sells. Your purchase supports the gamelan group, the dance group, the magazine and the courses.',
+  'sh.lead': 'This is what is for sale right now. You check out in our shop; the pdfs are yours to download the moment you have paid.',
+  'sh.vanaf': 'from',
+  'sh.bekijk': 'View',
+  'sh.naarwinkel': 'Go to the shop',
   'sh.p1': 'Would you like to order something now or learn more about the collection? Feel free to get in touch.',
   'sh.knop': 'Contact us about merchandise',
 
@@ -998,8 +1004,11 @@ export const paginaID: Record<string, string> = {
 
   'sh.eyebrow': 'Merchandise SGR',
   'sh.titel': 'Toko daring kami',
-  'sh.intro': 'Merchandise eksklusif, dirancang dengan penuh perhatian oleh generasi muda Stichting Gema Rasa. Pembelian Anda mendukung proyek budaya kami.',
-  'sh.lead': 'Toko daring sedang disiapkan dengan sistem keranjang belanja ringan, sehingga produk, harga dan pesanan mudah dikelola.',
+  'sh.intro': 'Semua yang diterbitkan dan dijual oleh Stichting Gema Rasa. Pembelian Anda mendukung kelompok gamelan, kelompok tari, majalah dan kursus kami.',
+  'sh.lead': 'Inilah yang tersedia saat ini. Pembayaran dilakukan di toko kami; berkas pdf langsung bisa diunduh setelah pembayaran.',
+  'sh.vanaf': 'mulai',
+  'sh.bekijk': 'Lihat',
+  'sh.naarwinkel': 'Ke toko',
   'sh.p1': 'Ingin memesan sekarang atau tahu lebih banyak tentang koleksinya? Jangan ragu menghubungi kami.',
   'sh.knop': 'Hubungi kami soal merchandise',
 
