@@ -407,7 +407,7 @@ function beeld(bron: any, breedte: number) {
 
 export async function getAlbums(taal: string = 'nl') {
   const docs = await safe<any[]>(
-    '*[_type == "album" && defined(slug.current)] | order(datum desc){ titel, "slug": slug.current, datum, omschrijving, cover, fotos, externeUrl, externeAantal, seo }',
+    '*[_type == "album" && defined(slug.current)] | order(datum desc){ titel, "slug": slug.current, datum, omschrijving, fotograaf, fotograafUrl, cover, fotos, externeUrl, externeAantal, seo }',
   );
   if (!docs) return [];
   return docs.map((d) => {
@@ -418,6 +418,8 @@ export async function getAlbums(taal: string = 'nl') {
       datum: d.datum ?? '',
       datumLabel: d.datum ? datumLabel(d.datum, taal) : '',
       omschrijving: d.omschrijving ?? '',
+      fotograaf: d.fotograaf ?? '',
+      fotograafUrl: d.fotograafUrl ?? '',
       // Zonder omslagfoto pakken we de eerste foto uit het album
       cover: beeld(d.cover ?? fotos[0], 900),
       aantal: fotos.length,

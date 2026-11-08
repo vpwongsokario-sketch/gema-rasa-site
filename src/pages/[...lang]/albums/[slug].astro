@@ -29,6 +29,21 @@ const alleFotosLabel = album.externeAantal
       <h1>{album.titel}</h1>
       {album.datumLabel && <p class="datum">{album.datumLabel} · {album.fotos.length} {t(taal, "al.fotos")}</p>}
       {album.omschrijving && <p>{album.omschrijving}</p>}
+      {/*
+        De fotograaf, met een link als die er is.
+
+        Apart van de omschrijving: die wordt als platte tekst getoond, dus
+        een adres erin zou een stuk tekst blijven. Wie haar werk weggeeft,
+        hoort een vermelding te krijgen waar je op kunt klikken.
+      */}
+      {album.fotograaf && (
+        <p class="fotograaf">
+          Fotografie:{' '}
+          {album.fotograafUrl
+            ? <a href={album.fotograafUrl} target="_blank" rel="noopener">{album.fotograaf}</a>
+            : album.fotograaf}
+        </p>
+      )}
     </div>
   </section>
 
