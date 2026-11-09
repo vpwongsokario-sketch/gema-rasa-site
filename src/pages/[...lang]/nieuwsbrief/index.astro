@@ -6,6 +6,16 @@
   blijft hij staan: voor wie hem kwijt is, voor wie zich later aanmeldt, en
   voor zoekmachines — het is de enige plek op de site waar in gewone zinnen
   staat wat de stichting het hele jaar door doet.
+
+  Het stond hier als een kale lijst met streepjes ertussen: datum, kop, regel,
+  link. Dat leest als een archiefkast terwijl de rest van de site met kaarten
+  werkt, en een archiefkast nodigt niemand uit om iets te openen. Nu is het
+  een raster van kaarten met de maand groot in de kop, in dezelfde vorm als
+  de fotoalbums en het nieuws.
+
+  De eerste plek in het raster is geen nieuwsbrief maar de aanmelding. Wie op
+  deze pagina komt leest met terugwerkende kracht mee; dat is precies het
+  moment om te vragen of hij hem voortaan meteen wil krijgen.
 */
 import Base from '../../../layouts/Base.astro';
 import PageHero from '../../../components/PageHero.astro';
@@ -17,13 +27,55 @@ const { taal } = Astro.props;
 
 const brieven = await getNieuwsbrieven(pad(taal, '/nieuwsbrief'));
 
+const locale = { nl: 'nl-NL', en: 'en-GB', id: 'id-ID' }[taal] || 'nl-NL';
+
 const datumLang = (iso: string) =>
   iso
-    ? new Date(`${iso}T12:00:00`).toLocaleDateString(
-        { nl: 'nl-NL', en: 'en-GB', id: 'id-ID' }[taal] || 'nl-NL',
-        { day: 'numeric', month: 'long', year: 'numeric' },
-      )
+    ? new Date(`${iso}T12:00:00`).toLocaleDateString(locale, {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      })
     : '';
+
+/** De maand als woord, voor groot in de kop van de kaart. */
+const maandVan = (iso: string) =>
+  iso ? new Date(`${iso}T12:00:00`).toLocaleDateString(locale, { month: 'long' }) : '';
+
+const jaarVan = (iso: string) => (iso ? iso.slice(0, 4) : '');
+
+const kopjes = {
+  nl: {
+    aanmeldKop: 'Mis er geen een',
+    aanmeldTekst:
+      'Een paar keer per jaar een bericht over optredens, het magazine, de cursussen en het festival. Afmelden kan altijd.',
+    aanmeldKnop: 'Schrijf je in',
+    lees: 'Lees deze nieuwsbrief',
+    leeg: 'Er is nog geen nieuwsbrief verstuurd. Zodra de eerste de deur uit is, staat hij hier.',
+  },
+  en: {
+    aanmeldKop: 'Never miss one',
+    aanmeldTekst:
+      'A few times a year: performances, the magazine, the courses and the festival. You can unsubscribe at any time.',
+    aanmeldKnop: 'Sign up',
+    lees: 'Read this newsletter',
+    leeg: 'No newsletter has been sent yet. The first one will appear here.',
+  },
+  id: {
+    aanmeldKop: 'Jangan sampai terlewat',
+    aanmeldTekst:
+      'Beberapa kali setahun: pertunjukan, majalah, kursus dan festival. Berhenti berlangganan kapan saja.',
+    aanmeldKnop: 'Daftar',
+    lees: 'Baca buletin ini',
+    leeg: 'Belum ada buletin yang dikirim. Yang pertama akan muncul di sini.',
+  },
+}[taal] || {
+  aanmeldKop: 'Mis er geen een',
+  aanmeldTekst: '',
+  aanmeldKnop: 'Schrijf je in',
+  lees: 'Lees deze nieuwsbrief',
+  leeg: '',
+};
 ---
 <Base
   taal={taal}
@@ -41,34 +93,197 @@ const datumLang = (iso: string) =>
   <section class="block">
     <div class="wrap">
       {brieven.length === 0 ? (
-        <p class="prose">Er is nog geen nieuwsbrief verstuurd. Zodra de eerste de deur uit is, staat hij hier.</p>
+        <p class="prose">{kopjes.leeg}</p>
       ) : (
-        <ul class="briefljst">
+        <div class="brievenraster">
+          <div class="briefkaart aanmeld">
+            <div class="aanmeld-binnen">
+              <h3>{kopjes.aanmeldKop}</h3>
+              <p>{kopjes.aanmeldTekst}</p>
+              <a class="btn gold" href="#nl-email">{kopjes.aanmeldKnop}</a>
+            </div>
+          </div>
+
           {brieven.map((b) => (
-            <li>
-              <a href={pad(taal, `/nieuwsbrief/${b.slug}`)}>
+            <a class="briefkaart" href={pad(taal, `/nieuwsbrief/${b.slug}`)}>
+              <div class="briefkop">
+                <span class="briefmaand">{maandVan(b.datum)}</span>
+                <span class="briefjaar">{jaarVan(b.datum)}</span>
+                <span class="briefvan">{b.afzender}</span>
+              </div>
+              <div class="briefbody">
                 <span class="briefdatum">{datumLang(b.datum)}</span>
                 <h3>{b.onderwerp}</h3>
                 {b.samenvatting && <p>{b.samenvatting}</p>}
-                <span class="more">Lees deze nieuwsbrief →</span>
-              </a>
-            </li>
+                <span class="more">{kopjes.lees} →</span>
+              </div>
+            </a>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   </section>
 </Base>
 
 <style>
-  .briefljst { list-style: none; margin: 0; padding: 0; max-width: 760px; }
-  .briefljst li + li { border-top: 1px solid var(--line); }
-  .briefljst a { display: block; padding: 26px 0; text-decoration: none; color: inherit; }
-  .briefljst a:hover h3 { color: var(--terracotta); }
-  .briefdatum {
-    display: block; font-family: 'Inter', sans-serif; font-size: 12px;
-    letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+  .brievenraster {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+    gap: 26px;
   }
-  .briefljst h3 { margin: 0 0 8px; font-size: clamp(21px, 2.6vw, 27px); font-weight: 400; transition: color .2s; }
-  .briefljst p { margin: 0 0 10px; color: var(--muted); max-width: 60ch; }
+
+  .briefkaart {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .25s ease, box-shadow .3s ease;
+  }
+  a.briefkaart:hover { transform: translateY(-4px); box-shadow: 0 20px 46px rgba(9, 53, 31, .14); }
+
+  /**
+   * De kop van de kaart: de maand groot, met het batikmotief erachter.
+   *
+   * Een nieuwsbrief heeft geen omslagfoto, en een kaart zonder beeld is een
+   * grijs blok. De maand is het enige beeld dat deze inhoud zelf meebrengt,
+   * dus die wordt het beeld.
+   */
+  .briefkop {
+    position: relative;
+    background: var(--primary-dark);
+    padding: 26px 24px 20px;
+    overflow: hidden;
+  }
+  .briefkop::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .14;
+    background-image: var(--batik-goud);
+    background-size: 64px 64px;
+  }
+  .briefmaand {
+    position: relative;
+    display: block;
+    font-size: clamp(26px, 3.4vw, 34px);
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--primary);
+    text-transform: lowercase;
+  }
+  .briefjaar {
+    position: relative;
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    letter-spacing: .22em;
+    color: rgba(244, 243, 232, .62);
+    margin-top: 4px;
+  }
+  /* Van wie hij kwam: de stichting of het magazine. */
+  .briefvan {
+    position: relative;
+    display: inline-block;
+    margin-top: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cream);
+    border: 1px solid rgba(244, 243, 232, .32);
+    border-radius: 20px;
+    padding: 4px 11px;
+  }
+
+  .briefbody { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
+  .briefdatum {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--orange-ink);
+    margin-bottom: 8px;
+  }
+  .briefbody h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--primary-dark);
+    transition: color .2s;
+  }
+  a.briefkaart:hover h3 { color: var(--secondary); }
+
+  /**
+   * De samenvatting: altijd drie regels.
+   *
+   * De ene nieuwsbrief heeft een regel voorbeeldtekst, de andere vier. In een
+   * raster worden de kaarten even hoog, en dan staat er bij de korte een gat.
+   */
+  .briefbody p {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--gray);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(3 * 1.55em);
+  }
+  .briefbody .more {
+    margin-top: auto;
+    padding-top: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 13.5px;
+    color: var(--secondary);
+  }
+
+  /* De aanmeldkaart: dezelfde vorm, andere kleur, zodat hij opvalt zonder los te staan. */
+  .briefkaart.aanmeld {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    position: relative;
+    overflow: hidden;
+  }
+  .briefkaart.aanmeld::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .12;
+    background-image: var(--batik-goud);
+    background-size: 64px 64px;
+  }
+  .aanmeld-binnen {
+    position: relative;
+    padding: 30px 26px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .aanmeld-binnen h3 {
+    margin: 0 0 10px;
+    font-size: clamp(22px, 2.6vw, 27px);
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .aanmeld-binnen p {
+    margin: 0 0 22px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: rgba(244, 243, 232, .82);
+  }
+  .aanmeld-binnen .btn { align-self: flex-start; margin-top: auto; }
 </style>

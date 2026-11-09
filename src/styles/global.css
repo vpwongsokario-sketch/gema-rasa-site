@@ -720,7 +720,22 @@ header.scrolled{box-shadow:0 6px 26px rgba(9,53,31,.13)}
 .album-body h3{font-size:20px;font-weight:700;color:var(--primary-dark);line-height:1.2}
 .album-datum{font-family:'Poppins';font-size:12px;font-weight:600;letter-spacing:.07em;
   text-transform:uppercase;color:var(--orange-ink)}
-.album-body p{font-family:'Poppins';font-weight:300;font-size:14.5px;color:#4a4a4a;flex:1}
+/**
+ * De omschrijving: altijd drie regels, nooit meer.
+ *
+ * De teksten lopen enorm uiteen -- de een twee regels, de ander een heel
+ * verhaal -- en omdat de kaarten in een rij even hoog worden, stond er bij de
+ * korte een gat van een halve kaart. Drie regels en dan afbreken houdt het
+ * raster rustig; het hele verhaal staat toch in het album zelf.
+ *
+ * `min-height` erbij zodat een kaart met één regel niet inzakt: dan staan de
+ * 'Bekijk album'-links in een rij ook echt op één lijn.
+ */
+.album-body p{font-family:'Poppins';font-weight:300;font-size:14.5px;color:#4a4a4a;
+  margin:0;display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;
+  overflow:hidden;line-height:1.55;min-height:calc(3 * 1.55em)}
+/* Het linkje eronder wordt naar de onderkant geduwd, niet de tekst opgerekt. */
+.album-body .more{margin-top:auto;padding-top:14px}
 
 /* raster binnen een album */
 .fotoraster{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));gap:12px}
