@@ -53,6 +53,27 @@ deploy hook op Sanity zit, gebeurt dat al bij de eerstvolgende publicatie in het
    → plak de Cloudflare deploy hook URL, trigger op *Create / Update / Delete*.
    → Nu bouwt de site zichzelf opnieuw zodra iemand iets publiceert in het CMS.
 
+**Dit staat aan en werkt** — nagemeten op 9 november 2026: een wijziging in Sanity stond
+binnen anderhalve minuut live op /shop.
+
+### Eén geval dat de webhook níet opvangt
+
+De producten op `/shop` komen niet rechtstreeks uit Sanity maar uit de winkel
+(`winkel.stichtinggemarasa.com/api/winkel.json`). Verandert er iets in Sánity, dan vuurt de
+webhook en klopt de pagina weer. Maar verandert die lijst door nieuwe *code* in de winkel --
+een nieuw soort product bijvoorbeeld -- dan is er in Sanity niets gebeurd en bouwt deze site
+dus niet opnieuw.
+
+Dat overkwam ons op 8 november, toen de kaarten voor Echo's van Java in de winkel kwamen:
+op winkel.stichtinggemarasa.com stonden ze meteen, hier pas na een handmatige bouw.
+
+Oplossing: wie de winkel uitrolt met een nieuw soort product, zet daarna hier een bouw aan.
+Een lege commit is genoeg:
+
+```
+git commit --allow-empty -m "Opnieuw bouwen" && git push
+```
+
 ## Lokaal
 
 ```

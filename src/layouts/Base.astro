@@ -87,8 +87,26 @@ const organisatie = {
   ],
 };
 
-// Menustructuur: drie groepen plus twee losse items. Zo blijft de balk kort
-// en vindt een bezoeker sneller wat hij zoekt.
+/**
+ * Het menu: vier groepen en twee losse items.
+ *
+ * Ingedeeld naar wat een bezoeker komt doen, niet naar wat wij intern een
+ * soort vinden. Drie dingen die daarbij veranderd zijn, met reden:
+ *
+ * 'Onze groepen' had er twee. Een uitklapmenu voor twee links kost een klik
+ * en levert niets op; de gamelangroep en de dansgroep staan nu gewoon tussen
+ * de andere dingen die we doen.
+ *
+ * 'Media' was een la: het festival, nieuws, video's, albums, de nieuwsbrief
+ * en het magazine lagen er samen in. Echo's van Java is een van de grootste
+ * dingen die de stichting doet en hoort niet weggestopt tussen de
+ * fotoalbums. Wat overblijft is wat je kunt lezen en kijken, en dat heet nu
+ * ook zo.
+ *
+ * 'Boeken' werd 'Boek ons'. Het was een werkwoord dat als zelfstandig
+ * naamwoord gelezen werd -- en nu er een winkel met kleurboeken naast staat,
+ * is dat geen theoretisch probleem meer.
+ */
 const menu = [
   { sleutel: 'nav.over', items: [
       { sleutel: 'nav.stichting', url: '/de-stichting' },
@@ -96,17 +114,12 @@ const menu = [
       { sleutel: 'nav.wereldwijd', url: '/wereldwijd' },
       { sleutel: 'nav.vrienden', url: '/de-vrienden-van' },
   ] },
-  { sleutel: 'nav.groepen', items: [
+  { sleutel: 'nav.watwedoen', items: [
       { sleutel: 'nav.gamelan', url: '/de-gamelan-groep' },
       { sleutel: 'nav.dans', url: '/de-dansgroep' },
-  ] },
-  { sleutel: 'nav.media', items: [
       { sleutel: 'nav.festival', url: '/echos-van-java' },
-      { sleutel: 'nav.nieuws', url: '/nieuws' },
-      { sleutel: 'nav.nieuwsbrief', url: '/nieuwsbrief' },
-      { sleutel: 'nav.videos', url: '/videos' },
-      { sleutel: 'nav.albums', url: '/albums' },
-      { sleutel: 'nav.magazine', url: '/suwara-jawa' },
+      { sleutel: 'nav.cursus', url: '/gamelancursus' },
+      { sleutel: 'nav.boeken', url: '/menukaart' },
   ] },
   /* Javaanse cultuur: de uitlegpagina's uit het vindbaarheidsplan. Groeit mee
      met wat erbij komt (Javaans leren, Surinaams-Javaans). */
@@ -120,8 +133,14 @@ const menu = [
       { sleutel: 'nav.kalender', url: '/javaanse-kalender' },
       { sleutel: 'nav.weton', url: '/weton' },
   ] },
-  { sleutel: 'nav.cursus', url: '/gamelancursus' },
-  { sleutel: 'nav.boeken', url: '/menukaart' },
+  { sleutel: 'nav.lezenkijken', items: [
+      { sleutel: 'nav.magazine', url: '/suwara-jawa' },
+      { sleutel: 'nav.nieuws', url: '/nieuws' },
+      { sleutel: 'nav.videos', url: '/videos' },
+      { sleutel: 'nav.albums', url: '/albums' },
+      { sleutel: 'nav.nieuwsbrief', url: '/nieuwsbrief' },
+  ] },
+  { sleutel: 'nav.shop', url: '/shop' },
   { sleutel: 'nav.contact', url: '/contact' },
 ];
 const actief = (u) => huidigPad === u || huidigPad.startsWith(u + '/');
