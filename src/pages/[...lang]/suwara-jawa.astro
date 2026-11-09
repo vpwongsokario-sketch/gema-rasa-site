@@ -8,6 +8,10 @@ import PageHero from '../../components/PageHero.astro';
 import { getMagazines , getPaginaSeo} from '../../lib/sanity.ts';
 
 const edities = await getMagazines(taal);
+
+/** Liggen alle verkooppunten in dezelfde stad? Dan hoeft die er maar één keer bij. */
+const eenStad = (punten: Array<{ city?: string }>) =>
+  punten.length > 1 && punten.every((p) => p.city && p.city === punten[0].city);
 ---
 <Base taal={taal} seo={paginaSeo} description={t(taal, "mg.intro")} title={`${t(taal, "mg.titel")} — Stichting Gema Rasa`}>
   <PageHero
@@ -52,9 +56,52 @@ const edities = await getMagazines(taal);
                 )}
                 {e.omschrijving && <p>{e.omschrijving}</p>}
                 {e.prijsRegel && <p class="editie-prijs">{e.prijsRegel}</p>}
+
+                {/* Een nummer dat nog gedrukt wordt: zeggen wanneer het komt,
+                    anders leest de prijs als 'vandaag op de mat'. */}
+                {e.komtNog && (
+                  <p class="editie-melding">
+                    {e.verschijnt
+                      ? `Verschijnt in ${e.verschijnt} — nu voorbestellen`
+                      : 'Wordt nog gedrukt — nu voorbestellen'}
+                  </p>
+                )}
+
+                {/* Op papier uitverkocht: waar het nog wél te krijgen is.
+                    Iemand die het blad in handen wil hebben, heeft meer aan
+                    twee adressen dan aan het woord 'uitverkocht'. */}
+                {e.papierOp && !e.komtNog && (
+                  <p class="editie-melding">
+                    Op papier uitverkocht. Digitaal kun je het meteen lezen
+                    {e.verkooppunten.length > 0 && (
+                      <>
+                        {' '}— en op papier ligt het nog bij{' '}
+                        {e.verkooppunten.map((v, i) => (
+                          <>
+                            {i > 0 && (i === e.verkooppunten.length - 1 ? ' en ' : ', ')}
+                            {v.website
+                              ? <a href={v.website} target="_blank" rel="noopener">{v.name}</a>
+                              : v.name}
+                            {/* De plaats alleen per winkel als ze niet allemaal
+                                in dezelfde stad zitten; anders komt hij één keer
+                                achteraan. 'in Den Haag en ... in Den Haag' is
+                                dezelfde zin twee keer. */}
+                            {v.city && !eenStad(e.verkooppunten) ? ` in ${v.city}` : ''}
+                          </>
+                        ))}
+                        {eenStad(e.verkooppunten) ? ` in ${e.verkooppunten[0].city}` : ''}
+                      </>
+                    )}.
+                  </p>
+                )}
+
                 {e.link && (
                   <a class="btn gold" href={e.link} target="_blank" rel="noopener">
-                    {e.opVoorraad ? 'Lezen en bestellen' : 'Bekijk deze editie'}
+                    {e.komtNog
+                      ? 'Voorbestellen'
+                      : e.opVoorraad
+                        ? 'Lezen en bestellen'
+                        : 'Bekijk deze editie'}
                   </a>
                 )}
               </div>

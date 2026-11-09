@@ -57,6 +57,20 @@ const datumOpmaak: Record<string, Intl.DateTimeFormat> = {
 };
 const datumLabel = (d: string, taal = 'nl') => (d ? (datumOpmaak[taal] ?? datumOpmaak.nl).format(new Date(d)) : '');
 
+/**
+ * Alleen de maand en het jaar.
+ *
+ * Voor een nummer dat nog gedrukt moet worden. De datum in het systeem is dan
+ * een schatting, en een exacte dag die je niet haalt is erger dan een maand
+ * die klopt.
+ */
+const maandOpmaak: Record<string, Intl.DateTimeFormat> = {
+  nl: new Intl.DateTimeFormat('nl-NL', { month: 'long', year: 'numeric' }),
+  en: new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric' }),
+  id: new Intl.DateTimeFormat('id-ID', { month: 'long', year: 'numeric' }),
+};
+const maandLabel = (d: string, taal = 'nl') => (d ? (maandOpmaak[taal] ?? maandOpmaak.nl).format(new Date(d)) : '');
+
 /** Als er een afbeelding is: een gedeelde-URL; anders lege string. */
 function beeldOfLeeg(bron: any) {
   if (!bron) return '';
@@ -361,7 +375,9 @@ export async function getMagazines(taal: string = 'nl') {
   const docs = await safe<any[]>(
     `*[_type == "edition" && defined(slug.current) && status != "draft"] | order(editionNumber desc){
       editionNumber, title, "slug": slug.current, publicationDate, shortPitch,
-      pageCount, status, pricing, cover
+      pageCount, status, pricing, cover, voorraad,
+      "verkooppunten": *[_type == "salesPoint" && active != false && ^._id in editions[]._ref]
+        | order(name asc){ name, city, website }
     }`,
   );
   if (!docs) return [];
@@ -371,13 +387,39 @@ export async function getMagazines(taal: string = 'nl') {
   return docs.map((d) => {
     const nr = typeof d.editionNumber === 'number' ? String(d.editionNumber).padStart(2, '0') : '';
     const p = d.pricing || {};
-    // Wat het kost, in één regel. Gratis is ook een prijs en hoort er te staan.
+
+    /**
+     * Of er nog gedrukte exemplaren zijn.
+     *
+     * Het getal wordt op het magazineplatform bijgehouden en telt vanzelf af
+     * bij elke bestelling. Staat er niets, dan wordt de voorraad voor die
+     * editie niet bijgehouden en doen we er ook geen uitspraak over.
+     */
+    const papierOp = typeof d.voorraad === 'number' && d.voorraad <= 0;
+    const komtNog = d.status === 'coming-soon';
+    const archief = d.status === 'archived';
+
+    /**
+     * Wat het kost, in één regel.
+     *
+     * 'Op papier € 14,95' bij een nummer dat uitverkocht is, is geen prijs
+     * maar een belofte die je niet waarmaakt -- iemand klikt door en komt
+     * erachter. Daarom staat er dan 'op papier uitverkocht'. Gratis is ook
+     * een prijs en hoort er te staan.
+     */
     const prijs = p.isFree
       ? 'Gratis te lezen'
       : [
           typeof p.digital === 'number' ? `digitaal ${euro(p.digital)}` : '',
-          typeof p.print === 'number' ? `op papier ${euro(p.print)}` : '',
+          typeof p.print === 'number'
+            ? papierOp
+              ? 'op papier uitverkocht'
+              : `op papier ${euro(p.print)}`
+            : '',
         ].filter(Boolean).join(' \u00b7 ');
+
+    /** De maand waarin een nummer verschijnt dat nog gedrukt wordt. */
+    const verschijnt = komtNog && d.publicationDate ? maandLabel(d.publicationDate, taal) : '';
 
     return {
       titel: nr ? `Editie ${nr} \u2014 ${d.title ?? ''}` : (d.title ?? ''),
@@ -391,7 +433,12 @@ export async function getMagazines(taal: string = 'nl') {
       // Elke editie heeft een eigen pagina op het magazineplatform.
       link: `https://www.suwarajawa.nl/edities/${d.slug}`,
       isPdf: false,
-      opVoorraad: d.status !== 'archived',
+      opVoorraad: !archief,
+      komtNog,
+      verschijnt,
+      papierOp,
+      /** Waar het nummer nog wél over de toonbank gaat. */
+      verkooppunten: papierOp ? (d.verkooppunten ?? []) : [],
     };
   });
 }

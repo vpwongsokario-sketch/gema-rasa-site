@@ -630,6 +630,11 @@ header.scrolled{box-shadow:0 6px 26px rgba(9,53,31,.13)}
    in een lopende zin. flex:0 houdt hem bij de knop in plaats van hem met de
    omschrijving mee te laten rekken. */
 .editie-prijs{flex:0 0 auto!important;font-weight:500!important;color:var(--ink)!important;margin:0 0 4px!important}
+/* Of het nummer nog komt, of op papier op is. Opvallend genoeg om niet
+   overgeslagen te worden: het is het verschil tussen wel en niet leverbaar. */
+.editie-melding{flex:0 0 auto!important;margin:0 0 10px!important;font-size:13.5px!important;
+  line-height:1.55!important;color:var(--orange-ink)!important;font-weight:500!important}
+.editie-melding a{color:inherit;text-decoration:underline}
 
 /* Melding boven een cursus die geweest is. Opvallend maar niet alarmerend:
    de pagina is niet stuk, hij gaat alleen over het verleden. */
