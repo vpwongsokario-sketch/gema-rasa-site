@@ -343,6 +343,11 @@ const actief = (u) => huidigPad === u || huidigPad.startsWith(u + '/');
       </div>
       <div class="fbar">
         <span>{t(taal, 'footer.rechten')}</span>
+        {/* De ANBI-publicatie moet openbaar vindbaar zijn, en een voetlink op
+            elke pagina is de plek waar iemand die ernaar zoekt hem verwacht.
+            Alleen Nederlands: het is een Nederlandse verplichting met
+            Nederlandse begrippen, zie src/pages/anbi.astro. */}
+        <span><a href="/anbi/">ANBI</a></span>
         <span>{t(taal, 'footer.slogan')}</span>
       </div>
     </div>

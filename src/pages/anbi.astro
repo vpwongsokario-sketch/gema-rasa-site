@@ -1,0 +1,389 @@
+---
+/**
+ * De ANBI-publicatie.
+ *
+ * Een algemeen nut beogende instelling heeft publicatieplicht: naam, RSIN,
+ * contactgegevens, bestuurssamenstelling, doelstelling, beleid op hoofdlijnen,
+ * beloningsbeleid, een activiteitenverslag en de cijfers horen openbaar op de
+ * eigen site te staan. Staat het er niet, dan kan de Belastingdienst de status
+ * intrekken -- en dan zijn giften met terugwerkende kracht niet meer
+ * aftrekbaar voor wie gegeven heeft.
+ *
+ * Deze pagina staat met opzet alleen in het Nederlands en niet onder [...lang].
+ * Het is een verplichting van de Nederlandse Belastingdienst met Nederlandse
+ * begrippen -- RSIN, vacatiegeld, de rubrieken van het standaardformulier --
+ * en een vertaling daarvan is geen publicatie maar een benadering. Wie de
+ * stichting in het Engels of Indonesisch leest, vindt hier dus Nederlands, en
+ * dat is beter dan een vertaald belastingbegrip waar de verkeerde aan hangt.
+ *
+ * De cijfers komen uit de vastgestelde jaarcijfers in het beheer en niet uit
+ * de lopende administratie. Zie lib/jaarcijfer.ts in het platform voor
+ * waarom: wat gepubliceerd is mag niet meer bewegen.
+ *
+ * De opbouw volgt de rubrieken van het standaardformulier publicatieplicht,
+ * in dezelfde volgorde. Dat is niet uit netheid: wie dit nakijkt heeft dat
+ * formulier ernaast liggen, en een andere volgorde kost hem het werk om ze
+ * zelf naast elkaar te leggen.
+ */
+import Base from '../layouts/Base.astro';
+import { getAnbi, getJaarcijfers } from '../lib/sanity.ts';
+
+const anbi = await getAnbi();
+const jaren = await getJaarcijfers();
+
+const euro = (n) =>
+  typeof n === 'number'
+    ? `€ ${n.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+    : '—';
+
+const datum = (d) =>
+  d
+    ? new Date(d).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })
+    : '';
+
+/** Een tekst met witregels als losse alinea's. */
+const alineas = (tekst) =>
+  (tekst || '')
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+
+const naam = anbi?.naam || 'Stichting Gema Rasa';
+---
+
+<Base
+  title={`ANBI — ${naam}`}
+  description={`De verplichte ANBI-gegevens van ${naam}: doelstelling, beleid, bestuur, beloningsbeleid en de vastgestelde jaarcijfers.`}
+>
+  <section class="block">
+    <div class="wrap">
+      <div class="prose anbi">
+        <span class="eyebrow">Algemeen nut beogende instelling</span>
+        <h1>ANBI-gegevens</h1>
+        <p class="lead">
+          Op deze pagina staan de gegevens die {naam} als algemeen nut beogende instelling
+          openbaar moet maken. De opbouw volgt het standaardformulier publicatieplicht van de
+          Belastingdienst.
+        </p>
+
+        {!anbi && (
+          <p class="anbi-leeg">
+            Deze gegevens worden op dit moment ingevuld. Vraag ze in de tussentijd op via
+            de contactpagina; wij sturen ze dan toe.
+          </p>
+        )}
+
+        {anbi && (
+          <>
+            <h2>Wie wij zijn</h2>
+            <table class="anbi-gegevens">
+              <tbody>
+                <tr><th>Statutaire naam</th><td>{anbi.naam}</td></tr>
+                {anbi.rsin && <tr><th>RSIN / fiscaal nummer</th><td>{anbi.rsin}</td></tr>}
+                {anbi.kvk && <tr><th>KvK-nummer</th><td>{anbi.kvk}</td></tr>}
+                {anbi.opgerichtOp && <tr><th>Opgericht op</th><td>{datum(anbi.opgerichtOp)}</td></tr>}
+                {(anbi.adres || anbi.plaats) && (
+                  <tr>
+                    <th>Postadres</th>
+                    <td>
+                      {anbi.adres}{anbi.adres && <br />}
+                      {[anbi.postcode, anbi.plaats].filter(Boolean).join('  ')}
+                    </td>
+                  </tr>
+                )}
+                {anbi.email && (
+                  <tr><th>E-mail</th><td><a href={`mailto:${anbi.email}`}>{anbi.email}</a></td></tr>
+                )}
+                {anbi.telefoon && <tr><th>Telefoon</th><td>{anbi.telefoon}</td></tr>}
+                {anbi.iban && <tr><th>Rekeningnummer</th><td>{anbi.iban}</td></tr>}
+              </tbody>
+            </table>
+
+            {anbi.doelstelling && (
+              <>
+                <h2>Doelstelling</h2>
+                {alineas(anbi.doelstelling).map((p) => <p>{p}</p>)}
+              </>
+            )}
+
+            {anbi.beleidHoofdlijnen && (
+              <>
+                <h2>Beleid op hoofdlijnen</h2>
+                {alineas(anbi.beleidHoofdlijnen).map((p) => <p>{p}</p>)}
+                {anbi.beleidsplan && (
+                  <p>
+                    <a class="btn" href={anbi.beleidsplan} target="_blank" rel="noopener">
+                      Het volledige beleidsplan (pdf)
+                    </a>
+                  </p>
+                )}
+              </>
+            )}
+
+            {anbi.vermogenBeleid && (
+              <>
+                <h2>Beheer en besteding van het vermogen</h2>
+                {alineas(anbi.vermogenBeleid).map((p) => <p>{p}</p>)}
+              </>
+            )}
+
+            {anbi.bestuursleden?.length > 0 && (
+              <>
+                <h2>Bestuurssamenstelling</h2>
+                <table class="anbi-gegevens">
+                  <tbody>
+                    {anbi.bestuursleden.map((lid) => (
+                      <tr>
+                        <th>{lid.functie || 'Bestuurslid'}</th>
+                        <td>
+                          {lid.naam}
+                          {lid.sinds && <span class="anbi-sinds"> — sinds {datum(lid.sinds)}</span>}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
+            )}
+
+            {anbi.beloningsbeleid && (
+              <>
+                <h2>Beloningsbeleid</h2>
+                {alineas(anbi.beloningsbeleid).map((p) => <p>{p}</p>)}
+              </>
+            )}
+          </>
+        )}
+
+        {/*
+            De cijfers per jaar.
+
+            Alleen jaren die het bestuur heeft vastgesteld en openbaar heeft
+            gezet. Staat er niets, dan zegt de pagina dat -- liever dat dan
+            een lege tabel waar iemand naar zit te kijken en zich afvraagt of
+            er iets stuk is.
+        */}
+        <h2>Financiële verantwoording</h2>
+
+        {jaren.length === 0 ? (
+          <p class="anbi-leeg">
+            De jaarcijfers worden gepubliceerd zodra het bestuur ze heeft vastgesteld. Tot die
+            tijd zijn ze op te vragen via de contactpagina.
+          </p>
+        ) : (
+          jaren.map((j) => (
+            <div class="anbi-jaar">
+              <h3>Boekjaar {j.jaar}</h3>
+              {j.vastgesteldOp && (
+                <p class="anbi-vastgesteld">
+                  Vastgesteld op {datum(j.vastgesteldOp)}
+                  {j.vastgesteldDoor ? ` door ${j.vastgesteldDoor}` : ''}.
+                </p>
+              )}
+
+              {j.activiteiten && (
+                <div class="anbi-verslag">
+                  <h4>Wat wij dit jaar hebben gedaan</h4>
+                  {alineas(j.activiteiten).map((p) => <p>{p}</p>)}
+                </div>
+              )}
+
+              <h4>Staat van baten en lasten</h4>
+              <div class="anbi-kolommen">
+                <table class="anbi-cijfers">
+                  <tbody>
+                    <tr class="anbi-kop"><th colspan="2">Baten</th></tr>
+                    {(j.baten || []).map((p) => (
+                      <tr><td>{p.woord}</td><td class="r">{euro(p.bedrag)}</td></tr>
+                    ))}
+                    <tr class="anbi-som">
+                      <td>Totaal baten</td><td class="r">{euro(j.totaalBaten)}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <table class="anbi-cijfers">
+                  <tbody>
+                    <tr class="anbi-kop"><th colspan="2">Lasten</th></tr>
+                    {(j.lasten || []).map((p) => (
+                      <tr><td>{p.woord}</td><td class="r">{euro(p.bedrag)}</td></tr>
+                    ))}
+                    <tr class="anbi-som">
+                      <td>Totaal lasten</td><td class="r">{euro(j.totaalLasten)}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p class="anbi-resultaat">
+                <span>Resultaat {j.jaar}</span>
+                <strong>{euro(j.resultaat)}</strong>
+                <em>{(j.resultaat ?? 0) >= 0 ? 'overgehouden' : 'tekort'}</em>
+              </p>
+
+              {((j.bezittingen || []).length > 0 || (j.schulden || []).length > 0) && (
+                <>
+                  <h4>Balans per 31 december {j.jaar}</h4>
+                  <div class="anbi-kolommen">
+                    <table class="anbi-cijfers">
+                      <tbody>
+                        <tr class="anbi-kop"><th colspan="2">Bezittingen</th></tr>
+                        {(j.bezittingen || []).map((p) => (
+                          <tr><td>{p.woord}</td><td class="r">{euro(p.bedrag)}</td></tr>
+                        ))}
+                        <tr class="anbi-som">
+                          <td>Totaal</td><td class="r">{euro(j.totaalBezit)}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <table class="anbi-cijfers">
+                      <tbody>
+                        <tr class="anbi-kop"><th colspan="2">Schulden</th></tr>
+                        {(j.schulden || []).length === 0 ? (
+                          <tr><td colspan="2">Geen schulden.</td></tr>
+                        ) : (
+                          (j.schulden || []).map((p) => (
+                            <tr><td>{p.woord}</td><td class="r">{euro(p.bedrag)}</td></tr>
+                          ))
+                        )}
+                        <tr class="anbi-som">
+                          <td>Totaal</td><td class="r">{euro(j.totaalSchuld)}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <p class="anbi-resultaat">
+                    <span>Eigen vermogen op 31 december {j.jaar}</span>
+                    <strong>{euro(j.eigenVermogen)}</strong>
+                  </p>
+                </>
+              )}
+
+              {j.toelichting && (
+                <div class="anbi-verslag">
+                  <h4>Toelichting op de cijfers</h4>
+                  {alineas(j.toelichting).map((p) => <p>{p}</p>)}
+                </div>
+              )}
+            </div>
+          ))
+        )}
+
+        <p class="anbi-voet">
+          Mist u hier iets, of wilt u een stuk inzien dat niet op deze pagina staat? Stuur een
+          bericht via <a href="/contact/">de contactpagina</a>; wij sturen het toe.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /*
+     Eigen opmaak, want dit is geen gewone paginatekst maar een document.
+     Tabellen met cijfers moeten op cijfers uitlijnen en op een telefoon niet
+     uit het beeld lopen; de prose-stijl van de site doet dat niet.
+  */
+  .anbi h2 { margin-top: 2.2em; }
+  .anbi h3 { margin-top: 1.6em; }
+  .anbi h4 {
+    margin: 1.8em 0 0.4em;
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .anbi-gegevens,
+  .anbi-cijfers {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    margin: 0.6em 0 0;
+  }
+  .anbi-gegevens th,
+  .anbi-gegevens td,
+  .anbi-cijfers th,
+  .anbi-cijfers td {
+    padding: 9px 4px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    text-align: left;
+    vertical-align: top;
+  }
+  .anbi-gegevens th {
+    width: 38%;
+    font-weight: 500;
+    opacity: 0.72;
+  }
+  .anbi-sinds { opacity: 0.65; }
+
+  .anbi-cijfers .r {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .anbi-cijfers .anbi-kop th {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    border-bottom-width: 2px;
+  }
+  .anbi-cijfers .anbi-som td {
+    font-weight: 600;
+    border-top: 2px solid currentColor;
+    border-bottom: none;
+  }
+
+  .anbi-kolommen {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  @media (max-width: 700px) {
+    .anbi-kolommen { grid-template-columns: 1fr; gap: 10px; }
+  }
+
+  .anbi-jaar {
+    margin: 2.4em 0 0;
+    padding-top: 1.6em;
+    border-top: 2px solid rgba(0, 0, 0, 0.14);
+  }
+  .anbi-vastgesteld { font-size: 0.9rem; opacity: 0.7; margin: 0.2em 0 0; }
+  .anbi-verslag { margin: 0.8em 0 0; }
+
+  .anbi-resultaat {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 1.2em 0 0;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 10px;
+  }
+  .anbi-resultaat span { font-size: 0.9rem; opacity: 0.72; }
+  .anbi-resultaat strong { font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+  .anbi-resultaat em { font-size: 0.85rem; opacity: 0.65; font-style: normal; }
+
+  .anbi-leeg {
+    padding: 14px 18px;
+    border: 1px dashed rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    font-size: 0.95rem;
+  }
+  .anbi-voet {
+    margin-top: 2.4em;
+    padding-top: 1.2em;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    font-size: 0.9rem;
+    opacity: 0.75;
+  }
+
+  @media print {
+    .anbi-resultaat { background: none; border: 1px solid #999; }
+  }
+</style>

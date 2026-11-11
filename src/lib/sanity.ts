@@ -827,3 +827,44 @@ export async function getAanbod(taal: string = 'nl') {
 
   return uit;
 }
+
+/* ---------- ANBI: publicatieplicht ---------- */
+
+/**
+ * De gegevens die een ANBI verplicht op haar site moet hebben staan.
+ *
+ * Waarom dit uit Sanity komt en niet gewoon in de pagina staat: een RSIN,
+ * een bestuurssamenstelling en een beloningsbeleid veranderen, en als ze op
+ * de site verkeerd staan kan de status worden ingetrokken. Dan zijn giften
+ * met terugwerkende kracht niet meer aftrekbaar voor wie gegeven heeft. Dus
+ * op één plek bijhouden, in het beheer, waar de rest van de administratie
+ * ook staat.
+ */
+export async function getAnbi() {
+  return safe<any>(`*[_type == "anbi"][0]{
+    naam, rsin, kvk, opgerichtOp, adres, postcode, plaats, email, telefoon, iban, soort,
+    bestuursleden[]{ naam, functie, sinds },
+    beloningsbeleid, doelstelling, beleidHoofdlijnen, vermogenBeleid,
+    "beleidsplan": beleidsplan.asset->url,
+  }`);
+}
+
+/**
+ * De vastgestelde jaarcijfers die openbaar mogen.
+ *
+ * Alleen de jaren waarvoor het bestuur de cijfers heeft vastgesteld én
+ * openbaar heeft gezet. Nadrukkelijk niet rechtstreeks uit de administratie
+ * gerekend: dan verandert een gepubliceerd cijfer zodra iemand een oude bon
+ * naboekt, en dan staat er volgende week iets anders dan wat is goedgekeurd.
+ */
+export async function getJaarcijfers() {
+  const rij = await safe<any[]>(`*[_type == "jaarcijfer" && openbaar == true] | order(jaar desc){
+    jaar, vastgesteldOp, vastgesteldDoor,
+    baten[]{ woord, bedrag }, lasten[]{ woord, bedrag },
+    totaalBaten, totaalLasten, resultaat,
+    bezittingen[]{ woord, bedrag }, schulden[]{ woord, bedrag },
+    totaalBezit, totaalSchuld, eigenVermogen,
+    activiteiten, toelichting
+  }`);
+  return Array.isArray(rij) ? rij : [];
+}
