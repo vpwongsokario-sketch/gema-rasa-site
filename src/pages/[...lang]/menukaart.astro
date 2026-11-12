@@ -35,6 +35,30 @@ const videos = await getMenukaartVideos();
       <div class="grid" id="grid">
         {programmas.map((i) => (
           <article class="card" data-cat={i.cat}>
+            {/*
+              Bovenaan de kaart staat beeld over de volle breedte. Een
+              menukaart van alleen tekstblokken laat je lezen wat je krijgt,
+              maar niet zien -- en bij een optreden is juist het zien de
+              verkoop.
+
+              Is er nog geen foto bij dit programma gezet, dan komt er een vlak
+              met het batikmotief in plaats van zomaar een andere foto. Zo
+              staat er nooit een beeld boven dat niet bij het programma hoort,
+              en ziet een kaart zonder foto eruit als een keuze in plaats van
+              als een gat. Zodra er wel een foto in staat, wint die.
+
+              `alt` blijft leeg omdat het beeld versiert en de naam van het
+              programma er al in woorden onder staat; een schermlezer zou hem
+              anders twee keer voorlezen. Het vlak is om dezelfde reden
+              aria-hidden: er valt niets aan voor te lezen.
+            */}
+            {i.foto ? (
+              <div class="kaart-foto">
+                <img src={i.foto} alt="" loading="lazy" decoding="async" width="660" height="372" />
+              </div>
+            ) : (
+              <div class="kaart-vlak" aria-hidden="true"></div>
+            )}
             {i.badge && <span class="badge">{i.label}</span>}
             <span class="cat">{catName[i.cat]}</span>
             <h3>{i.name}</h3>

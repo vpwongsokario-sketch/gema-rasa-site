@@ -36,14 +36,19 @@ export function maakKorteNaam(naam) {
 }
 
 /**
- * Zet bij elk programma de korte naam. Zouden twee programma's dezelfde korte
- * naam opleveren, dan krijgt de tweede een -2 erachter: anders zou een link
- * naar de een het ander voorvullen.
+ * Zet bij elk programma de korte naam.
+ *
+ * Staat er in Sanity een webadres ingevuld, dan is dat de baas: dat is het
+ * hele punt van dat veld, namelijk dat de link blijft werken als het programma
+ * ooit een andere naam krijgt. Is het leeg, dan rekenen we hem uit de naam.
+ *
+ * Zouden twee programma's dezelfde korte naam opleveren, dan krijgt de tweede
+ * een -2 erachter: anders zou een link naar de een het ander voorvullen.
  */
 export function metKorteNamen(lijst) {
   const gebruikt = new Map();
   return lijst.map((p) => {
-    const basis = maakKorteNaam(p.name);
+    const basis = maakKorteNaam(p.slug || p.name);
     const eerder = gebruikt.get(basis) ?? 0;
     gebruikt.set(basis, eerder + 1);
     return { ...p, slug: eerder === 0 ? basis : `${basis}-${eerder + 1}` };

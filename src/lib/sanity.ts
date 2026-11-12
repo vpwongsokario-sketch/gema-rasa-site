@@ -603,15 +603,24 @@ export async function getMenukaartVideos() {
 }
 
 /* ---------- Menukaart ---------- */
+
 export async function getProgrammas() {
-  const docs = await safe<any[]>('*[_type == "programma"] | order(volgorde asc){ naam, categorie, desc, perfect, dur, price, badge, label }');
-  // De korte naam voor het webadres wordt hier uit de programmanaam gerekend,
-  // zodat de menukaart en het aanvraagformulier altijd dezelfde lijst met
-  // dezelfde korte namen zien -- of die nu uit Sanity komt of uit de terugval.
+  const docs = await safe<any[]>('*[_type == "programma"] | order(volgorde asc){ naam, "slug": slug.current, afbeelding, categorie, desc, perfect, dur, price, badge, label }');
+  // De korte naam voor het webadres komt uit Sanity als hij daar is ingevuld,
+  // en wordt anders uit de programmanaam gerekend. Zo zien de menukaart en het
+  // aanvraagformulier altijd dezelfde lijst met dezelfde korte namen -- of die
+  // nu uit Sanity komt of uit de terugval hieronder.
+  //
+  // Staat er geen foto bij een programma, dan krijgt de kaart gee+n beeld maar
+  // een vlak met het batikmotief (zie .kaart-vlak). Een algemene foto erbij
+  // zoeken is verleidelijk, maar dan staat er een trommelaar boven een
+  // vlechtworkshop: de bezoeker leert er iets onwaars uit, en bij een
+  // culturele stichting is juist dat schadelijk. Een motief liegt niet.
   if (!docs || docs.length === 0) return metKorteNamen(localProgrammas);
   return metKorteNamen(docs.map((d) => ({
-    cat: d.categorie, name: d.naam, desc: d.desc ?? '', perfect: d.perfect ?? '',
+    cat: d.categorie, name: d.naam, slug: d.slug ?? '', desc: d.desc ?? '', perfect: d.perfect ?? '',
     dur: d.dur ?? '', price: d.price ?? '', badge: !!d.badge, label: d.label ?? '',
+    foto: img(d.afbeelding, ''),
   })));
 }
 
