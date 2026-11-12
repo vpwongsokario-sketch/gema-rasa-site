@@ -41,6 +41,11 @@ const videos = await getMenukaartVideos();
             <p class="desc">{i.desc}</p>
             <span class="perfect">✦ {i.perfect}</span>
             <div class="foot"><span class="dur">⏱ {i.dur}</span><span class="price">{i.price}</span></div>
+            <a
+              class="kaart-knop"
+              href={`${pad(taal, '/boeking')}?programma=${i.slug}`}
+              aria-label={`${t(taal, "mk.kaartKnop")}: ${i.name}`}
+            >{t(taal, "mk.kaartKnop")} →</a>
           </article>
         ))}
       </div>
@@ -74,7 +79,7 @@ const videos = await getMenukaartVideos();
     <div class="cta-inner">
       <h2>{t(taal, "mk.ctaTitel")}</h2>
       <p>{t(taal, "mk.ctaTekst")}</p>
-      <a class="btn" href={pad(taal, "/contact")}>{t(taal, "mk.ctaKnop")}</a>
+      <a class="btn" href={pad(taal, "/boeking")}>{t(taal, "mk.ctaKnop")}</a>
     </div>
   </section>
 </Base>

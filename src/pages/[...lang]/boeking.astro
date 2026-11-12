@@ -1,0 +1,372 @@
+---
+/**
+ * Aanvraagformulier voor een optreden, workshop of lezing.
+ *
+ * Waarom dit los van /contact staat: het contactformulier vraagt om een
+ * onderwerp en een bericht, en dat is precies verkeerd voor iemand die net
+ * op de menukaart een programma heeft uitgekozen. Die moet dan op een leeg
+ * vel opnieuw uitleggen wat hij al had besloten -- en wij krijgen een mail
+ * terug waar geen prijs uit te maken valt, dus moeten we drie keer heen en
+ * weer mailen voor we kunnen offreren.
+ *
+ * Hier vragen we in plaats daarvan de handvol dingen die een prijs bepalen:
+ * welk programma, wanneer, waar, voor wat voor publiek en hoe groot. Het
+ * programma komt uit de link van de kaart (?programma=wayang-kulit) en staat
+ * dus al ingevuld.
+ *
+ * Verplicht zijn alleen naam, e-mailadres en programma. De rest is
+ * vrijwillig: elk verplicht veld kost aanvragen, en liever een halve
+ * aanvraag dan geen.
+ */
+import { taalPaden, t, pad } from '../../i18n/index.ts';
+export const getStaticPaths = taalPaden;
+const { taal } = Astro.props;
+import { getPaginaSeo } from '../../lib/sanity.ts';
+const paginaSeo = await getPaginaSeo('boeking');
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { contact } from '../../data/content.js';
+import { catName, filters, programmas } from '../../data/programmas.js';
+
+/**
+ * De programma's gegroepeerd, in dezelfde volgorde als de filters op de
+ * menukaart. Zo staat de keuzelijst in dezelfde volgorde als de pagina waar
+ * iemand vandaan komt, en hoeft niemand zoeken.
+ */
+const groepen = filters
+  .filter((f) => f.f !== 'all')
+  .map((f) => ({
+    label: catName[f.f] ?? f.f,
+    items: programmas.filter((p) => p.cat === f.f),
+  }))
+  .filter((g) => g.items.length > 0);
+
+const telefoonSchoon = contact.telefoon.replace(/[^+0-9]/g, '');
+---
+<Base
+  taal={taal}
+  seo={paginaSeo}
+  description={t(taal, "bk.intro")}
+  title={`${t(taal, "bk.titel")} — Stichting Gema Rasa`}
+>
+  <PageHero
+    sleutel="boeking"
+    eyebrow={t(taal, "bk.eyebrow")}
+    titel={t(taal, "bk.titel")}
+    tekst={t(taal, "bk.intro")}
+    foto="/assets/perf-gamelan.jpg"
+  />
+
+  <section class="block">
+    <div class="wrap">
+      <div class="split">
+        <div>
+          <form
+            class="cform aanvraag"
+            data-formulier="boeking"
+            data-bedankt={t(taal, "bk.bedankt")}
+          >
+            <p class="verplicht-hint">{t(taal, "bk.verplichtHint")}</p>
+
+            <fieldset>
+              <legend>{t(taal, "bk.deelWat")}</legend>
+
+              <div>
+                <label for="programma">{t(taal, "bk.programma")}</label>
+                <select id="programma" name="programma" required>
+                  {groepen.map((g) => (
+                    <optgroup label={g.label}>
+                      {g.items.map((p) => (
+                        <option value={p.name} data-slug={p.slug}>{p.name} — {p.price}</option>
+                      ))}
+                    </optgroup>
+                  ))}
+                  <option value={t(taal, "bk.programmaLeeg")} data-slug="onbekend">
+                    {t(taal, "bk.programmaLeeg")}
+                  </option>
+                </select>
+                <p class="hulp">{t(taal, "bk.programmaHulp")}</p>
+                <p class="gekozen" data-gekozen hidden>
+                  {t(taal, "bk.gekozen")} <strong data-gekozen-naam></strong>
+                </p>
+              </div>
+
+              <div>
+                <label for="budget">{t(taal, "bk.budget")} <span class="opt">{t(taal, "bk.optioneel")}</span></label>
+                <input id="budget" name="budget" type="text" placeholder={t(taal, "bk.budgetHint")} />
+                <p class="hulp">{t(taal, "bk.budgetHulp")}</p>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>{t(taal, "bk.deelWaar")}</legend>
+
+              <div>
+                <label for="datum">{t(taal, "bk.datum")} <span class="opt">{t(taal, "bk.optioneel")}</span></label>
+                <input id="datum" name="datum" type="date" />
+                <label class="vink">
+                  <input type="checkbox" id="datumOnbekend" name="datumOnbekend" value="ja" />
+                  <span>{t(taal, "bk.datumOnbekend")}</span>
+                </label>
+              </div>
+
+              <div>
+                <label for="plaats">{t(taal, "bk.plaats")} <span class="opt">{t(taal, "bk.optioneel")}</span></label>
+                <input id="plaats" name="plaats" type="text" autocomplete="address-level2" placeholder={t(taal, "bk.plaatsHint")} />
+              </div>
+
+              <div>
+                <label for="locatieSoort">{t(taal, "bk.locatieSoort")} <span class="opt">{t(taal, "bk.optioneel")}</span></label>
+                <select id="locatieSoort" name="locatieSoort">
+                  <option value="">{t(taal, "bk.kies")}</option>
+                  <option>{t(taal, "bk.binnen")}</option>
+                  <option>{t(taal, "bk.buiten")}</option>
+                  <option>{t(taal, "bk.beide")}</option>
+                  <option>{t(taal, "bk.locOnbekend")}</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="publiek">{t(taal, "bk.publiek")} <span class="opt">{t(taal, "bk.optioneel")}</span></label>
+                <select id="publiek" name="publiek">
+                  <option value="">{t(taal, "bk.kies")}</option>
+                  <option>{t(taal, "bk.pubKlein")}</option>
+                  <option>{t(taal, "bk.pubMidden")}</option>
+                  <option>{t(taal, "bk.pubGroot")}</option>
+                  <option>{t(taal, "bk.pubZeerGroot")}</option>
+                  <option>{t(taal, "bk.pubOnbekend")}</option>
+                </select>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>{t(taal, "bk.deelWie")}</legend>
+
+              <div>
+                <label for="naam">{t(taal, "bk.naam")}</label>
+                <input id="naam" name="naam" type="text" autocomplete="name" required />
+              </div>
+
+              <div>
+                <label for="organisatie">{t(taal, "bk.organisatie")} <span class="opt">{t(taal, "bk.optioneel")}</span></label>
+                <input id="organisatie" name="organisatie" type="text" autocomplete="organization" />
+              </div>
+
+              <div>
+                <label for="soortOrg">{t(taal, "bk.soortOrg")} <span class="opt">{t(taal, "bk.optioneel")}</span></label>
+                <select id="soortOrg" name="soortOrg">
+                  <option value="">{t(taal, "bk.kies")}</option>
+                  <option>{t(taal, "bk.orgSchool")}</option>
+                  <option>{t(taal, "bk.orgMuseum")}</option>
+                  <option>{t(taal, "bk.orgFestival")}</option>
+                  <option>{t(taal, "bk.orgBedrijf")}</option>
+                  <option>{t(taal, "bk.orgGemeente")}</option>
+                  <option>{t(taal, "bk.orgZorg")}</option>
+                  <option>{t(taal, "bk.orgParticulier")}</option>
+                  <option>{t(taal, "bk.orgAnders")}</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="email">{t(taal, "bk.email")}</label>
+                <input id="email" name="email" type="email" autocomplete="email" required />
+              </div>
+
+              <div>
+                <label for="telefoon">{t(taal, "bk.telefoon")} <span class="opt">{t(taal, "bk.optioneel")}</span></label>
+                <input id="telefoon" name="telefoon" type="tel" autocomplete="tel" />
+              </div>
+
+              <div>
+                <label for="bericht">{t(taal, "bk.bericht")} <span class="opt">{t(taal, "bk.optioneel")}</span></label>
+                <textarea id="bericht" name="bericht" placeholder={t(taal, "bk.berichtHint")}></textarea>
+              </div>
+            </fieldset>
+
+            {/*
+              In welke taal de bezoeker de site leest. Gaat mee met de aanvraag
+              zodat de bevestigingsmail in de goede taal komt en wij weten in
+              welke taal we moeten antwoorden.
+            */}
+            <input type="hidden" name="taal" value={taal} />
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true" />
+            <button class="btn gold" type="submit" style="justify-self:start">{t(taal, "bk.verstuur")}</button>
+            <p class="form-status" data-status role="status" aria-live="polite"></p>
+            <p class="klein">{t(taal, "bk.privacy")}</p>
+          </form>
+        </div>
+
+        <div>
+          <div class="section-head" style="margin-bottom:20px">
+            <span class="kicker">{t(taal, "bk.eyebrow")}</span>
+            <h2 style="font-size:26px">{t(taal, "bk.watKop")}</h2>
+          </div>
+
+          <ol class="stappen">
+            <li>
+              <h3>{t(taal, "bk.stap1Kop")}</h3>
+              <p>{t(taal, "bk.stap1")}</p>
+            </li>
+            <li>
+              <h3>{t(taal, "bk.stap2Kop")}</h3>
+              <p>{t(taal, "bk.stap2")}</p>
+            </li>
+            <li>
+              <h3>{t(taal, "bk.stap3Kop")}</h3>
+              <p>{t(taal, "bk.stap3")}</p>
+            </li>
+          </ol>
+
+          <div class="zijkaart">
+            <h3>{t(taal, "bk.bellenKop")}</h3>
+            <p>{t(taal, "bk.bellenTekst")}</p>
+            <a href={`tel:${telefoonSchoon}`}>{contact.telefoon}</a>
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </div>
+
+          <div class="zijkaart">
+            <h3>{t(taal, "bk.andersKop")}</h3>
+            <p>{t(taal, "bk.andersTekst")}</p>
+            <a href={pad(taal, "/contact")}>{t(taal, "bk.andersKnop")} →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  /**
+   * Het programma uit de link overnemen.
+   *
+   * De site is statisch, dus dit kan niet op de server: de knop op de
+   * menukaart zet het programma in het adres (?programma=wayang-kulit) en
+   * hier zoeken we de bijbehorende keuze op. Lukt dat niet -- een oude link,
+   * een programma dat niet meer bestaat -- dan gebeurt er gewoon niets en
+   * kiest de bezoeker zelf. Nooit een foutmelding voor iets wat hij niet
+   * verkeerd deed.
+   */
+  const keuze = document.querySelector<HTMLSelectElement>('#programma');
+  const gevraagd = new URLSearchParams(window.location.search).get('programma');
+
+  if (keuze && gevraagd) {
+    const optie = Array.from(keuze.options).find((o) => o.dataset.slug === gevraagd);
+    if (optie) {
+      keuze.value = optie.value;
+
+      // Even laten zien dát we het onthouden hebben. Zonder deze regel weet
+      // iemand niet zeker of zijn keuze is meegekomen, en kiest hij voor de
+      // zekerheid opnieuw.
+      const regel = document.querySelector<HTMLElement>('[data-gekozen]');
+      const naam = document.querySelector<HTMLElement>('[data-gekozen-naam]');
+      if (regel && naam) {
+        // optie.value is de kale programmanaam; de prijs staat alleen in de
+        // zichtbare tekst van de keuze, en hoort hier niet nog eens bij.
+        naam.textContent = optie.value;
+        regel.hidden = false;
+      }
+
+      // De keuze staat al vast, dus de cursor hoort in het eerste veld dat
+      // nog ingevuld moet worden. Zonder preventScroll springt de pagina.
+      document.querySelector<HTMLInputElement>('#naam')?.focus({ preventScroll: true });
+    }
+  }
+
+  /**
+   * De datum.
+   *
+   * Een datum in het verleden kan niet, maar die grens moet in de browser
+   * worden gezet: de site wordt één keer gebouwd en zou anders maanden later
+   * nog de bouwdatum als ondergrens hebben.
+   *
+   * Weet iemand de datum nog niet, dan zetten we het veld uit in plaats van
+   * het te verbergen. Een uitgezet veld gaat niet mee met het formulier, dus
+   * er komt vanzelf niets mis in de aanvraag te staan.
+   */
+  const datum = document.querySelector<HTMLInputElement>('#datum');
+  const onbekend = document.querySelector<HTMLInputElement>('#datumOnbekend');
+
+  if (datum) datum.min = new Date().toISOString().slice(0, 10);
+
+  onbekend?.addEventListener('change', () => {
+    if (!datum) return;
+    datum.disabled = onbekend.checked;
+    if (onbekend.checked) datum.value = '';
+  });
+</script>
+
+<style>
+  .aanvraag { max-width: 600px; }
+  .aanvraag fieldset {
+    border: 0; padding: 0; margin: 0 0 10px;
+    display: grid; gap: 14px;
+  }
+  .aanvraag legend {
+    font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--orange-ink);
+    padding: 0; margin-bottom: 14px;
+  }
+  .aanvraag fieldset + fieldset { margin-top: 18px; padding-top: 24px; border-top: 1px solid var(--line); }
+
+  .verplicht-hint, .hulp, .klein {
+    font-family: 'Poppins', sans-serif; font-weight: 300;
+    font-size: 13px; line-height: 1.6; color: var(--gray); margin: 0;
+  }
+  .verplicht-hint { margin-bottom: 4px; }
+  .hulp { margin-top: 7px; }
+  .opt { font-weight: 300; color: var(--gray); }
+
+  .gekozen {
+    margin: 10px 0 0; padding: 10px 14px; border-radius: 8px;
+    background: rgba(19, 102, 61, .07);
+    font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 13.5px;
+    color: var(--primary-dark);
+  }
+  .gekozen strong { font-weight: 600; }
+
+  .cform select {
+    width: 100%; font-family: 'Poppins', sans-serif; font-size: 15px; padding: 12px 14px;
+    border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--ink);
+  }
+  .cform select:focus { outline: none; border-color: var(--secondary); }
+  .cform input:disabled { background: #f3f3ee; color: var(--gray); }
+
+  .vink {
+    display: flex !important; gap: 10px; align-items: flex-start; margin: 10px 0 0 !important;
+    font-family: 'Poppins', sans-serif; font-weight: 300 !important; font-size: 14px !important;
+    line-height: 1.5; color: var(--ink) !important;
+  }
+  .vink input { width: auto; margin-top: 2px; }
+
+  .stappen { list-style: none; counter-reset: stap; padding: 0; margin: 0 0 26px; }
+  .stappen li {
+    position: relative; counter-increment: stap;
+    padding: 0 0 20px 46px; margin-bottom: 20px; border-bottom: 1px solid var(--line);
+  }
+  .stappen li:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+  .stappen li::before {
+    content: counter(stap); position: absolute; left: 0; top: -2px;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--primary); color: var(--primary-dark);
+    font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .stappen h3 { font-size: 18px; font-weight: 500; margin: 0 0 6px; color: var(--primary-dark); }
+  .stappen p {
+    font-family: 'Poppins', sans-serif; font-weight: 300;
+    font-size: 14.5px; line-height: 1.7; color: #4a4a4a; margin: 0;
+  }
+
+  .zijkaart {
+    margin-top: 18px; padding: 20px 22px;
+    border: 1px solid var(--line); border-radius: 4px; background: #fff;
+  }
+  .zijkaart h3 { margin: 0 0 8px; font-size: 18px; font-weight: 400; }
+  .zijkaart p {
+    font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 14.5px;
+    color: #4a4a4a; margin: 0 0 10px;
+  }
+  .zijkaart a {
+    display: block; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500;
+  }
+</style>

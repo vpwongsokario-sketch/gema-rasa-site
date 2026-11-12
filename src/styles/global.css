@@ -177,6 +177,19 @@ section.block.vervolg{padding-top:40px}
   padding-top:16px;border-top:1px dashed var(--line)}
 .card .dur{font-family:'Poppins';font-size:12.5px;color:var(--gray)}
 .card .price{font-weight:700;font-size:22px;color:var(--secondary)}
+
+/* De knop op een menukaartkaart.
+   Staat er zodat iemand die juist bij DEZE kaart enthousiast wordt meteen
+   verder kan. Zonder knop moest je eerst langs alle andere kaarten naar de
+   enige knop onderaan de pagina scrollen, en onderweg vergeet je welk
+   programma het ook alweer was. De kleur vult zich ook als je de kaart zelf
+   aanwijst, zodat zichtbaar is dat er bij elke kaart iets te doen valt. */
+.card .kaart-knop{display:block;margin-top:16px;text-align:center;font-family:'Poppins';
+  font-size:14px;font-weight:600;padding:11px 16px;border-radius:8px;text-decoration:none;
+  border:1.5px solid var(--secondary);color:var(--secondary);background:#fff;
+  transition:background .18s,color .18s,border-color .18s}
+.card:hover .kaart-knop,.card .kaart-knop:hover,.card .kaart-knop:focus-visible{
+  background:var(--secondary);border-color:var(--secondary);color:#fff}
 .badge{position:absolute;top:16px;right:0;background:var(--primary);color:var(--primary-dark);
   font-family:'Poppins';font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
   padding:5px 13px;border-radius:8px 0 0 8px}

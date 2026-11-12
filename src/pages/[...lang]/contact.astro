@@ -21,6 +21,19 @@ import { contact } from '../../data/content.js';
     <div class="wrap">
       <div class="split">
         <div>
+          {/*
+            Wie hier komt voor een boeking is op de verkeerde pagina: dit
+            formulier vraagt om een onderwerp en een bericht, en daar valt
+            geen offerte op te maken. Het aanvraagformulier vraagt wél de
+            dingen die de prijs bepalen. Bewust vóór het formulier, want
+            daarna heeft iemand het al ingevuld.
+          */}
+          <div class="naar-aanvraag">
+            <h2>{t(taal, "ct.boekenKop")}</h2>
+            <p>{t(taal, "ct.boekenTekst")}</p>
+            <a class="btn gold" href={pad(taal, "/boeking")}>{t(taal, "ct.boekenKnop")}</a>
+          </div>
+
           <form class="cform" data-formulier="contact" data-bedankt={t(taal, "ct.bedankt")}>
             <div>
               <label for="naam">{t(taal, "ct.naam")}</label>
@@ -100,6 +113,17 @@ import { contact } from '../../data/content.js';
 </Base>
 
 <style>
+  .naar-aanvraag {
+    max-width: 560px; margin-bottom: 30px; padding: 22px 24px;
+    border: 1px solid var(--line); border-left: 4px solid var(--primary);
+    border-radius: 4px; background: #fff;
+  }
+  .naar-aanvraag h2 { font-size: 21px; font-weight: 500; margin: 0 0 8px; }
+  .naar-aanvraag p {
+    font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 14.5px;
+    line-height: 1.7; color: #4a4a4a; margin: 0 0 16px;
+  }
+
   .oefenkaart {
     margin-top: 22px; padding: 20px 22px;
     border: 1px solid var(--line); border-radius: 4px; background: #fff;

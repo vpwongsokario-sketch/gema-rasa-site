@@ -46,6 +46,28 @@ const PRESENTATIE = {
   sluit: '2026-11-14T09:30:00Z',
 };
 
+/**
+ * De kopjes van een aanvraag in het Engels.
+ *
+ * In de Studio blijft een aanvraag Nederlands -- die leest iemand van de
+ * stichting. Maar de bevestiging gaat naar de aanvrager, en een Engelse mail
+ * met 'Programma' en 'Verwacht publiek' erboven leest als een half vertaalde
+ * machine. Staat een kopje hier niet bij, dan blijft het gewoon Nederlands:
+ * liever een enkel Nederlands woord dan een mail die niet verstuurd wordt.
+ */
+const ENGELSE_LABELS: Record<string, string> = {
+  Programma: 'Programme',
+  Datum: 'Date',
+  Plaats: 'Town or city',
+  'Binnen of buiten': 'Indoors or outdoors',
+  'Verwacht publiek': 'Expected audience',
+  Budget: 'Budget',
+  Organisatie: 'Organisation',
+  'Soort organisatie': 'Type of organisation',
+  Telefoon: 'Phone',
+  Toelichting: 'Additional notes',
+};
+
 const geldigEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 const kort = (v: unknown, max: number) => String(v ?? '').trim().slice(0, max);
 const isWaar = (v: unknown) => v === true || v === 'true' || v === 'on' || v === '1';
@@ -127,6 +149,50 @@ export const onRequestPost = async (context: any): Promise<Response> => {
       email,
       onderwerp: 'Verhaal voor het boek van Murwin',
       bericht: `${regels}\n\nVerhaal:\n${verhaal}\n\n(Toestemming gegeven om gegevens te delen met Murwin voor dit boek.)`,
+      ontvangen: new Date().toISOString(),
+      afgehandeld: false,
+    };
+  } else if (soort === 'boeking') {
+    /**
+     * Aanvraag voor een optreden, workshop of lezing (pagina /boeking).
+     *
+     * Net als het verhaalformulier bewaren we dit als gewoon bericht. Dan
+     * staat een aanvraag zonder schemawijziging in de Studio onder Berichten,
+     * tussen de andere post, en kan hij daar worden afgevinkt als hij is
+     * beantwoord. De losse antwoorden staan bovenaan in de tekst, zodat je
+     * in één oogopslag ziet of je er een prijs op kunt plakken.
+     *
+     * Alleen het programma is verplicht; de rest mag ontbreken. Een halve
+     * aanvraag is nog altijd een aanvraag, en elk verplicht veld kost er een
+     * paar.
+     */
+    const programma = kort(data.programma, 200);
+    if (!programma) {
+      return json({ ok: false, fout: 'Kies een programma, of kies de laatste optie als je het nog niet weet.' }, 400);
+    }
+    const datumOnbekend = isWaar(data.datumOnbekend) || kort(data.datumOnbekend, 5) === 'ja';
+    const regels = [
+      ['Programma', programma],
+      ['Datum', datumOnbekend ? 'nog niet bekend' : kort(data.datum, 40)],
+      ['Plaats', kort(data.plaats, 120)],
+      ['Binnen of buiten', kort(data.locatieSoort, 60)],
+      ['Verwacht publiek', kort(data.publiek, 60)],
+      ['Budget', kort(data.budget, 120)],
+      ['Organisatie', kort(data.organisatie, 160)],
+      ['Soort organisatie', kort(data.soortOrg, 120)],
+      ['Telefoon', kort(data.telefoon, 40)],
+      ['Taal van de bezoeker', kort(data.taal, 5) && kort(data.taal, 5) !== 'nl' ? kort(data.taal, 5) : ''],
+    ]
+      .filter(([, v]) => v)
+      .map(([k, v]) => `${k}: ${v}`)
+      .join('\n');
+    const toelichting = kort(data.bericht, 5000);
+    doc = {
+      _type: 'bericht',
+      naam: kort(data.naam, 120),
+      email,
+      onderwerp: `Aanvraag: ${programma}`,
+      bericht: `${regels}${toelichting ? `\n\nToelichting:\n${toelichting}` : ''}`,
       ontvangen: new Date().toISOString(),
       afgehandeld: false,
     };
@@ -231,6 +297,7 @@ export const onRequestPost = async (context: any): Promise<Response> => {
     vrijwilliger: 'website-vrijwilliger',
     vertegenwoordiger: 'website-vertegenwoordiger',
     verhaal: 'website-verhaal',
+    boeking: 'website-aanvraag',
   };
   if (soort !== 'presentatie' && env?.GHL_API_TOKEN && env?.GHL_LOCATION_ID) {
     try {
@@ -279,16 +346,25 @@ export const onRequestPost = async (context: any): Promise<Response> => {
    * juist wel: daar wacht iemand op antwoord.
    */
   const meldAan = (env?.CONTACT_EMAIL as string) || 'info@stichtinggemarasa.com';
-  const meldenOver = soort === 'contact' || soort === 'vrijwilliger' || soort === 'verhaal';
+  const meldenOver =
+    soort === 'contact' || soort === 'vrijwilliger' || soort === 'verhaal' || soort === 'boeking';
   if (meldenOver && env?.RESEND_API_KEY && geldigEmail(meldAan)) {
     const naam = kort(data.naam, 120) || 'Onbekend';
-    const tekst = soort === 'verhaal' ? String(doc.bericht) : kort(data.bericht, 5000) || kort(data.toelichting, 2000);
+    // Bij een verhaal en een aanvraag staan de ingevulde antwoorden al netjes
+    // onder elkaar in het bewaarde bericht; die moeten mee, niet alleen het
+    // vrije tekstvak.
+    const tekst =
+      soort === 'verhaal' || soort === 'boeking'
+        ? String(doc.bericht)
+        : kort(data.bericht, 5000) || kort(data.toelichting, 2000);
     const onderwerp =
       soort === 'vrijwilliger'
         ? `Nieuwe aanmelding als vrijwilliger — ${naam}`
         : soort === 'verhaal'
           ? `Nieuw verhaal voor het boek van Murwin — ${naam}`
-          : `Nieuw bericht via de website — ${kort(data.onderwerp, 120) || naam}`;
+          : soort === 'boeking'
+            ? `AANVRAAG: ${kort(data.programma, 120)} — ${naam}`
+            : `Nieuw bericht via de website — ${kort(data.onderwerp, 120) || naam}`;
     try {
       await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -425,6 +501,73 @@ export const onRequestPost = async (context: any): Promise<Response> => {
       } catch {
         // stil
       }
+    }
+  }
+
+  /**
+   * Bevestiging aan degene die de aanvraag deed.
+   *
+   * Niet alleen beleefd, maar nodig: wie een offerte aanvraagt en helemaal
+   * niets terugkrijgt, weet niet of het formulier het deed en vraagt het
+   * elders ook maar even aan. De mail herhaalt wat er is ingevuld, zodat een
+   * fout meteen opvalt, en zegt wanneer er antwoord komt.
+   *
+   * Antwoorden komt bij info@ uit, dus 'gewoon reageren op deze mail' werkt.
+   * Lukt het versturen niet, dan merkt de bezoeker er niets van: de aanvraag
+   * staat op dat moment al in de Studio.
+   *
+   * De regel over de taal van de bezoeker is voor ons, niet voor hem, en
+   * gaat er hier weer uit.
+   */
+  if (soort === 'boeking' && env?.RESEND_API_KEY) {
+    const naam = kort(data.naam, 120);
+    const voornaam = naam.split(/\s+/)[0] || '';
+    const engels = kort(data.taal, 5) !== '' && kort(data.taal, 5) !== 'nl';
+    const overzicht = String(doc.bericht)
+      .split('\n')
+      .filter((r) => !r.startsWith('Taal van de bezoeker'))
+      .map((regel) => {
+        if (!engels) return regel;
+        const dubbelepunt = regel.indexOf(':');
+        if (dubbelepunt < 0) return regel;
+        const label = ENGELSE_LABELS[regel.slice(0, dubbelepunt)];
+        if (!label) return regel;
+        const waarde = regel.slice(dubbelepunt + 1).trim();
+        if (waarde === 'nog niet bekend') return `${label}: not yet known`;
+        return waarde ? `${label}: ${waarde}` : `${label}:`;
+      })
+      .join('\n');
+
+    const tekst = engels
+      ? `${voornaam ? `Hi ${voornaam},` : 'Hello,'}\n\n` +
+        `Thank you for your request. It has reached us and we are on it.\n\n` +
+        `This is what we noted down:\n\n${overzicht}\n\n` +
+        `Within two working days we will send you a proposal with a price, and what it includes: how many of us come, how long we need to set up and what we bring ourselves.\n\n` +
+        `Is something wrong, or would you like to add anything? Just reply to this email.\n\n` +
+        `Kind regards,\nStichting Gema Rasa\ninfo@stichtinggemarasa.com`
+      : `${voornaam ? `Hoi ${voornaam},` : 'Hoi,'}\n\n` +
+        `Bedankt voor je aanvraag. Hij is bij ons binnen en we gaan ermee aan de slag.\n\n` +
+        `Dit hebben we genoteerd:\n\n${overzicht}\n\n` +
+        `Binnen twee werkdagen sturen we je een voorstel met een prijs, en wat erbij hoort: met hoeveel mensen we komen, hoelang we nodig hebben om op te bouwen en wat wij zelf meenemen.\n\n` +
+        `Klopt er iets niet, of wil je nog iets toevoegen? Antwoord gewoon op deze mail.\n\n` +
+        `Hartelijke groet,\nStichting Gema Rasa\ninfo@stichtinggemarasa.com`;
+
+    try {
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
+        body: JSON.stringify({
+          from: String(env.RESEND_FROM || AFZENDER),
+          to: [email],
+          reply_to: meldAan,
+          subject: engels
+            ? 'We have received your request — Stichting Gema Rasa'
+            : 'We hebben je aanvraag ontvangen — Stichting Gema Rasa',
+          text: tekst,
+        }),
+      });
+    } catch {
+      // stil: de aanvraag staat al in de Studio onder Berichten
     }
   }
 
