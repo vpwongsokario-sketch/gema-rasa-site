@@ -11,7 +11,7 @@
  *
  * Hier vragen we in plaats daarvan de handvol dingen die een prijs bepalen:
  * welk programma, wanneer, waar, voor wat voor publiek en hoe groot. Het
- * programma komt uit de link van de kaart (?programma=wayang-kulit) en staat
+ * programma komt uit de link van de kaart (?programma=gamelan-workshop) en staat
  * dus al ingevuld.
  *
  * Verplicht zijn alleen naam, e-mailadres en programma. De rest is
@@ -21,12 +21,16 @@
 import { taalPaden, t, pad } from '../../i18n/index.ts';
 export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
-import { getPaginaSeo } from '../../lib/sanity.ts';
+import { getPaginaSeo, getProgrammas } from '../../lib/sanity.ts';
 const paginaSeo = await getPaginaSeo('boeking');
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import { contact } from '../../data/content.js';
-import { catName, filters, programmas } from '../../data/programmas.js';
+import { catName, filters } from '../../data/programmas.js';
+// Uit dezelfde bron als de menukaart, zodat de keuzelijst hier precies de
+// programma's bevat die daar op de kaarten staan -- en met dezelfde korte
+// namen, want daarop zoekt het script hieronder de aangeklikte keuze op.
+const programmas = await getProgrammas();
 
 /**
  * De programma's gegroepeerd, in dezelfde volgorde als de filters op de
@@ -240,7 +244,7 @@ const telefoonSchoon = contact.telefoon.replace(/[^+0-9]/g, '');
    * Het programma uit de link overnemen.
    *
    * De site is statisch, dus dit kan niet op de server: de knop op de
-   * menukaart zet het programma in het adres (?programma=wayang-kulit) en
+   * menukaart zet het programma in het adres (?programma=gamelan-workshop) en
    * hier zoeken we de bijbehorende keuze op. Lukt dat niet -- een oude link,
    * een programma dat niet meer bestaat -- dan gebeurt er gewoon niets en
    * kiest de bezoeker zelf. Nooit een foutmelding voor iets wat hij niet

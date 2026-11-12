@@ -1,7 +1,7 @@
 import { sanityClient } from 'sanity:client';
 import { createImageUrlBuilder } from '@sanity/image-url';
 import * as local from '../data/content.js';
-import { programmas as localProgrammas } from '../data/programmas.js';
+import { programmas as localProgrammas, metKorteNamen } from '../data/programmas.js';
 
 const builder = createImageUrlBuilder({ projectId: '6q1rydes', dataset: 'production' });
 
@@ -605,11 +605,14 @@ export async function getMenukaartVideos() {
 /* ---------- Menukaart ---------- */
 export async function getProgrammas() {
   const docs = await safe<any[]>('*[_type == "programma"] | order(volgorde asc){ naam, categorie, desc, perfect, dur, price, badge, label }');
-  if (!docs || docs.length === 0) return localProgrammas;
-  return docs.map((d) => ({
+  // De korte naam voor het webadres wordt hier uit de programmanaam gerekend,
+  // zodat de menukaart en het aanvraagformulier altijd dezelfde lijst met
+  // dezelfde korte namen zien -- of die nu uit Sanity komt of uit de terugval.
+  if (!docs || docs.length === 0) return metKorteNamen(localProgrammas);
+  return metKorteNamen(docs.map((d) => ({
     cat: d.categorie, name: d.naam, desc: d.desc ?? '', perfect: d.perfect ?? '',
     dur: d.dur ?? '', price: d.price ?? '', badge: !!d.badge, label: d.label ?? '',
-  }));
+  })));
 }
 
 /**
