@@ -5,10 +5,46 @@ const { taal } = Astro.props;
 const paginaSeo = await getPaginaSeo('menukaart');
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
-import { catName, filters } from '../../data/programmas.js';
+import { catName } from '../../data/programmas.js';
 import { getProgrammas , getPaginaSeo, getMenukaartVideos } from '../../lib/sanity.ts';
 const programmas = await getProgrammas();
 const videos = await getMenukaartVideos();
+
+/*
+  Drieëntwintig volle kaarten onder elkaar vraagt van een bezoeker dat hij
+  drieëntwintig dingen tegen elkaar afweegt, en dat doet niemand. Wie hier
+  komt heeft al een gelegenheid in zijn hoofd -- een opening, een schoolklas,
+  een hele middag -- en zoekt alleen waar hij moet beginnen.
+
+  Daarom staan de drie meest geboekte programma's bovenaan als volle kaart met
+  foto en beschrijving, en staat de rest eronder als compacte regel per soort.
+  Het aanbod wordt niet kleiner; wat je in één keer moet overzien wel.
+
+  De indeling komt uit het veld `categorie` in Sanity. Is er geen enkel
+  programma als 'populair' aangemerkt, dan valt het uitgelichte blok weg en
+  komt alles in de groepen te staan -- de pagina blijft dus heel, wat
+  vrijwilligers daar ook invullen.
+*/
+const uitgelicht = programmas.filter((p) => p.cat === 'populair');
+const rest = uitgelicht.length > 0 ? programmas.filter((p) => p.cat !== 'populair') : programmas;
+
+// Vaste volgorde voor de soorten die we kennen; een onbekende soort uit Sanity
+// komt erachter in een eigen groep in plaats van stil te verdwijnen.
+const voorkeur = ['optredens', 'workshops', 'verhalen', 'extra'];
+const aanwezig = [...new Set(rest.map((p) => p.cat))];
+const groepOrde = [
+  ...voorkeur.filter((c) => aanwezig.includes(c)),
+  ...aanwezig.filter((c) => !voorkeur.includes(c)),
+];
+const groepen = groepOrde.map((cat) => ({ cat, items: rest.filter((p) => p.cat === cat) }));
+
+/* De naam van een soort in de taal van de bezoeker. Staat er geen vertaling,
+   dan valt hij terug op de Nederlandse naam uit de lijst. */
+function groepNaam(cat) {
+  const sleutel = `mk.cat.${cat}`;
+  const vertaald = t(taal, sleutel);
+  return vertaald === sleutel ? (catName[cat] ?? cat) : vertaald;
+}
 ---
 <Base taal={taal} seo={paginaSeo} description={t(taal, "mk.intro")} title={`${t(taal, "mk.titel")} — Stichting Gema Rasa`}>
   <PageHero
@@ -22,18 +58,15 @@ const videos = await getMenukaartVideos();
   <!-- MENUKAART -->
   <section class="block" id="menukaart">
     <div class="wrap">
+      {uitgelicht.length > 0 && (
+      <Fragment>
       <div class="section-head">
-        <span class="kicker">{t(taal, "mk.kiesKicker")}</span>
-        <h2>{t(taal, "mk.kiesTitel")}</h2>
-        <p>{t(taal, "mk.kiesTekst")}</p>
-      </div>
-      <div class="filters" id="filters">
-        {filters.map((f, i) => (
-          <button class={`chip${i === 0 ? ' active' : ''}`} data-f={f.f} set:html={f.label} />
-        ))}
+        <span class="kicker">{t(taal, "mk.topKicker")}</span>
+        <h2>{t(taal, "mk.topTitel")}</h2>
+        <p>{t(taal, "mk.topTekst")}</p>
       </div>
       <div class="grid" id="grid">
-        {programmas.map((i) => (
+        {uitgelicht.map((i) => (
           <article class="card" data-cat={i.cat}>
             {/*
               Bovenaan de kaart staat beeld over de volle breedte. Een
@@ -73,6 +106,40 @@ const videos = await getMenukaartVideos();
           </article>
         ))}
       </div>
+      </Fragment>
+      )}
+
+      <div class="section-head alles-head">
+        <span class="kicker">{t(taal, "mk.allesKicker")}</span>
+        <h2>{t(taal, "mk.allesTitel")}</h2>
+        <p>{t(taal, "mk.allesTekst")}</p>
+      </div>
+
+      {groepen.map((g) => (
+        <section class="groep">
+          <h3 class="groep-kop">
+            {groepNaam(g.cat)}
+            <span class="groep-telling">{g.items.length}</span>
+          </h3>
+          <ul class="rijen">
+            {g.items.map((i) => (
+              <li class="rij">
+                <div class="rij-naam">
+                  <span class="rij-titel">{i.name}</span>
+                  {i.perfect && <span class="rij-voor">{i.perfect}</span>}
+                </div>
+                <span class="rij-dur">{i.dur}</span>
+                <span class="rij-prijs">{i.price}</span>
+                <a
+                  class="rij-knop"
+                  href={`${pad(taal, '/boeking')}?programma=${i.slug}`}
+                  aria-label={`${t(taal, "mk.kaartKnop")}: ${i.name}`}
+                >{t(taal, "mk.rijKnop")} →</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
     </div>
   </section>
 
@@ -158,17 +225,6 @@ const videos = await getMenukaartVideos();
 </Base>
 
 <script>
-  const chips = document.querySelectorAll<HTMLButtonElement>('.chip');
-  const cards = document.querySelectorAll<HTMLElement>('#grid .card');
-  chips.forEach((c) => c.addEventListener('click', () => {
-    chips.forEach((x) => x.classList.remove('active'));
-    c.classList.add('active');
-    const f = c.dataset.f;
-    cards.forEach((card) => {
-      card.style.display = f === 'all' || card.dataset.cat === f ? '' : 'none';
-    });
-  }));
-
   document.querySelectorAll<HTMLElement>('.vcard[data-yt]').forEach((card) => {
     card.addEventListener('click', () => {
       if (card.classList.contains('playing')) return;
@@ -249,5 +305,101 @@ const videos = await getMenukaartVideos();
     font-size: 14px;
     line-height: 1.7;
     color: var(--gray);
+  }
+  /* ---------- de compacte regels per soort ---------- */
+
+  /* Lucht tussen het uitgelichte blok en de volledige lijst, zodat het twee
+     stappen worden in plaats van één lange brij. */
+  .alles-head { margin-top: 76px; }
+
+  .groep { margin-top: 40px; }
+
+  .groep-kop {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--line);
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--primary-dark);
+  }
+  /* Het aantal erbij, zodat zichtbaar is hoe groot een groep is voordat je
+     hem doorleest. */
+  .groep-telling {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--gray);
+  }
+
+  .rijen {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Naam en doelgroep links, dan de duur, dan de prijs, dan de knop. De twee
+     vaste breedtes houden de duur- en prijskolom over alle regels op één lijn,
+     zodat je ze van boven naar beneden kunt vergelijken -- dat is precies waar
+     een lijst beter in is dan losse kaarten. */
+  .rij {
+    display: grid;
+    grid-template-columns: 1fr 104px 152px auto;
+    align-items: center;
+    gap: 18px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    padding: 14px 18px;
+    transition: border-color .18s, box-shadow .2s;
+  }
+  .rij:hover { border-color: rgba(19,102,61,.4); box-shadow: 0 8px 24px rgba(9,53,31,.07); }
+
+  .rij-naam { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+  .rij-titel { font-size: 17.5px; font-weight: 600; color: var(--primary-dark); line-height: 1.2; }
+  .rij-voor {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 12.5px;
+    color: var(--gray);
+  }
+  .rij-dur {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12.5px;
+    color: var(--gray);
+    text-align: right;
+  }
+  .rij-prijs { font-weight: 700; font-size: 18px; color: var(--secondary); text-align: right; }
+
+  .rij-knop {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 9px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1.5px solid var(--secondary);
+    color: var(--secondary);
+    background: #fff;
+    white-space: nowrap;
+    transition: background .18s, color .18s;
+  }
+  .rij:hover .rij-knop,
+  .rij-knop:hover,
+  .rij-knop:focus-visible { background: var(--secondary); color: #fff; }
+
+  /* Op een telefoon is er geen ruimte voor vier kolommen: de naam neemt de
+     hele breedte, duur en prijs komen eronder tegenover elkaar, en de knop
+     wordt een volle balk -- groot genoeg om met een duim te raken. */
+  @media (max-width: 760px) {
+    .rij { grid-template-columns: 1fr auto; gap: 10px 14px; }
+    .rij-naam { grid-column: 1 / -1; }
+    .rij-dur { text-align: left; }
+    .rij-knop { grid-column: 1 / -1; text-align: center; }
   }
 </style>
