@@ -99,6 +99,12 @@ const telefoonSchoon = contact.telefoon.replace(/[^+0-9]/g, '');
                 <label for="budget">{t(taal, "bk.budget")} <span class="opt">{t(taal, "bk.optioneel")}</span></label>
                 <input id="budget" name="budget" type="text" placeholder={t(taal, "bk.budgetHint")} />
                 <p class="hulp">{t(taal, "bk.budgetHulp")}</p>
+                {/*
+                  Hier staat het, en niet alleen op de menukaart: wie een
+                  bedrag invult rekent op dat moment, en moet dan weten of de
+                  btw er nog bij komt.
+                */}
+                <p class="hulp">{t(taal, "bk.budgetBtw")}</p>
               </div>
             </fieldset>
 
