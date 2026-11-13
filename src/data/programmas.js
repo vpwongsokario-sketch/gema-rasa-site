@@ -36,6 +36,38 @@ export function maakKorteNaam(naam) {
 }
 
 /**
+ * Een standaardfoto per programma, voor zolang er in Sanity nog geen eigen
+ * foto bij staat.
+ *
+ * Alleen programma's waarvan ik zeker weet dat de foto klopt staan hier. De
+ * bestandsnamen in /assets zijn namelijk niet te vertrouwen -- `perf-wayang`
+ * is een dansoptreden en `perf-expo` is een portret -- dus deze koppelingen
+ * zijn gemaakt op wat er echt op de foto te zien is:
+ *
+ *   perf-gamelan        vrouw achter de saron, in ceremoniele kleding
+ *   perf4               man met kendang, met scherm en stoelen erachter
+ *   cursus-hero         het hele kendang-ensemble op het podium
+ *   perf3               meisje achter de gamelan, tussen de anderen
+ *   cursus-kendang-hand hand op het vel van de kendang
+ *   perf2               man achter de bonang
+ *
+ * Een programma dat hier niet in staat houdt het batikvlak. Dat is bewust:
+ * een vlak leest als een keuze, een foto die er niet bij hoort leest als een
+ * fout. perf-wayang staat er niet in omdat die al bovenaan de pagina staat.
+ *
+ * Zet iemand in het beheer een eigen foto bij een programma, dan wint die
+ * altijd van deze lijst -- en dan mag de regel hier weg.
+ */
+export const standaardFotos = {
+  'ceremoniele-opening-gamelan': '/assets/perf-gamelan.jpg',
+  'lezing-workshop': '/assets/perf4.jpg',
+  'complete-beleving': '/assets/cursus-hero.jpg',
+  'jongeren-gamelan': '/assets/perf3.jpg',
+  'gamelan-hiphop-kendang': '/assets/cursus-kendang-hand.jpg',
+  'gamelan-workshop': '/assets/perf2.jpg',
+};
+
+/**
  * Zet bij elk programma de korte naam.
  *
  * Staat er in Sanity een webadres ingevuld, dan is dat de baas: dat is het
@@ -51,7 +83,9 @@ export function metKorteNamen(lijst) {
     const basis = maakKorteNaam(p.slug || p.name);
     const eerder = gebruikt.get(basis) ?? 0;
     gebruikt.set(basis, eerder + 1);
-    return { ...p, slug: eerder === 0 ? basis : `${basis}-${eerder + 1}` };
+    const slug = eerder === 0 ? basis : `${basis}-${eerder + 1}`;
+    // Een foto uit Sanity wint; anders de standaardfoto; anders het batikvlak.
+    return { ...p, slug, foto: p.foto || standaardFotos[slug] || '' };
   });
 }
 
