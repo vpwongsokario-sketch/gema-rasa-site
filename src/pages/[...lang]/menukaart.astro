@@ -40,6 +40,51 @@ const groepen = groepOrde.map((cat) => ({ cat, items: rest.filter((p) => p.cat =
 
 /* De naam van een soort in de taal van de bezoeker. Staat er geen vertaling,
    dan valt hij terug op de Nederlandse naam uit de lijst. */
+/*
+  Soorten waarvan de programma's in feite één product zijn met verschillende
+  onderwerpen.
+
+  De zes verhalen en keynotes duren allemaal een halfuur tot drie kwartier en
+  kosten tussen de 440 en 550 euro. Een klant kiest daar dus niet op duur of
+  prijs -- die zijn vrijwel gelijk -- maar op onderwerp. Zes losse regels
+  dwongen hem zes keer dezelfde afweging te maken voordat hij doorhad dat het
+  telkens hetzelfde formaat was.
+
+  Ze staan nu als één regel met de onderwerpen eronder. Elk onderwerp houdt
+  zijn eigen link naar het aanvraagformulier, dus een gedeelde link naar
+  bijvoorbeeld De Overtocht blijft gewoon werken.
+*/
+const samengevoegd = ['verhalen'];
+
+/** Haalt de getallen uit een tekst als '30–45 min' of '€1.100'. */
+function getallenUit(tekst) {
+  const schoon = String(tekst ?? '').replace(/(\d)[.,](\d{3})/g, '$1$2');
+  const gevonden = schoon.match(/\d+/g);
+  return gevonden ? gevonden.map(Number) : [];
+}
+
+/** '30–45 min' uit een reeks programma's; leeg als de duur niet in minuten staat. */
+function duurBereik(items) {
+  // '± 2–2,5 uur' zou als getallen 2 en 5 opleveren, en dus '2–5 min'. Liever
+  // niets tonen dan iets verkeerds, dus alleen rekenen als alles in minuten is.
+  const allesInMinuten = items.every((i) => /^[^0-9]*\d+(\s*[–-]\s*\d+)?\s*min/i.test(String(i.dur ?? '')));
+  if (!allesInMinuten) return '';
+  const waarden = items.flatMap((i) => getallenUit(i.dur));
+  if (waarden.length === 0) return '';
+  const laag = Math.min(...waarden);
+  const hoog = Math.max(...waarden);
+  return laag === hoog ? `${laag} min` : `${laag}–${hoog} min`;
+}
+
+/** '€440 – €550' uit een reeks programma's. */
+function prijsBereik(items) {
+  const waarden = items.flatMap((i) => getallenUit(i.price));
+  if (waarden.length === 0) return '';
+  const laag = Math.min(...waarden);
+  const hoog = Math.max(...waarden);
+  return laag === hoog ? `€${laag}` : `€${laag} – €${hoog}`;
+}
+
 function groepNaam(cat) {
   const sleutel = `mk.cat.${cat}`;
   const vertaald = t(taal, sleutel);
@@ -121,23 +166,50 @@ function groepNaam(cat) {
             {groepNaam(g.cat)}
             <span class="groep-telling">{g.items.length}</span>
           </h3>
-          <ul class="rijen">
-            {g.items.map((i) => (
-              <li class="rij">
-                <div class="rij-naam">
-                  <span class="rij-titel">{i.name}</span>
-                  {i.perfect && <span class="rij-voor">{i.perfect}</span>}
-                </div>
-                <span class="rij-dur">{i.dur}</span>
-                <span class="rij-prijs">{i.price}</span>
-                <a
-                  class="rij-knop"
-                  href={`${pad(taal, '/boeking')}?programma=${i.slug}`}
-                  aria-label={`${t(taal, "mk.kaartKnop")}: ${i.name}`}
-                >{t(taal, "mk.rijKnop")} →</a>
-              </li>
-            ))}
-          </ul>
+          {samengevoegd.includes(g.cat) && g.items.length > 1 ? (
+            <div class="rij rij-samen">
+              <div class="rij-naam">
+                <span class="rij-titel">{t(taal, "mk.samenTitel")}</span>
+                <span class="rij-voor">{t(taal, "mk.samenTekst")}</span>
+              </div>
+              <span class="rij-dur">{duurBereik(g.items)}</span>
+              <span class="rij-prijs">{prijsBereik(g.items)}</span>
+              <div class="onderwerpen">
+                <span class="onderwerpen-kop">{t(taal, "mk.samenKies")}</span>
+                <ul>
+                  {g.items.map((i) => (
+                    <li>
+                      <a
+                        href={`${pad(taal, '/boeking')}?programma=${i.slug}`}
+                        aria-label={`${t(taal, "mk.kaartKnop")}: ${i.name}`}
+                      >
+                        <span class="ond-naam">{i.name}</span>
+                        <span class="ond-prijs">{i.price}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ) : (
+            <ul class="rijen">
+              {g.items.map((i) => (
+                <li class="rij">
+                  <div class="rij-naam">
+                    <span class="rij-titel">{i.name}</span>
+                    {i.perfect && <span class="rij-voor">{i.perfect}</span>}
+                  </div>
+                  <span class="rij-dur">{i.dur}</span>
+                  <span class="rij-prijs">{i.price}</span>
+                  <a
+                    class="rij-knop"
+                    href={`${pad(taal, '/boeking')}?programma=${i.slug}`}
+                    aria-label={`${t(taal, "mk.kaartKnop")}: ${i.name}`}
+                  >{t(taal, "mk.rijKnop")} →</a>
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       ))}
     </div>
@@ -401,5 +473,76 @@ function groepNaam(cat) {
     .rij-naam { grid-column: 1 / -1; }
     .rij-dur { text-align: left; }
     .rij-knop { grid-column: 1 / -1; text-align: center; }
+  }
+  /* ---------- de samengevoegde groep ---------- */
+
+  /* Eén regel die voor zes onderwerpen staat, dus hoger dan de andere regels:
+     bovenin naam, duur en prijs net als elders, daaronder de onderwerpen. Er
+     staat geen knop rechts -- de onderwerpen zijn zelf de knoppen, en twee
+     soorten knoppen in één regel maakt onduidelijk waar je heen gaat. */
+  .rij-samen {
+    grid-template-columns: 1fr 104px 152px;
+    row-gap: 16px;
+    padding: 18px 18px 16px;
+    align-items: start;
+  }
+  /* De regel als geheel is niet aanklikbaar, dus hij moet ook niet oplichten
+     alsof dat wel zo is. */
+  .rij-samen:hover { border-color: var(--line); box-shadow: none; }
+  .rij-samen .rij-voor { max-width: 52ch; line-height: 1.55; }
+  .rij-samen .rij-dur,
+  .rij-samen .rij-prijs { padding-top: 3px; }
+
+  .onderwerpen {
+    grid-column: 1 / -1;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
+  }
+  .onderwerpen-kop {
+    display: block;
+    margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--orange-ink);
+  }
+  .onderwerpen ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(330px, 100%), 1fr));
+    gap: 8px;
+  }
+  /* Crème op wit, zodat de onderwerpen zichtbaar bij elkaar horen en toch als
+     losse keuzes lezen. Bij aanwijzen draait dat om: wit met een groene rand. */
+  .onderwerpen a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    height: 100%;
+    padding: 11px 14px;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    transition: background .18s, border-color .18s;
+  }
+  .onderwerpen a:hover,
+  .onderwerpen a:focus-visible { background: #fff; border-color: var(--secondary); }
+  .ond-naam { font-size: 15px; font-weight: 600; color: var(--primary-dark); line-height: 1.25; }
+  .ond-prijs {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--secondary);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 760px) {
+    .rij-samen { grid-template-columns: 1fr auto; }
+    .rij-samen .rij-dur { text-align: left; }
   }
 </style>
