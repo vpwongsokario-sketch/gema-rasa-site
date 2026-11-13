@@ -85,6 +85,21 @@ function prijsBereik(items) {
   return laag === hoog ? `€${laag}` : `€${laag} – €${hoog}`;
 }
 
+/*
+  Wat er achter de kop van een groep staat.
+
+  Bij een samengevoegde groep is een kaal '6' misleidend: er staat maar één
+  programma, met zes onderwerpen. Daarom schrijven alle groepen het nu uit,
+  want een kaal getal naast een uitgeschreven zin leest als half afgemaakt.
+*/
+function groepTelling(g) {
+  const aantal = g.items.length;
+  if (samengevoegd.includes(g.cat) && aantal > 1) {
+    return t(taal, 'mk.telSamen').replace('{n}', String(aantal));
+  }
+  return t(taal, aantal === 1 ? 'mk.telEen' : 'mk.telMeer').replace('{n}', String(aantal));
+}
+
 function groepNaam(cat) {
   const sleutel = `mk.cat.${cat}`;
   const vertaald = t(taal, sleutel);
@@ -164,7 +179,7 @@ function groepNaam(cat) {
         <section class="groep">
           <h3 class="groep-kop">
             {groepNaam(g.cat)}
-            <span class="groep-telling">{g.items.length}</span>
+            <span class="groep-telling">{groepTelling(g)}</span>
           </h3>
           {samengevoegd.includes(g.cat) && g.items.length > 1 ? (
             <div class="rij rij-samen">
@@ -544,5 +559,10 @@ function groepNaam(cat) {
   @media (max-width: 760px) {
     .rij-samen { grid-template-columns: 1fr auto; }
     .rij-samen .rij-dur { text-align: left; }
+
+    /* Naast een kop van twee regels wordt de telling een tweede rafelige
+       kolom. Op deze breedte gaat hij daarom onder de kop staan. */
+    .groep-kop { flex-wrap: wrap; row-gap: 3px; }
+    .groep-telling { flex-basis: 100%; }
   }
 </style>
