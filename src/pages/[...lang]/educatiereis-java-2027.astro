@@ -29,6 +29,41 @@ const paginaSeo = await getPaginaSeo('educatiereis-java-2027');
  */
 const uitSanity = await getReis();
 
+/**
+ * Een datum uit Sanity, maar alleen als hij nog niet voorbij is.
+ *
+ * De sluitingsdatum van de inschrijving staat in Sanity, want hij is van het
+ * bestuur. Maar zo'n datum wordt vergeten: tot 15 november 2026 stond er
+ * 31 oktober, en dat was al verstreken. Een verlopen datum op de pagina is
+ * erger dan geen datum, want dan lijkt de reis gesloten terwijl je je nog
+ * kunt aanmelden.
+ *
+ * Daarom: staat er niets, of staat er iets dat al geweest is, dan geldt de
+ * datum in de code hieronder. Zet het bestuur in de Studio een datum in de
+ * toekomst, dan wint die.
+ */
+function nogTeGaan(iso) {
+  const tijd = Date.parse(String(iso ?? ''));
+  if (!Number.isFinite(tijd)) return null;
+  // Tot het eind van die dag: op 31 januari zelf kun je je nog aanmelden.
+  return tijd + 24 * 60 * 60 * 1000 > Date.now() ? iso : null;
+}
+
+/**
+ * De opname van de online presentatie van 14 november 2026.
+ *
+ * Het bestand is 121 MB en kan niet uit deze map geserveerd worden -- een
+ * bestand op Cloudflare Pages mag hoogstens 25 MB zijn. Daarom staat de
+ * video op YouTube, net als de andere video's op deze site, en staat hier
+ * alleen het id uit de YouTube-link (het stuk na ?v=).
+ *
+ * Zolang dit leeg is, laat de pagina het blok gewoon weg.
+ */
+const OPNAME = {
+  yt: '',
+  duur: '53 min',
+};
+
 const REIS = {
   prijsVolwassene: uitSanity?.prijsVolwassene ?? 1000,
   prijsKind: uitSanity?.prijsKind ?? 750,
@@ -36,7 +71,7 @@ const REIS = {
   volwassenVanaf: uitSanity?.volwassenVanaf ?? 11,
   vertrek: uitSanity?.vertrek ?? '2027-08-01',
   terug: uitSanity?.terug ?? '2027-08-15',
-  reserverenTot: uitSanity?.reserverenTot ?? '2026-10-31',
+  reserverenTot: nogTeGaan(uitSanity?.reserverenTot) ?? '2027-01-31',
   open: uitSanity?.open !== false,
   termijnen:
     uitSanity?.termijnen?.length
@@ -168,7 +203,7 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
         deadline die geen deadline is, kost je juist aanmeldingen van mensen
         die denken dat ze te laat zijn.
       */}
-      <div><b>{t(taal, 'jv.plekVrij')}</b> · {t(taal, 'jv.plekUitleg')}</div>
+      <div><b>{t(taal, 'jv.plekVrij')}</b> · {t(taal, 'jv.plekUitleg').replace('{datum}', datum(REIS.reserverenTot))}</div>
     </div>
   </div>
 
@@ -184,6 +219,37 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
     knopUrl={pad(taal, '/presentatie-java-2027')}
     tot="2026-11-14T09:30:00Z"
   />
+
+  {/*
+    De opname van de online presentatie.
+
+    Staat bovenaan, want wie de presentatie gemist heeft krijgt hier in een
+    klap het hele programma te horen -- dat overtuigt meer dan de tekst
+    eronder. Het blok verdwijnt vanzelf zolang er geen video-id staat.
+
+    De afbeelding is een dia uit de opname zelf en staat op onze eigen server.
+    Pas als iemand op afspelen klikt wordt YouTube geladen; tot dat moment
+    gaat er geen verzoek naar Google en krijgt de bezoeker dus ook geen
+    cookie van ze.
+  */}
+  {OPNAME.yt && (
+  <section class="block jv-opname" id="opname">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, 'jv.opnameKicker')}</span>
+        <h2>{t(taal, 'jv.opnameTitel')}</h2>
+        <p>{t(taal, 'jv.opnameTekst')}</p>
+      </div>
+      <button class="jv-speler" type="button" data-yt={OPNAME.yt} aria-label={t(taal, 'jv.opnameSpeel')}>
+        <img src="/assets/opname-java-2027.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async" />
+        <span class="jv-play" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+        <span class="jv-duur">{t(taal, 'jv.opnameDuur').replace('{duur}', OPNAME.duur)}</span>
+      </button>
+    </div>
+  </section>
+  )}
 
   <!-- PROGRAMMA -->
   <section class="block" id="programma">
@@ -346,6 +412,7 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
             <span class="kicker">{t(taal, 'jv.resKicker')}</span>
             <h2>{t(taal, 'jv.resTitel')}</h2>
             <p>{t(taal, 'jv.resTekst')}</p>
+            <p class="jv-sluit">{t(taal, 'jv.sluit').replace('{datum}', datum(REIS.reserverenTot))}</p>
           </div>
           {REIS.open ? (
             <form
@@ -644,6 +711,21 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
       }
     });
   }
+  /* De opname: pas bij een klik wordt YouTube geladen. */
+  for (const knop of document.querySelectorAll<HTMLButtonElement>('.jv-speler[data-yt]')) {
+    knop.addEventListener('click', () => {
+      const id = knop.dataset.yt;
+      if (!id) return;
+      const frame = document.createElement('iframe');
+      frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+      frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      frame.allowFullscreen = true;
+      frame.title = knop.getAttribute('aria-label') || '';
+      knop.replaceWith(frame);
+      frame.classList.add('jv-frame');
+      frame.focus();
+    }, { once: true });
+  }
 </script>
 
 <style>
@@ -901,4 +983,84 @@ const vragen = [1, 2, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), antw
     .jv-tijd { flex: none; }
   }
 
+  /* ---------- de opname van de presentatie ---------- */
+  .jv-opname { background: var(--cream); }
+
+  /* Eén grote knop: het hele beeld is de afspeelknop, zodat er niets te
+     mikken valt. Een <button> en geen <div>, zodat hij ook met het
+     toetsenbord werkt en een schermlezer hem aankondigt. */
+  .jv-speler {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--primary-dark);
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+  }
+  .jv-speler img { display: block; width: 100%; height: auto; }
+  .jv-speler::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(9,53,31,0) 55%, rgba(9,53,31,.55) 100%);
+    transition: background .2s;
+  }
+  .jv-speler:hover::after,
+  .jv-speler:focus-visible::after { background: linear-gradient(180deg, rgba(9,53,31,.12) 0%, rgba(9,53,31,.62) 100%); }
+
+  .jv-play {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    z-index: 2;
+    width: 76px;
+    height: 76px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--primary-dark);
+    box-shadow: 0 10px 30px rgba(9,53,31,.35);
+    transition: transform .2s;
+  }
+  .jv-speler:hover .jv-play,
+  .jv-speler:focus-visible .jv-play { transform: scale(1.08); }
+  @media (prefers-reduced-motion: reduce) {
+    .jv-speler:hover .jv-play, .jv-speler:focus-visible .jv-play { transform: none; }
+  }
+
+  .jv-duur {
+    position: absolute;
+    right: 16px;
+    bottom: 14px;
+    z-index: 2;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--cream);
+  }
+
+  /* De iframe die na de klik in de plaats van de knop komt. */
+  .jv-frame {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: 16px;
+    background: #000;
+  }
+
+  /* De sluitingsdatum bij het reserveerformulier. */
+  .jv-sluit {
+    margin-top: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14.5px;
+    color: var(--orange-ink);
+  }
 </style>
