@@ -77,7 +77,7 @@ const REIS = {
     uitSanity?.termijnen?.length
       ? uitSanity.termijnen
       : [
-          { deel: 25, vervaldatum: '2026-10-31' },
+          { deel: 25 },
           { deel: 37.5, vervaldatum: '2026-12-15' },
           { deel: 37.5, vervaldatum: '2027-05-15' },
         ],
@@ -390,7 +390,7 @@ const vragen = [1, 2, 7, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), a
           <div class="jv-termijn">
             <span class="jv-stap">{tm.kop}</span>
             <span class="jv-euro">{tm.bedrag}</span>
-            <span class="jv-datum">{t(taal, 'jv.uiterlijk')} {tm.datum}</span>
+            <span class="jv-datum">{tm.datum ? `${t(taal, 'jv.uiterlijk')} ${tm.datum}` : t(taal, 'jv.bijAanmelding')}</span>
             <div class="jv-balk"><i style={`width:${tm.betaald}%`}></i></div>
             <span class="jv-deel">{tm.betaald}% {t(taal, 'jv.betaald')}</span>
             <p>{tm.tekst}</p>
@@ -425,6 +425,7 @@ const vragen = [1, 2, 7, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), a
               data-taal={taal}
               data-msg-plekken={t(taal, 'jv.plekkenVrij')}
               data-msg-vol={t(taal, 'jv.plekkenVol')}
+              data-msg-dicht={t(taal, 'jv.plekkenDicht')}
             >
               <p class="jv-plekken" data-plekken hidden></p>
 
@@ -667,7 +668,11 @@ const vragen = [1, 2, 7, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), a
       .then((p) => {
         if (!p || !plekkenRegel) return;
         if (p.open === false) {
-          plekkenRegel.textContent = form.dataset.msgVol || '';
+          /* Dicht is niet hetzelfde als vol. Het beheer sluit de inschrijving
+             ook als de sluitingsdatum voorbij is, en dan stond er ten onrechte
+             dat de reis vol zat terwijl er plekken over waren. */
+          const vol = p.vrij === 0;
+          plekkenRegel.textContent = (vol ? form.dataset.msgVol : form.dataset.msgDicht) || '';
           plekkenRegel.className = 'jv-plekken vol';
           plekkenRegel.hidden = !plekkenRegel.textContent;
           knop?.setAttribute('disabled', 'disabled');

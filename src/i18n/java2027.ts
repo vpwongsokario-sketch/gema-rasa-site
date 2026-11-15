@@ -159,6 +159,8 @@ export const javaNL: Record<string, string> = {
   'jv.hotelLink': 'Bekijk het hotel op puripangeran.com',
   'jv.plekkenVrij': 'Nog {vrij} van de {max} plekken vrij.',
   'jv.plekkenVol': 'De reis is vol. Neem contact op als je op de wachtlijst wilt.',
+  'jv.plekkenDicht': 'De inschrijving is gesloten. Neem contact op als je toch mee wilt.',
+  'jv.bijAanmelding': 'bij je aanmelding',
 };
 
 export const javaEN: Record<string, string> = {
@@ -315,6 +317,8 @@ export const javaEN: Record<string, string> = {
   'jv.hotelLink': 'See the hotel at puripangeran.com',
   'jv.plekkenVrij': '{vrij} of {max} places still available.',
   'jv.plekkenVol': 'The trip is full. Get in touch if you would like to be on the waiting list.',
+  'jv.plekkenDicht': 'Registration has closed. Get in touch if you would still like to join.',
+  'jv.bijAanmelding': 'when you sign up',
 };
 
 export const javaID: Record<string, string> = {
@@ -474,4 +478,6 @@ export const javaID: Record<string, string> = {
   'jv.hotelLink': 'See the hotel at puripangeran.com',
   'jv.plekkenVrij': '{vrij} of {max} places still available.',
   'jv.plekkenVol': 'The trip is full. Get in touch if you would like to be on the waiting list.',
+  'jv.plekkenDicht': 'Pendaftaran sudah ditutup. Hubungi kami jika Anda tetap ingin ikut.',
+  'jv.bijAanmelding': 'saat Anda mendaftar',
 };
