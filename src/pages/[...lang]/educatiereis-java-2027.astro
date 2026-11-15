@@ -1045,8 +1045,13 @@ const vragen = [1, 2, 7, 3, 4, 5, 6].map((i) => ({ vraag: t(taal, `jv.v${i}`), a
     color: var(--cream);
   }
 
-  /* De iframe die na de klik in de plaats van de knop komt. */
-  .jv-frame {
+  /* De iframe die na de klik in de plaats van de knop komt.
+     :global() is hier nodig. Astro beperkt stijlregels tot elementen die bij
+     het bouwen al in de HTML staan door er een kenmerk aan te hangen; deze
+     iframe wordt pas door het scriptje gemaakt en heeft dat kenmerk dus niet.
+     Zonder :global() greep de regel er niet op en bleef de speler zo groot
+     als een postzegel. */
+  :global(.jv-frame) {
     display: block;
     width: 100%;
     aspect-ratio: 16 / 9;
