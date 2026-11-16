@@ -34,13 +34,32 @@ export function cdnBeeld(adres?: string | null, breedte = 900, hoogte?: number):
   return `${a}?${vak}&auto=format&q=72`;
 }
 
+/**
+ * Onthoudt wat er tijdens deze bouw al is opgehaald.
+ *
+ * De site wordt in één keer gebouwd: 107 paginas, elk in drie talen. Daarbij
+ * komen dezelfde vragen steeds terug -- de SEO-regels, de reis, de agenda --
+ * en zonder dit ging elke pagina ze opnieuw aan Sanity stellen. Dat waren
+ * ruim tweehonderd verzoeken per bouw, terwijl het er een stuk of veertig
+ * hoeven te zijn.
+ *
+ * Binnen één bouw kan het antwoord niet veranderen, dus hergebruiken mag.
+ * Het geheugen leeft alleen zolang het bouwen duurt en is weg zodra het af
+ * is; de volgende bouw begint weer met verse gegevens.
+ */
+const opgehaald = new Map<string, Promise<unknown>>();
+
 /** Voert een query veilig uit; bij fouten (bv. CMS nog niet gevuld) → null zodat we terugvallen. */
 async function safe<T>(q: string, params: Record<string, unknown> = {}): Promise<T | null> {
-  try {
-    return await sanityClient.fetch<T>(q, params);
-  } catch {
-    return null;
+  const sleutel = q + '|' + JSON.stringify(params);
+  let belofte = opgehaald.get(sleutel) as Promise<T | null> | undefined;
+  if (!belofte) {
+    // De belofte zelf bewaren en niet pas het antwoord: anders stellen twee
+    // paginas die tegelijk bouwen dezelfde vraag alsnog allebei.
+    belofte = sanityClient.fetch<T>(q, params).catch(() => null);
+    opgehaald.set(sleutel, belofte);
   }
+  return belofte;
 }
 
 

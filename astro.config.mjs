@@ -91,7 +91,23 @@ export default defineConfig({
        * Deze site blijft de gegevens gewoon ophalen. Daarvoor is de
        * projectsleutel en het leestoken nodig, geen veldbeschrijvingen.
        */
-      useCdn: false,
+      /**
+       * Via de CDN bouwen.
+       *
+       * Elke bouw stelde ruim tweehonderd vragen aan Sanity, en die gingen
+       * allemaal naar de dure kant (api.sanity.io). Met het geheugen in
+       * src/lib/sanity.ts zijn het er nog 67, en via de CDN tellen die niet
+       * mee voor het maandbudget aan API-verzoeken.
+       *
+       * De prijs: de CDN kan tot ongeveer een minuut achterlopen. Bewerkt
+       * iemand iets in de Studio en begint er meteen daarna een bouw, dan
+       * zou die wijziging er net naast kunnen vallen. In de praktijk duurt
+       * het bij Cloudflare minuten voordat een bouw begint, dus dat is
+       * onwaarschijnlijk -- en de volgende bouw haalt het hoe dan ook op.
+       *
+       * Moet het ooit toch weer gegarandeerd vers: zet dit op false.
+       */
+      useCdn: true,
       apiVersion: '2024-01-01',
       // Leessleutel. Nodig omdat de dataset op privé staat: in datzelfde
       // project zitten de leden-, bestel- en inzendgegevens van Suwara Jawa,
