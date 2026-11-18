@@ -133,7 +133,7 @@ export const portretten = [
     thema: 'Uitgepakt',
     leeftijd: 36,
     video: '5068sSNMhtI',
-    plek: 'Opgegroeid in Meppel',
+    plek: null,
     samenvatting:
       'Op straat werd ze voor Chinees aangezien. Op haar zestiende zette ze per se iets Javaans op het podium.',
     tekst: [
