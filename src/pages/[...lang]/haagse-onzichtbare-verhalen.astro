@@ -4,6 +4,7 @@ export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
 import Base from '../../layouts/Base.astro';
 import { getPaginaSeo } from '../../lib/sanity.ts';
+import { portretten, bijSlug } from '../../data/onzichtbare-verhalen.js';
 
 const paginaSeo = await getPaginaSeo('haagse-onzichtbare-verhalen');
 const banner = '/assets/onzichtbare_verhalen_banner.png';
@@ -20,7 +21,7 @@ const programma = [
       'Zij is het antwoord op een klacht die hij toen formuleerde. En ze weten dat van elkaar niet — nog niet.',
     ],
     vraag: 'Wat is er in vijftig jaar veranderd aan wat er van een Javaan verwacht wordt, en door wie?',
-    ticket: 'https://www.tickettailor.com/events/stichtinggemarasa/2341235',
+    slugs: ['errol', 'renell'],
   },
   {
     nr: '02', thema: 'Van buitenaf', koppel: 'Sharona & Shinta',
@@ -31,7 +32,7 @@ const programma = [
       'Maar Sharona zocht op haar zestiende in haar eentje, en vond niemand. Shinta kwam met een stamboom van vierhonderd jaar — en kan uitleggen waarom Sharona die van haar niet heeft.',
     ],
     vraag: 'Wat heb je nodig om je ergens thuis te voelen, en wie gaat dat maken?',
-    ticket: 'https://www.tickettailor.com/events/stichtinggemarasa/2341422',
+    slugs: ['sharona', 'shinta'],
   },
   {
     nr: '03', thema: 'Wat niet wordt uitgesproken', koppel: 'Roesman & Raoul',
@@ -42,11 +43,17 @@ const programma = [
       'De boodschappentas en de autoritten, naast elkaar, jaren later.',
     ],
     vraag: 'Wat geef je door zonder het te willen, en wat kies je bewust om anders te doen?',
-    ticket: 'https://www.tickettailor.com/events/stichtinggemarasa/2341438',
+    slugs: ['roesman', 'raoul'],
   },
 ];
 
-const ttUrl = 'https://www.tickettailor.com/all-tickets/stichtinggemarasa/?ref=website_widget&show_search_filter=true&show_date_filter=true&show_sort=true';
+/*
+   De drie avonden zijn in het najaar van 2026 geweest. De Ticket Tailor-widget
+   en de reserveerknoppen zijn eruit: een knop die naar een gesloten verkoop
+   wijst is erger dan geen knop. Wat eronder zat -- welke twee portretten bij
+   elkaar hoorden en welke vraag er op tafel lag -- blijft staan, want dat is
+   nu de inhoud van het project in plaats van de aankondiging ervan.
+*/
 ---
 <Base
   taal={taal}
@@ -63,10 +70,39 @@ const ttUrl = 'https://www.tickettailor.com/all-tickets/stichtinggemarasa/?ref=w
   <section class="block">
     <div class="wrap">
       <div class="prose">
+        <h2>{t(taal, "ov.watKop")}</h2>
         <p class="lead">{t(taal, "hv.intro")}</p>
-        <p>{t(taal, "hv.introP2")}</p>
-        <p>{t(taal, "hv.introP3")}</p>
-        <p class="hv-gratis">{t(taal, "hv.introGratis")}</p>
+        <p>{t(taal, "ov.watP1")}</p>
+        <p>{t(taal, "ov.watP2")}</p>
+        <p>{t(taal, "ov.watP3")}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DE ZES PORTRETTEN: de kern van de pagina en het doel van de QR-codes -->
+  <section class="block" id="portretten">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, "ov.eyebrow")}</span>
+        <h2>{t(taal, "ov.kijkKop")}</h2>
+      </div>
+      <p class="prose">{t(taal, "ov.kijkTekst")}</p>
+      <div class="hv-raster">
+        {portretten.map((p) => (
+          <a class="hv-kaart" href={pad(taal, `/haagse-onzichtbare-verhalen/${p.slug}`)}>
+            <img
+              src={`https://i.ytimg.com/vi/${p.video}/hqdefault.jpg`}
+              alt={`${p.naam} — ${p.thema}`}
+              loading="lazy"
+              width="480"
+              height="360"
+            />
+            <span class="hv-kaart-thema">{p.thema}</span>
+            <span class="hv-kaart-naam">{p.naam}</span>
+            <span class="hv-kaart-regel">{p.samenvatting}</span>
+            <span class="hv-kaart-knop">{t(taal, "ov.bekijk")}</span>
+          </a>
+        ))}
       </div>
     </div>
   </section>
@@ -77,8 +113,10 @@ const ttUrl = 'https://www.tickettailor.com/all-tickets/stichtinggemarasa/?ref=w
       <div class="ornament" style="margin-bottom:46px"><span></span></div>
       <div class="section-head">
         <span class="kicker">{t(taal, "hv.eyebrow")}</span>
-        <h2>{t(taal, "hv.programmaKop")}</h2>
+        <h2>{t(taal, "ov.avondenKop")}</h2>
       </div>
+
+      <p class="prose hv-avonden-uitleg">{t(taal, "ov.avondenTekst")}</p>
 
       {programma.map((b) => (
         <article class="avond">
@@ -93,7 +131,15 @@ const ttUrl = 'https://www.tickettailor.com/all-tickets/stichtinggemarasa/?ref=w
             {b.verhaal.map((p) => <p set:html={p} />)}
           </div>
           <p class="avond-vraag"><strong>{t(taal, "hv.vraagLabel")}:</strong> {b.vraag}</p>
-          <a class="btn gold" href={b.ticket} target="_blank" rel="noopener">{t(taal, "hv.reserveer")}</a>
+          <p class="avond-portretten">
+            {b.slugs.map((slug, i) => (
+              <>
+                {i > 0 && <span aria-hidden="true"> · </span>}
+                <a href={pad(taal, `/haagse-onzichtbare-verhalen/${slug}`)}>{bijSlug(slug).naam}</a>
+              </>
+            ))}
+          </p>
+          <p class="avond-geweest">{t(taal, "ov.geweest")}</p>
         </article>
       ))}
     </div>
@@ -108,32 +154,7 @@ const ttUrl = 'https://www.tickettailor.com/all-tickets/stichtinggemarasa/?ref=w
     </div>
   </section>
 
-  <!-- RESERVEREN (Ticket Tailor) -->
-  <section class="block" id="reserveren">
-    <div class="wrap">
-      <div class="prose">
-        <h2>{t(taal, "hv.reserveerKop")}</h2>
-        <p>{t(taal, "hv.reserveerTekst")}</p>
-      </div>
-      <div class="tt-widget">
-        <div class="tt-widget-fallback">
-          <p><a class="btn gold" href={ttUrl} target="_blank" rel="noopener">{t(taal, "hv.reserveer")}</a></p>
-        </div>
-        <script
-          is:inline
-          src="https://cdn.tickettailor.com/js/widgets/min/widget.js"
-          data-url={ttUrl}
-          data-type="inline"
-          data-inline-minimal="true"
-          data-inline-show-logo="false"
-          data-inline-bg-fill="false"
-          data-inline-ref="website_widget"
-        ></script>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT (secundair, onder reserveren) -->
+  <!-- CONTACT -->
   <section class="cta soft">
     <div class="cta-inner">
       <h2>{t(taal, "hv.ctaKop")}</h2>
@@ -180,8 +201,67 @@ const ttUrl = 'https://www.tickettailor.com/all-tickets/stichtinggemarasa/?ref=w
     margin: 8px auto 12px;
   }
   .hv-quote-bron { font-weight: 600; letter-spacing: .04em; }
-  .tt-widget { max-width: 760px; margin: 26px auto 0; }
-  .tt-widget-fallback { text-align: center; }
+  .hv-avonden-uitleg { margin-bottom: 34px; }
+  .avond-portretten { margin: 0 0 8px; font-size: 15px; }
+  .avond-geweest {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.65;
+    font-style: italic;
+  }
+
+  /* De zes portretten. Een raster dat op een telefoon één kolom wordt. */
+  .hv-raster {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 26px;
+    margin-top: 30px;
+  }
+  .hv-kaart {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  .hv-kaart img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+  }
+  .hv-kaart-thema {
+    display: block;
+    margin-top: 12px;
+    font-size: 11.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange-ink, #a84e18);
+    font-weight: 600;
+  }
+  .hv-kaart-naam {
+    display: block;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 25px;
+    line-height: 1.25;
+    margin-top: 3px;
+  }
+  .hv-kaart-regel {
+    display: block;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-top: 8px;
+    opacity: 0.8;
+  }
+  .hv-kaart-knop {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border-bottom: 2px solid var(--gold, #efc83e);
+  }
+  .hv-kaart:hover .hv-kaart-naam { text-decoration: underline; }
+
   .hv-subsidie {
     text-align: center;
     color: #3F5D3A;

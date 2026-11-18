@@ -1,0 +1,201 @@
+---
+/**
+ * Eén pagina per portret van Onzichtbare Verhalen.
+ *
+ * DE PADEN LIGGEN VAST: in Suwara Jawa editie 01 staat op bladzijde 23 een
+ * QR-code per portret, die via canvaqr.com hierheen wijst. Het magazine is
+ * gedrukt en rondgegaan, dus de slug uit src/data/onzichtbare-verhalen.js
+ * veranderen maakt een gedrukte code stuk.
+ *
+ * De omlijsting is drietalig, de woorden van de gemaakten blijven Nederlands:
+ * het zijn hun eigen zinnen, en die machinaal vertalen levert iets op wat net
+ * niet klopt. Op de Engelse en Indonesische versie staat daarom een regel dat
+ * de film Nederlands gesproken is.
+ */
+import { talen, t, pad } from '../../../i18n/index.ts';
+import Base from '../../../layouts/Base.astro';
+import { portretten, naarSeconden } from '../../../data/onzichtbare-verhalen.js';
+
+export function getStaticPaths() {
+  return talen.flatMap((taal) =>
+    portretten.map((portret) => ({
+      params: { lang: taal === 'nl' ? undefined : taal, portret: portret.slug },
+      props: { taal, portret },
+    })),
+  );
+}
+
+const { taal, portret } = Astro.props;
+const anderen = portretten.filter((p) => p.slug !== portret.slug);
+const projectPad = pad(taal, '/haagse-onzichtbare-verhalen');
+/* youtube-nocookie zet pas een cookie als de bezoeker op afspelen drukt. */
+const bron = `https://www.youtube-nocookie.com/embed/${portret.video}?rel=0`;
+const titel = `${portret.naam} — ${portret.thema}`;
+const omschrijving = `${portret.samenvatting} ${portret.naam} in Onzichtbare Verhalen, een serie portretten van Surinaams-Javaanse Hagenaars.`;
+---
+<Base
+  taal={taal}
+  title={`${titel} · Onzichtbare Verhalen — Stichting Gema Rasa`}
+  description={omschrijving}
+  ogImage={`https://i.ytimg.com/vi/${portret.video}/maxresdefault.jpg`}
+>
+  <section class="block">
+    <div class="wrap">
+      <p class="ov-terug"><a href={projectPad}>&larr; {t(taal, 'ov.terug')}</a></p>
+
+      <div class="section-head">
+        <span class="kicker">{t(taal, 'ov.portret')} — {portret.thema}</span>
+        <h1>{portret.naam}</h1>
+      </div>
+
+      <p class="lead ov-samenvatting">{portret.samenvatting}</p>
+
+      <div class="ov-video">
+        <iframe
+          src={bron}
+          title={titel}
+          loading="lazy"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      {taal !== 'nl' && <p class="ov-taalnoot">{t(taal, 'ov.taalnoot')}</p>}
+
+      <div class="prose ov-tekst">
+        {portret.tekst.map((alinea) => <p set:html={alinea} />)}
+        {portret.plek && <p class="ov-plek">{t(taal, 'ov.opgenomen')}: {portret.plek}</p>}
+      </div>
+
+      {portret.citaat && (
+        <blockquote class="hv-quote ov-citaat">&ldquo;{portret.citaat}&rdquo;</blockquote>
+      )}
+    </div>
+  </section>
+
+  <section class="block batik">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, 'ov.inDeFilm')}</span>
+        <h2>{t(taal, 'ov.hoofdstukken')}</h2>
+      </div>
+      <ol class="ov-hoofdstukken">
+        {portret.hoofdstukken.map(([tijd, label]) => (
+          <li>
+            <a
+              href={`https://www.youtube.com/watch?v=${portret.video}&t=${naarSeconden(tijd)}s`}
+              target="_blank"
+              rel="noopener"
+            >
+              <span class="ov-tijd">{tijd}</span>
+              <span class="ov-label">{label}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, 'ov.eyebrow')}</span>
+        <h2>{t(taal, 'ov.anderen')}</h2>
+      </div>
+      <div class="ov-raster">
+        {anderen.map((p) => (
+          <a class="ov-kaart" href={pad(taal, `/haagse-onzichtbare-verhalen/${p.slug}`)}>
+            <img
+              src={`https://i.ytimg.com/vi/${p.video}/hqdefault.jpg`}
+              alt={`${p.naam} — ${p.thema}`}
+              loading="lazy"
+              width="480"
+              height="360"
+            />
+            <span class="ov-kaart-thema">{p.thema}</span>
+            <span class="ov-kaart-naam">{p.naam}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta soft">
+    <div class="cta-inner">
+      <p class="ov-subsidie">{t(taal, 'ov.subsidie')}</p>
+      <a class="btn gold" href={projectPad}>{t(taal, 'ov.alleZes')}</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ov-terug { margin: 0 0 18px; font-size: 15px; }
+  .ov-samenvatting { max-width: 46rem; }
+
+  /* Video op 16:9, altijd in beeld, ook op een telefoon. */
+  .ov-video {
+    position: relative;
+    width: 100%;
+    max-width: 56rem;
+    aspect-ratio: 16 / 9;
+    margin: 28px 0 10px;
+    background: #000;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .ov-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+  .ov-taalnoot { font-size: 14px; opacity: 0.7; margin: 0 0 18px; }
+  .ov-tekst { margin-top: 22px; }
+  .ov-plek { font-size: 15px; opacity: 0.75; }
+  .ov-citaat { margin-top: 26px; }
+
+  .ov-hoofdstukken { list-style: none; margin: 0; padding: 0; max-width: 46rem; }
+  .ov-hoofdstukken li + li { border-top: 1px solid rgba(0, 0, 0, 0.1); }
+  .ov-hoofdstukken a {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    padding: 11px 0;
+    text-decoration: none;
+    color: inherit;
+  }
+  .ov-hoofdstukken a:hover .ov-label { text-decoration: underline; }
+  .ov-tijd {
+    flex: 0 0 auto;
+    min-width: 3.4rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    opacity: 0.65;
+    font-size: 14px;
+  }
+  .ov-label { font-size: 16px; }
+
+  .ov-raster {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .ov-kaart { text-decoration: none; color: inherit; display: block; }
+  .ov-kaart img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+  }
+  .ov-kaart-thema {
+    display: block;
+    margin-top: 10px;
+    font-size: 11.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .ov-kaart-naam { display: block; font-weight: 600; font-size: 17px; margin-top: 2px; }
+  .ov-kaart:hover .ov-kaart-naam { text-decoration: underline; }
+
+  .ov-subsidie { font-size: 14px; opacity: 0.75; margin: 0 0 18px; }
+</style>
