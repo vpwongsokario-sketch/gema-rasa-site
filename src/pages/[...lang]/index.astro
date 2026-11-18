@@ -6,6 +6,7 @@ import Base from '../../layouts/Base.astro';
 import Vragen from '../../components/Vragen.astro';
 import Aankondiging from '../../components/Aankondiging.astro';
 import { getHomepage, getNieuws, getAgenda, getGalerij, getInitiatieven, getAanbod } from '../../lib/sanity.ts';
+import { portretten } from '../../data/onzichtbare-verhalen.js';
 
 const { hero, productie, merch, seo: paginaSeo } = await getHomepage(taal);
 const nieuws = await getNieuws(taal);
@@ -56,6 +57,48 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
     knopUrl={pad(taal, '/presentatie-java-2027')}
     tot="2026-11-14T09:30:00Z"
   />
+
+  {/*
+    ONZICHTBARE VERHALEN
+
+    Hoog op de pagina, direct onder de hero, en dat is met opzet. In Suwara
+    Jawa editie 01 staat een QR-code per portret; wie scant komt op de
+    portretpagina uit, maar wie daarna op het logo klikt kwam op een
+    voorpagina waar het project nergens stond. Zes films waar maanden werk in
+    zit, en op de belangrijkste pagina van de site geen spoor.
+
+    De gezichten staan erbij en niet alleen een knop: het zijn portretten,
+    dus je moet kunnen zien wie het zijn voordat je kiest.
+  */}
+  <section class="block ov-blok" id="onzichtbare-verhalen">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">{t(taal, "home.ovKicker")}</span>
+        <h2>{t(taal, "home.ovTitel")}</h2>
+      </div>
+      <p class="ov-blok-tekst">{t(taal, "home.ovTekst")}</p>
+      <div class="ov-blok-raster">
+        {portretten.map((p) => (
+          <a class="ov-blok-kaart" href={pad(taal, `/haagse-onzichtbare-verhalen/${p.slug}`)}>
+            <img
+              src={`https://i.ytimg.com/vi/${p.video}/hqdefault.jpg`}
+              alt={`${p.naam} — ${p.thema}`}
+              loading="lazy"
+              width="480"
+              height="360"
+            />
+            <span class="ov-blok-thema">{p.thema}</span>
+            <span class="ov-blok-naam">{p.naam}</span>
+          </a>
+        ))}
+      </div>
+      <p class="ov-blok-knop">
+        <a class="btn gold" href={pad(taal, '/haagse-onzichtbare-verhalen')}>
+          {t(taal, "home.ovKnop")}
+        </a>
+      </p>
+    </div>
+  </section>
 
   {/*
     WAT WE AANBIEDEN
@@ -305,3 +348,14 @@ const [voorAccent, naAccent] = hero.titelAccent && hero.titel.includes(hero.tite
     </section>
   )}
 </Base>
+
+<style>
+  .ov-blok-tekst { max-width: 44rem; margin: 0 0 26px; }
+  .ov-blok-raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 18px; }
+  .ov-blok-kaart { display: block; text-decoration: none; color: inherit; }
+  .ov-blok-kaart img { width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px; display: block; }
+  .ov-blok-thema { display: block; margin-top: 9px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--orange-ink, #a84e18); font-weight: 600; }
+  .ov-blok-naam { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 20px; line-height: 1.25; margin-top: 2px; }
+  .ov-blok-kaart:hover .ov-blok-naam { text-decoration: underline; }
+  .ov-blok-knop { margin: 28px 0 0; }
+</style>
