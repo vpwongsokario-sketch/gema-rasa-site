@@ -3,7 +3,7 @@ import { taalPaden, t, pad } from '../../i18n/index.ts';
 export const getStaticPaths = taalPaden;
 const { taal } = Astro.props;
 import { getPaginaSeo, cdnBeeld } from '../../lib/sanity.ts';
-import { getWinkelProducten, voegUitvoeringenSamen, euro } from '../../lib/winkel.ts';
+import { getWinkelProducten, euro } from '../../lib/winkel.ts';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 
@@ -15,12 +15,11 @@ const paginaSeo = await getPaginaSeo('shop');
  * Zie src/lib/winkel.ts. Komt er niets terug, dan blijft de rest van de
  * pagina gewoon staan en wijst hij door naar de winkel.
  *
- * Een boek dat er gedrukt en als pdf is, is in de winkel twee producten met
- * twee bestelroutes. Hier is het er één: dit rooster heeft geen koppen, en
- * tweemaal hetzelfde omslag met een andere prijs leest als een fout. Zie
- * voegUitvoeringenSamen.
+ * Een boek dat er gedrukt en als pdf is, komt al als één product binnen: de
+ * winkel voegt die twee zelf samen, zodat beide etalages dezelfde lijst
+ * tonen en die regel niet op twee plekken staat.
  */
-const producten = voegUitvoeringenSamen(await getWinkelProducten());
+const producten = await getWinkelProducten();
 const WINKEL = 'https://winkel.stichtinggemarasa.com';
 ---
 <Base taal={taal} seo={paginaSeo} description={t(taal, "sh.intro")} title={`${t(taal, "sh.titel")} — Stichting Gema Rasa`}>
