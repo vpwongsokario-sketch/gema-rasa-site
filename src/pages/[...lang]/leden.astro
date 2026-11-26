@@ -8,10 +8,6 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import { getLeden , getPaginaSeo} from '../../lib/sanity.ts';
 const { bestuur, gamelan, dans, vrijwilligers } = await getLeden(taal);
-
-// Initialen als er nog geen foto is geüpload
-const initialen = (naam = '') =>
-  naam.split(/[\s-]+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
 ---
 <Base taal={taal} seo={paginaSeo} description={t(taal, "ld.intro")} title={`${t(taal, "ld.titel")} — Stichting Gema Rasa`}>
   <PageHero
@@ -29,15 +25,10 @@ const initialen = (naam = '') =>
         <h2>{t(taal, "ld.bestuurTitel")}</h2>
       </div>
       <div class="team-grid">
-        {bestuur.map((m) => (
-          <div class="member board">
-            {m.foto
-              ? <img class="avatar" src={m.foto} alt={m.naam} loading="lazy" />
-              : <div class="avatar-fallback" aria-hidden="true">{initialen(m.naam)}</div>}
-            <div class="naam">{m.naam}</div>
-            <div class="rol">{m.rol}</div>
-          </div>
-        ))}
+        {/* Hetzelfde kaartje als bij de andere blokken, met bestuur={true} voor
+            de donkere variant. Stond hier eerder met de hand uitgeschreven, en
+            daardoor kon een bestuurslid niet omdraaien. */}
+        {bestuur.map((m) => <Persoon m={m} taal={taal} bestuur={true} />)}
       </div>
     </div>
   </section>
@@ -115,4 +106,44 @@ const initialen = (naam = '') =>
       </div>
     </div>
   </section>
+<script>
+  /*
+    Het omdraaien van de ledenkaartjes.
+
+    Eén luisteraar op de pagina in plaats van negenentwintig op de kaartjes:
+    minder werk bij het laden, en het werkt ook voor een kaartje dat er later
+    bij komt.
+
+    `inert` op de kant die naar achteren staat is geen opsmuk. Zonder dat
+    staat de tekst op de achterkant nog steeds in de tabvolgorde en leest een
+    schermlezer hem voor terwijl hij niet te zien is -- dan kun je met de
+    toetsenbord-tab in een link belanden die voor je ogen achterstevoren hangt.
+  */
+  (() => {
+    const kaarten = document.querySelectorAll('.kaartdraai');
+    if (!kaarten.length) return;
+
+    const zet = (kaart, om) => {
+      const voor = kaart.querySelector('.kaartdraai-voor');
+      const achter = kaart.querySelector('.kaartdraai-achter');
+      kaart.classList.toggle('om', om);
+      voor.setAttribute('aria-expanded', String(om));
+      voor.inert = om;
+      achter.inert = !om;
+      if (om) kaart.querySelector('.kaartdraai-terug')?.focus();
+      else voor.focus();
+    };
+
+    kaarten.forEach((kaart) => {
+      // Bij het laden staat de achterkant naar achteren.
+      kaart.querySelector('.kaartdraai-achter').inert = true;
+      kaart.querySelector('.kaartdraai-voor').addEventListener('click', () => zet(kaart, true));
+      kaart.querySelector('.kaartdraai-terug').addEventListener('click', () => zet(kaart, false));
+      // Escape draait terug, zoals bij elk ding dat opengaat.
+      kaart.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && kaart.classList.contains('om')) zet(kaart, false);
+      });
+    });
+  })();
+</script>
 </Base>

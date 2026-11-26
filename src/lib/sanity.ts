@@ -296,10 +296,10 @@ export async function getLeden(taal: string = 'nl') {
    * automatisch op te komen. Het vinkje staat standaard aan, dus de bestaande
    * leden blijven staan; alleen wie het uitzet verdwijnt van de site.
    */
-  const docs = await safe<any[]>('*[_type == "lid" && opDeWebsite != false] | order(volgorde asc){ naam, rol, rol_en, rol_id, groep, rollen, ensembles, foto }');
+  const docs = await safe<any[]>('*[_type == "lid" && opDeWebsite != false] | order(volgorde asc){ naam, rol, rol_en, rol_id, groep, rollen, ensembles, foto, over, over_en, over_id, speeltSinds, socials[]{ soort, url } }');
   if (!docs || docs.length === 0) {
     const musici = ['Vrijwilliger', 'Marketing & Communicatie'];
-    const leeg = (m: any) => ({ ...m, foto: '', rollen: [], ensembles: [] });
+    const leeg = (m: any) => ({ ...m, foto: '', rollen: [], ensembles: [], over: '', sinds: null, socials: [] });
     const gamelanLokaal = local.leden.filter((m) => !musici.includes(m.rol)).map(leeg);
     return {
       bestuur: local.bestuur.map(leeg),
@@ -315,12 +315,26 @@ export async function getLeden(taal: string = 'nl') {
   // Nieuw veld 'rollen' (meerdere) met terugval op het oude 'groep' (één rol)
   const rollenVan = (d: any): string[] =>
     Array.isArray(d.rollen) && d.rollen.length ? d.rollen : d.groep ? [d.groep] : [];
+  /**
+   * Alleen de velden die op de pagina horen, veld voor veld.
+   *
+   * Een lid-document bevat ook het e-mailadres, het telefoonnummer en wat
+   * iemand aan bijdrage betaalt. Die staan hier met opzet niet bij, en de
+   * vraag aan Sanity hierboven haalt ze ook niet op. Zet hier nooit een
+   * spreiding (`...d`) neer: dan lekt de administratie mee de website op
+   * zodra er een veld bijkomt.
+   */
   const map = (d: any) => ({
     naam: d.naam,
     rol: vertaald(d, 'rol', taal) ?? '',
     foto: img(d.foto, ''),
     rollen: rollenVan(d),
     ensembles: Array.isArray(d.ensembles) ? d.ensembles : [],
+    over: vertaald(d, 'over', taal) ?? '',
+    sinds: typeof d.speeltSinds === 'number' ? d.speeltSinds : null,
+    socials: (Array.isArray(d.socials) ? d.socials : []).filter(
+      (s: any) => s && typeof s.url === 'string' && /^https?:\/\//i.test(s.url),
+    ),
   });
   const alle = docs.map(map);
   /**

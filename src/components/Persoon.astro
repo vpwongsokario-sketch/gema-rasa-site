@@ -8,10 +8,24 @@
   De toevoeging "· Vrijwilliger" verschijnt alleen bij iemand die naast zijn
   groep ook meehelpt, en alleen als dat nog niet in zijn rol staat -- anders
   kreeg "Vrijwilliger" er "· Vrijwilliger" achter.
+
+  SINDS NOVEMBER 2026: HET KAARTJE KAN OMDRAAIEN.
+
+  Staat er een stukje over iemand, een jaartal of een social, dan draait het
+  kaartje om naar een achterkant met die gegevens. Staat er niets, dan blijft
+  het een gewoon kaartje dat niet op een klik reageert. Dat is met opzet: een
+  kaartje dat omdraait naar een lege achterkant belooft iets en geeft niets, en
+  dat is erger dan een kaartje dat stil blijft staan. Zo kan de achterkant
+  groeien met één persoon tegelijk, zonder dat de pagina er half uitziet.
+
+  Wat er op de achterkant komt, is wat de persoon zelf heeft goedgekeurd. Het
+  e-mailadres, het telefoonnummer en de bijdrage staan in hetzelfde
+  lid-document in Sanity, maar die worden hier niet opgehaald en horen hier
+  nooit op; zie de uitleg bij `map` in lib/sanity.ts.
 */
 import { t } from '../i18n/index.ts';
 
-const { m, taal } = Astro.props;
+const { m, taal, bestuur = false } = Astro.props;
 
 const initialen = (naam = '') =>
   naam.split(/[\s-]+/).filter(Boolean).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
@@ -24,11 +38,77 @@ const ookVrijwilliger =
 const rolTekst = [m.rol, ookVrijwilliger ? t(taal, 'ld.vrijwilliger') : null]
   .filter(Boolean)
   .join(' · ');
+
+const socials = Array.isArray(m.socials) ? m.socials : [];
+const SOCIALNAMEN = {
+  instagram: 'Instagram',
+  facebook: 'Facebook',
+  tiktok: 'TikTok',
+  youtube: 'YouTube',
+  linkedin: 'LinkedIn',
+  website: 'Website',
+};
+
+// Draait alleen om als er werkelijk iets te zien is.
+const heeftAchterkant = Boolean(m.over || m.sinds || socials.length);
+
+const soort = bestuur ? 'member board' : 'member';
 ---
-<div class="member">
-  {m.foto
-    ? <img class="avatar" src={m.foto} alt={m.naam} loading="lazy" />
-    : <div class="avatar-fallback" aria-hidden="true">{initialen(m.naam)}</div>}
-  <div class="naam">{m.naam}</div>
-  <div class="rol">{rolTekst}</div>
-</div>
+{heeftAchterkant ? (
+  <div class="kaartdraai">
+    <div class="kaartdraai-in">
+      {/*
+          De voorkant is zelf de knop. Een kaartje in een kaartje met ergens
+          een klein pijltje erin laat je zoeken waar je moet drukken; hier is
+          de hele foto de knop. Op de achterkant staan links, dus die mag geen
+          knop zijn -- een link in een knop is geen geldige opbouw en werkt
+          met een toetsenbord niet.
+
+          De voorkant staat hieronder twee keer uitgeschreven, één keer in dit
+          draaiende kaartje en één keer in het stille kaartje onderaan. Dat is
+          niet mooi, maar de frontmatter van een Astro-bestand is TypeScript en
+          geen JSX, dus een stukje opmaak kan daar niet in een variabele worden
+          gezet. Verandert de voorkant, dan moeten beide mee.
+      */}
+      <button class={`${soort} kaartdraai-voor`} type="button" aria-expanded="false">
+        {m.foto
+          ? <img class="avatar" src={m.foto} alt={m.naam} loading="lazy" />
+          : <div class="avatar-fallback" aria-hidden="true">{initialen(m.naam)}</div>}
+        <div class="naam">{m.naam}</div>
+        <div class="rol">{rolTekst}</div>
+        <span class="kaartdraai-hint">{t(taal, 'ld.meer')} <span aria-hidden="true">&#8594;</span></span>
+      </button>
+
+      <div class={`${soort} kaartdraai-achter`}>
+        <div class="kaartdraai-achter-in">
+          <div class="naam">{m.naam}</div>
+          {m.sinds && <div class="rol">{t(taal, 'ld.sinds')} {m.sinds}</div>}
+          {m.over && <p class="kaartdraai-over">{m.over}</p>}
+          {socials.length > 0 && (
+            <div class="kaartdraai-socials">
+              <span class="kaartdraai-socials-kop">{t(taal, 'ld.volg')}</span>
+              <span class="kaartdraai-socials-rij">
+                {socials.map((s) => (
+                  <a href={s.url} target="_blank" rel="noopener nofollow">
+                    {SOCIALNAMEN[s.soort] ?? s.soort}
+                  </a>
+                ))}
+              </span>
+            </div>
+          )}
+        </div>
+        <button class="kaartdraai-terug" type="button">
+          <span aria-hidden="true">&#8592;</span> {t(taal, 'ld.terug')}
+        </button>
+      </div>
+    </div>
+  </div>
+) : (
+  <div class={soort}>
+    {m.foto
+      ? <img class="avatar" src={m.foto} alt={m.naam} loading="lazy" />
+      : <div class="avatar-fallback" aria-hidden="true">{initialen(m.naam)}</div>}
+    <div class="naam">{m.naam}</div>
+    <div class="rol">{rolTekst}</div>
+  </div>
+)}
