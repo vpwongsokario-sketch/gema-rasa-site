@@ -22,6 +22,7 @@ const programma = [
     ],
     vraag: 'Wat is er in vijftig jaar veranderd aan wat er van een Javaan verwacht wordt, en door wie?',
     slugs: ['errol', 'renell'],
+    album: 'onzichtbare-verhalen-museum-sophiahof',
   },
   {
     nr: '02', thema: 'Van buitenaf', koppel: 'Sharona & Shinta',
@@ -33,6 +34,7 @@ const programma = [
     ],
     vraag: 'Wat heb je nodig om je ergens thuis te voelen, en wie gaat dat maken?',
     slugs: ['sharona', 'shinta'],
+    album: 'onzichtbare-verhalen-de-boomhuttenclub',
   },
   {
     nr: '03', thema: 'Wat niet wordt uitgesproken', koppel: 'Roesman & Raoul',
@@ -44,6 +46,7 @@ const programma = [
     ],
     vraag: 'Wat geef je door zonder het te willen, en wat kies je bewust om anders te doen?',
     slugs: ['roesman', 'raoul'],
+    album: 'onzichtbare-verhalen-zuiderpark',
   },
 ];
 
@@ -139,7 +142,25 @@ const programma = [
               </>
             ))}
           </p>
-          <p class="avond-geweest">{t(taal, "ov.geweest")}</p>
+          {/*
+              De foto's van de avond zelf.
+
+              Staat onder 'deze avond is geweest' en niet erboven: eerst lees
+              je dat je er niet meer bij kunt zijn, en dan pas dat je wel kunt
+              zien hoe het was. Andersom lees je een uitnodiging die meteen
+              wordt ingetrokken.
+          */}
+          <p class="avond-geweest">
+            {t(taal, "ov.geweest")}
+            {b.album && (
+              <>
+                {' '}
+                <a class="avond-album" href={pad(taal, `/albums/${b.album}`)}>
+                  {t(taal, "ov.albumLink")} <span aria-hidden="true">&#8594;</span>
+                </a>
+              </>
+            )}
+          </p>
         </article>
       ))}
     </div>
@@ -209,6 +230,18 @@ const programma = [
     opacity: 0.65;
     font-style: italic;
   }
+  /* De link naar het album hangt in dezelfde regel maar hoort er niet bij te
+     verdwijnen: rechtop, vol van kleur, en met een streep zodra je hem
+     aanwijst. */
+  .avond-album {
+    font-style: normal;
+    font-weight: 600;
+    opacity: 1;
+    color: var(--secondary);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .avond-album:hover { text-decoration: underline; }
 
   /* De zes portretten. Een raster dat op een telefoon één kolom wordt. */
   .hv-raster {
